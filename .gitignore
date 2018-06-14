@@ -1,0 +1,10 @@
+.idea/
+uploads/
+runtime/
+config/
+*.log
+*.swp
+*.swo
+!.gitkeep
+phpinfo.php
+.DS_Store
