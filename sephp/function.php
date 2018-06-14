@@ -23,9 +23,3 @@ function _exception_handler($e)
     $backtrace = $e->getTrace();
     se_debug::show($code, $msg, $filename, $line, $backtrace);
 }
-
-function session_start()
-{
-
-
-}

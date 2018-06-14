@@ -3,7 +3,7 @@
 $GLOBALS['config']['session'] = [
     'auto_start'=>true,
     'prefix'=>'_sephp_',
-    'path'=> SE_RUNTIME.'session/',
+    'path'=> SE_RUNTIME.'session',
     'expire'=>1440,
 ];
 

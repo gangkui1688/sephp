@@ -37,7 +37,7 @@ class session
         }
 
 
-        if(session_status == PHP_SESSION_ACTIVE){
+        if(session_status() == PHP_SESSION_ACTIVE){
             self::$init = true;
             return true;
         }
@@ -46,7 +46,6 @@ class session
             self::$init = false;
             return false;
         }
-
 
         if (isset($config['path'])) {
             session_save_path($config['path']);

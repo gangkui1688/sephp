@@ -6,9 +6,11 @@ class ctl_index
 
     public function index()
     {
-
         $Verify = new verifiy_code();
-        $Verify->show();
+        p($Verify->check('g2ltp'));
+
+
+
         baidu_();
 
         echo 'hello world!';
@@ -16,6 +18,8 @@ class ctl_index
 
         p(mod_index::getlist());
     }
+
+
     public function display()
     {
         view::assign('title','this is smarty test!ś');
