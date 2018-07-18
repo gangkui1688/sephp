@@ -1,9 +1,9 @@
 <?php
 class se_debug
 {
-    public static $html = '<script language=\'javascript\'>function debug_close_all() {document.getElementById(\'debug_errdiv\').style.display=\'none\';}</script><div id="debug_ctl" style="background: #cc3a3a;width:100px;line-height:18px;position:absolute;top:2px;left:2px;border:1px solid #ccc; padding:1px;text-align:center">
+    public static $html = '<script language=\'javascript\'>function debug_hidden_all() {document.getElementById(\'debug_errdiv\').style.display=\'none\';}function debug_close_all() {debug_hidden_all();document.getElementById(\'debug_ctl\').style.display=\'none\';}</script><div id="debug_ctl" style="background: #cc3a3a;width:100px;line-height:18px;position:absolute;top:2px;left:2px;border:1px solid #ccc; padding:1px;text-align:center">
 <a href="javascript:;" onclick="javascript:document.getElementById(\'debug_errdiv\').style.display=\'block\';" style="font-size:12px;">[打开调试信息]</a>
-</div><div id="debug_errdiv" style="z-index:9999;width:80%;position:absolute;top:10px;left:8px;border:2px solid #ccc; background: #fff; padding:8px;display:none"><div style="line-height:24px; background: #FBFEEF;;"><div style="float:left"><strong>错误/警告信息追踪：</strong></div><div style="float:right"><a href="javascript:;" onclick="javascript:debug_close_all();" style="font-size:12px;">[关闭全部]</a></div><br style="clear:both"/></div>';
+</div><div id="debug_errdiv" style="z-index:9999;width:80%;position:absolute;top:10px;left:8px;border:2px solid #ccc; background: #fff; padding:8px;display:none"><div style="line-height:24px; background: #FBFEEF;;"><div style="float:left"><strong>错误/警告信息追踪：</strong></div><div style="float:right"><a href="javascript:;" onclick="javascript:debug_close_all();" style="font-size:12px;">[关闭]</a><a href="javascript:;" onclick="javascript:debug_hidden_all();" style="font-size:12px;">[收起]</a></div><br style="clear:both"/></div>';
 
 
 

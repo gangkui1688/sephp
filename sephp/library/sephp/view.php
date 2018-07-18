@@ -25,12 +25,12 @@ class view
         if (self::$_instance === null)
         {
 
-            p(require_once SEPHP_LIB . 'smarty3/Smarty.class.php');
+            require_once SEPHP_LIB . 'smarty3/Smarty.class.php';
             self::$_instance = new Smarty();
-            self::$_instance->setTemplateDir(APP_PATH . '/view/');
+            self::$_instance->setTemplateDir(SEPHP_VIEW . 'view/'.APP_NAME.'/');
             self::$_instance->setCompileDir(APP_PATH . '../runtime/compile/');
             self::$_instance->setCacheDir(APP_PATH . '../runtime/cache/');
-            //self::$_instance->addPluginsDir(SEPHP_LIB . '/smarty3/smarty_plugins'));
+            //self::$_instance->addPluginsDir(SEPHP_LIB . 'smarty3/smarty_plugins');
 
             self::$_instance->setLeftDelimiter('<{');
             self::$_instance->setRightDelimiter('}>');
@@ -53,14 +53,20 @@ class view
         $instance->assign('clear_cache', '?' . time());
     }
 
+    public static function fetch($tpl = '')
+    {
+        $tpl = empty($tpl)? CT_NAME.'.'.AC_NAME : $tpl;
+        return self::instance()->fetch($tpl.'.tpl');
+    }
+
     public static function assign ($tpl_var, $value)
     {
         self::instance()->assign($tpl_var, $value);
     }
 
-    public static function display($tpl = 'index')
+    public static function display($tpl = '')
     {
-
+        $tpl = empty($tpl)? CT_NAME.'.'.AC_NAME : $tpl;
         self::instance()->display($tpl.'.tpl');
     }
 

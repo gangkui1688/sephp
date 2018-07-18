@@ -3,10 +3,10 @@
 function p($arg = null,$arg1 = null,$arg2 = null,$arg3 = null)
 {
     echo '<pre>';
-    var_dump($arg);
-    empty($arg1)?'':var_dump($arg1);
-    empty($arg2)?'':var_dump($arg2);
-    empty($arg3)?'':var_dump($arg3);
+    print_r($arg);
+    empty($arg1)?'':print_r($arg1);
+    empty($arg2)?'':print_r($arg2);
+    empty($arg3)?'':print_r($arg3);
     echo '</pre>';
 
 }

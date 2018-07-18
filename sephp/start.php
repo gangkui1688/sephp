@@ -1,7 +1,21 @@
 <?php
 if( !defined('APP_PATH') ) exit('APP_PATH is not defind!');
 
+if(!defined('APP_DEBUG') || !APP_DEBUG)
+{
+    error_reporting(0);//设置为0会完全关闭错误报告
+    ini_set('display_errors',0);
+}
+else
+{
+    //可以抛出任何非注意的错误报告 E_ERROR | E_PARSE | E_CORE_ERROR | E_NOTICE
+    error_reporting (E_ALL);
+    //该指令开启如果有错误报告才能输出
+    ini_set('display_errors',1);
+}
+
 define('SEPHP',__DIR__.'/');
+define('SEPHP_VIEW',__DIR__.'/../');
 define('SEPHP_LIB',__DIR__.'/library/sephp/');
 define('SE_RUNTIME',__DIR__.'/../runtime/');
 
@@ -18,6 +32,7 @@ class start
 
     public function __construct($config = '')
     {
+
         //自动注册类库
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获

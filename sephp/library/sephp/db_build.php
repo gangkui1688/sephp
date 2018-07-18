@@ -1345,13 +1345,13 @@ class db_build
                 $sql = preg_replace("/[,;]$/i", '', trim($sql)) . " LIMIT 1 ";
             }
         }
-
         db::_init();
         db::$query_sql[] = $sql;
         $rsid = mysqli_query(db::$links,$sql);
-        if(mysqli_error(db::$links))
+
+        if(mysqli_errno(db::$links) > 0)
         {
-            exceptions::throw_debug(mysqli_error(db::$links));
+            exceptions::throw_debug(mysqli_error(db::$links).' | '.$sql,mysqli_sqlstate(db::$links));
         }
         if ($this->_type === db::SELECT)
         {
@@ -1458,7 +1458,7 @@ class db_build
     {
         if ( ! is_array($this->_values))
         {
-            throw new Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
+            exceptions::throw_debug('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
         }
 
         // Get all of the passed values

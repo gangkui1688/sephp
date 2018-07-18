@@ -24,12 +24,11 @@ class session
      * session初始化
      * @param array $config
      * @return void
-     * @throws \think\Exception
      */
     public static function init(array $config = [])
     {
         if (empty($config)) {
-            $config = $GLOBALS['config']['session'];
+            $config = isset($GLOBALS['config']['session'])?$GLOBALS['config']['session']:null;
         }
 
         if (isset($config['prefix'])) {

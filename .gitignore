@@ -1,7 +1,7 @@
 .idea/
 uploads/
 runtime/
-config/
+
 *.log
 *.swp
 *.swo
