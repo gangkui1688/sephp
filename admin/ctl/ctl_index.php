@@ -53,7 +53,6 @@ class ctl_index
                 ];
             }
             return $top_menu;
-
         } else {
             echo mod_system::parseMenu($array['menu'],$id_name);
         }

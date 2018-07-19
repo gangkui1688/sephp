@@ -39,7 +39,11 @@
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
     </script>
 </form>
+<script>
+    var getlisturl = '<{$getlisturl}>';
+    var addurl = '<{$addurl}>';
+</script>
 <script type="text/javascript" src="static/iframe/layui/layui.js"></script>
-<script type="text/javascript" src="static/iframe/js/main.js"></script>
+<script type="text/javascript" src="static/iframe/js/datalist.js"></script>
 </body>
 </html>

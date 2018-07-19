@@ -68,8 +68,8 @@ class req
         }
         //$magic_quotes_gpc = ini_get('magic_quotes_gpc');
 
-        self::_to_param('get');
-        self::_to_param('post');
+        self::$gets  = self::_to_param('get');
+        self::$posts = self::_to_param('post');
         self::_to_param('cookie');
 
 
@@ -541,7 +541,9 @@ class req
         }
         foreach ($param as $k=>$v)
         {
+            $data[$k] = $v;
             self::$forms[$k] = $v;
         }
+        return $data;
     }
 }

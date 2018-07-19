@@ -14,6 +14,12 @@ class show_msg
 
     }
 
+    public static function ajax($msg,$code = 200)
+    {
+        echo json_encode(['code'=>$code,'msg'=>$msg],JSON_UNESCAPED_UNICODE);//支持中文字符
+        exit;
+    }
+
     public static function success($message = '',$url = '',$time = '',$title = '')
     {
         $message = empty($message)?'操作失败':$message;

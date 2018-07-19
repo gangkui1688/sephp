@@ -275,7 +275,7 @@ class autoloads
                 self::model($name);
                 break;
             default:
-                self::$autoloadFiles = SEPHP_LIB.$name.'.php';
+                self::$autoloadFiles = SE_LIB.$name.'.php';
                 //p(self::$autoloadFiles,file_exists(self::$autoloadFiles));
                 if( file_exists( self::$autoloadFiles ) )
                 {

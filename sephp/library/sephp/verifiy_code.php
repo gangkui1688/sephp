@@ -263,7 +263,7 @@ class verifiy_code
      */
     private function _background()
     {
-        $path = SEPHP_LIB. '../assets/bgs/';
+        $path = SE_LIB. '../assets/bgs/';
         $dir = dir($path);
 
         $bgs = [];

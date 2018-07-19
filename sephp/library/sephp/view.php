@@ -25,12 +25,12 @@ class view
         if (self::$_instance === null)
         {
 
-            require_once SEPHP_LIB . 'smarty3/Smarty.class.php';
+            require_once SE_LIB . 'smarty3/Smarty.class.php';
             self::$_instance = new Smarty();
-            self::$_instance->setTemplateDir(SEPHP_VIEW . 'view/'.APP_NAME.'/');
+            self::$_instance->setTemplateDir(SE_VIEW . 'view/'.APP_NAME.'/');
             self::$_instance->setCompileDir(APP_PATH . '../runtime/compile/');
             self::$_instance->setCacheDir(APP_PATH . '../runtime/cache/');
-            //self::$_instance->addPluginsDir(SEPHP_LIB . 'smarty3/smarty_plugins');
+            //self::$_instance->addPluginsDir(SE_LIB . 'smarty3/smarty_plugins');
 
             self::$_instance->setLeftDelimiter('<{');
             self::$_instance->setRightDelimiter('}>');
@@ -45,7 +45,7 @@ class view
     protected static function config ()
     {
         $instance = self::instance();
-        $instance->assign('URL', URL);
+//        $instance->assign('URL', URL);
 //        $instance->assign('URL_UPLOADS', URL_UPLOADS);
 //        $instance->assign('URL_UPLOADS_CDN', URL_UPLOADS_CDN);
         //$instance->assign('config', config::$call_configs);

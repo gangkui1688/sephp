@@ -14,7 +14,7 @@ class se_debug
         $codes = file($filename);
         //p($codes[$line-1]);
         self::$html  .= '<div style=\'font-size:14px;line-height:160%;border-bottom:1px dashed #ccc;margin-top:8px;\'>';
-        self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()).'::' .URL. "<br />\n";
+        self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()).'::' .SE_URL. "<br />\n";
         self::$html .= "错误类型：" . $code . "<br />\n";
         self::$html .= "出错原因：<font color='#3F7640'>" . $msg . "</font><br />\n";
         self::$html .= "提示位置：" . $filename . " 第 {$line} 行<br />\n";

@@ -27,8 +27,6 @@ class mod_system
                     'spread'=> empty($child['@attributes']['spread'])?false:$child['@attributes']['spread']
                 ];
             }
-            unset($top_menu_id_name);
-
         }
         return (json_encode($json_menu));
 
