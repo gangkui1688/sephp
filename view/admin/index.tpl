@@ -10,7 +10,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="icon" href="favicon.ico">
+    <link href="static/iframe/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/iframe/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/iframe/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="static/iframe/css/index.css" media="all" />
 </head>
@@ -27,8 +28,8 @@
                 <li class="layui-nav-item" data-menu="contentManagement">
                     <a href="javascript:;"><i class="seraph icon-caidan"></i><cite>layuiCMS</cite></a>
                     <dl class="layui-nav-child">
-                        <{foreach from=$top_menus item="menu"}>
-                        <dd  data-menu="<{$menu.id_name}>">
+                        <{foreach from=$top_menus key="id_name" item="menu"}>
+                        <dd  data-menu="<{$id_name}>">
                             <a href="javascript:;">
                                 <i class="<{$menu.icon}>"></i>
                                 <cite><{$menu.title}></cite>

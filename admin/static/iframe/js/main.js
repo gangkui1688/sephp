@@ -44,14 +44,14 @@ layui.use(['form','element','layer','jquery'],function(){
         var systemParameter = JSON.parse(window.sessionStorage.getItem("systemParameter"));
         fillParameter(systemParameter);
     }else{
-        $.ajax({
-            url : "../json/systemParameter.json",
-            type : "get",
-            dataType : "json",
-            success : function(data){
-                fillParameter(data);
-            }
-        })
+        // $.ajax({
+        //     url : "../json/systemParameter.json",
+        //     type : "get",
+        //     dataType : "json",
+        //     success : function(data){
+        //         fillParameter(data);
+        //     }
+        // })
     }
     //填充数据方法
     function fillParameter(data){
@@ -85,10 +85,10 @@ layui.use(['form','element','layer','jquery'],function(){
         $(".userAll span").text(data.length);
     })
 
-    //用户数量
-    $.get("../json/userList.json",function(data){
-        $(".userAll span").text(data.count);
-    })
+    // //用户数量
+    // $.get("../json/userList.json",function(data){
+    //     $(".userAll span").text(data.count);
+    // })
 
     //外部图标
     $.get(iconUrl,function(data){

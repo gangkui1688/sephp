@@ -3,28 +3,34 @@
 class mod_system
 {
 
-    public static function parseMenu($menus = '')
+    public static function parseMenu($menus = '',$id_name = '')
     {
         $json_menu = '';
         foreach ($menus as $menu)
         {
-            p($menu);exit;
             $top_menu_id_name = $menu['@attributes']['id'];
-            if(empty($menu['menu']))
+            if(empty($menu['menu']) || $top_menu_id_name != $id_name)
             {
                 continue;
             }
             foreach ($menu['menu'] as $child)
             {
-                $json_menu[$top_menu_id_name][] = [
-                    'title'=>$menu['@attributes']['name'],
-                    'icon'=>$menu['@attributes']['icon'],
-                    'href'=> empty($menu['@attributes']['href'])?'':$menu['@attributes']['href'],
-                    'spread'=> empty($menu['@attributes']['spread'])?false:$menu['@attributes']['spread']
+
+                if(isset($child['@attributes']['display']) && $child['@attributes']['display'] == 'none')
+                {
+                    continue;
+                }
+                $json_menu[] = [
+                    'title'=>$child['@attributes']['name'],
+                    'icon'=>$child['@attributes']['icon'],
+                    'href'=> '?ct='.$child['@attributes']['ct'].'&ac='.$child['@attributes']['ac'],
+                    'spread'=> empty($child['@attributes']['spread'])?false:$child['@attributes']['spread']
                 ];
             }
+            unset($top_menu_id_name);
 
         }
+        return (json_encode($json_menu));
 
     }
 
@@ -63,7 +69,6 @@ class mod_system
                         $val[0]['url'] = '?ct='.$val[0]['ct'].'&ac='.$val[0]['ac'];
                     }
                     $menus[$k]['child'][] = $val[0];
-
                 }
 
             }

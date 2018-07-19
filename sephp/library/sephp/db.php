@@ -46,12 +46,6 @@ class db
         return mysqli_autocommit(self::$links, $mode);
     }
 
-
-    public static function begin_tran()
-    {
-        return self::autocommit(false);
-    }
-
     public static function commit()
     {
         return mysqli_commit(self::$links);
@@ -66,7 +60,6 @@ class db
     {
         return mysqli_error(self::$links);
     }
-
 
     public static function get_last_sql()
     {

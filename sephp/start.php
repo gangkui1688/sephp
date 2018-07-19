@@ -32,7 +32,6 @@ class start
 
     public function __construct($config = '')
     {
-
         //自动注册类库
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获
@@ -40,8 +39,9 @@ class start
 
         autoloads::register();
 
-        self::$now_url = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
         $this->_get_ap_ct_ac();
+        req::init();
+        self::$now_url = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
         $this->run();
 
 
