@@ -1,10 +1,7 @@
 .idea/
-uploads/
 runtime/
-
 *.log
 *.swp
 *.swo
 !.gitkeep
-phpinfo.php
 .DS_Store
