@@ -178,7 +178,7 @@ class autoloads
             require $file;
         }
         else{
-            exceptions::throw_debug("class {$name} is not exists!");
+            exceptions::throw_debug("class {$name} is not exists!",debug_backtrace());
         }
     }
 
@@ -283,7 +283,7 @@ class autoloads
                 }
                 else
                 {
-                    exceptions::throw_debug("The file {$name} is not exists!");
+                    exceptions::throw_debug("The file {$name} is not exists!",debug_backtrace());
                 }
                 break;
         }

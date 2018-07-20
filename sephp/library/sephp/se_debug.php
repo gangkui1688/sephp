@@ -7,14 +7,20 @@ class se_debug
 
 
 
+    public static $error_file = null;
+    public static $error_line = null;
+    public static $error_code = null;
 
     public static function show($code, $msg, $filename, $line, $backtrace)
     {
+        $filename = empty(self::$error_file)?$filename:self::$error_file;
+        $line = empty(self::$error_line)?$line:self::$error_line;
+        $code = empty(self::$error_code)?$code:self::$error_code;
         log::write($msg);
         $codes = file($filename);
         //p($codes[$line-1]);
         self::$html  .= '<div style=\'font-size:14px;line-height:160%;border-bottom:1px dashed #ccc;margin-top:8px;\'>';
-        self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()).'::' .SE_URL. "<br />\n";
+        self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()).'::' .NOW_URL. "<br />\n";
         self::$html .= "错误类型：" . $code . "<br />\n";
         self::$html .= "出错原因：<font color='#3F7640'>" . $msg . "</font><br />\n";
         self::$html .= "提示位置：" . $filename . " 第 {$line} 行<br />\n";
@@ -22,6 +28,7 @@ class se_debug
         self::$html .= "详细跟踪：<br />\n";
 
         $debug_backtrace = debug_backtrace();
+        //p($debug_backtrace);exit;
         array_shift($backtrace);
         $narr = array('class', 'type', 'function', 'file', 'line');
         foreach($backtrace as $i => $l)

@@ -1351,7 +1351,7 @@ class db_build
 
         if(mysqli_errno(db::$links) > 0)
         {
-            exceptions::throw_debug(mysqli_error(db::$links).' | '.$sql,mysqli_sqlstate(db::$links));
+            exceptions::throw_debug(mysqli_error(db::$links).' | '.$sql, debug_backtrace(), 'SQL statement error');
         }
         if ($this->_type === db::SELECT)
         {
@@ -1458,7 +1458,7 @@ class db_build
     {
         if ( ! is_array($this->_values))
         {
-            exceptions::throw_debug('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
+            exceptions::throw_debug('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES',debug_backtrace());
         }
 
         // Get all of the passed values

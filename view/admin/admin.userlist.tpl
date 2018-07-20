@@ -10,7 +10,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="static/iframe/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="static/iframe/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="static/iframe/css/public.css" media="all" />
+
+    <link rel="stylesheet" href="static/iframe/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/iframe/bootstrap-table/src/bootstrap-table.css">
 </head>
 <body class="childrenBody">
 <form class="layui-form">
@@ -31,7 +35,6 @@
         </form>
     </blockquote>
     <table id="userList" lay-filter="userList"></table>
-
     <!--操作-->
     <script type="text/html" id="userListBar">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -44,6 +47,11 @@
     var addurl = '<{$addurl}>';
 </script>
 <script type="text/javascript" src="static/iframe/layui/layui.js"></script>
-<script type="text/javascript" src="static/iframe/js/datalist.js"></script>
+
+<script src="static/iframe/bootstrap/js/bootstrap.min.js"></script>
+<script src="static/iframe/bootstrap-table/src/bootstrap-table.js"></script>
+<script src="static/iframe/bootstrap-table/src/extensions/mobile/bootstrap-table-mobile.js"></script>
+<script src="static/iframe/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
+<script src="static/iframe/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
 </body>
 </html>

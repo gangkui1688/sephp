@@ -23,3 +23,22 @@ function _exception_handler($e)
     $backtrace = $e->getTrace();
     se_debug::show($code, $msg, $filename, $line, $backtrace);
 }
+
+/**
+ * 生产url 参数链接
+ * @param array $param
+ * @return string
+ */
+function _make_url($param = [])
+{
+    if(empty($param))
+    {
+        return '';
+    }
+    $url = '';
+    foreach ($param as $k=>$v)
+    {
+        $url .= '&'.$k.'='.$v;
+    }
+    return $url;
+}

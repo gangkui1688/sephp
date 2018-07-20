@@ -41,11 +41,10 @@ class start
 
         $this->_get_ap_ct_ac();
         req::init();
-        self::$_now_url = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-        define('SE_URL',self::$_now_url);
+        self::$_now_url = 'http://'.$_SERVER['SERVER_NAME'] . APP_NAME .$_SERVER['REQUEST_URI'];
+        define('NOW_URL',self::$_now_url);
+        define('SE_URL','http://'.$_SERVER['SERVER_NAME'] .'/'. APP_NAME);
         $this->run();
-
-
         log::write('--the opcode end--');
     }
 
@@ -59,7 +58,7 @@ class start
         }
         else
         {
-            exceptions::throw_debug("controler file ctl_".self::$_ct.".php is not exists!");
+            exceptions::throw_debug("controler file[".$ctl_file."]is not exists!",debug_backtrace());
         }
 
         $class_name = 'ctl_'.self::$_ct;
@@ -69,7 +68,7 @@ class start
         }
         else
         {
-            exceptions::throw_debug("class ".self::$_ct."() is not exists!");
+            exceptions::throw_debug("class ".self::$_ct."() is not exists!",debug_backtrace(),'类不存在');
         }
 
 
@@ -80,7 +79,7 @@ class start
         }
         else
         {
-            exceptions::throw_debug("the method of action ".self::$_ct."::".self::$_ac."() is not exists!");
+            exceptions::throw_debug("the action ctl_".self::$_ct."->".self::$_ac."() is not exists!",debug_backtrace(),'方法不存在');
         }
 
     }

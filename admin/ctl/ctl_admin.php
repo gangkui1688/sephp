@@ -4,19 +4,29 @@ class ctl_admin
 {
     public function userlist()
     {
-        view::assign('list',SE_URL);
+
+        $page = pages::make(100,10);
+        p($page);
+        exit;
+        //sfdasfdas
+        $data = db::select('*')->from('admin_user')->execute();
+
+        view::assign('list',NOW_URL);
         view::assign('getlisturl','?ct='.SE_CT.'&ac=userlist_json');
         view::assign('addurl','?ct='.SE_CT.'&ac=adduser');
 
-        view::assign('list',$data);
         view::display('admin.userlist');
     }
     public function userlist_json()
     {
+
         $data = db::select('*')->from('admin_user')->execute();
         $list = [
-            ''
-        ];
+              "code"  => 0,
+              "msg"   => "",
+              "count" => 3,
+              "data"  => $data
+            ];
         echo json_encode($list);
     }
 
