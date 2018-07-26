@@ -14,14 +14,17 @@ else
     ini_set('display_errors',1);
 }
 
+session_start();
+
 define('SEPHP',__DIR__.'/');
-define('SE_VIEW',__DIR__.'/../');
+define('WWW_ROOT',__DIR__.'/../');
+define('SE_VIEW',__DIR__.'/../view/');
 define('SE_LIB',__DIR__.'/library/sephp/');
 define('SE_RUNTIME',__DIR__.'/../runtime/');
 
 include_once SEPHP.'function.php';
 include_once SEPHP . 'autoloads.php';
-include_once SEPHP . '../config/config.php';
+include_once WWW_ROOT . '/config/config.php';
 
 class start
 {
@@ -32,16 +35,22 @@ class start
 
     public function __construct($config = '')
     {
+
         //自动注册类库
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获
         set_exception_handler('_exception_handler');
-
+        //找内裤
         autoloads::register();
 
         $this->_get_ap_ct_ac();
-        req::init();
         self::$_now_url = 'http://'.$_SERVER['SERVER_NAME'] . APP_NAME .$_SERVER['REQUEST_URI'];
+        //权限控制
+        admin_user::check($config);
+
+
+
+        req::init();
         define('NOW_URL',self::$_now_url);
         define('SE_URL','http://'.$_SERVER['SERVER_NAME'] .'/'. APP_NAME);
         $this->run();
@@ -88,8 +97,8 @@ class start
     {
         self::$_ct = empty($_GET['ct'])? 'index' :$_GET['ct'];
         self::$_ac = empty($_GET['ac'])? 'index' :$_GET['ac'];
-        define('SE_AC',self::$_ac);
-        define('SE_CT',self::$_ct);
+        define('AC_NAME',self::$_ac);
+        define('CT_NAME',self::$_ct);
 
     }
 }

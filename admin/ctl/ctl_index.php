@@ -6,6 +6,7 @@ class ctl_index
 
     public function index()
     {
+        //p(session::get('admin_info'),session_status());exit;
 
         //show_msg::error('缺少必要参数','?ct=index&ac=main',100);
 

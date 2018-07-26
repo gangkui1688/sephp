@@ -99,88 +99,6 @@ class autoloads
         }
     }
 
-    /**
-     * 导入所需的类库 同 Java 的 Import 本函数有缓存功能
-     * @access public
-     * @param  string $class   类库命名空间字符串
-     * @param  string $baseUrl 起始路径
-     * @param  string $ext     导入的文件扩展名
-     * @return bool
-     */
-    public static function import($class, $baseUrl = '', $ext = EXT)
-    {
-        static $_file = [];
-        $key          = $class . $baseUrl;
-        $class        = str_replace(['.', '#'], [DS, '.'], $class);
-
-        if (isset($_file[$key])) {
-            return true;
-        }
-
-        if (empty($baseUrl)) {
-            list($name, $class) = explode(DS, $class, 2);
-
-            if (isset(self::$prefixDirsPsr4[$name . '\\'])) {
-                // 注册的命名空间
-                $baseUrl = self::$prefixDirsPsr4[$name . '\\'];
-            } elseif ('@' == $name) {
-                // 加载当前模块应用类库
-                $baseUrl = App::$modulePath;
-            } elseif (is_dir(EXTEND_PATH . $name)) {
-                $baseUrl = EXTEND_PATH . $name . DS;
-            } else {
-                // 加载其它模块的类库
-                $baseUrl = APP_PATH . $name . DS;
-            }
-        } elseif (substr($baseUrl, -1) != DS) {
-            $baseUrl .= DS;
-        }
-
-        // 如果类存在则导入类库文件
-        if (is_array($baseUrl)) {
-            foreach ($baseUrl as $path) {
-                if (is_file($filename = $path . DS . $class . $ext)) {
-                    break;
-                }
-            }
-        } else {
-            $filename = $baseUrl . $class . $ext;
-        }
-
-        if (!empty($filename) &&
-            is_file($filename) &&
-            (!IS_WIN || pathinfo($filename, PATHINFO_FILENAME) == pathinfo(realpath($filename), PATHINFO_FILENAME))
-        ) {
-            __include_file($filename);
-            $_file[$key] = true;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * 实例化（分层）模型
-     * @access public
-     * @param  string $name         Model名称
-     * @param  string $layer        业务层名称
-     * @param  bool   $appendSuffix 是否添加类名后缀
-     * @param  string $common       公共模块名
-     * @return object
-     * @throws ClassNotFoundException
-     */
-    public static function model($name = '')
-    {
-        $file = APP_PATH.'mod/'.$name.'.php';
-        if(file_exists($file))
-        {
-            require $file;
-        }
-        else{
-            exceptions::throw_debug("class {$name} is not exists!",debug_backtrace());
-        }
-    }
 
     /**
      * 实例化（分层）控制器 格式：[模块名/]控制器名
@@ -266,27 +184,24 @@ class autoloads
         {
             case 'lib_':
                 self::$autoloadFiles = APP_PATH.'/lib/'.$name.'.php';
-                if( file_exists( self::$autoloadFiles ) )
-                {
-                     require self::$autoloadFiles;
-                }
                 break;
             case 'mod_':
-                self::model($name);
+                self::$autoloadFiles = APP_PATH.'mod/'.$name.'.php';
                 break;
             default:
                 self::$autoloadFiles = SE_LIB.$name.'.php';
-                //p(self::$autoloadFiles,file_exists(self::$autoloadFiles));
-                if( file_exists( self::$autoloadFiles ) )
-                {
-                    require self::$autoloadFiles;
-                }
-                else
-                {
-                    exceptions::throw_debug("The file {$name} is not exists!",debug_backtrace());
-                }
                 break;
         }
+
+        if( file_exists( self::$autoloadFiles ) )
+        {
+            require self::$autoloadFiles;
+        }
+        else
+        {
+            require $name.'.php';
+        }
+
 
     }
 
@@ -344,26 +259,4 @@ class autoloads
     {
         self::$instance = [];
     }
-}
-
-// 作用范围隔离
-
-/**
- * include
- * @param  string $file 文件路径
- * @return mixed
- */
-function __include_file($file)
-{
-    return include $file;
-}
-
-/**
- * require
- * @param  string $file 文件路径
- * @return mixed
- */
-function __require_file($file)
-{
-    return require $file;
 }

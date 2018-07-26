@@ -2,7 +2,6 @@
 
 class verifiy_code
 {
-
     protected $seKey = '';
     protected $config = [
         'seKey'    => '%ˆ*&sdfaswerˆˆ*123ˆ()_*&BMGFfgfTKˆ*&$ˆ#@@!@#df$%ˆ*fgHSDD453dfjah1',
@@ -39,6 +38,11 @@ class verifiy_code
 
     private $_image = null; // 验证码图片实例
     private $_color = null; // 验证码字体颜色
+
+    public static function instance($config = [])
+    {
+        return new self($config);
+    }
 
     /**
      * 架构方法 设置参数

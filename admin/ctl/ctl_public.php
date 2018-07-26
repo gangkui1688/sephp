@@ -2,22 +2,50 @@
 
 class ctl_public
 {
-
-
     public function verify()
     {
-        $Verify = new verifiy_code();
-        echo $Verify->show();
+        $config = [
+            'length' => 4,
+            'expire' => 300,
+        ];
+        echo verifiy_code::instance($config)->show();
     }
 
-    public function check_verify($code)
+    //登出
+    public function logout()
     {
-        $Verify = new verifiy_code();
-        return $Verify->check($code);
+        session::delete('admin_info');
+        session_destroy();
+        show_msg::success('登出成功','?ct=public&ac=login');
     }
 
+    //登陆
     public function login()
     {
-        view::display();
+        if(!empty(req::$posts))
+        {
+            if(!verifiy_code::instance()->check(req::$posts['verify']))
+            {
+                show_msg::ajax('验证码错误','201');
+            }
+
+            $admin_user = req::$posts['username'];
+            $admin_pass = md5(req::$posts['password']);
+            $where = [
+                ['username','=',$admin_user],
+                ['password','=',$admin_pass],
+                ['status','=',1],
+            ];
+            $admin_info = db::select('admin_id')->from('admin_user')->where($where)->as_row()->execute();
+            if($admin_info)
+            {
+                session::set('admin_info',$admin_info);
+                //p(session::get('admin_info'));
+                show_msg::ajax('登陆成功');
+            }
+            show_msg::ajax('登陆失败,用户名或密码错误','201');
+        }
+
+        view::display('system/login');
     }
 }

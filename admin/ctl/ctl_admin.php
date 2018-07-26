@@ -12,8 +12,8 @@ class ctl_admin
         $data = db::select('*')->from('admin_user')->execute();
 
         view::assign('list',NOW_URL);
-        view::assign('getlisturl','?ct='.SE_CT.'&ac=userlist_json');
-        view::assign('addurl','?ct='.SE_CT.'&ac=adduser');
+        view::assign('getlisturl','?ct='.CT_NAME.'&ac=userlist_json');
+        view::assign('addurl','?ct='.CT_NAME.'&ac=adduser');
 
         view::display('admin.userlist');
     }
@@ -33,7 +33,7 @@ class ctl_admin
     public function adduser()
     {
 
-        view::assign('add_save_url','?ct='.SE_CT.'&ac=saveuser');
+        view::assign('add_save_url','?ct='.CT_NAME.'&ac=saveuser');
         view::display('admin.adduser');
     }
 

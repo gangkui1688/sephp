@@ -14,16 +14,16 @@ class req
     public static $cookies = array();
 
     // 把GET、POST的变量合并一块，相当于 _REQUEST
-    public static $forms = array();
+    public static $forms = [];
 
     // _GET 变量
-    public static $gets = array();
+    public static $gets = [];
 
     // _POST 变量
-    public static $posts = array();
+    public static $posts = [];
 
     // 文件变量
-    public static $files = array();
+    public static $files = [];
 
     /**
      * Raw input stream data
@@ -537,7 +537,7 @@ class req
         }
         if(empty($param))
         {
-            return true;
+            return [];
         }
         foreach ($param as $k=>$v)
         {

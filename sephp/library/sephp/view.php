@@ -27,7 +27,7 @@ class view
 
             require_once SE_LIB . 'smarty3/Smarty.class.php';
             self::$_instance = new Smarty();
-            self::$_instance->setTemplateDir(SE_VIEW . 'view/'.APP_NAME.'/');
+            self::$_instance->setTemplateDir(SE_VIEW . APP_NAME.'/');
             self::$_instance->setCompileDir(APP_PATH . '../runtime/compile/');
             self::$_instance->setCacheDir(APP_PATH . '../runtime/cache/');
             //self::$_instance->addPluginsDir(SE_LIB . 'smarty3/smarty_plugins');
