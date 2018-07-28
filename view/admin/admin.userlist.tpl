@@ -12,46 +12,229 @@
     <link rel="stylesheet" href="static/iframe/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="static/iframe/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="static/iframe/css/public.css" media="all" />
-
     <link rel="stylesheet" href="static/iframe/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/iframe/bootstrap-table/src/bootstrap-table.css">
+
+
+    <script type="text/javascript" src="static/iframe/layui/layui.js"></script>
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+
+    <script src="static/iframe/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/iframe/bootstrap-table/src/bootstrap-table.js"></script>
+    <script src="static/iframe/js/tableExport.js"></script>
+    <script src="static/iframe/bootstrap-table/src/extensions/mobile/bootstrap-table-mobile.js"></script>
+    <script src="static/iframe/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
+    <script src="static/iframe/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
+    <script src="static/iframe/js/bootstrap-editable.js"></script>
 </head>
 <body class="childrenBody">
-<form class="layui-form">
-    <blockquote class="layui-elem-quote quoteBox">
-        <form class="layui-form">
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容" />
-                </div>
-                <a class="layui-btn search_btn" data-type="reload">搜索</a>
-            </div>
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal addNews_btn">添加用户</a>
-            </div>
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
-            </div>
-        </form>
-    </blockquote>
-    <table id="userList" lay-filter="userList"></table>
-    <!--操作-->
-    <script type="text/html" id="userListBar">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="usable">已启用</a>
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
-    </script>
-</form>
-<script>
-    var getlisturl = '<{$getlisturl}>';
-    var addurl = '<{$addurl}>';
-</script>
-<script type="text/javascript" src="static/iframe/layui/layui.js"></script>
 
-<script src="static/iframe/bootstrap/js/bootstrap.min.js"></script>
-<script src="static/iframe/bootstrap-table/src/bootstrap-table.js"></script>
-<script src="static/iframe/bootstrap-table/src/extensions/mobile/bootstrap-table-mobile.js"></script>
-<script src="static/iframe/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
-<script src="static/iframe/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
+    <div class="container">
+        <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group" style="float: left;margin-top: 10px;">
+
+        </div>
+        <table id="tableList"></table>
+    </div>
+<script >
+    var tableList = $('#tableList');
+    $(function () {
+        tableList.bootstrapTable({
+            url: "<{$get_json_list}>",
+            refresh: {
+                url: '<{$get_json_list}>',
+                silent: false,
+                //pageSize:2,
+                query:{foo: 'bar'},
+            },
+            dataType:'json',
+            method: 'post',
+            contentType: "application/x-www-form-urlencoded",//post请求必带属性
+            //sortClass: 'admin_id',
+            cache:true,
+            showRefresh: true,
+            showToggle: true,
+            showPaginationSwitch: true,//显示分页按钮开关
+            buttonsAlign: 'left',
+            toolbarAlign: 'left',
+            showHeader: true,
+            showFooter: false,
+            showColumns: true,
+            //cardView: true,
+            detailView: false,//rue to show detail view table.
+            detailFormatter:function () {
+                return 'fasdfasdfasdfa';
+            },
+            sortStable: true,
+
+            paginationPreText: '上一页',
+            paginationNextText: '下一页',
+            iconSize: 'outline',
+            idField:'admin_id',
+            pagination: true, //分页
+            dataField: 'rows',
+            //pageNumber: '2',//初始化到第几页
+            pageSize: 3,//初始化页面条数
+            pageList:[10,20,50],
+            singleSelect: false,
+            //data-locale:"zh-US", //表格汉化
+            search: true, //显示搜索框
+            searchAlign: 'right',
+            sidePagination: "server", //server 服务端处理分页
+            columns: [{
+                field: 'checkbox',
+                title: '全选',
+                checkbox: true
+            },{
+                field: 'admin_id',
+                title: 'ID',
+                sortable: true,
+                order:'desc',
+                visible:true, //影藏该字段
+            }, {
+                field: 'username',
+                align: 'center',
+                title: '登录名',
+            },{
+                field: 'status',
+                align: 'center',
+                title: '状态',
+                editable: {
+                    type: 'select',
+                    title: '修改状态',
+                    source:[
+                        {value:'0',text:'禁用'},
+                        {value:'1',text:'启用'}
+                    ],
+                    validate: function (value) {
+
+                        var data = $table.bootstrapTable('getData'),
+                            index = $(this).parents('tr').data('index');
+                        console.log(data[index]);
+                        return '';
+                    }
+                }
+            },{
+                field: 'nickname',
+                title: '昵称',
+                align: 'center',
+                editable: {
+                    type: 'text',
+                    title: '修改昵称',
+                    validate: function (value) {
+
+                        var data = $table.bootstrapTable('getData'),
+                            index = $(this).parents('tr').data('index');
+                        console.log(data[index]);
+                        return '';
+                    }
+                },
+                formatter: function (value,row,index) {
+                    return row.author_name;
+                },
+                events: function(e){
+                    alert(e);
+                }
+            },{
+                field: 'email',
+                title: '邮箱',
+                formatter: function (value,row,index) {
+                    return value;
+                }
+            },{
+                field: 'create_time',
+                title: '添加时间',
+                sortable: true,
+                //clickToSelect: false,
+                //switchable: false,
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value) {
+                    return new Date(parseInt(value) * 1000).toLocaleString().substr(0,10).replace(/\//g, "-");
+                    //return year+'-'+month+'-'+date;
+                }
+            },{
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row,index) {
+                    return [
+                        '<a class="btn btn-xs btn-primary" href="javascript:void(0)" title="Like">',
+                        '<i class="glyphicon glyphicon-edit"></i>编辑',
+                        '</a>  ',
+                        '<a class="btn btn-xs btn-danger" href="javascript:void(0)" title="Remove">',
+                        '<i class="glyphicon glyphicon-remove"></i>删除',
+                        '</a>'
+                    ].join('');
+                }
+            }],
+            onClickRow: function(row,$element,field){
+                $('.success').removeClass('success');
+                $($element).addClass('success');
+            },
+            onDblClickCell: function(field, value, row, $element){
+                if(field == 'alias'){
+                    //$element.empty();
+                    //$element.append("<input type='text' name='alias' value='' />");
+                    //return '<input type="text" name="alias" value="" />';
+                }
+            }
+        });
+
+    });
+    $('#add').click(function(){
+        location.href="123123";
+    });
+
+    function delBooks(book_id){
+        if(book_id > 0){
+            swal({
+                title: "您确定要删除该书",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                closeOnConfirm: false,
+                cancelButtonText:'取消'
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "__CONTROLLER__/delBooks",
+                    data: "book_id="+book_id,
+                    success: function(msg){
+                        if(msg == 'success'){
+                            tableList.bootstrapTable('remove',{
+                                field: 'book_id',
+                                values: [book_id]
+                            });
+                            swal("删除成功","","success");
+                        }
+                    }
+                });
+            });
+        }
+        return false;
+    }
+
+    function editBook(book_id){
+        if(book_id > 0){
+            //iframe窗
+            parent.layer.open({
+                type: 2,
+                title: '编辑书本信息',
+                shade: [0.5],
+                area: ['800px', '800px'],
+                fix: false, //不固定
+                skin: 'layui-layer-molv',
+                content: ['/editBook/book_id/'+book_id, 'no'], //iframe的url，no代表不显示滚动条
+                end: function(){
+                    $('#tableList').bootstrapTable('refresh',{url:'' });
+                }
+            });
+        }
+    }
+
+</script>
 </body>
 </html>

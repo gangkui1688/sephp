@@ -2,6 +2,17 @@
 
 class ctl_public
 {
+    //上传方法
+    public function upload()
+    {
+
+
+        
+
+    }
+
+
+    //验证码
     public function verify()
     {
         $config = [

@@ -13,7 +13,6 @@ class pages{
     private $url     = ''; //当前链接URL
     private $nowPage = 1;
 
-    public static $instance = null;
     // 分页显示定制
     private $config  = array(
         'header' => '<span class="rows">共 %TOTAL_ROW% 条记录</span>',
@@ -24,6 +23,10 @@ class pages{
         'theme'  => '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%',
     );
 
+    public static function instance($totalRows, $listRows=20, $parameter = array())
+    {
+        return new self($totalRows, $listRows, $parameter);
+    }
 
     /**
      * 架构函数
@@ -53,19 +56,6 @@ class pages{
         }
     }
 
-    public static function make($count = 0, $page_size = 0)
-    {
-        if (!self::$instance instanceof self) {
-            self::$instance = new self($count,$page_size);
-        }
-        return self::$instance;
-        $obj = new self($count,$page_size);
-        return [
-            'offset'=> $obj->firstRow,
-            'limit' => $page_size,
-            'show'  => $obj->show()
-        ];
-    }
     /**
      * 生成链接URL
      * @param  integer $page 页码
@@ -146,6 +136,6 @@ class pages{
             array('%HEADER%', '%NOW_PAGE%', '%UP_PAGE%', '%DOWN_PAGE%', '%FIRST%', '%LINK_PAGE%', '%END%', '%TOTAL_ROW%', '%TOTAL_PAGE%'),
             array($this->config['header'], $this->nowPage, $up_page, $down_page, $the_first, $link_page, $the_end, $this->totalRows, $this->totalPages),
             $this->config['theme']);
-        return "<div>{$page_str}</div>";
+        return "<div id='pages'>{$page_str}</div>";
     }
 }

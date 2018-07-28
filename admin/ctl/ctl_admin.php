@@ -5,27 +5,20 @@ class ctl_admin
     public function userlist()
     {
 
-        $page = pages::make(100,10);
-        p($page);
-        exit;
-        //sfdasfdas
-        $data = db::select('*')->from('admin_user')->execute();
-
-        view::assign('list',NOW_URL);
-        view::assign('getlisturl','?ct='.CT_NAME.'&ac=userlist_json');
+        view::assign('get_json_list','?ct=admin&ac=userlist_json');
         view::assign('addurl','?ct='.CT_NAME.'&ac=adduser');
 
         view::display('admin.userlist');
     }
     public function userlist_json()
     {
-
+        $count = db::select('COUNT(admin_id) as count')->from('admin_user')->as_row()->execute();
         $data = db::select('*')->from('admin_user')->execute();
+
+        //$pages = pages::instance($count['count'],'10')->show();
         $list = [
-              "code"  => 0,
-              "msg"   => "",
-              "count" => 3,
-              "data"  => $data
+              "total" => $count['count'],
+              "rows"  => $data
             ];
         echo json_encode($list);
     }
@@ -44,6 +37,11 @@ class ctl_admin
         {
             show_msg::ajax('新增成功','200');
         }
+
+    }
+
+    public function saveuser_field()
+    {
 
     }
 
