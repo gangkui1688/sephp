@@ -60,7 +60,7 @@
             showFooter: false,
             showColumns: true,
             //cardView: true,
-            detailView: false,//rue to show detail view table.
+            detailView: false,//显示列表详情
             detailFormatter:function () {
                 return 'fasdfasdfasdfa';
             },
@@ -74,9 +74,9 @@
             dataField: 'rows',
             //pageNumber: '2',//初始化到第几页
             pageSize: 3,//初始化页面条数
-            pageList:[10,20,50],
+            pageList:[5,10,25,20,50],
             singleSelect: false,
-            //data-locale:"zh-US", //表格汉化
+            //data-locale: 'zh-US',
             search: true, //显示搜索框
             searchAlign: 'right',
             sidePagination: "server", //server 服务端处理分页
@@ -119,9 +119,9 @@
                 align: 'center',
                 editable: {
                     type: 'text',
+                    empty: 'ssdfasdfads',
                     title: '修改昵称',
                     validate: function (value) {
-
                         var data = $table.bootstrapTable('getData'),
                             index = $(this).parents('tr').data('index');
                         console.log(data[index]);
@@ -144,11 +144,14 @@
                 field: 'create_time',
                 title: '添加时间',
                 sortable: true,
-                //clickToSelect: false,
-                //switchable: false,
+                clickToSelect: false,
+                switchable: false,
                 align: 'center',
                 valign: 'middle',
                 formatter: function (value) {
+                    if(value == null){
+                        return '';
+                    }
                     return new Date(parseInt(value) * 1000).toLocaleString().substr(0,10).replace(/\//g, "-");
                     //return year+'-'+month+'-'+date;
                 }
