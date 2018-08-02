@@ -38,6 +38,10 @@
 <script >
     var tableList = $('#tableList');
     $(function () {
+
+
+
+
         tableList.bootstrapTable({
             url: "<{$get_json_list}>",
             refresh: {
@@ -48,11 +52,13 @@
             },
             dataType:'json',
             method: 'post',
+            paginationDetailHAlign: 'left',
             contentType: "application/x-www-form-urlencoded",//post请求必带属性
             //sortClass: 'admin_id',
             cache:true,
             showRefresh: true,
             showToggle: true,
+            showFullscreen: true,
             showPaginationSwitch: true,//显示分页按钮开关
             buttonsAlign: 'left',
             toolbarAlign: 'left',
@@ -60,13 +66,21 @@
             showFooter: false,
             showColumns: true,
             //cardView: true,
-            detailView: false,//显示列表详情
+            detailView: true,//显示列表详情
             detailFormatter:function () {
                 return 'fasdfasdfasdfa';
             },
             sortStable: true,
 
-            paginationPreText: '上一页',
+            formatShowingRows: function (pageFrom, pageTo, totalRows) {
+                //console.log(pageFrom,pageTo,totalRows);
+                //显示第 '+ pageFrom +' 到第 '+ pageTo +' 条，总
+                return ' 共' + totalRows + ' 条';
+            },
+            formatRecordsPerPage: function (pageNumber) {
+                return '每页显示 ' + pageNumber + ' 条'; ;
+            },
+            paginationPreText: ' < ',
             paginationNextText: '下一页',
             iconSize: 'outline',
             idField:'admin_id',
@@ -78,7 +92,13 @@
             singleSelect: false,
             //data-locale: 'zh-US',
             search: true, //显示搜索框
+            searchOnEnterKey: true,
+            strictSearch: true,
+            trimOnSearch: true, //True to trim spaces in search field.
+            searchText: '请输入用户名',
             searchAlign: 'right',
+            
+            maintainSelected: false,
             sidePagination: "server", //server 服务端处理分页
             columns: [{
                 field: 'checkbox',
@@ -183,6 +203,8 @@
                 }
             }
         });
+
+
 
     });
     $('#add').click(function(){
