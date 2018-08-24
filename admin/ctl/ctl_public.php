@@ -35,7 +35,7 @@ class ctl_public
     {
         if(!empty(req::$posts))
         {
-            if(!verifiy_code::instance()->check(req::$posts['verify']))
+            if($GLOBALS['config']['web']['verify_open'] && !verifiy_code::instance()->check(req::$posts['verify']))
             {
                 show_msg::ajax('验证码错误','201');
             }

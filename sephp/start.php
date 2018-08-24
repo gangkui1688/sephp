@@ -1,5 +1,5 @@
 <?php
-if( !defined('APP_PATH') ) exit('APP_PATH is not defind!');
+if( !defined('APP_NAME') ) exit('APP_NAME is not defind!');
 
 if(!defined('APP_DEBUG') || !APP_DEBUG)
 {
@@ -13,18 +13,18 @@ else
     //该指令开启如果有错误报告才能输出
     ini_set('display_errors',1);
 }
-
+$_start_time = microtime(true);
 session_start();
-
+define('SE_START_TIME',$_start_time);
 define('SEPHP',__DIR__.'/');
 define('WWW_ROOT',__DIR__.'/../');
 define('SE_VIEW',__DIR__.'/../view/');
 define('SE_LIB',__DIR__.'/library/sephp/');
 define('SE_RUNTIME',__DIR__.'/../runtime/');
 
-include_once SEPHP.'function.php';
+include_once SEPHP . 'sys_function.php';
 include_once SEPHP . 'autoloads.php';
-include_once WWW_ROOT . '/config/config.php';
+
 
 class start
 {
@@ -35,14 +35,15 @@ class start
 
     public function __construct($config = '')
     {
-
+        $GLOBALS['config'] = include(WWW_ROOT . '/config/config.php');
         //自动注册类库
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获
         set_exception_handler('_exception_handler');
-        //找内裤
+        //找类库
         autoloads::register();
-
+        //注册一个会在php中止时执行的函数
+        register_shutdown_function('_shutdown_function',['_start_time'=>SE_START_TIME]);
         $this->_get_ap_ct_ac();
         self::$_now_url = 'http://'.$_SERVER['SERVER_NAME'] . APP_NAME .$_SERVER['REQUEST_URI'];
         //权限控制
@@ -54,7 +55,6 @@ class start
         define('NOW_URL',self::$_now_url);
         define('SE_URL','http://'.$_SERVER['SERVER_NAME'] .'/'. APP_NAME);
         $this->run();
-        log::write('--the opcode end--');
     }
 
     public function run()

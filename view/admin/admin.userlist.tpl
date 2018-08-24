@@ -26,21 +26,41 @@
     <script src="static/iframe/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
     <script src="static/iframe/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
     <script src="static/iframe/js/bootstrap-editable.js"></script>
+    <style>
+        div.container{width:100%;}
+
+        #search-form .form-control{width:130px;display:initial;}
+    </style>
 </head>
 <body class="childrenBody">
 
-    <div class="container">
+    <div class="container" style="width: 100%">
         <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group" style="float: left;margin-top: 10px;">
+            <form id="search-form" action="" method="GET" >
+            <a href="#" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus" ></i>添加</a>
+            <a href="#" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-edit" ></i>编辑</a>
+            <a href="#" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove" ></i>删除</a>
 
+            <select  name="status" class="form-control">
+                <option value="">请选择</option>
+                <option value="1">启用</option>
+                <option value="2">禁用</option>
+            </select>
+            <select  name="sex" class="form-control">
+                <option value="">请选择</option>
+                <option value="1">启用</option>
+                <option value="2">禁用</option>
+            </select>
+            <input type="text" name="s" class="form-control" />
+               <a href="" class="btn btn-primary btn-sm">搜索</a>
+            </form>
         </div>
+
         <table id="tableList"></table>
     </div>
 <script >
     var tableList = $('#tableList');
     $(function () {
-
-
-
 
         tableList.bootstrapTable({
             url: "<{$get_json_list}>",
@@ -54,13 +74,19 @@
             method: 'post',
             paginationDetailHAlign: 'left',
             contentType: "application/x-www-form-urlencoded",//post请求必带属性
+            formatLoadingMessage:function () {
+                return '数据加载中，请稍后。。。';
+            },
+            formatRefresh: function () {
+                return '刷新';
+            },
             //sortClass: 'admin_id',
             cache:true,
             showRefresh: true,
             showToggle: true,
             showFullscreen: true,
             showPaginationSwitch: true,//显示分页按钮开关
-            buttonsAlign: 'left',
+            buttonsAlign: 'right',
             toolbarAlign: 'left',
             showHeader: true,
             showFooter: false,
@@ -92,10 +118,19 @@
             singleSelect: false,
             //data-locale: 'zh-US',
             search: true, //显示搜索框
+            customSearch: function (text) {
+                console.log(text);
+
+                return '123123';
+            },
+            formatSearch: function (){
+                return '请输入用户名';
+            },
+            showSearchButton: true,
             searchOnEnterKey: true,
             strictSearch: true,
             trimOnSearch: true, //True to trim spaces in search field.
-            searchText: '请输入用户名',
+            searchText: '',
             searchAlign: 'right',
             
             maintainSelected: false,

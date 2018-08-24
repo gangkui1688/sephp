@@ -5,6 +5,7 @@ class ctl_admin
     public function userlist()
     {
 
+        log::write(13123123123123123123123123,'');
         view::assign('get_json_list','?ct=admin&ac=userlist_json');
         view::assign('addurl','?ct='.CT_NAME.'&ac=adduser');
 

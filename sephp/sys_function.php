@@ -11,6 +11,29 @@ function p($arg = null,$arg1 = null,$arg2 = null,$arg3 = null)
 
 }
 
+function get_client_ip()
+{
+    if(!empty($_SERVER["HTTP_CLIENT_IP"]))
+    {
+        $cip = $_SERVER["HTTP_CLIENT_IP"];
+    }
+    else if(!empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
+    {
+        $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    }
+    else if(!empty($_SERVER["REMOTE_ADDR"]))
+    {
+        $cip = $_SERVER["REMOTE_ADDR"];
+    }
+    else
+    {
+        $cip = '';
+    }
+    //preg_match("/[\d\.]{7,15}/", $cip, $cips);
+    //$cip = isset($cips[0]) ? $cips[0] : 'unknown';
+    //unset($cips);
+    return $cip;
+}
 /**
  * @param $e 异常回掉函数
  */
@@ -41,4 +64,13 @@ function _make_url($param = [])
         $url .= '&'.$k.'='.$v;
     }
     return $url;
+}
+
+function _shutdown_function($start_time = 0)
+{
+    $end_time = microtime(true);
+
+
+    log::write('--the opcode end--');
+    log::save();
 }
