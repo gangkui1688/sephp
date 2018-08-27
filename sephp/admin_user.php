@@ -37,7 +37,7 @@ class admin_user
     //登陆检测
     public static function check($config = [])
     {
-        if(!in_array(CT_NAME,$config['not_login']) && $config['need_login'] === true)
+        if(!in_array(CT_NAME,$config['not_login']) && isset($config['need_login']) && $config['need_login'] === true)
         {
             self::init($config);
         }

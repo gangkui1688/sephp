@@ -3,6 +3,61 @@
 class mod_system
 {
 
+    public static function get_menus($type = 'left_menu')
+    {
+        $file = SEPHP . '../config/menu.xml';
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        $xml = file_get_contents($file);
+        $array = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+
+        $data = [];
+
+        foreach ($array['menu'] as $key=>$val)
+        {
+            if($type == 'top_menu')
+            {
+                $data[$key] = [
+                    'title' => $val['@attributes']['name'],
+                    'icon' => $val['@attributes']['icon'],
+                    'id' => $val['@attributes']['id'],
+                    'spread' => empty($v['@attributes']['spread']) ? false : $v['@attributes']['spread']
+                ];
+                continue;
+            }
+            if(isset($val['menu']))
+            {
+                $m = self::get_data_menu($val['menu']);
+                if($m)
+                {
+                    $data[$val['@attributes']['id']] = $m;
+                }
+            }
+
+        }
+        return $data;
+
+    }
+
+    public static function get_data_menu($val)
+    {
+        foreach ($val as $k=>$v)
+        {
+            $data[$k] = [
+                'title' => $v['@attributes']['name'],
+                'icon' => $v['@attributes']['icon'],
+                'href' => isset($v['@attributes']['ac']) ? '?ct='. $v['@attributes']['ct'].'&ac='.$v['@attributes']['ac'] : '',
+                'data-id' => isset($v['@attributes']['ac']) ? $v['@attributes']['ct'] . '_' . $v['@attributes']['ac'] : '',
+                'spread' => empty($v['@attributes']['spread']) ? false : $v['@attributes']['spread']
+            ];
+            if(isset($v['menu']))
+            {
+                $data[$k]['menu'] = self::get_data_menu($v['menu']);
+            }
+        }
+        return $data;
+    }
+
     public static function parseMenu($menus = '',$id_name = '')
     {
         $json_menu = '';

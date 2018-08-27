@@ -1,9 +1,13 @@
 <menus>
-    <menu name="系统管理"  icon="fa fa-gear" id="contentManagement" >
+    <menu name="系统管理"  icon="fa fa-gear" id="systemManagement" >
         <menu name="菜单设置" ct="system" ac="menus" icon="fa fa-dashboard"  />
         <menu name="菜单保存" ct="system" ac="saveMenus" icon="" display="none" />
         <menu name="站点设置" ct="system" ac="saveMenus" icon="fa fa-cogs" display="" />
-        <menu name="数据库管理" ct="system" ac="saveMenus" icon="fa fa-database" display="" />
+        <menu name="数据库管理"  icon="fa fa-database" display="" >
+            <menu name="数据表" ct="system" ac="saveMenus" icon="fa fa-cogs" display="" />
+            <menu name="数据备份" ct="system" ac="saveMenus" icon="fa fa-cogs" display="" />
+            <menu name="数据还原" ct="system" ac="saveMenus" icon="fa fa-cogs" display="" />
+        </menu>
     </menu>
     <menu name="用户管理" icon="fa fa-user-secret" id="memberCenter" default="true" >
         <menu name="用户列表" ct="admin" ac="userlist" icon="fa fa-user" display="" />

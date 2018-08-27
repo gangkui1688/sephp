@@ -6,7 +6,6 @@ class ctl_system
 
     public function menus()
     {
-        $menus = mod_system::parseMenu();
 
 
 

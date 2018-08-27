@@ -5,7 +5,7 @@ define('APP_NAME','admin');
 define('APP_DEBUG',true);
 
 $_authority = [
-    'need_login' => true,
+    //'need_login' => true,
     'not_login'  => ['public'],
     'login_url'  => '?ct=public&ac=login',
 ];
