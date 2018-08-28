@@ -235,74 +235,6 @@ class req
     }
 
     /**
-     * Fetch User Agent string
-     *
-     * @return	string|null	User Agent string or NULL if it doesn't exist
-     */
-    public static function user_agent()
-    {
-        return $_SERVER['HTTP_USER_AGENT'];
-    }
-
-    /**
-     * 获取请求方法 POST、GET、PUT、DELETE
-     *
-     * @param mixed $upper
-     * @return void
-     * @author seatle <seatle@foxmail.com>
-     * @created time :2017-12-07 17:17
-     */
-    public static function method($upper = true)
-    {
-        return ($upper)
-            ? strtoupper($_SERVER['REQUEST_METHOD'])
-            : strtolower($_SERVER['REQUEST_METHOD']);
-    }
-
-    /**
-     * 前页
-     *
-     * @param mixed $url
-     * @return void
-     * @author seatle <seatle@foxmail.com>
-     * @created time :2018-06-29 12:03
-     */
-    public static function forword($gourl = '')
-    {
-        $gourl = empty($_SERVER['HTTP_REFERER']) ? $gourl : $_SERVER['HTTP_REFERER'];
-        return $gourl;
-    }
-
-    /**
-     * 设置跳转页
-     *
-     * @param string $gourl
-     * @return void
-     * @author seatle <seatle@foxmail.com>
-     * @created time :2018-06-29 12:03
-     */
-    public static function set_redirect($gourl = '')
-    {
-        $gourl = urlencode($gourl);
-        setcookie('gourl', $gourl);
-    }
-
-    /**
-     * 跳转页
-     *
-     * @param mixed $gourl
-     * @return void
-     * @author seatle <seatle@foxmail.com>
-     * @created time :2018-06-29 12:03
-     */
-    public static function redirect($gourl = '')
-    {
-        $gourl = self::cookie('gourl', $gourl);
-        $gourl = urldecode($gourl);
-        return $gourl;
-    }
-
-    /**
      * jquery 发出 ajax 请求时，会在请求头部添加一个名为X-Requested-With的信息，信息内容为 XMLHttpRequest
      * js 需要如下处理
      * var xmlhttp=new XMLHttpRequest();
@@ -541,8 +473,7 @@ class req
         }
         foreach ($param as $k=>$v)
         {
-            $data[$k] = $v;
-            self::$forms[$k] = $v;
+            $data[$k] = self::$forms[$k] = htmlentities($v);
         }
         return $data;
     }

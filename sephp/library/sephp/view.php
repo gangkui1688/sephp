@@ -35,8 +35,6 @@ class view
             self::$_instance->setLeftDelimiter('<{');
             self::$_instance->setRightDelimiter('}>');
             self::$_instance->setCompileCheck(true);
-
-
             self::config();
         }
         return self::$_instance;
@@ -44,13 +42,10 @@ class view
 
     protected static function config ()
     {
-        $instance = self::instance();
-//        $instance->assign('URL', URL);
-//        $instance->assign('URL_UPLOADS', URL_UPLOADS);
-//        $instance->assign('URL_UPLOADS_CDN', URL_UPLOADS_CDN);
-        //$instance->assign('config', config::$call_configs);
-        $instance->assign('request', $_REQUEST);
-        $instance->assign('clear_cache', '?' . time());
+        self::instance()->assign('_self_url', NOW_URL);
+        self::instance()->assign('_ct_name', CT_NAME);
+        self::instance()->assign('_ac_name', AC_NAME);
+        self::instance()->assign('clear_cache', '?' . time());
     }
 
     public static function fetch($tpl = '')

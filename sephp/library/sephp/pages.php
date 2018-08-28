@@ -74,7 +74,7 @@ class pages{
 
         /* 生成URL */
         $this->parameter[$this->p] = '[PAGE]';
-        $this->url = SE_URL.'?'._make_url($this->parameter);
+        $this->url = WWW_URL.'/'.APP_NAME.'?'._make_url($this->parameter);
 
         /* 计算分页信息 */
         $this->totalPages = ceil($this->totalRows / $this->listRows); //总页数

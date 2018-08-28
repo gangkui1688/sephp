@@ -3,6 +3,11 @@
 class mod_system
 {
 
+    /**
+     * 获取菜单数据
+     * @param string $type
+     * @return array
+     */
     public static function get_menus($type = 'left_menu')
     {
         $file = SEPHP . '../config/menu.xml';
@@ -15,6 +20,10 @@ class mod_system
 
         foreach ($array['menu'] as $key=>$val)
         {
+            if(isset($val['@attributes']['display']) && $val['@attributes']['display'] == 'none')
+            {
+                continue;
+            }
             if($type == 'top_menu')
             {
                 $data[$key] = [
@@ -43,6 +52,10 @@ class mod_system
     {
         foreach ($val as $k=>$v)
         {
+            if(isset($v['@attributes']['display']) && $v['@attributes']['display'] == 'none')
+            {
+                continue;
+            }
             $data[$k] = [
                 'title' => $v['@attributes']['name'],
                 'icon' => $v['@attributes']['icon'],

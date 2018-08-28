@@ -45,15 +45,13 @@ class start
         //注册一个会在php中止时执行的函数
         register_shutdown_function('_shutdown_function',['_start_time'=>SE_START_TIME]);
         $this->_get_ap_ct_ac();
-        self::$_now_url = 'http://'.$_SERVER['SERVER_NAME'] . APP_NAME .$_SERVER['REQUEST_URI'];
+        self::$_now_url =  $_SERVER['REQUEST_URI'];
         //权限控制
         admin_user::check($config);
 
-
-
         req::init();
         define('NOW_URL',self::$_now_url);
-        define('SE_URL','http://'.$_SERVER['SERVER_NAME'] .'/'. APP_NAME);
+        define('WWW_URL','http://'.$_SERVER['SERVER_NAME']);
         $this->run();
     }
 

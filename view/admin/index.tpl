@@ -71,10 +71,17 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
+                        </a>
+
+
                     <ul class="nav navbar-nav top-navigation">
                         <{foreach from=$top_menu item=menu }>
-                        <li class="">
-                            <a aria-expanded="false" role="button" data-id="<{$menu.id}>" > <{$menu.title}></a>
+                        <li class="hidden-xs<{if $menu.id == 'systemManagement'}> active <{/if}>"  >
+                            <a aria-expanded="false" role="button" data-id="<{$menu.id}>" >
+                                <i class="<{$menu.icon}>"></i>
+                                <span class="nav-label" ><{$menu.title}></span>
+                            </a>
                         </li>
                         <{/foreach}>
                     </ul>
@@ -195,7 +202,7 @@
             <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
         </div>
         <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="" frameborder="0" data-id="index_v2.html" seamless></iframe>
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<{$default_page_url}>" frameborder="0" data-id="<{$default_page_url}>" seamless></iframe>
         </div>
         <div class="footer">
             <div class="pull-right">&copy; 2014-2015 <a href="/admin" target="">EZ</a>
@@ -528,34 +535,11 @@
 <script src="static/frame/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="static/frame/js/plugins/layer/layer.min.js"></script>
 <script src="static/frame/js/contabs.min.js"></script>
+<script src="static/frame/js/hplus.min.js"></script>
 <script src="static/frame/js/plugins/pace/pace.min.js"></script>
 <script>
     var left_menu = '<{$left_menu}>';
-    $(function () {
-        left_menu = JSON.parse(left_menu);
-        $('ul.top-navigation li').click(function () {
-            var id = $(this).find('a').attr('data-id');
-            var leftObj = $('ul#side-menu');
-            console.log(id,left_menu[id],left_menu[id].length);
-            var str_html = '';
-            for (var i=0;i < left_menu[id].length; i++){
-                str_html += '<li >';
-                str_html += '<a class="J_menuItem" href="' + left_menu[id][i]['href']+ '" data-index="' + left_menu[id][i]['data-id'] + '"><i class="' +
-                     left_menu[id][i]['icon']+ '"></i> <span class="nav-label">' + left_menu[id][i]['title'] + '</span></a>';
-                str_html += '</li>';
-                console.log(str_html);
-            }
-            leftObj.append(str_html);
-
-            start_menu();
-        });
-
-
-
-
-
-        start_menu();
-    });
+    var firstMenuId = 'systemManagement';
 </script>
 </body>
 </html>

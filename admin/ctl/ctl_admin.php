@@ -5,10 +5,8 @@ class ctl_admin
     public function userlist()
     {
 
-        log::write(13123123123123123123123123,'');
         view::assign('get_json_list','?ct=admin&ac=userlist_json');
         view::assign('addurl','?ct='.CT_NAME.'&ac=adduser');
-
         view::display('admin.userlist');
     }
     public function userlist_json()
@@ -26,9 +24,25 @@ class ctl_admin
 
     public function adduser()
     {
+        if(empty(req::$posts))
+        {
+            view::assign('add_save_url','?ct='.CT_NAME.'&ac=saveuser');
+            view::display('admin.adduser');
+            exit;
+        }
 
-        view::assign('add_save_url','?ct='.CT_NAME.'&ac=saveuser');
-        view::display('admin.adduser');
+        $data['username'] = req::$posts['username'];
+        $data['username'] = md5(req::$posts['password']);
+        $data['email'] = md5(req::$posts['email']);
+        $data['remark'] = md5(req::$posts['remark']);
+        $data['create_time'] = time();
+        if(db::insert('admin_user')->set(req::$posts)->execute() > 0)
+        {
+            show_msg::success('新增成功','?ct='.CT_NAME.'&ac=userlist');
+        }
+        show_msg::error();
+
+
     }
 
     public function saveuser()

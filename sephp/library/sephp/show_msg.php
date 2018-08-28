@@ -22,14 +22,14 @@ class show_msg
 
     public static function success($message = '',$url = '',$time = '',$title = '')
     {
-        $message = empty($message)?'操作失败':$message;
+        $message = empty($message)?'操作成功':$message;
         self::get_return_html($title,$message,$url,'success',$time);
     }
 
 
     public static function error($message = '',$url = '',$time = '' ,$title = '')
     {
-        $message = empty($message)?'操作成功':$message;
+        $message = empty($message)?'操作失败':$message;
         self::get_return_html($title,$message,$url,'error',$time);
     }
 

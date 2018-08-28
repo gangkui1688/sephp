@@ -1,8 +1,10 @@
 <?php
 
+/**
+ * Class ctl_index
+ */
 class ctl_index
 {
-
 
     public function index()
     {
@@ -15,6 +17,9 @@ class ctl_index
         $left_menu = mod_system::get_menus('left_menu');
         view::assign('top_menu',$top_menu);
         view::assign('left_menu',json_encode($left_menu,JSON_UNESCAPED_UNICODE));
+
+        view::assign('default_page_url','?ct=index&ac=home');
+
         view::display('index');
     }
 
@@ -27,5 +32,11 @@ class ctl_index
     {
         view::display('main');
     }
-}
 
+
+    //默认页面
+    public function home()
+    {
+        view::display('home');
+    }
+}
