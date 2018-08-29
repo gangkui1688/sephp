@@ -20,11 +20,11 @@ class mod_system
 
         foreach ($array['menu'] as $key=>$val)
         {
-            if(isset($val['@attributes']['display']) && $val['@attributes']['display'] == 'none')
+            if($type != 'all' && isset($val['@attributes']['display']) && $val['@attributes']['display'] == 'none')
             {
                 continue;
             }
-            if($type == 'top_menu')
+            if($type != 'left_menu')
             {
                 $data[$key] = [
                     'title' => $val['@attributes']['name'],
@@ -32,12 +32,23 @@ class mod_system
                     'id' => $val['@attributes']['id'],
                     'spread' => empty($v['@attributes']['spread']) ? false : $v['@attributes']['spread']
                 ];
-                continue;
+                if($type != 'all')
+                {
+                    continue;
+                }
             }
             if(isset($val['menu']))
             {
-                $m = self::get_data_menu($val['menu']);
-                if($m)
+                $m = self::get_data_menu($val['menu'],$type);
+                if(empty($m))
+                {
+                    continue;
+                }
+                if($type == 'all')
+                {
+                    $data[$key]['menu'] = $m;
+                }
+                else
                 {
                     $data[$val['@attributes']['id']] = $m;
                 }
@@ -48,24 +59,24 @@ class mod_system
 
     }
 
-    public static function get_data_menu($val)
+    public static function get_data_menu($val,$type)
     {
         foreach ($val as $k=>$v)
         {
-            if(isset($v['@attributes']['display']) && $v['@attributes']['display'] == 'none')
+            if($type != 'all' && isset($v['@attributes']['display']) && $v['@attributes']['display'] == 'none')
             {
                 continue;
             }
             $data[$k] = [
-                'title' => $v['@attributes']['name'],
-                'icon' => $v['@attributes']['icon'],
+                'title' => isset($v['@attributes']['name']) ? $v['@attributes']['name'] : '',
+                'icon' => isset($v['@attributes']['icon']) ? $v['@attributes']['icon'] : '',
                 'href' => isset($v['@attributes']['ac']) ? '?ct='. $v['@attributes']['ct'].'&ac='.$v['@attributes']['ac'] : '',
                 'data-id' => isset($v['@attributes']['ac']) ? $v['@attributes']['ct'] . '_' . $v['@attributes']['ac'] : '',
-                'spread' => empty($v['@attributes']['spread']) ? false : $v['@attributes']['spread']
+                'spread' => isset($v['@attributes']['spread']) ? $v['@attributes']['spread'] : false,
             ];
             if(isset($v['menu']))
             {
-                $data[$k]['menu'] = self::get_data_menu($v['menu']);
+                $data[$k]['menu'] = self::get_data_menu($v['menu'],$type);
             }
         }
         return $data;

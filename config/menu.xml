@@ -2,9 +2,9 @@
     <menu name='系统管理'  icon='fa fa-gears' id='systemManagement' >
         <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='用户管理' icon='fa fa-user-secret' id='memberCenter' default='true' >
-               <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
-               <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
-              <menu name='权限管理' ct='admin' ac='powerlist' icon='fa fa-bank' display='' />
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='权限管理' ct='admin' ac='powerlist' icon='fa fa-bank' display='' />
         </menu>
         <menu name='站点设置' ct='system' ac='saveMenus' icon='fa fa-cogs' display='none' />
         <menu name='数据库管理'  icon='fa fa-database' display='' >
@@ -13,9 +13,20 @@
             <menu name='数据还原' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
         </menu>
     </menu>
-    <menu name='用户管理' icon='fa fa-user-secret' id='memberCenter' default='true' >
-        <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
-        <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
-        <menu name='权限管理' ct='admin' ac='powerlist' icon='fa fa-bank' display='' />
+    <menu name='商户管理' icon='fa fa-user-secret' id='stroeCenter' default='true' >
+        <menu name='商户列表' ct='stroe' ac='index' icon='fa fa-user' display='' />
+        <menu name='商户类型' ct='stroe' ac='catelist' icon='fa fa-users' display='' />
+    </menu>
+    <menu name='产品管理' icon='fa fa-user-secret' id='productManager' default='true' >
+        <menu name='产品列表' ct='product' ac='index' icon='fa fa-user' display='' />
+        <menu name='分类管理' ct='product' ac='catelist' icon='fa fa-users' display='' />
+        <menu name='标签管理' ct='product' ac='labelist' icon='fa fa-users' display='' />
+    </menu>
+    <menu name='订单管理' icon='fa fa-user-secret' id='orderCenter' default='true' >
+        <menu name='订单列表' ct='order' ac='index' icon='fa fa-user' display='' />
+    </menu>
+    <menu name='打印日志' icon='fa fa-user-secret' id='printerCenter' default='true' >
+        <menu name='打印队列' ct='printer' ac='index' icon='fa fa-user' display='' />
+        <menu name='打印失败' ct='printer' ac='faillist' icon='fa fa-users' display='' />
     </menu>
 </menus>

@@ -7,7 +7,7 @@
                     <h5>添加用户</h5>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t validate" action="<{$_self_url}>" id="signupForm">
+                    <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">登 录 名：</label>
                             <div class="col-sm-8">

@@ -54,13 +54,6 @@
                     </div>
                     <div class="logo-element">H+</div>
                 </li>
-                <!--li>
-                    <div class="col-sm-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control"> <span class="input-group-btn"><i class="fa fa-search"></i></span>
-                        </div>
-                    </div>
-                </li-->
             </ul>
         </div>
     </nav>
@@ -71,13 +64,11 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i>
-                        </a>
-
-
+                    <a style="margin: 9px;" class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i></a>
                     <ul class="nav navbar-nav top-navigation">
+
                         <{foreach from=$top_menu item=menu }>
-                        <li class="hidden-xs<{if $menu.id == 'systemManagement'}> active <{/if}>"  >
+                        <li class="hidden-xs <{if $menu.id == 'systemManagement'}> active <{/if}>"  >
                             <a aria-expanded="false" role="button" data-id="<{$menu.id}>" >
                                 <i class="<{$menu.icon}>"></i>
                                 <span class="nav-label" ><{$menu.title}></span>
@@ -87,50 +78,6 @@
                     </ul>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <i class="<{$menu.icon}>"></i> <span class="label label-warning">16</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages">
-                            <li class="m-t-xs">
-                                <div class="dropdown-messages-box">
-                                    <a href="profile.html" class="pull-left">
-                                        <img alt="image" class="img-circle" src="static/frame/img/a7.jpg">
-                                    </a>
-                                    <div class="media-body">
-                                        <small class="pull-right">46小时前</small>
-                                        <strong>小四</strong> 这个在日本投降书上签字的军官，建国后一定是个不小的干部吧？
-                                        <br>
-                                        <small class="text-muted">3天前 2014.11.8</small>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <div class="dropdown-messages-box">
-                                    <a href="profile.html" class="pull-left">
-                                        <img alt="image" class="img-circle" src="static/frame/img/a4.jpg">
-                                    </a>
-                                    <div class="media-body ">
-                                        <small class="pull-right text-navy">25小时前</small>
-                                        <strong>国民岳父</strong> 如何看待“男子不满自己爱犬被称为狗，刺伤路人”？——这人比犬还凶
-                                        <br>
-                                        <small class="text-muted">昨天</small>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <div class="text-center link-block">
-                                    <a class="J_menuItem" href="mailbox.html">
-                                        <i class="fa fa-envelope"></i> <strong> 查看所有消息</strong>
-                                    </a>
-                                </div>
-                            </li>
-
-
-                        </ul>
-                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
@@ -163,9 +110,6 @@
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <li class="hidden-xs">
-                        <a href="index_v1.html" class="J_menuItem" data-index="0"><i class="fa fa-cart-arrow-down"></i> 购买</a>
                     </li>
                     <li class="dropdown hidden-xs">
                         <a class="right-sidebar-toggle" aria-expanded="false">

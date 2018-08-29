@@ -5,28 +5,36 @@
         #search-form .form-control{width:130px;display:initial;}
     </style>
 
+<div class="wrapper wrapper-content animated fadeInRight">
 
-    <div class="container" style="width: 100%">
-        <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group" style="float: left;margin-top: 10px;">
-            <form id="search-form" action="" method="GET" >
-            <a href="<{$addurl}>" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus" ></i>添加</a>
-            <select  name="status" class="form-control">
-                <option value="">请选择</option>
-                <option value="1">启用</option>
-                <option value="2">禁用</option>
-            </select>
-            <select  name="sex" class="form-control">
-                <option value="">请选择</option>
-                <option value="1">启用</option>
-                <option value="2">禁用</option>
-            </select>
-            <input type="text" name="s" class="form-control" />
-               <a href="" class="btn btn-primary btn-sm">搜索</a>
-            </form>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+                <div class="container" style="width: 100%">
+                    <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group" style="float: left;margin-top: 10px;">
+                        <form id="search-form" action="" method="GET" >
+                        <a href="<{$addurl}>" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus" ></i>添加</a>
+                        <select  name="status" class="form-control">
+                            <option value="">请选择</option>
+                            <option value="1">启用</option>
+                            <option value="2">禁用</option>
+                        </select>
+                        <select  name="sex" class="form-control">
+                            <option value="">请选择</option>
+                            <option value="1">启用</option>
+                            <option value="2">禁用</option>
+                        </select>
+                        </form>
+                    </div>
+
+                    <table id="tableList"></table>
+                </div>
+
+            </div>
         </div>
 
-        <table id="tableList"></table>
     </div>
+</div>
 <{include file="public/footer.tpl" }>
 
 <script >
@@ -84,14 +92,13 @@
             pagination: true, //分页
             dataField: 'rows',
             //pageNumber: '2',//初始化到第几页
-            pageSize: 3,//初始化页面条数
+            pageSize: 10,//初始化页面条数
             pageList:[5,10,25,20,50],
             singleSelect: false,
             //data-locale: 'zh-US',
             search: true, //显示搜索框
             customSearch: function (text) {
                 console.log(text);
-
                 return '123123';
             },
             formatSearch: function (){
@@ -102,7 +109,7 @@
             strictSearch: true,
             trimOnSearch: true, //True to trim spaces in search field.
             searchText: '',
-            searchAlign: 'right',
+            searchAlign: 'left',
             
             maintainSelected: false,
             sidePagination: "server", //server 服务端处理分页
@@ -132,10 +139,8 @@
                         {value:'1',text:'启用'}
                     ],
                     validate: function (value) {
-
-                        var data = $table.bootstrapTable('getData'),
-                            index = $(this).parents('tr').data('index');
-                        console.log(data[index]);
+                        console.log(this);
+                        editFields(1,'status',value);
                         return '';
                     }
                 }
@@ -264,5 +269,23 @@
                 }
             });
         }
+    }
+
+    function editFields(id,fields,value) {
+        $.ajax({
+            type: "POST",
+            url: "<{$edit_fields_url}>",
+            data: "fields=" + fields + '&value=' + value + '&pk_id=' + id,
+            success: function(msg){
+                if(msg == 'success'){
+                    tableList.bootstrapTable('remove',{
+                        field: 'book_id',
+                        values: [book_id]
+                    });
+                    swal("删除成功","","success");
+                }
+            }
+        });
+
     }
 </script>
