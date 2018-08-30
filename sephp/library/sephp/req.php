@@ -450,7 +450,7 @@ class req
         return true;
     }
 
-    public static function _to_param($param_type)
+    private static function _to_param($param_type)
     {
         switch ($param_type)
         {
@@ -467,13 +467,26 @@ class req
                 unset($_COOKIE);
                 return true;
         }
+
+        return self::_for_param($param);
+    }
+
+    private static function _for_param($param = '')
+    {
         if(empty($param))
         {
             return [];
         }
-        foreach ($param as $k=>$v)
+        foreach($param as $k=>$v)
         {
-            $data[$k] = self::$forms[$k] = htmlentities($v);
+            if(is_array($v))
+            {
+                $data[$k] = self::_for_param($v);
+            }
+            else
+            {
+                $data[$k] = self::$forms[$k] = empty($v) ? $v : htmlentities($v);
+            }
         }
         return $data;
     }

@@ -68,12 +68,18 @@ class mod_system
                 continue;
             }
             $data[$k] = [
-                'title' => isset($v['@attributes']['name']) ? $v['@attributes']['name'] : '',
-                'icon' => isset($v['@attributes']['icon']) ? $v['@attributes']['icon'] : '',
-                'href' => isset($v['@attributes']['ac']) ? '?ct='. $v['@attributes']['ct'].'&ac='.$v['@attributes']['ac'] : '',
-                'data-id' => isset($v['@attributes']['ac']) ? $v['@attributes']['ct'] . '_' . $v['@attributes']['ac'] : '',
+                'title' => isset($v['@attributes']['name']) ? $v['@attributes']['name'] :
+                    (isset($v['name']) ? $v['name'] : show_msg::error('菜单配置错误')),
+                'icon' => isset($v['@attributes']['icon']) ? $v['@attributes']['icon'] :
+                    (isset($v['icon']) ? $v['icon'] : ''),
+                'href' => isset($v['@attributes']['ac']) ? '?ct='. $v['@attributes']['ct'].'&ac='.$v['@attributes']['ac'] :
+                    (isset($v['ac']) ? '?ct='.$v['ct'].'&ac='.$v['ac'] : '' ),
+                'data-id' => isset($v['@attributes']['ac']) ? $v['@attributes']['ct'] . '_' . $v['@attributes']['ac'] :
+                    (isset($v['ct']) ? $v['ct'].'_'.$v['ac'] : ''),
                 'spread' => isset($v['@attributes']['spread']) ? $v['@attributes']['spread'] : false,
             ];
+            $data[$k]['id'] = isset($v['@attributes']['id']) ? $v['@attributes']['name'] :
+                (isset($v['id']) ? $v['id'] : $data[$k]['title'] );
             if(isset($v['menu']))
             {
                 $data[$k]['menu'] = self::get_data_menu($v['menu'],$type);

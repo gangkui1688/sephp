@@ -124,12 +124,22 @@ class ctl_admin
                 ->where('group_id',req::$gets['group_id'])
                 ->as_row()
                 ->execute();
+            $data['powerlist'] = json_decode($data['powerlist'],true);
             $powers = mod_system::get_menus('all');
             view::assign('powers',$powers);
             view::assign('data',$data);
             view::display('admin.power');
             exit();
         }
+        $data['powerlist'] = array_filter(req::$posts['power']);
+        $data['powerlist'] = array_map('html_entity_decode',$data['powerlist']);
+        $data['powerlist'] = json_encode($data['powerlist']);
+
+        if(db::update('admin_group')->set($data)->where('group_id',req::$posts['group_id'])->execute() === false)
+        {
+            show_msg::error();
+        }
+        show_msg::success('','?ct=admin&ac=grouplist');
     }
 
 }
