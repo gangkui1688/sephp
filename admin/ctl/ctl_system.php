@@ -8,6 +8,20 @@ class ctl_system
     }
 
     /**
+     * 网址设置
+     */
+    public function siteconfig()
+    {
+        if(empty(req::$posts))
+        {
+            view::display();
+            exit;
+        }
+
+
+    }
+
+    /**
      * 菜单配置
      */
     public function menus()

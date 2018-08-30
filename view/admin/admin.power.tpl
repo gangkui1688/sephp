@@ -7,21 +7,27 @@
                     <h5>编辑【<{$data.name}>】权限 <small></small></h5>
                 </div>
                 <div class="ibox-content">
-                    <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm" >
+                    <form class="form-horizontal m-t validate"  method="post" action="<{$_self_url}>" id="signupForm" >
                         <input type="hidden"  name="group_id" value="<{$data.group_id}>" />
                         <{foreach from=$powers item="p" }>
                         <div class="form-group radio">
                             <label class="col-sm-2 control-label">
-                                <{$p.title}><input class="<{$p.id}>" id="<{$p.id}>" name="" style="margin-left:6px;margin-top: 2px;" type="checkbox" />:
+                                <{$p.title}><input class="<{$p.id}>"
+                                <{if !empty($p.href) && in_array($p.href,$data.powerlist)}>checked="checked"<{/if}>
+                                <{if !empty($p.id) && in_array($p.id,$data.powerlist)}>checked="checked"<{/if}>
+                                                   value="<{if empty($p.href)}><{$p.id}><{else}><{$p.href}><{/if}>"
+                                                   id="<{$p.id}>" name="power[]" style="margin-left:6px;margin-top: 2px;" type="checkbox" />:
                             </label>
 
                             <div class="col-sm-10">
                                 <{foreach from=$p.menu item=p_second}>
                                     <label class="checkbox-inline i-checks">
                                         <input style="margin-top: 2px;"
-                                        <{if isset($p_second.href) && in_array($p_second.href,$data.powerlist)}>checked="checked"<{/if}>
+                                               value="<{if empty($p_second.href)}><{$p_second.id}><{else}><{$p_second.href}><{/if}>"
+                                        <{if !empty($p_second.href) && in_array($p_second.href,$data.powerlist)}>checked="checked"<{/if}>
+                                        <{if !empty($p_second.id) && in_array($p_second.id,$data.powerlist)}>checked="checked"<{/if}>
                                         id="<{$p_second.id}>" class="<{$p.id}> <{$p_second.id}>" type="checkbox"
-                                        name="power[]" value="<{$p_second.href}>" /><{$p_second.title}> :
+                                        name="power[]"  /><{$p_second.title}> :
                                     </label>
                                     <{if isset($p_second.menu)}>
                                         <{foreach from=$p_second.menu item=p_thread}>
@@ -58,8 +64,30 @@
 </div>
 <{include file="public/footer.tpl"}>
 <script>
-    function checkAll() {
+    function checkAll(className = '') {
+        if(className != '' ){
+            arr = className.split(' ').reverse();
+            for(key in arr){
+                var open = true;
+                $('input.'+arr[key]).each(function () {
+                    if($(this).is(':checked') == false && $(this).attr('id') != arr[key]){
+                        open = false;
+                        return;
+                    }
+                })
+                $('#'+arr[key]).prop('checked',open);
+                console.log(arr[key]);
+            }
+        }
 
+        var open = true;
+        $(':checkbox').each(function () {
+            if($(this).is(':checked') == false && $(this).attr('id') != 'all-checked'){
+                open = false;
+                return;
+            }
+        })
+        $('#all-checked').prop('checked',open);
     }
     $(function () {
         
@@ -67,8 +95,10 @@
         $('#all-checked').click(function () {
             if($(this).prop('checked') == true){
                 $(':checkbox').prop('checked',true);
+                checkAll($(this).attr('class'));
             }else if($(this).prop('checked') == false){
                 $(':checkbox').removeAttrs('checked');
+                checkAll($(this).attr('class'));
             }
         })
 
@@ -77,9 +107,12 @@
             console.log(id,$(this).is(':checked'));
             if(id != undefined && $(this).prop('checked') == true){
                 $('.'+id).prop('checked',true);
+                checkAll($(this).attr('class'));
             }else if(id != undefined && $(this).prop('checked') == false){
                 $('.'+id).removeAttrs('checked');
+                checkAll($(this).attr('class'));
             }
         })
+        checkAll('');
     })
 </script>

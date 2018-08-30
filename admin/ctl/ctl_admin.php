@@ -126,6 +126,7 @@ class ctl_admin
                 ->execute();
             $data['powerlist'] = json_decode($data['powerlist'],true);
             $powers = mod_system::get_menus('all');
+            //p($data);exit;
             view::assign('powers',$powers);
             view::assign('data',$data);
             view::display('admin.power');
@@ -133,7 +134,8 @@ class ctl_admin
         }
         $data['powerlist'] = array_filter(req::$posts['power']);
         $data['powerlist'] = array_map('html_entity_decode',$data['powerlist']);
-        $data['powerlist'] = json_encode($data['powerlist']);
+        $data['powerlist'] = json_encode($data['powerlist'],JSON_UNESCAPED_UNICODE);
+
 
         if(db::update('admin_group')->set($data)->where('group_id',req::$posts['group_id'])->execute() === false)
         {

@@ -4,9 +4,8 @@
         <menu name='用户管理' icon='fa fa-user-secret'  default='true' >
             <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
             <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
-            <menu name='权限管理' ct='admin' ac='powerlist' icon='fa fa-bank' display='' />
         </menu>
-        <menu name='站点设置' ct='system' ac='saveMenus' icon='fa fa-cogs' display='none' />
+        <menu name='站点设置' ct='system' ac='siteconfig' icon='fa fa-cogs' display='none' />
         <menu name='数据库管理'  icon='fa fa-database' display='' >
             <menu name='数据表' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
             <menu name='数据备份' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
