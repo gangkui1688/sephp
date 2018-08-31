@@ -485,7 +485,7 @@ class req
             }
             else
             {
-                $data[$k] = self::$forms[$k] = empty($v) ? $v : htmlentities($v);
+                $data[$k] = self::$forms[$k] = empty($v) ? $v : htmlentities($v,ENT_QUOTES);
             }
         }
         return $data;

@@ -34,8 +34,8 @@ class ctl_system
             view::display();
             exit;
         }
-
-        if(file_put_contents($file,html_entity_decode($menus)) > 0)
+        //var_dump(html_entity_decode($menus,ENT_QUOTES));exit;
+        if(file_put_contents($file,html_entity_decode($menus,ENT_QUOTES)) > 0)
         {
             show_msg::success();
         }

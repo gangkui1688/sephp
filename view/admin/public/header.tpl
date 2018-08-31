@@ -36,4 +36,4 @@
     <script src="static/frame/js/bootstrap-editable.js"></script>
 
 </head>
-<body class="gray-bg">
+<body class="gray-bg" style="overflow: hidden;">
