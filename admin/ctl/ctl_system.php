@@ -26,6 +26,7 @@ class ctl_system
      */
     public function menus()
     {
+        p(session::get('admin_info'),pathinfo(NOW_URL));
         $menus = req::item('menus','');
         $file = SEPHP . '../config/menu.xml';
         if(empty($menus))

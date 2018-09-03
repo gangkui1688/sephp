@@ -193,20 +193,4 @@ class Log
         return $result;
     }
 
-    /**
-     * 静态方法调用
-     * @access public
-     * @param  string $method 调用方法
-     * @param  mixed  $args   参数
-     * @return void
-     */
-    public static function __callStatic($method, $args)
-    {
-        if (in_array($method, self::$type)) {
-            array_push($args, $method);
-
-            call_user_func_array('\\think\\Log::record', $args);
-        }
-    }
-
 }

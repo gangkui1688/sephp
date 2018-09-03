@@ -27,13 +27,7 @@
     <script src="static/frame/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="static/frame/js/plugins/validate/messages_zh.min.js"></script>
 
-    <!-- bootstrap-table -->
-    <script src="static/frame/css/plugins/bootstrap-table/src/bootstrap-table.js"></script>
-    <script src="static/frame/js/tableExport.js"></script>
-    <script src="static/frame/css/plugins/bootstrap-table/src/extensions/mobile/bootstrap-table-mobile.js"></script>
-    <script src="static/frame/css/plugins/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>
-    <script src="static/frame/css/plugins/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
-    <script src="static/frame/js/bootstrap-editable.js"></script>
+
 
 </head>
-<body class="gray-bg" style="overflow: hidden;">
+<body class="gray-bg" >

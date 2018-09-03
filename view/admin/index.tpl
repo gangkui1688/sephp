@@ -20,7 +20,7 @@
     <link href="static/frame/css/style.min.css?v=4.0.0" rel="stylesheet">
 </head>
 
-<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<body class="fixed-sidebar full-height-layout gray-bg" >
 <div id="wrapper">
 
     <!--左侧导航开始-->
@@ -52,7 +52,7 @@
 
                         </ul>
                     </div>
-                    <div class="logo-element">H+</div>
+                    <div class="logo-element">SE</div>
                 </li>
             </ul>
         </div>
@@ -68,16 +68,17 @@
                     <ul class="nav navbar-nav top-navigation">
 
                         <{foreach from=$top_menu item=menu }>
-                        <li class="hidden-xs <{if $menu.id == 'systemManagement'}> active <{/if}>"  >
+                        <li class="<{if $menu.id == 'systemManagement'}> active <{/if}>"  >
                             <a aria-expanded="false" role="button" data-id="<{$menu.id}>" >
                                 <i class="<{$menu.icon}>"></i>
-                                <span class="nav-label" ><{$menu.title}></span>
+                                <span class="nav-label visible-lg" style="float: right;" ><{$menu.title}></span>
                             </a>
                         </li>
                         <{/foreach}>
+
                     </ul>
                 </div>
-                <ul class="nav navbar-top-links navbar-right">
+                <ul class="nav navbar-top-links navbar-right hidden-xs	">
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <i class="fa fa-bell"></i> <span class="label label-primary">8</span>
@@ -146,7 +147,8 @@
             <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
         </div>
         <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<{$default_page_url}>" frameborder="0" data-id="<{$default_page_url}>" seamless></iframe>
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<{$default_page_url}>" frameborder="0"
+                    data-id="<{$default_page_url}>" scrolling="autoq" seamless></iframe>
         </div>
         <div class="footer">
             <div class="pull-right">&copy; 2014-2015 <a href="/admin" target="">EZ</a>

@@ -5,10 +5,13 @@ class ctl_public
     //上传方法
     public function upload()
     {
-
-
         
 
+    }
+
+    public function index()
+    {
+        p(session::get(),NOW_URL);
     }
 
 
@@ -47,11 +50,8 @@ class ctl_public
                 ['password','=',$admin_pass],
                 ['status','=',1],
             ];
-            $admin_info = db::select('admin_id')->from('admin_user')->where($where)->as_row()->execute();
-            if($admin_info)
+            if(sys_power::login_check($where))
             {
-                session::set('admin_info',$admin_info);
-                //p(session::get('admin_info'));
                 show_msg::ajax('登陆成功');
             }
             show_msg::ajax('登陆失败,用户名或密码错误','201');
