@@ -9,12 +9,6 @@ class sys_power
      */
     public static $info = [];
 
-    /**
-     * @var int 登陆用户ID
-     */
-    public static $id = 0;
-
-
 
     //权限校验
     public static function check_in($config = [])
@@ -31,8 +25,10 @@ class sys_power
         }
         self::$id = self::$info['admin_id'];
 
-
-
+        if(!in_array('?ct='.CT_NAME.'&ac='.AC_NAME,self::$info['powerlist']))
+        {
+            show_msg::error('抱歉！您无权限查看该页面','?ct=index&ac=index');
+        }
 
     }
 

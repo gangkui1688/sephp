@@ -6,26 +6,37 @@
         <menu name='短信设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='邮件服务器' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='友情链接' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='用户管理' icon='fa fa-user-secret'  default='true' >
-            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+        <menu name='权限管理' icon='fa fa-user-secret'  default='true' >
+            <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+            <menu name='管理员列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
             <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
         </menu>
-        <menu name='站点设置' ct='system' ac='siteconfig' icon='fa fa-cogs' display='none' />
+        <menu name='缓存管理' ct='system' ac='siteconfig' icon='fa fa-cogs' display='none' />
         <menu name='数据库管理'  icon='fa fa-database' display='' >
-            <menu name='数据表' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
             <menu name='数据备份' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
-            <menu name='数据还原' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
         </menu>
+    </menu>
+    <menu name='文章管理' icon='fa fa-user-secret' id='stroeCenter'  >
+        <menu name='文章分类' ct='stroe' ac='index' icon='fa fa-user' display='' />
+        <menu name='文章列表' ct='stroe' ac='catelist' icon='fa fa-users' display='' />
+        <menu name='文章列表' ct='stroe' ac='catelist' icon='fa fa-users' display='' />
     </menu>
     <menu name='商户管理' icon='fa fa-user-secret' id='stroeCenter'  >
         <menu name='商户列表' ct='stroe' ac='index' icon='fa fa-user' display='' />
         <menu name='商户类型' ct='stroe' ac='catelist' icon='fa fa-users' display='' />
     </menu>
-    <menu name='产品管理' icon='fa fa-user-secret' id='productManager'  >
-        <menu name='产品列表' ct='product' ac='index' icon='fa fa-user' display='' />
-        <menu name='分类管理' ct='product' ac='catelist' icon='fa fa-users' display='' />
+    <menu name='商品管理' icon='fa fa-user-secret' id='productManager'  >
+        <menu name='商品列表' ct='product' ac='index' icon='fa fa-user' display='' />
+        <menu name='添加新商品' ct='product' ac='catelist' icon='fa fa-users' display='' />
+        <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
+        <menu name='商品类型' ct='product' ac='labelist' icon='fa fa-users' display='' />
         <menu name='标签管理' ct='product' ac='labelist' icon='fa fa-users' display='' />
+        <menu name='用户晒单' ct='product' ac='labelist' icon='fa fa-users' display='' />
+        <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
+        <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
+        <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
     </menu>
     <menu name='订单管理' icon='fa fa-user-secret' id='orderCenter' >
         <menu name='订单列表' ct='order' ac='index' icon='fa fa-user' display='' />
