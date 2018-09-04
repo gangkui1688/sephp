@@ -1,17 +1,16 @@
 <menus>
     <menu name='系统管理'  icon='fa fa-gears' id='systemManagement' >
         <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='基本设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='短信设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='邮件服务器' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='友情链接' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='用户管理' icon='fa fa-user-secret'  default='true' >
             <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
             <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
         </menu>
-        <menu name='站点设置' ct='system' ac='siteconfig' icon='fa fa-cogs' display='none' />
+        <menu name='资源管理' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+        <menu name='基本设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='短信设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='邮件服务器' ct='system' ac='menus' icon='fa fa-dashboard' />
+        <menu name='友情链接' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='数据库管理'  icon='fa fa-database' display='' >
             <menu name='数据表' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
             <menu name='数据备份' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />

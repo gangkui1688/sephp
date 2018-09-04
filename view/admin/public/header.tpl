@@ -4,10 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EZ</title>
     <meta name="keywords" content="EZ" />
+    <base target="_self" />
     <meta name="description" content="EZ" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link href="static/frame/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
-    <link href="static/frame/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="static/frame/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Morris -->
     <link href="static/frame/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">

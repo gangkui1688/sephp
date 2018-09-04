@@ -23,6 +23,8 @@ class ctl_admin
 
         $pages = pages::instance($count['count'],'10')->show();
 
+        p(NOW_URL);
+
         view::assign('edit_fields_url','?ct=admin&ac=edit_fields');
         view::assign('get_json_list','?ct=admin&ac=userlist_json');
         view::assign('add_url','?ct=admin&ac=adduser');
@@ -103,7 +105,7 @@ class ctl_admin
         }
         if($result !== false)
         {
-            show_msg::success('新增成功','?ct=admin&ac=userlist');
+            show_msg::success('','?ct=admin&ac=userlist');
         }
 
     }

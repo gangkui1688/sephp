@@ -2,6 +2,7 @@
 
 class ctl_system
 {
+    private $_url = '?ct=system&ac=';
 
     public function index()
     {
@@ -21,6 +22,23 @@ class ctl_system
 
     }
 
+    /**
+     * 资源管理
+     */
+    public function file_manager()
+    {
+        $path_file = '';
+
+
+        view::assign('add_url',$this->_url.'add_file');
+        view::display();
+    }
+
+    public function add_file()
+    {
+
+        view::display();
+    }
     /**
      * 菜单配置
      */

@@ -8,23 +8,26 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <div class="col-sm-1 m-b-xs">
-                            <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
-                        </div>
-                        <div class="col-sm-3 m-b-xs">
-                            <select class="input-sm form-control input-s-sm inline">
-                                <option value="0">请选择</option>
-                                <option value="1">选项1</option>
-                                <option value="2">选项2</option>
-                                <option value="3">选项3</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                            <div class="col-sm-1 m-b-xs">
+                                <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
                             </div>
-                        </div>
+                            <form action="<{$_self_url}>" method="get" target="_self" class="form-horizontal" >
+                                <div class="col-sm-2 m-b-xs">
+                                    <select name="status" class="input-sm form-control input-s-sm inline">
+                                        <option value="">状态</option>
+                                        <option value="1">已启用</option>
+                                        <option value="2">已禁用</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="请输入搜索关键词" name="keywords" class="input-sm form-control" value="" />
+                                        <span class="input-group-btn">
+                                                <input type="submit" class="btn btn-sm btn-primary" value="搜索" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example">
@@ -54,7 +57,7 @@
                                                 启用
                                             </a>
                                         <{/if}>
-                                    <a class="btn btn-xs btn-success" href="<{$power_edit_url}>&admin_id=<{$data.admin_id}>">编辑</a>
+                                    <a class="btn btn-xs btn-success" href="<{$edit_url}>&admin_id=<{$data.admin_id}>">编辑</a>
                                 </td>
                             </tr>
                             <{foreachelse}>
@@ -76,3 +79,11 @@
     </div>
 </div>
 <{include file="public/footer.tpl"}>
+<script>
+    $(function () {
+        $('form').submit(function () {
+            //return  false;
+        });
+    })
+    
+</script>
