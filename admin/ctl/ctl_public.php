@@ -160,7 +160,9 @@ class ctl_public
 
     public function index()
     {
-        p(session::get(),NOW_URL);
+        p(session::get(),pathinfo(NOW_URL));
+
+        view::display('test');
     }
 
 
