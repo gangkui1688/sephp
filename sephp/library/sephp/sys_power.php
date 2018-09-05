@@ -23,11 +23,10 @@ class sys_power
         {
             show_msg::error('您还没有登陆',$config['login_url']);
         }
-        self::$id = self::$info['admin_id'];
 
         if(!in_array('?ct='.CT_NAME.'&ac='.AC_NAME,self::$info['powerlist']))
         {
-            show_msg::error('抱歉！您无权限查看该页面','?ct=index&ac=index');
+            //show_msg::error('抱歉！您无权限查看该页面','?ct=index&ac=index');
         }
 
     }

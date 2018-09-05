@@ -36,7 +36,6 @@ class ctl_system
 
     public function add_file()
     {
-
         view::display();
     }
     /**
