@@ -66,6 +66,48 @@ function _make_url($param = [])
     return $url;
 }
 
+/**
+ * 格式化文件大小 单位
+ * @param null $filepath
+ * @return bool|float|int|string
+ */
+function _file_size($size = 0)
+{
+    $arBytes = array(
+        0 => array(
+            "UNIT" => "TB",
+            "VALUE" => pow(1024, 4)
+        ),
+        1 => array(
+            "UNIT" => "GB",
+            "VALUE" => pow(1024, 3)
+        ),
+        2 => array(
+            "UNIT" => "MB",
+            "VALUE" => pow(1024, 2)
+        ),
+        3 => array(
+            "UNIT" => "KB",
+            "VALUE" => 1024
+        ),
+        4 => array(
+            "UNIT" => "B",
+            "VALUE" => 1
+        ),
+    );
+
+    foreach($arBytes as $arItem)
+    {
+        if($size >= $arItem["VALUE"])
+        {
+            $result = $size / $arItem["VALUE"];
+            $result = str_replace(".", "." , strval(round($result, 2)))." ".$arItem["UNIT"];
+            break;
+        }
+    }
+    return $result;
+}
+
 function _shutdown_function($start_time = 0)
 {
     $end_time = microtime(true);

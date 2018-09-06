@@ -27,10 +27,27 @@ class ctl_system
      */
     public function file_manager()
     {
-        $path_file = '';
-
+        clearstatcache();
+        $path_file = WWW_ROOT.'upload/file/';
+        $files = glob($path_file.'*');
+        $list = [];
+        if(!empty($files))
+        {
+            foreach ($files as $k=>$f)
+            {
+                $info = pathinfo($f);
+                $list[$k]['filectime'] = date('Y-m-d',filectime($f));//创建时间
+                $list[$k]['fileatime'] = date('Y-m-d',fileatime($f));//文件上次被访问的时间
+                $list[$k]['filemtime'] = date('Y-m-d',filemtime($f));//文件内容上次的修改时间
+                $list[$k]['name'] = $info['basename'];
+                $list[$k]['size'] = _file_size(filesize($f));
+                $list[$k]['type'] = filetype($f);
+                $list[$k]['fileperms'] = substr(sprintf("%o",fileperms($f)),-4); //文件权限
+            }
+        }
 
         view::assign('add_url',$this->_url.'add_file');
+        view::assign('list',$list);
         view::display();
     }
 

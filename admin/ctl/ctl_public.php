@@ -7,11 +7,8 @@ class ctl_public
     {
         if(!empty($_FILES)){
 
-
+            sys_upload::web_upload();
         }
-
-
-        
 
         view::display('test');
     }

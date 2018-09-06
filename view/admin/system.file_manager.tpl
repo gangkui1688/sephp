@@ -11,38 +11,36 @@
                         <div class="col-sm-1 m-b-xs">
                             <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
                         </div>
-                        <div class="col-sm-3 m-b-xs">
-                            <select class="input-sm form-control input-s-sm inline">
-                                <option value="0">请选择</option>
-                                <option value="1">选项1</option>
-                                <option value="2">选项2</option>
-                                <option value="3">选项3</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                        <form action="<{$_self_url}>" method="ac" class="">
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <tr>
+                                <th>添加时间</th>
                                 <th>名称</th>
-                                <th>备注</th>
-                                <th>操作</th>
+                                <th>大小</th>
+                                <th>类型</th>
+                                <th>上一次访问时间</th>
+                                <th>上一次修改时间</th>
+                                <th>文件权限</th>
                             </tr>
 
                             <{foreach from=$list item=data }>
                             <tr>
-                                <td> <{$data.group_id}> </td>
+                                <td> <{$data.filectime}> </td>
                                 <td> <{$data.name}> </td>
-                                <td><span class="pie"> <{$data.remark}></span></td>
-                                <td>
-                                    <a class="btn btn-xs btn-danger" href="<{$edit_url}>&group_id=<{$data.group_id}>">信息编辑</a>
-                                    <a class="btn btn-xs btn-success" href="<{$power_edit_url}>&group_id=<{$data.group_id}>">权限编辑</a>
-                                </td>
+                                <td> <{$data.size}> </td>
+                                <td> <{$data.type}> </td>
+                                <td> <{$data.fileatime}> </td>
+                                <td> <{$data.filemtime}> </td>
+                                <td> <{$data.fileperms}> </td>
                             </tr>
                             <{foreachelse}>
 

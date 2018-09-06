@@ -51,9 +51,9 @@ class File
             if (in_array($type, $this->config['apart_level'])) {
                 // 独立记录的日志级别
                 if ($this->config['single']) {
-                    $filename = $path . DS . $type . '.log';
+                    $filename = $path . $type . '.log';
                 } else {
-                    $filename = $path . DS . date('d') . '_' . $type . $cli . '.log';
+                    $filename = $path . date('d') . '_' . $type  . '.log';
                 }
                 $this->write($level, $filename, true);
             } else {
@@ -70,7 +70,7 @@ class File
     {
         //检测日志文件大小，超过配置大小则备份日志文件重新生成
         if (is_file($destination) && floor($this->config['file_size']) <= filesize($destination)) {
-            rename($destination, dirname($destination) . DS . time() . '-' . basename($destination));
+            rename($destination, dirname($destination) . time() . '-' . basename($destination));
             $this->writed[$destination] = false;
         }
 
@@ -86,7 +86,7 @@ class File
                 $runtime    = round(microtime(true) - SE_START_TIME, 10);
                 $reqs       = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
                 $time_str   = ' [运行时间：' . number_format($runtime, 6) . 's][吞吐率：' . $reqs . 'req/s]';
-                $memory_use = number_format((memory_get_usage() - SE_START_TIME) / 1024, 2);
+                $memory_use = _file_size((memory_get_usage() - SE_START_TIME) / 1024, 2);
                 $memory_str = ' [内存消耗：' . $memory_use . 'kb]';
                 $file_load  = ' [文件加载：' . count(get_included_files()) . ']';
 

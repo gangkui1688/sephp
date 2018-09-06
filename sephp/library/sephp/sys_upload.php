@@ -39,18 +39,17 @@ class sys_upload
         $md5File = @file('md5list2.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $md5File = $md5File ? $md5File : array();
 
-        if (isset($_REQUEST["md5"]) && array_search($_REQUEST["md5"], $md5File ) !== FALSE ) {
+        if (isset(req::$forms["md5"]) && array_search(req::$forms["md5"], $md5File ) !== FALSE ) {
             die('{"jsonrpc" : "2.0", "result" : null, "id" : "id", "exist": 1}');
         }
 
         $filePath = $targetDir . '/' . $fileName;
         $uploadPath = $uploadDir . '/' . $fileName;
 
-        $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
-        $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
+        $chunk = isset(req::$forms["chunk"]) ? intval(req::$forms["chunk"]) : 0;
+        $chunks = isset(req::$forms["chunks"]) ? intval(req::$forms["chunks"]) : 0;
 
 
-        var_dump($_REQUEST,req::$posts,req::$gets,req::$forms);exit;
         if ($cleanupTargetDir) {
             if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
                 die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
