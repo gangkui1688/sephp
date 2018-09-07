@@ -105,7 +105,7 @@ function _file_size($size = 0)
             break;
         }
     }
-    return $result;
+    return empty($result) ? $size : $result;
 }
 
 function _shutdown_function($start_time = 0)
@@ -115,4 +115,60 @@ function _shutdown_function($start_time = 0)
 
     log::write('--the opcode end--');
     log::save();
+}
+
+function _get_unique_id($machineId = 0)
+{
+    $epoch = 1479533469598;
+    $max12bit = 4095;
+    $max41bit = 1099511627775;
+    $pid = getmypid();
+    /*
+    * Time - 42 bits
+    */
+    $time = floor(microtime(true) * 1000);
+
+    /*
+    * Substract custom epoch from current time
+    */
+
+    /*
+    * Create a base and add time to it
+    */
+    $base = decbin($time - $epoch + $max41bit);
+
+
+    /*
+    * Configured machine id - 10 bits - up to 1024 machines
+    */
+    $machineid = str_pad(decbin($machineId), 10, "0", STR_PAD_LEFT);
+
+
+    /*
+    * sequence number - 12 bits - up to 4096 random numbers per machine
+    */
+    $random = str_pad(decbin(mt_rand(0, $max12bit)), 12, "0", STR_PAD_LEFT);
+
+    /*
+     * pid number
+     */
+    $pid = str_pad(decbin(getmypid()), 12, "0", STR_PAD_LEFT);
+
+    /*
+    * Pack
+    */
+    $base = $base.$machineid.$random;
+
+    /*
+    * Return unique time id no
+    */
+    return bindec($base);
+
+}
+
+function _timeFromParticle($particle = 0) {
+    /*
+    * Return time
+    */
+   return bindec(substr(decbin($particle),0,41));
 }

@@ -34,6 +34,7 @@ class sys_upload
             @mkdir($uploadDir,'0777',true);
         }
 
+        var_dump(req::$forms);exit;
         $fileName = uniqid(date('ymd').'_',true);
 
         $md5File = @file('md5list2.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -71,7 +72,6 @@ class sys_upload
             closedir($dir);
         }
 
-// Open temp file
         if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
             die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
         }

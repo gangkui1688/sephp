@@ -8,17 +8,32 @@ class show_msg
 
     /**
      * 重定向
+     * @param string $url
      */
-    public static function redirect()
+    public static function redirect($url = '')
     {
-
+        $url = empty($url) ? WWW_URL : $url;
+        header('Location: '.$url);
     }
 
-    public static function ajax($msg,$code = 200)
+    /**
+     * ajax 放回格式。
+     * @param $msg  返回提示消息
+     * @param int $code 返回错误状态号 200，400
+     * @param string $data
+     */
+    public static function ajax($msg,$code = 200,$data = '')
     {
-        echo json_encode(['code'=>$code,'msg'=>$msg],JSON_UNESCAPED_UNICODE);//支持中文字符
-        exit;
+
+        http_response_code($code);
+        $data = [
+            'code'  =>  $code,
+            'msg'   =>  $msg,
+            'data'  =>  $data
+        ];
+        exit(json_encode($data,JSON_UNESCAPED_UNICODE));
     }
+
 
     public static function success($message = '',$url = '',$time = '',$title = '')
     {

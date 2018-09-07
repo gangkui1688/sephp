@@ -29,7 +29,8 @@
                                 <th>类型</th>
                                 <th>上一次访问时间</th>
                                 <th>上一次修改时间</th>
-                                <th>文件权限</th>
+                                <!--th>文件权限</th-->
+                                <th>操作</th>
                             </tr>
 
                             <{foreach from=$list item=data }>
@@ -39,8 +40,9 @@
                                 <td> <{$data.size}> </td>
                                 <td> <{$data.type}> </td>
                                 <td> <{$data.fileatime}> </td>
-                                <td> <{$data.filemtime}> </td>
-                                <td> <{$data.fileperms}> </td>
+                                <td> <{$data.fileatime}> </td>
+                                <!--td> <{$data.fileprem}> </td-->
+                                <td> <a href="javascript:;" class="btn btn-primary btn-xs"><i class="fa fa-copy"></i>复制地址</a> </td>
                             </tr>
                             <{foreachelse}>
 

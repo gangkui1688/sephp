@@ -97,7 +97,7 @@ class start
         define('CT_NAME',self::$_ct);
         self::$_now_url =  $_SERVER['REQUEST_URI'];
         define('NOW_URL',self::$_now_url);
-        define('WWW_URL','http://'.$_SERVER['SERVER_NAME']);
+        define('WWW_URL','http://'.$_SERVER['SERVER_NAME'].'/'.APP_NAME);
 
     }
 }
