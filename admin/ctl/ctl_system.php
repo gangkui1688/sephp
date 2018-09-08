@@ -54,7 +54,7 @@ class ctl_system
     public function add_file()
     {
         //var_dump($_SERVER,req::$forms);
-        p($ab = _get_unique_id(),'<hr>',date('Y-m-d H:i:s',round(_timeFromParticle($ab)) / 1000));
+        p($ab = sys_create::generateParticle(),'<hr>',date('Y-m-d H:i:s',round(sys_create::timeFromParticle($ab)) / 1000));
         view::display();
     }
     /**

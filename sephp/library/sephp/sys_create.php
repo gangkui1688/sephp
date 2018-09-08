@@ -1,66 +1,133 @@
 <?php
-class sys_create {
+/***
+ * Author：阿远
+ * Class SnowflakeIdWorker
+ */
+class sys_create{
 
-    const EPOCH = 1479533469598;
-    const max12bit = 4095;
-    const max41bit = 1099511627775;
+    /** 开始时间截 (2018-01-01) */
+    const twepoch = 1514736000000;
 
-    static $last_time = null;
-    static $machineId = null;
+    /** 机器id所占的位数 */
+    const workerIdBits = 10;
 
-    public static function machineId($mId = 0) {
-        self::$machineId = $mId;
+    //支持的最大机器id，结果是1023 (这个移位算法可以很快的计算出几位二进制数所能表示的最大十进制数)
+    const maxWorkerId = (-1 ^ (-1 << self::workerIdBits));
+
+    //序列在id中占的位数
+    const sequenceBits = 12;
+
+    //机器ID向左移12位
+    const workerIdShift = self::sequenceBits;
+
+    //时间截向左移22位(10+12)
+    const timestampLeftShift = self::workerIdBits  + self::sequenceBits;
+
+    //序列号值的最大值，这里为4095 (0b111111111111=0xfff=4095)
+    const sequenceMask = (-1 ^ (-1 << self::sequenceBits));
+
+    //工作机器ID(0~1023)：默认0
+    private $workerId = 0;
+
+    //毫秒内序列(0~4095)：标识符，常驻内存
+    static $sequence = 0 ;
+
+    //上次生成ID的时间截
+    static $lastTimestamp = -1;
+
+    static $instance = null;
+
+    public function instance($workerId  = 1)
+    {
+        if(empty(self::$instance))
+        {
+            self::$instance = new self($workerId);
+        }
+        return self::$instance;
     }
+    /***
+     * 构造函数：设置当前机器id
+     * SnowflakeIdWorker constructor.
+     * @param $workerId
+     */
+    public function __construct($workerId = 1)
+    {
+        //转换类型
+        $workerId = (int) $workerId;
 
-    public static function generateParticle() {
-
-        //如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
-
-        /*
-        * Time - 42 bits
-        */
-        $time = floor(microtime(true) * 1000);
-
-        /*
-        * Substract custom epoch from current time
-        */
-        $time -= self::EPOCH;
-
-        /*
-        * Create a base and add time to it
-        */
-        $base = decbin(self::max41bit + $time);
-
-
-        /*
-        * Configured machine id - 10 bits - up to 1024 machines
-        */
-        if(!self::$machineId) {
-            $machineid = self::$machineId;
-        } else {
-            $machineid = str_pad(decbin(self::$machineId), 10, "0", STR_PAD_LEFT);
+        //判断参数合法性
+        if($workerId < 0 || $workerId > self::maxWorkerId){
+            exceptions::throw_debug('支持的最大机器1023，$workerId：'.$workerId,debug_backtrace(),'workerId error');
         }
 
-        /*
-        * sequence number - 12 bits - up to 4096 random numbers per machine
-        */
-        $random = str_pad(decbin(mt_rand(0, self::max12bit)), 12, "0", STR_PAD_LEFT);
-
-        /*
-        * Pack
-        */
-        $base = $base.$machineid.$random;
-
-        /*
-        * Return unique time id no
-        */
-        return bindec($base);
+        //设置当前机器id
+        $this->workerId = $workerId;
     }
 
-    public static function timeFromParticle($particle) {
-        /*
-        * Return time
-        */
-        return bindec(substr(decbin($particle),0,41)) - self::max41bit + self::EPOCH;
+
+    public function nextId(){
+        //获取当前毫秒时间戳
+        $timestamp = $this->timeGen();
+        //获取上一次生成id时的毫秒时间戳
+        $lastTimestamp = self::$lastTimestamp;
+
+        //如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
+        if($timestamp < $lastTimestamp){
+            exceptions::throw_debug('如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过',debug_backtrace(),'系统时钟错误');
+        }
+
+        //如果是同一毫秒内生成的，则进行毫秒序列化
+        if($timestamp == $lastTimestamp){
+            //获取当前序列号值
+            self::$sequence = (self::$sequence + 1) & self::sequenceMask;
+            //毫秒序列化值溢出（就是超过了4095）
+            if(self::$sequence == 0){
+                //阻塞到下一秒，获得新的时间戳
+                $timestamp = $this->tilNextMillis($lastTimestamp);
+            }
+        }
+        //如果不是同一毫秒，那么重置毫秒序列化值
+        else{
+            self::$sequence = 0;
+        }
+
+        //重置上一次生成的时间戳
+        self::$lastTimestamp = $timestamp;
+
+        //移位并通过或运算拼到一起组成64位的ID
+        return
+            //时间戳左移 22 位
+            (($timestamp - self::twepoch) << self::timestampLeftShift) |
+            //机器id左移 12 位
+            ($this->workerId << self::workerIdShift) |
+            //或运算序列号值
+            self::$sequence;
     }
+
+    /****
+     * 阻塞到下一个毫秒，直到获得新的时间戳
+     * @param $lastTimestamp 上次生成ID的时间截
+     * @return float 当前毫秒时间戳
+     */
+    private function tilNextMillis($lastTimestamp){
+        //重新获取当前时间戳
+        $timestamp = $this->timeGen();
+        //如果等于上一次获取的时间戳，仍然重新获取
+        while($timestamp <= $lastTimestamp){
+            $timestamp = $this->timeGen();
+        }
+        //返回新的时间戳
+        return $timestamp;
+    }
+
+
+    /***
+     * 返回当前毫秒时间戳
+     * @return float
+     */
+    private function timeGen(){
+        return  (float)sprintf("%.0f", microtime(true) * 1000);
+    }
+
 }
+
