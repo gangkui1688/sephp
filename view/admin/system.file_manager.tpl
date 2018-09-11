@@ -4,7 +4,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>自定义响应式表格</h5>
+                    <h5>文件列表</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="row">
@@ -15,7 +15,7 @@
                             <div class="col-sm-3">
                                 <div class="input-group">
                                     <input type="text" placeholder="请输入关键词" name="keywords" class="input-sm form-control"
-                                           value="<{$smarty.request.keyword}>" />
+                                           value="<{$keywords}>" />
                                     <span class="input-group-btn">
                                             <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
                                     </span>

@@ -33,6 +33,7 @@ class ctl_system
      */
     public function file_manager()
     {
+        view::assign('keywords',req::item('keywords',''));
         clearstatcache();
         $path_file = WWW_ROOT.'upload/file/';
         $files = glob($path_file.'*');

@@ -10,21 +10,42 @@ class ctl_admin
 
     public function userlist()
     {
-        $count = db::select('COUNT(admin_id) as count')
-            ->from($this->_admin_table)
-            ->as_row()
-            ->execute();
-        $data = db::select('*')
-            ->from($this->_admin_table)
-            ->offset(req::item('offset',0))
+        $where = [];
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+        if(!empty($keywords))
+        {
+            $where[] = ['username','like',"%{$keywords}%"];
+        }
+        $status = req::item('status',0);
+        view::assign('status',$status);
+        if(!empty($status))
+        {
+            $where[] = ['status','=',$status];
+        }
+        var_dump($where);
+        $query = db::select('COUNT(admin_id) as count')
+            ->from($this->_admin_table);
+        if($where)
+        {
+            $query->where($where);
+        }
+            $count = $query->as_row()->execute();
+        $query = db::select('*')
+            ->from($this->_admin_table);
+        if($where)
+        {
+            $query->where($where);
+        }
+        $data = $query->offset(req::item('offset',0))
             ->limit(req::item('limit',10))
             ->order_by($this->_admin_id,'desc')
             ->execute();
 
         $pages = pages::instance($count['count'],'10')->show();
 
-        p(NOW_URL);
-
+        p($_SERVER);
+        setcookie('userlist_url',$_SERVER);
         view::assign('edit_fields_url','?ct=admin&ac=edit_fields');
         view::assign('get_json_list','?ct=admin&ac=userlist_json');
         view::assign('add_url','?ct=admin&ac=adduser');
@@ -105,7 +126,7 @@ class ctl_admin
         }
         if($result !== false)
         {
-            show_msg::success('','?ct=admin&ac=userlist');
+            show_msg::success('',req::cookie('userlist_url'));
         }
 
     }

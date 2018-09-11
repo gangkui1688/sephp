@@ -11,17 +11,17 @@
                             <div class="col-sm-1 m-b-xs">
                                 <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
                             </div>
-                            <form action="<{$_self_url}>" method="get" target="_self" class="form-horizontal" >
-                                <div class="col-sm-2 m-b-xs">
+                            <form action="<{$_self_url}>" method="post" target="_self" class="form-horizontal" >
+                                <div class="col-sm-1 m-b-xs">
                                     <select name="status" class="input-sm form-control input-s-sm inline">
-                                        <option value="">状态</option>
-                                        <option value="1">已启用</option>
-                                        <option value="2">已禁用</option>
+                                        <option value="" >状态</option>
+                                        <option value="1" <{if $status == 1}>selected<{/if}> >已启用</option>
+                                        <option value="2" <{if $status == 2}>selected<{/if}> >已禁用</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="input-group">
-                                        <input type="text" placeholder="请输入搜索关键词" name="keywords" class="input-sm form-control" value="" />
+                                        <input type="text" placeholder="请输入搜索关键词" name="keywords" class="input-sm form-control" value="<{$keywords}>" />
                                         <span class="input-group-btn">
                                                 <input type="submit" class="btn btn-sm btn-primary" value="搜索" />
                                         </span>
