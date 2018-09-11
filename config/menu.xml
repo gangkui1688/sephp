@@ -6,7 +6,7 @@
             <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
         </menu>
         <menu name='资源管理' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
-        <menu name='基本设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
         <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='短信设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='邮件服务器' ct='system' ac='menus' icon='fa fa-dashboard' />

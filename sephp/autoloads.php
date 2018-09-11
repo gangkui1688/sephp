@@ -59,46 +59,6 @@ class autoloads
 
     }
 
-    /**
-     * 注册 composer 自动加载
-     * @access private
-     * @return void
-     */
-    private static function registerComposerLoader()
-    {
-        if (is_file(VENDOR_PATH . 'composer/autoload_namespaces.php')) {
-            $map = require VENDOR_PATH . 'composer/autoload_namespaces.php';
-            foreach ($map as $namespace => $path) {
-                self::addPsr0($namespace, $path);
-            }
-        }
-
-        if (is_file(VENDOR_PATH . 'composer/autoload_psr4.php')) {
-            $map = require VENDOR_PATH . 'composer/autoload_psr4.php';
-            foreach ($map as $namespace => $path) {
-                self::addPsr4($namespace, $path);
-            }
-        }
-
-        if (is_file(VENDOR_PATH . 'composer/autoload_classmap.php')) {
-            $classMap = require VENDOR_PATH . 'composer/autoload_classmap.php';
-            if ($classMap) {
-                self::addClassMap($classMap);
-            }
-
-        }
-
-        if (is_file(VENDOR_PATH . 'composer/autoload_files.php')) {
-            $includeFiles = require VENDOR_PATH . 'composer/autoload_files.php';
-            foreach ($includeFiles as $fileIdentifier => $file) {
-                if (empty(self::$autoloadFiles[$fileIdentifier])) {
-                    __require_file($file);
-                    self::$autoloadFiles[$fileIdentifier] = true;
-                }
-            }
-        }
-    }
-
 
     /**
      * 实例化（分层）控制器 格式：[模块名/]控制器名
@@ -179,6 +139,11 @@ class autoloads
      */
     protected static function getModuleAndClass($name)
     {
+        if(file_exists($name.'php'))
+        {
+            require self::$autoloadFiles;
+            return true;
+        }
         $prefix = substr($name,0,4);
         switch ($prefix)
         {
@@ -199,7 +164,7 @@ class autoloads
         }
         else
         {
-            require $name.'.php';
+            return false;
         }
 
 

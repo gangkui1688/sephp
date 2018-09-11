@@ -45,6 +45,7 @@ class view
         self::instance()->assign('_self_url', '?ct='.CT_NAME.'&ac='.AC_NAME);
         self::instance()->assign('_ct_name', CT_NAME);
         self::instance()->assign('_ac_name', AC_NAME);
+        self::instance()->assign('_forms', req::$forms);
         self::instance()->assign('clear_cache', '?' . time());
     }
 

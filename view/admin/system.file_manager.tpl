@@ -11,11 +11,14 @@
                         <div class="col-sm-1 m-b-xs">
                             <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
                         </div>
-                        <form action="<{$_self_url}>" method="ac" class="">
+                        <form action="<{$_self_url}>" method="post"  class="form-horizontal">
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                    <input type="text" placeholder="请输入关键词" name="keywords" class="input-sm form-control"
+                                           value="<{$smarty.request.keyword}>" />
+                                    <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
+                                    </span>
                                 </div>
                             </div>
                         </form>

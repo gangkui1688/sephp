@@ -2,7 +2,13 @@
 
 class ctl_system
 {
-    private $_url = '?ct=system&ac=';
+    protected $_url = '?ct=system&ac=';
+
+    public function __construct()
+    {
+        $back_url = req::item('back_url','javascript:history.go(-1);');
+        view::assign('back_url',$back_url);
+    }
 
     public function index()
     {
@@ -54,7 +60,14 @@ class ctl_system
     public function add_file()
     {
         //var_dump($_SERVER,req::$forms);
-        p($ab = sys_create::generateParticle(),'<hr>',date('Y-m-d H:i:s',round(sys_create::timeFromParticle($ab)) / 1000));
+        view::display();
+    }
+
+    public function baise_config()
+    {
+        view::assign('clear_view_cache_url',$this->_url.'clear_view_cache');
+        view::assign('clear_static_page_url',$this->_url.'clear_static_page');
+
         view::display();
     }
     /**
@@ -62,7 +75,7 @@ class ctl_system
      */
     public function menus()
     {
-        p(session::get('admin_info'),pathinfo(NOW_URL));
+        //p(session::get('admin_info'),pathinfo(NOW_URL));
         $menus = req::item('menus','');
         $file = SEPHP . '../config/menu.xml';
         if(empty($menus))
@@ -77,6 +90,32 @@ class ctl_system
             show_msg::success();
         }
         show_msg::error();
+    }
 
+    public function clear_static_page()
+    {
+        show_msg::success('','-1');
+    }
+
+    public function clear_view_cache()
+    {
+        $dir = SE_RUNTIME.'compile/';
+        if(!file_exists($dir))
+        {
+            show_msg::success('','-1');
+        }
+        $file = glob($dir.'*');
+        if(empty($file))
+        {
+            show_msg::success('','-1');
+        }
+        foreach ($file as $path)
+        {
+            if(!unlink($path))
+            {
+                show_msg::error('','-1');
+            }
+        }
+        show_msg::success('','-1');
     }
 }

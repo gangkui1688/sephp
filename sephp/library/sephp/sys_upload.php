@@ -16,8 +16,8 @@ class sys_upload
             header("HTTP/1.0 500 Method Type Error");
             exit();
         }
-
-        @set_time_limit(5 * 60);
+        //PHP执行时间五分钟
+        @set_time_limit(300);
 
         $targetDir = WWW_ROOT.'upload/temp';
         $uploadDir = WWW_ROOT.'upload/file';
@@ -34,8 +34,9 @@ class sys_upload
             @mkdir($uploadDir,'0777',true);
         }
 
-        var_dump(req::$forms);exit;
-        $fileName = uniqid(date('ymd').'_',true);
+        $paths = pathinfo(req::$forms['name']);
+        $result['realname'] = req::$forms['name'];
+        $fileName = uniqid(date('ymd').'_',true) . '.' . $paths['extension'];
 
         $md5File = @file('md5list2.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $md5File = $md5File ? $md5File : array();
