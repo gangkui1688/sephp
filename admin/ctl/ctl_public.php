@@ -27,8 +27,8 @@ class ctl_public
     public function verify()
     {
         $config = [
-            'length' => 4,
-            'expire' => 300,
+            'length' => req::item('length',4),
+            'expire' => req::item('expire',300),
         ];
         echo verifiy_code::instance($config)->show();
     }
@@ -48,7 +48,7 @@ class ctl_public
         {
             if($GLOBALS['config']['web']['verify_open'] && !verifiy_code::instance()->check(req::$posts['verify']))
             {
-                show_msg::ajax('验证码错误','201');
+                show_msg::error('验证码错误');
             }
 
             $admin_user = req::$posts['username'];
@@ -58,13 +58,14 @@ class ctl_public
                 ['password','=',$admin_pass],
                 ['status','=',1],
             ];
-            if(sys_power::login_check($where))
+            if(sys_power::instanc()->login_check($where))
             {
-                show_msg::ajax('登陆成功');
+                show_msg::success('登陆成功','?ct=index&ac=index');
             }
-            show_msg::ajax('登陆失败,用户名或密码错误','201');
+            show_msg::error('登陆失败,用户名或密码错误');
         }
 
+        view::assign('verify_url','?ct=public&ac=verify&length=7');
         view::display('system/login');
     }
 }

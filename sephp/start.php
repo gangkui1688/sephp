@@ -25,7 +25,6 @@ define('SE_RUNTIME',__DIR__.'/../runtime/');
 include_once SEPHP . 'sys_function.php';
 include_once SEPHP . 'autoloads.php';
 
-
 class start
 {
     public static $_instance = null;
@@ -33,9 +32,10 @@ class start
     public static $_ct = '';
     public static $_ac = '';
 
-    public function __construct($config = '')
+    public function __construct($_authority = [])
     {
         $GLOBALS['config'] = include(WWW_ROOT . '/config/config.php');
+        $GLOBALS['config']['_authority'] = $_authority;
         //自动注册类库
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获
@@ -45,11 +45,11 @@ class start
         //注册一个会在php中止时执行的函数
         register_shutdown_function('_shutdown_function',['_start_time'=>SE_START_TIME]);
         $this->_get_ap_ct_ac();
-
-        //权限控制
-        sys_power::check_in($config);
-
+        //GET.POST.COOKIE 参数过滤
         req::init();
+        //权限控制
+        sys_power::instanc()->check_in();
+        //执行方法
         $this->run();
     }
 

@@ -1,44 +1,63 @@
 <!DOCTYPE html>
-<html class="loginHtml">
+<html>
+
 <head>
+
     <meta charset="utf-8">
-    <title>登录2.0</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="static/iframe/layui/css/layui.css" media="all" />
-    <link rel="stylesheet" href="static/iframe/css/public.css" media="all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 登录</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="static/frame/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="static/frame/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+
+    <link href="static/frame/css/animate.min.css" rel="stylesheet">
+    <link href="static/frame/css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
+    <!--[if lt IE 8]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
 </head>
-<body class="loginBody">
-<form class="layui-form">
-    <div class="login_face"><img src="static/iframe/images/face.jpg" class="userAvatar"></div>
-    <div class="layui-form-item input-item">
-        <label for="userName">用户名</label>
-        <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required">
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+
+            <h1 class="logo-name"><i class="fa fa-windows"></i></h1>
+
+        </div>
+        <!--h3>欢迎使用 H+</h3-->
+
+        <form class="m-t" method="post"  role="form" action="<{$_self_url}>">
+            <div class="form-group">
+                <input type="text" class="form-control" name="username" placeholder="用户名" required="" />
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" name="password" placeholder="密码" required="" />
+            </div>
+            <div class="form-group">
+                <img style="width:100%;max-height: 38px;" src="<{$verify_url}>" onclick="this.src=this.src + '&time=' + Math.random()" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="verify" class="form-control" placeholder="验证码" required="" />
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+
+            <!--p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>
+            </p-->
+
+        </form>
     </div>
-    <div class="layui-form-item input-item">
-        <label for="password">密码</label>
-        <input type="password" name="password" placeholder="请输入密码" autocomplete="off" id="password" class="layui-input" lay-verify="required">
-    </div>
-    <div class="layui-form-item input-item" id="imgCode">
-        <label for="code">验证码</label>
-        <input type="text" name="verify" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
-        <img id="img-verify" src="?ct=public&ac=verify" onclick="this.src='?ct=public&ac=verify&time='+Math.random();">
-    </div>
-    <div class="layui-form-item">
-        <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
-    </div>
-    <div class="layui-form-item layui-row">
-        <a href="javascript:;" class="seraph icon-qq layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
-        <a href="javascript:;" class="seraph icon-wechat layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
-        <a href="javascript:;" class="seraph icon-sina layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
-    </div>
-</form>
-<script type="text/javascript" src="static/iframe/layui/layui.js"></script>
-<script type="text/javascript" src="static/iframe/js/login.js"></script>
-<script type="text/javascript" src="static/iframe/js/cache.js"></script>
+</div>
+<script src="static/frame/js/jquery.min.js?v=2.1.4"></script>
+<script src="static/frame/js/bootstrap.min.js?v=3.3.5"></script>
+
 </body>
+
 </html>

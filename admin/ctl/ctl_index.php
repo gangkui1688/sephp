@@ -20,6 +20,8 @@ class ctl_index
 
         view::assign('default_page_url','?ct=index&ac=home');
 
+        view::assign('logout_url','?ct=public&ac=logout');
+        view::assign('login_url',$GLOBALS['_authority']['login_url']);
         view::display('index');
     }
 

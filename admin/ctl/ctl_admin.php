@@ -23,7 +23,6 @@ class ctl_admin
         {
             $where[] = ['status','=',$status];
         }
-        var_dump($where);
         $query = db::select('COUNT(admin_id) as count')
             ->from($this->_admin_table);
         if($where)
@@ -43,9 +42,8 @@ class ctl_admin
             ->execute();
 
         $pages = pages::instance($count['count'],'10')->show();
+        setcookie('userlist_url',NOW_URL);
 
-        p($_SERVER);
-        setcookie('userlist_url',$_SERVER);
         view::assign('edit_fields_url','?ct=admin&ac=edit_fields');
         view::assign('get_json_list','?ct=admin&ac=userlist_json');
         view::assign('add_url','?ct=admin&ac=adduser');
@@ -126,7 +124,7 @@ class ctl_admin
         }
         if($result !== false)
         {
-            show_msg::success('',req::cookie('userlist_url'));
+            show_msg::success('',req::cookie('userlist_url','?ct=admin&ac=userlist'));
         }
 
     }

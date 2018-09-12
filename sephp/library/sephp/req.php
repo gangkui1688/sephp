@@ -70,6 +70,7 @@ class req
 
         self::$gets  = self::_to_param('get');
         self::$posts = self::_to_param('post');
+        self::$cookies = self::_to_param('cookie');
         self::_to_param('cookie');
 
 
@@ -120,7 +121,7 @@ class req
         }
         else
         {
-            filter::filter_execute(self::$forms[$formname], $filter_type, self::$throw_error);
+            //filter::filter_execute(self::$forms[$formname], $filter_type, self::$throw_error);
             return self::$forms[$formname];
         }
     }
@@ -136,7 +137,6 @@ class req
         }
         else
         {
-            pub_filter::filter_execute(self::$gets[$formname], $filter_type, self::$throw_error);
             return self::$gets[$formname];
         }
     }
@@ -152,7 +152,6 @@ class req
         }
         else
         {
-            pub_filter::filter_execute(self::$posts[$formname], $filter_type, self::$throw_error);
             return self::$posts[$formname];
         }
     }
@@ -168,7 +167,6 @@ class req
         }
         else
         {
-            pub_filter::filter_execute(self::$cookies[$key], $filter_type, self::$throw_error);
             return self::$cookies[$key];
         }
     }
@@ -452,6 +450,7 @@ class req
 
     private static function _to_param($param_type)
     {
+        unset($_REQUEST);
         switch ($param_type)
         {
             case 'get':
@@ -464,7 +463,7 @@ class req
                 break;
             case 'cookie':
                 self::$cookies = $_COOKIE;
-                unset($_COOKIE);
+                //unset($_COOKIE);
                 return true;
         }
 
