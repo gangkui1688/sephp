@@ -11,26 +11,25 @@
                         <div class="col-sm-1 m-b-xs">
                             <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
                         </div>
-                        <div class="col-sm-3 m-b-xs">
-                            <select class="input-sm form-control input-s-sm inline">
-                                <option value="0">请选择</option>
-                                <option value="1">选项1</option>
-                                <option value="2">选项2</option>
-                                <option value="3">选项3</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <input type="text" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
-                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                        <form action="<{$_self_url}>" method="get" class="form-horizontal" >
+                            <input name="ac" type="hidden" value="<{$_ac_name}>" />
+                            <input name="ct" type="hidden" value="<{$_ct_name}>" />
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" placeholder="请输入关键词" name="keywords" class="input-sm form-control" value="<{$keywords}>">
+                                    <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-sm btn-primary"> 搜索</button>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <tr>
                                 <th>ID</th>
                                 <th>名称</th>
+                                <th>状态</th>
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
@@ -39,6 +38,7 @@
                             <tr>
                                 <td> <{$data.group_id}> </td>
                                 <td> <{$data.name}> </td>
+                                <td> <{if $data.status == 1}>已启用<{else}>已禁用<{/if}> </td>
                                 <td><span class="pie"> <{$data.remark}></span></td>
                                 <td>
                                     <a class="btn btn-xs btn-danger" href="<{$edit_url}>&group_id=<{$data.group_id}>">信息编辑</a>

@@ -6,13 +6,10 @@ class ctl_public
     public function upload()
     {
         if(!empty($_FILES)){
-
             sys_upload::web_upload();
         }
-
-        view::display('test');
+        show_msg::redirect('?ct=index&ac=index');
     }
-
 
 
     public function index()

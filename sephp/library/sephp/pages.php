@@ -136,6 +136,7 @@ class pages{
             array('%HEADER%', '%NOW_PAGE%', '%UP_PAGE%', '%DOWN_PAGE%', '%FIRST%', '%LINK_PAGE%', '%END%', '%TOTAL_ROW%', '%TOTAL_PAGE%'),
             array($this->config['header'], $this->nowPage, $up_page, $down_page, $the_first, $link_page, $the_end, $this->totalRows, $this->totalPages),
             $this->config['theme']);
-        return "<div class='btn-group' id='pages'>{$page_str}</div>";
+        $page_select = "<select name='page_num' class='btn btn-white' id='page-select'><option value='5'>5</option><option value='10'>10</option><option value='20'>20</option></select>";
+        return "<div class='btn-group' id='pages'>{$page_select}{$page_str}</div>";
     }
 }

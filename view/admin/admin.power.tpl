@@ -4,7 +4,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>编辑【<{$data.name}>】权限 <small></small></h5>
+                    <h5>编辑【<{$data.name}>】的权限 <small></small></h5>
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal m-t validate"  method="post" action="<{$_self_url}>" id="signupForm" >
@@ -13,8 +13,8 @@
                         <div class="form-group radio">
                             <label class="col-sm-2 control-label">
                                 <{$p.title}><input class="<{$p.id}>"
-                                <{if !empty($p.href) && in_array($p.href,$data.powerlist)}>checked="checked"<{/if}>
-                                <{if !empty($p.id) && in_array($p.id,$data.powerlist)}>checked="checked"<{/if}>
+                                <{if !empty($p.href) && !empty($data.powerlist) && in_array($p.href,$data.powerlist)}>checked="checked"<{/if}>
+                                <{if !empty($p.id) && !empty($data.powerlist) && in_array($p.id,$data.powerlist)}>checked="checked"<{/if}>
                                                    value="<{if empty($p.href)}><{$p.id}><{else}><{$p.href}><{/if}>"
                                                    id="<{$p.id}>" name="power[]" style="margin-left:6px;margin-top: 2px;" type="checkbox" />:
                             </label>
@@ -24,8 +24,8 @@
                                     <label class="checkbox-inline i-checks">
                                         <input style="margin-top: 2px;"
                                                value="<{if empty($p_second.href)}><{$p_second.id}><{else}><{$p_second.href}><{/if}>"
-                                        <{if !empty($p_second.href) && in_array($p_second.href,$data.powerlist)}>checked="checked"<{/if}>
-                                        <{if !empty($p_second.id) && in_array($p_second.id,$data.powerlist)}>checked="checked"<{/if}>
+                                        <{if !empty($p_second.href) && !empty($data.powerlist) && in_array($p_second.href,$data.powerlist)}>checked="checked"<{/if}>
+                                        <{if !empty($p_second.id) && !empty($data.powerlist) && in_array($p_second.id,$data.powerlist)}>checked="checked"<{/if}>
                                         id="<{$p_second.id}>" class="<{$p.id}> <{$p_second.id}>" type="checkbox"
                                         name="power[]"  /><{$p_second.title}> :
                                     </label>
@@ -33,7 +33,7 @@
                                         <{foreach from=$p_second.menu item=p_thread}>
                                         <label class="checkbox-inline i-checks">
                                             <input style="margin-top: 2px;"
-                                            <{if isset($p_thread.href) && in_array($p_thread.href,$data.powerlist)}>checked="checked"<{/if}>
+                                            <{if isset($p_thread.href) && !empty($data.powerlist) && in_array($p_thread.href,$data.powerlist)}>checked="checked"<{/if}>
                                             class="<{$p.id}> <{$p_second.id}>" id="<{$p_thread.id}>" type="checkbox" name="power[]"
                                             value="<{$p_thread.href}>" /><{$p_thread.title}>
                                         </label>
