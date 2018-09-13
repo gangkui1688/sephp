@@ -39,6 +39,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -46,7 +47,7 @@
 
 <{include file="public/footer.tpl" }>
 <script type="text/javascript">
-    ;
+
 </script>
 <script src="static/frame/js/plugins/webuploader/webuploader.min.js"></script>
 <script src="static/frame/js/demo/webuploader-demo.min.js"></script>

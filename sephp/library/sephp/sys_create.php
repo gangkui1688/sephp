@@ -37,7 +37,7 @@ class sys_create{
 
     static $instance = null;
 
-    public function instance($workerId  = 1)
+    public static function instance($workerId  = 1)
     {
         if(empty(self::$instance))
         {
@@ -65,7 +65,7 @@ class sys_create{
     }
 
 
-    public function nextId(){
+    public function id(){
         //获取当前毫秒时间戳
         $timestamp = $this->timeGen();
         //获取上一次生成id时的毫秒时间戳
@@ -95,13 +95,14 @@ class sys_create{
         self::$lastTimestamp = $timestamp;
 
         //移位并通过或运算拼到一起组成64位的ID
-        return
+        $id =
             //时间戳左移 22 位
             (($timestamp - self::twepoch) << self::timestampLeftShift) |
             //机器id左移 12 位
             ($this->workerId << self::workerIdShift) |
             //或运算序列号值
             self::$sequence;
+        return $id . getmypid();
     }
 
     /****
@@ -127,6 +128,21 @@ class sys_create{
      */
     private function timeGen(){
         return  (float)sprintf("%.0f", microtime(true) * 1000);
+    }
+
+    /**
+     * 缩短雪花id的长度 利用aiisc码去转换
+     * @param int $id
+     * @return int
+     */
+    public function turn_word($id = 0)
+    {
+        if(empty($id))
+        {
+            return $id;
+        }
+
+
     }
 
 }

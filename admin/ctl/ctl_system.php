@@ -3,6 +3,7 @@
 class ctl_system
 {
     protected $_url = '?ct=system&ac=';
+    protected $_config_table = 'config';
 
     public function __construct()
     {
@@ -66,10 +67,21 @@ class ctl_system
 
     public function baise_config()
     {
-        view::assign('clear_view_cache_url',$this->_url.'clear_view_cache');
-        view::assign('clear_static_page_url',$this->_url.'clear_static_page');
+        $key = 'base_config';
+        if(empty(req::$posts))
+        {
+            view::assign('data',config::get($key)['value']);
+            view::assign('clear_view_cache_url',$this->_url.'clear_view_cache');
+            view::assign('clear_static_page_url',$this->_url.'clear_static_page');
+            view::display();
+            exit;
+        }
+        if(config::set($key,req::$posts))
+        {
+            show_msg::success();
+        }
+        show_msg::error();
 
-        view::display();
     }
     /**
      * 菜单配置

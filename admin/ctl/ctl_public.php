@@ -14,9 +14,13 @@ class ctl_public
 
     public function index()
     {
-        p(session::get(),pathinfo(NOW_URL));
 
-        view::display('test');
+        session::set('admin_001',['ghjklasdfghjkl']);
+        session::set('admin_002',['tttttttttttttt']);
+        p(session::get());
+        unset($_SESSION['_sephp.a.com']['admin_001']);
+        p(session::get());
+
     }
 
 

@@ -201,23 +201,23 @@ class session
         if (is_array($name)) {
             foreach ($name as $key) {
                 if ($prefix) {
-                    session_unset($_SESSION[$prefix][$key]);
+                    unset($_SESSION[$prefix][$key]);
                 } else {
-                    session_unset($_SESSION[$key]);
+                    unset($_SESSION[$key]);
                 }
             }
         } elseif (strpos($name, '.')) {
             list($name1, $name2) = explode('.', $name);
             if ($prefix) {
-                session_unset($_SESSION[$prefix][$name1][$name2]);
+                unset($_SESSION[$prefix][$name1][$name2]);
             } else {
-                session_unset($_SESSION[$name1][$name2]);
+                unset($_SESSION[$name1][$name2]);
             }
         } else {
             if ($prefix) {
-                session_unset($_SESSION[$prefix][$name]);
+                unset($_SESSION[$prefix][$name]);
             } else {
-                session_unset($_SESSION[$name]);
+                unset($_SESSION[$name]);
             }
         }
     }

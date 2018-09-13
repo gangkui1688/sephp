@@ -64,7 +64,7 @@ class sys_power
     //权限校验
     public function check_in()
     {
-        if(!in_array('?ct='.CT_NAME.'&ac='.AC_NAME,$this->_info['powerlist']))
+        if($this->_info && !in_array('?ct='.CT_NAME.'&ac='.AC_NAME,$this->_info['powerlist']))
         {
             //show_msg::error('抱歉！您无权限查看该页面','?ct=index&ac=index');
         }

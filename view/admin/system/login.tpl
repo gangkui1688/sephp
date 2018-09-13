@@ -34,7 +34,7 @@
         </div>
         <!--h3>欢迎使用 H+</h3-->
 
-        <form class="m-t" method="post"  role="form" action="<{$_self_url}>">
+        <form class="m-t" method="post" target="_self"  role="form" action="<{$_self_url}>">
             <div class="form-group">
                 <input type="text" class="form-control" name="username" placeholder="用户名" required="" />
             </div>

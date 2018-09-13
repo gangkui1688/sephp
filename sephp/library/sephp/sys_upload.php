@@ -19,31 +19,20 @@ class sys_upload
         //PHP执行时间五分钟
         @set_time_limit(300);
 
-        $targetDir = WWW_ROOT.'upload/temp';
-        $uploadDir = WWW_ROOT.'upload/file';
+        $targetDir = WWW_ROOT . 'upload/temp';
+        $uploadDir = WWW_ROOT . 'upload/file';
 
-        $cleanupTargetDir = true; // Remove old files
         $maxFileAge = 5 * 3600; // Temp file age in seconds
 
-
         if (!file_exists($targetDir)) {
-            @mkdir($targetDir,'0777',true);
+            @mkdir($targetDir, '0777', true);
         }
 
         if (!file_exists($uploadDir)) {
-            @mkdir($uploadDir,'0777',true);
+            @mkdir($uploadDir, '0777', true);
         }
 
-        $paths = pathinfo(req::$forms['name']);
-        $result['realname'] = req::$forms['name'];
-        $fileName = uniqid(date('ymd').'_',true) . '.' . $paths['extension'];
-
-        $md5File = @file('md5list2.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $md5File = $md5File ? $md5File : array();
-
-        if (isset(req::$forms["md5"]) && array_search(req::$forms["md5"], $md5File ) !== FALSE ) {
-            die('{"jsonrpc" : "2.0", "result" : null, "id" : "id", "exist": 1}');
-        }
+        $fileName = sys_create::instance()->id() .'.'. pathinfo(req::$forms['name'],PATHINFO_EXTENSION);
 
         $filePath = $targetDir . '/' . $fileName;
         $uploadPath = $uploadDir . '/' . $fileName;
@@ -51,77 +40,77 @@ class sys_upload
         $chunk = isset(req::$forms["chunk"]) ? intval(req::$forms["chunk"]) : 0;
         $chunks = isset(req::$forms["chunks"]) ? intval(req::$forms["chunks"]) : 0;
 
-
-        if ($cleanupTargetDir) {
-            if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
-            }
-
-            while (($file = readdir($dir)) !== false) {
-                $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
-
-                // If temp file is current file proceed to the next
-                if ($tmpfilePath == "{$filePath}.part") {
-                    continue;
-                }
-
-                // Remove temp file if it is older than the max age and is not the current file
-                if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
-                    @unlink($tmpfilePath);
-                }
-            }
-            closedir($dir);
+        if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
+            show_msg::ajax('Failed to open temp directory', '100');
         }
 
-        if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
-            die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
+        while (($file = readdir($dir)) !== false)
+        {
+            $tmpfilePath = $targetDir . '/' . $file;
+
+            // If temp file is current file proceed to the next
+            if ($tmpfilePath == "{$filePath}.part") {
+                continue;
+            }
+
+            // Remove temp file if it is older than the max age and is not the current file
+            if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
+                @unlink($tmpfilePath);
+            }
+        }
+        closedir($dir);
+
+        if (!$out = fopen("{$filePath}.part", $chunks ? "ab" : "wb"))
+        {
+            show_msg::ajax('Failed to open output stream.', '102');
         }
 
         if (!empty($_FILES)) {
             if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
+                show_msg::ajax('Failed to move uploaded file.', 103);
             }
 
             // Read binary input stream and append it to temp file
-            if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+            if (!$in = fopen($_FILES["file"]["tmp_name"], "rb")) {
+                show_msg::ajax('Failed to open input stream.', 101);
             }
         } else {
-            if (!$in = @fopen("php://input", "rb")) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+            if (!$in = fopen("php://input", "rb")) {
+                show_msg::ajax('Failed to open input stream.', 101);
             }
         }
 
         while ($buff = fread($in, 4096)) {
             fwrite($out, $buff);
         }
+        fclose($out);fclose($in);
 
-        @fclose($out);
-        @fclose($in);
+        $name = md5(req::$forms['name']);
+        session::push($name,"{$filePath}.part");
 
-// Check if file has been uploaded
+        // Check if file has been uploaded
         if (!$chunks || $chunk == $chunks - 1) {
-            // Strip the temp .part suffix off
-            rename("{$filePath}.part", $filePath);
-
-            rename($filePath, $uploadPath);
-            array_push($md5File, self::mymd5($uploadPath));
-            $md5File = array_unique($md5File);
-            file_put_contents('md5list2.txt', join($md5File, "\n"));
+            $parts = session::get($name);
+            foreach ($parts as $fp)
+            {
+                $upload_handle = fopen($uploadPath,'ab');
+                if(fwrite($upload_handle,file_get_contents($fp)) === false)
+                {
+                    show_msg::ajax('Failed to merge file',105);
+                }
+                unlink($fp);
+            }
         }
-
-        die('{"jsonrpc" : "2.0", "result" : null, "id" : "id"}');
-
-    }
-
-    public static function mymd5( $file ) {
-        $fragment = 65536;
-        $rh = fopen($file, 'rb');
-        $size = filesize($file);
-        $part1 = fread( $rh, $fragment );
-        fseek($rh, $size-$fragment);
-        $part2 = fread( $rh, $fragment);
-        fclose($rh);
-        return md5( $part1.$part2 );
+        else
+        {
+            show_msg::ajax('part success', 200, ['chunks'=>req::$forms['chunks'],'chunk'=>req::$forms['chunk']]);
+        }
+        //上传完成
+        session::delete($name);
+        $result['realname'] = req::$forms['name'];
+        $result['name'] = $fileName;
+        $result['size'] = req::$forms['size'];
+        $result['type'] = req::$forms['type'];
+        show_msg::ajax('success', 200,$result);
     }
 }
