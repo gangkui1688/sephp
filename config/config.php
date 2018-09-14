@@ -1,7 +1,10 @@
 <?php
 
 $config['web'] = [
+    //是否开启验证码
     'verify_open' => false,
+    //是否生成静态页面
+    'static_page' => true,
 ];
 
 $config['log'] = [

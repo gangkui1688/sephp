@@ -66,6 +66,12 @@ class db
         return end(self::$query_sql);
     }
 
+    public static function get_server_info()
+    {
+        self::_init();
+        return mysqli_get_server_info(db::$links);
+    }
+
     public static function query($sql, $type = null)
     {
         return self::_start_mysql('query',$sql);

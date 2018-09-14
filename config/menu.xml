@@ -10,12 +10,12 @@
         <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='短信设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='邮件服务器' ct='system' ac='menus' icon='fa fa-dashboard' />
-        <menu name='友情链接' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
 
         <menu name='数据库管理'  icon='fa fa-database' display='' >
-            <menu name='数据表优化' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
-            <menu name='数据备份' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
-            <menu name='SQL查询' ct='system' ac='saveMenus' icon='fa fa-cogs' display='' />
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
         </menu>
     </menu>
     <menu name='文章管理' icon='fa fa-user-secret' id='stroeCenter'  >

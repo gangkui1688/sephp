@@ -16,6 +16,9 @@
     <!-- Gritter -->
     <link href="static/frame/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
+    <!-- BootstrapSwitch -->
+    <link href="static/frame/css/plugins/BootstrapSwitch/BootstrapSwitch.css" rel="stylesheet">
+
     <link href="static/frame/css/plugins/iCheck/custom.css" rel="stylesheet"  />
     <link href="static/frame/css/animate.min.css" rel="stylesheet">
     <link href="static/frame/css/style.min.css?v=4.0.0" rel="stylesheet">

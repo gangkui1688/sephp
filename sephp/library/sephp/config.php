@@ -102,6 +102,7 @@ class config
                         $data[$k] = empty($v) ? '' : json_decode($v,true);
                     }
                 }
+                return $data;
             }
             else
             {
@@ -110,9 +111,8 @@ class config
                     ->where('key',$key)
                     ->as_row()
                     ->execute();
-                $data['value'] = empty($data['value']) ? '' : json_decode($data['value'],true);
+                return empty($data['value']) ? null : json_decode($data['value'],true);
             }
-            return $data;
         }
 
         if(empty($key))

@@ -58,19 +58,96 @@ class ctl_system
         view::assign('list',$list);
         view::display();
     }
-
     public function add_file()
     {
-        //var_dump($_SERVER,req::$forms);
         view::display();
     }
 
+    /**
+     * 数据库优化
+     */
+    public function data_optimization()
+    {
+
+    }
+
+    /**
+     * 数据备份
+     */
+    public function data_backups()
+    {
+        $res =  $data = db::query( "select * from se_config" )->execute();
+        p($res);
+        if(empty(req::$posts))
+        {
+            $tables = db::query('show tables')->execute();
+            view::assign('tables',$tables);
+            view::display();
+            exit();
+        }
+        p(req::$posts);
+        switch (req::$posts['type'])
+        {
+            case 'all':
+                sys_dbmanage::instance()->backup();
+
+                break;
+            case 'structure':
+
+                break;
+        }
+    }
+
+
+    /**
+     * 友情链接管理
+     */
+    public function friend_link()
+    {
+        $key = 'friend_link';
+        if(empty(req::$posts))
+        {
+            $data = config::get($key);
+            view::assign('list',empty($data) ? null : $data);
+            view::display();
+            exit();
+        }
+        $data = [];
+        foreach (req::$posts['title'] as $k=>$val)
+        {
+            if(empty($val) && empty(req::$posts[$k]['url']))
+            {
+                continue;
+            }
+            $data[$k]['sort_id'] = req::$posts['sort_id'][$k];
+            $data[$k]['title'] = req::$posts['title'][$k];
+            $data[$k]['url'] = req::$posts['url'][$k];
+            $data[$k]['status'] = req::$posts['status'][$k];
+        }
+        //p($data,empty($data));exit;
+        if(empty($data))
+        {
+            config::set($key,'');
+            show_msg::success('',NOW_URL);
+        }
+        array_multisort(array_column($data,'sort_id'),SORT_DESC,$data);
+        //p($data);exit;
+        if(config::set($key,$data))
+        {
+            show_msg::success('',NOW_URL);
+        }
+        show_msg::error('',NOW_URL);
+    }
+
+    /**
+     * 基础设置
+     */
     public function baise_config()
     {
         $key = 'base_config';
         if(empty(req::$posts))
         {
-            view::assign('data',config::get($key)['value']);
+            view::assign('data',config::get($key));
             view::assign('clear_view_cache_url',$this->_url.'clear_view_cache');
             view::assign('clear_static_page_url',$this->_url.'clear_static_page');
             view::display();
@@ -81,7 +158,6 @@ class ctl_system
             show_msg::success();
         }
         show_msg::error();
-
     }
     /**
      * 菜单配置
