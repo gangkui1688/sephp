@@ -69,4 +69,20 @@ class ctl_public
         view::assign('verify_url','?ct=public&ac=verify&length=7');
         view::display('system/login');
     }
+
+
+    public function add_file()
+    {
+        view::display('system/add_file');
+    }
+
+    public function page_500()
+    {
+        view::display('system/500');
+    }
+
+    public function page_404()
+    {
+        view::display('system/404');
+    }
 }

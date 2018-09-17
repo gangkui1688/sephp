@@ -31,6 +31,10 @@
     <script src="static/frame/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="static/frame/js/plugins/validate/messages_zh.min.js"></script>
 
+    <!-- layer.min.js -->
+    <script src="static/frame/js/plugins/layer/layer.min.js"></script>
+    <script src="static/frame/js/plugins/layer/layer.min.js"></script>
+
 
 
 </head>

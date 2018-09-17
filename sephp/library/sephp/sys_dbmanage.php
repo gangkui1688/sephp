@@ -32,11 +32,18 @@ class sys_dbmanage {
 
 
     function getTables() {
+        //return db::query('SHOW TABLES STATUS FROM '.$this->config['dbname']);
         return db::query( "SHOW TABLES" )->execute();
     }
 
 
-    function backup($tablename = '', $dir='', $size=20480) {
+    /**
+     * @param string $tablename
+     * @param string $dir
+     * @param int $size MB
+     * @return bool
+     */
+    function backup($tablename = '', $dir='', $size=10) {
         $dir = empty($dir) ? WWW_ROOT.'upload/backup/' : './';
         // 创建目录
         if (! is_dir ( $dir )) {
@@ -67,16 +74,13 @@ class sys_dbmanage {
             // 第几分卷
             $p = 1;
             // 循环每条记录
-            while ( $record = mysqli_fetch_array ( $data ) ) {
-
-            }
-            foreach ($data as $val)
+            foreach ($data as $iii=>$val)
             {
                 // 单条记录
                 $sql .= $this->_insert_record ( $tablename, count($val), $val );
                 // 如果大于分卷大小，则写入文件
-                if (strlen ( $sql ) >= $size * 1024) {
-                    $file = $filename . "_v" . $p . ".sql";
+                if (strlen ( $sql ) >= $size * 1048576) {
+                    $file = $filename . "_part_" . $p . ".sql";
                     if ($this->_write_file ( $sql, $file, $dir )) {
                         $this->_showMsg("表-<b>" . $tablename . "</b>-卷-<b>" . $p . "</b>-数据备份完成,备份文件 [ <span class='imp'>" .$dir . $file ."</span> ]");
                     } else {
@@ -85,13 +89,14 @@ class sys_dbmanage {
                     }
                     // 下一个分卷
                     $p ++;
-                    // 重置$sql变量为空，重新计算该变量大小
+                    //重置$sql变量为空，重新计算该变量大小
                     $sql = "";
                 }
+                //及时清除数据
+                unset($data[$iii],$val);
             }
-            // 及时清除数据
-            unset($data,$record);
-            // sql大小不够分卷大小
+
+            //sql大小不够分卷大小
             if ($sql != "") {
                 $filename .= "_v" . $p . ".sql";
                 if ($this->_write_file ( $sql, $filename, $dir )) {
@@ -105,37 +110,40 @@ class sys_dbmanage {
         } else {
             $this->_showMsg('正在备份');
             // 备份全部表
-            if ($tables = mysqli_query ( "show table status from " . $this->database )) {
+            if ($tables = $this->getTables()) {
                 $this->_showMsg("读取数据库结构成功！");
             } else {
                 $this->_showMsg("读取数据库结构失败！");
-                exit ( 0 );
+                return false;
             }
             // 插入dump信息
             $sql .= $this->_retrieve ();
             // 文件名前面部分
             $filename = date ( 'YmdHis' ) . "_all";
-            // 查出所有表
-            $tables = mysqli_query ( 'SHOW TABLES' );
             // 第几分卷
             $p = 1;
             // 循环所有表
-            while ( $table = mysqli_fetch_array ( $tables ) ) {
+            foreach ($tables as $table)
+            {
                 // 获取表名
-                $tablename = $table [0];
+                $tablename = $table ['Tables_in_sephp'];
                 // 获取表结构
                 $sql .= $this->_insert_table_structure ( $tablename );
-                $data = mysqli_query ( "select * from " . $tablename );
-                $num_fields = mysqli_num_fields ( $data );
-
+                $data = db::query( "select * from " . $tablename )->execute();
+                if(empty($data))
+                {
+                    $this->_showMsg("表【{$tablename}】无数据，无需备份");
+                    continue;
+                }
+                foreach ($data as $k=>$v)
+                {
                 // 循环每条记录
-                while ( $record = mysqli_fetch_array ( $data ) ) {
                     // 单条记录
-                    $sql .= $this->_insert_record ( $tablename, $num_fields, $record );
+                    $sql .= $this->_insert_record ( $tablename, count($v), $v );
                     // 如果大于分卷大小，则写入文件
-                    if (strlen ( $sql ) >= $size * 1000) {
+                    if (strlen ( $sql ) >= $size * 1048576) {
 
-                        $file = $filename . "_v" . $p . ".sql";
+                        $file = $filename . "_part_" . $p . ".sql";
                         // 写入文件
                         if ($this->_write_file ( $sql, $file, $dir )) {
                             $this->_showMsg("-卷-<b>" . $p . "</b>-数据备份完成,备份文件 [ <span class='imp'>".$dir.$file."</span> ]");
@@ -150,6 +158,7 @@ class sys_dbmanage {
                     }
                 }
             }
+
             // sql大小不够分卷大小
             if ($sql != "") {
                 $filename .= "_v" . $p . ".sql";
@@ -169,7 +178,6 @@ class sys_dbmanage {
         $err = $err ? "<span class='err'>ERROR:</span>" : '' ;
         echo "<p class='dbDebug'>".$err . $msg."</p>";
         flush();
-
     }
 
     /**
@@ -226,7 +234,7 @@ class sys_dbmanage {
      *
      * @param string $table
      * @param int $num_fields
-     * @param array $record
+     * @param array $record 单条数据
      * @return string
      */
     private function _insert_record($table, $num_fields, $record) {
@@ -235,8 +243,9 @@ class sys_dbmanage {
         $comma = "";
         $insert .= "INSERT INTO `" . $table . "` VALUES(";
         // 循环每个子段下面的内容
-        for($i = 0; $i < $num_fields; $i ++) {
-            $insert .= ($comma . "'" . mysqli_escape_string ( $record [$i] ) . "'");
+        foreach ($record as $field=>$fv)
+        {
+            $insert .= ($comma . "'" .$fv. "'");
             $comma = ",";
         }
         $insert .= ");" . $this->ds;
@@ -415,11 +424,6 @@ class sys_dbmanage {
      * -------------------------------数据库导入end---------------------------------
      */
 
-    // 关闭数据库连接
-    private function close() {
-        mysqli_close ( $this->db );
-    }
-
     // 锁定数据库，以免备份或导入时出错
     private function lock($tablename, $op = "WRITE") {
         if (mysqli_query ( "lock tables " . $tablename . " " . $op ))
@@ -434,14 +438,6 @@ class sys_dbmanage {
             return true;
         else
             return false;
-    }
-
-    // 析构
-    function __destruct() {
-        if($this->db){
-            mysqli_query ( "unlock tables", $this->db );
-            mysqli_close ( $this->db );
-        }
     }
 
 }

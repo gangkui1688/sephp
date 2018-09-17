@@ -58,10 +58,6 @@ class ctl_system
         view::assign('list',$list);
         view::display();
     }
-    public function add_file()
-    {
-        view::display();
-    }
 
     /**
      * 数据库优化
@@ -76,8 +72,6 @@ class ctl_system
      */
     public function data_backups()
     {
-        $res =  $data = db::query( "select * from se_config" )->execute();
-        p($res);
         if(empty(req::$posts))
         {
             $tables = db::query('show tables')->execute();

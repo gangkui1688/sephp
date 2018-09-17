@@ -9,7 +9,7 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-sm-1 m-b-xs">
-                            <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
+                            <a class="btn btn-primary btn-sm add-files-model" add-file-href="<{$add_url}>">添加</a>
                         </div>
                         <form action="<{$_self_url}>" method="post"  class="form-horizontal">
                             <div class="col-sm-3">
@@ -60,4 +60,6 @@
 
     </div>
 </div>
+
+
 <{include file="public/footer.tpl"}>

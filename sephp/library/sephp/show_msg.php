@@ -34,6 +34,12 @@ class show_msg
         exit(json_encode($data,JSON_UNESCAPED_UNICODE));
     }
 
+    public static function flush_msg($msg,$err=false){
+        $err = $err ? "<span class='err'>ERROR:</span>" : '' ;
+        echo "<p class='dbDebug'>".$err . $msg."</p>";
+        flush();
+    }
+
 
     public static function success($message = '',$url = '',$time = '',$title = '')
     {
