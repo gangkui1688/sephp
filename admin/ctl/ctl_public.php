@@ -11,6 +11,15 @@ class ctl_public
         show_msg::redirect('?ct=index&ac=index');
     }
 
+    //上传自动保存file表
+    public function upload_save()
+    {
+        if(!empty($_FILES)){
+            sys_upload::web_upload('save');
+        }
+        show_msg::redirect('?ct=index&ac=index');
+    }
+
 
     public function index()
     {

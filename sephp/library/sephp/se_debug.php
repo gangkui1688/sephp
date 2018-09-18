@@ -16,7 +16,7 @@ class se_debug
         $filename = empty(self::$error_file)?$filename:self::$error_file;
         $line = empty(self::$error_line)?$line:self::$error_line;
         $code = empty(self::$error_code)?$code:self::$error_code;
-        log::write($msg);
+        log::info($msg);
         $codes = file($filename);
         //p($codes[$line-1]);
         self::$html  .= '<div style=\'font-size:14px;line-height:160%;border-bottom:1px dashed #ccc;margin-top:8px;\'>';

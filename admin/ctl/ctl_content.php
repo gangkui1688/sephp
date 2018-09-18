@@ -26,6 +26,9 @@ class ctl_content
     //添加文章
     public function content_add()
     {
+        log::info($_SERVER);
+        log::error(req::$gets);
+
 
 
         view::assign('cates',$this->get_cates());

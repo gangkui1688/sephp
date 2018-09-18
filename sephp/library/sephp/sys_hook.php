@@ -1,6 +1,6 @@
 <?php
 
-class hook
+class sys_hook
 {
     /**
      * @var array 标签

@@ -112,7 +112,5 @@ function _shutdown_function($start_time = 0)
 {
     $end_time = microtime(true);
 
-
-    log::write('--the opcode end--');
-    log::save();
+    log::init()->save();
 }

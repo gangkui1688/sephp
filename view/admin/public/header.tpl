@@ -24,18 +24,6 @@
     <link href="static/frame/css/style.min.css?v=4.0.0" rel="stylesheet">
     <link href="static/frame/css/plugins/bootstrap-table/src/bootstrap-table.css" rel="stylesheet"  />
 
-    <script src="static/frame/js/jquery.min.js?v=2.1.4"></script>
-    <script src="static/frame/js/bootstrap.min.js?v=3.3.5"></script>
-
-    <!-- jquery-validate -->
-    <script src="static/frame/js/plugins/validate/jquery.validate.min.js"></script>
-    <script src="static/frame/js/plugins/validate/messages_zh.min.js"></script>
-
-    <!-- layer.min.js -->
-    <script src="static/frame/js/plugins/layer/layer.min.js"></script>
-    <script src="static/frame/js/plugins/layer/layer.min.js"></script>
-
-
 
 </head>
 <body class="gray-bg" >

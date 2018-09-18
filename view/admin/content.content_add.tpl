@@ -1,4 +1,7 @@
 <{include file="public/header.tpl"}>
+<link href="static/frame/css/plugins/summernote/summernote.css" rel="stylesheet" />
+<link href="static/frame/css/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+<style>div.modal-backdrop{display:none;}</style>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-sm-12">
@@ -104,12 +107,11 @@
                                 <div class="panel-body">
                                     <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm">
                                         <input name="<{$pk}>" type="hidden" value="<{if isset($data)}><{$data.cate_id}><{else}>0<{/if}>">
-                                        
+
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <div id="summernote"><p>Hello Summernote</p></div>
+                                                <div id="summernote"></div>
                                             </div>
-                                        </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-8 col-sm-offset-3">
@@ -134,20 +136,47 @@
     </div>
 </div>
 <{include file="public/footer.tpl"}>
-
-<link href="static/frame/css/plugins/summernote/summernote.css" rel="stylesheet" />
-<script src="static/frame/js/plugins/summernote/summernote.js"></script>
+<script src="static/frame/js/plugins/summernote/summernote.min.js"></script>
 <script src="static/frame/js/plugins/summernote/summernote-zh-CN.js"></script>
 
 
 <script>
     $(document).ready(function() {
-        $('#summernote').summernote({
+        var $summernote = $('#summernote').summernote({
             lang: 'zh-CN',
             height: 300,                 // set editor height
             minHeight: null,             // set minimum height of editor
             maxHeight: null,             // set maximum height of editor
-            focus: true                  // set focus to editable area after
+            focus: true,                  // set focus to editable area after
+            //调用图片上传
+            onImageUpload: function(files, editor, welEditable) {
+                console.log(files,editor,welEditable);
+                sendFile(files[0],editor,welEditable);
+            },
+            callbacks: {
+                onImageUpload: function (files) {
+                    sendFile($summernote, files[0]);
+                }
+            }
         });
+
+        //ajax上传图片
+        function sendFile($summernote, file) {
+            var formData = new FormData();
+            formData.append("file", file);
+            $.ajax({
+                url: "?ct=public&ac=upload_save",//路径是你控制器中上传图片的方法，下面controller里面我会写到
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function (data) {
+                    $summernote.summernote('insertImage', data, function ($image) {
+                        $image.attr('src', data);
+                    });
+                }
+            });
+        }
     });
 </script>

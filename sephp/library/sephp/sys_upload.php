@@ -2,7 +2,6 @@
 
 class sys_upload
 {
-
     public static function web_upload()
     {
         // Make sure file is not cached (as it happens for example on iOS devices)
@@ -19,10 +18,10 @@ class sys_upload
         //PHP执行时间五分钟
         @set_time_limit(300);
 
+        $maxFileAge = 5 * 3600; // Temp file age in seconds
+
         $targetDir = WWW_ROOT . 'upload/temp';
         $uploadDir = WWW_ROOT . 'upload/file';
-
-        $maxFileAge = 5 * 3600; // Temp file age in seconds
 
         if (!file_exists($targetDir)) {
             @mkdir($targetDir, '0777', true);
@@ -111,6 +110,22 @@ class sys_upload
         $result['name'] = $fileName;
         $result['size'] = req::$forms['size'];
         $result['type'] = req::$forms['type'];
+        self::save_file($result);
         show_msg::ajax('success', 200,$result);
+    }
+
+    public static function save_file($data = [])
+    {
+        if(empty($data) || empty($data['realname']) || empty($data['type']))
+        {
+            log::info('文件保存失败，数据确实.data:'.var_export($data,1));
+            return false;
+        }
+
+    }
+
+    public static function del_file()
+    {
+
     }
 }

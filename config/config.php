@@ -8,10 +8,12 @@ $config['web'] = [
 ];
 
 $config['log'] = [
-    'open'  => true, //开启
-    'file_size' => 10240,//10M
-    'type'      => 'file',
-    'path'      => WWW_ROOT.'data/log/',
+    'open'          => true, //开启
+    'single'        => true, //单日志文件模式
+    'file_size'     => 10240,//10M
+    'type'          => 'file',
+    'path'          => WWW_ROOT.'runtime/log/',
+    'detail_info'   => true,
 ];
 
 //session 设置

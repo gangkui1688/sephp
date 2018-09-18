@@ -75,7 +75,7 @@ class sys_power
     {
         if(empty($where))
         {
-            log::write('没有登陆条件');
+            log::info('没有登陆条件');
             return false;
         }
         $info = db::select()
@@ -85,7 +85,7 @@ class sys_power
             ->execute();
         if(empty($info))
         {
-            log::write('登陆失败');
+            log::info('登陆失败');
             return false;
         }
         //获取用户权限
@@ -98,7 +98,7 @@ class sys_power
                 ->execute();
         }
         $info['powerlist'] = empty($power) ? [] : json_decode($power['powerlist'],true);
-        log::write('用户【ID:'.$info['admin_id'].'】登陆成功');
+        log::info('用户【ID:'.$info['admin_id'].'】登陆成功');
         session::set($this->_user_marking,$info);
         return true;
     }
