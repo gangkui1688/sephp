@@ -5,7 +5,12 @@
             <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
             <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
         </menu>
-        <menu name='资源管理' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+        <menu name="文件管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
         <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
         <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='短信设置' ct='system' ac='menus' icon='fa fa-dashboard'  />

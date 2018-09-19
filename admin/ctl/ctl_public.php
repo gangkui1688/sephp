@@ -15,7 +15,12 @@ class ctl_public
     public function upload_save()
     {
         if(!empty($_FILES)){
-            sys_upload::web_upload('save');
+            $result = sys_upload::web_upload('save');
+            if(is_ajax())
+            {
+                $result == false ? show_msg::ajax('upload_save faild',404) : show_msg::ajax('success','200',$result);
+            }
+            return $result;
         }
         show_msg::redirect('?ct=index&ac=index');
     }

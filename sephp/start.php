@@ -21,6 +21,7 @@ define('WWW_ROOT',__DIR__.'/../');
 define('SE_VIEW',__DIR__.'/../view/');
 define('SE_LIB',__DIR__.'/library/sephp/');
 define('SE_RUNTIME',__DIR__.'/../runtime/');
+define('SE_UPLOAD',__DIR__.'/../upload/');
 
 include_once SEPHP . 'sys_function.php';
 include_once SEPHP . 'autoloads.php';
@@ -97,7 +98,7 @@ class start
         define('CT_NAME',self::$_ct);
         self::$_now_url =  $_SERVER['REQUEST_URI'];
         define('NOW_URL',self::$_now_url);
-        define('WWW_URL','http://'.$_SERVER['SERVER_NAME'].'/'.APP_NAME);
+        define('WWW_URL','http://'.$_SERVER['SERVER_NAME']);
 
     }
 }

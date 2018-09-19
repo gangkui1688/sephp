@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * 文件上传管理
+ * Class sys_upload
+ */
 class sys_upload
 {
-    public static function web_upload()
+    public static function web_upload($type = '')
     {
         // Make sure file is not cached (as it happens for example on iOS devices)
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -110,22 +114,48 @@ class sys_upload
         $result['name'] = $fileName;
         $result['size'] = req::$forms['size'];
         $result['type'] = req::$forms['type'];
-        self::save_file($result);
-        show_msg::ajax('success', 200,$result);
+        ($type == 'save') ? self::save_file($result) : show_msg::ajax('success', 200,$result);
     }
 
-    public static function save_file($data = [])
+    /**
+     * mysql 保存上传文件
+     * @param array $result
+     * @return bool
+     */
+    public static function save_file($result = [])
     {
-        if(empty($data) || empty($data['realname']) || empty($data['type']))
+        if(empty($result) || empty($result['realname']) || empty($result['type']))
         {
-            log::info('文件保存失败，数据确实.data:'.var_export($data,1));
+            log::info('文件保存失败，数据确实.data:'.var_export($result,1));
             return false;
         }
-
+        $data['realname'] = $result['realname'];
+        $data['filename'] = $result['name'];
+        $data['size'] = $result['size'];
+        $data['type'] = $result['type'];
+        $data['create_time'] = time();
+        $data['create_user'] = sys_power::instanc()->_uid;
+        list($id,$rwos) = db::insert('file')->set($data)->execute();
+        if($id)
+        {
+            $data['file_id'] = $id;
+            return $data;
+        }
+        return false;
     }
 
-    public static function del_file()
+    public static function del_file($file_id = 0)
     {
-
+        if(empty($file_id))
+        {
+            return false;
+        }
+        $data['delete_user'] = sys_power::instanc()->_uid;
+        $data['delete_time'] = time();
+        if(db::update('file')->set($data)->where('file_id',$file_id)->execute() === false)
+        {
+            return false;
+        }
+        return true;
     }
 }

@@ -34,6 +34,39 @@ function get_client_ip()
     //unset($cips);
     return $cip;
 }
+
+/**
+ *@todo: 判断是否为post
+ */
+function is_post()
+{
+    return isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD'])=='POST';
+}
+
+/**
+ *@todo: 判断是否为get
+ */
+function is_get()
+{
+    return isset($_SERVER['REQUEST_METHOD']) && strtoupper($_SERVER['REQUEST_METHOD'])=='GET';
+}
+
+/**
+ *@todo: 判断是否为ajax
+ */
+function is_ajax()
+{
+    return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH'])=='XMLHTTPREQUEST';
+}
+
+/**
+ *@todo: 判断是否为命令行模式
+ */
+function is_cli()
+{
+    return (PHP_SAPI === 'cli' OR defined('STDIN'));
+}
+
 /**
  * @param $e 异常回掉函数
  */

@@ -33,19 +33,22 @@ class ctl_admin
         {
             $query->where($where);
         }
-            $count = $query->as_row()->execute();
+
+        $count = $query->as_row()->execute();
+
+        $pages = sys_pages::instance($count['count'],req::item('page_num',10));
+
         $query = db::select('*')
             ->from($this->_admin_table);
         if($where)
         {
             $query->where($where);
         }
-        $data = $query->offset(req::item('offset',0))
-            ->limit(req::item('limit',req::item('page_num',10)))
+        $data = $query->offset($pages->firstRow)
+            ->limit($pages->listRows)
             ->order_by($this->_admin_id,'desc')
             ->execute();
 
-        $pages = pages::instance($count['count'],req::item('page_num',10))->show();
         setcookie('userlist_url',NOW_URL);
 
         view::assign('edit_fields_url','?ct=admin&ac=edit_fields');
@@ -54,7 +57,7 @@ class ctl_admin
         view::assign('edit_url','?ct=admin&ac=adduser');
         view::assign('save_url','?ct=admin&ac=saveuser');
         view::assign('list',$data);
-        view::assign('pages',$pages);
+        view::assign('pages',$pages->show());
         view::display('admin.userlist');
     }
 

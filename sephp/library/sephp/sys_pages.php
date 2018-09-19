@@ -1,6 +1,6 @@
 <?php
 
-class pages{
+class sys_pages{
     public $firstRow; // 起始行数
     public $listRows; // 列表每页显示行数
     public $parameter; // 分页跳转时要带的参数
@@ -8,6 +8,7 @@ class pages{
     public $totalPages; // 分页总页面数
     public $rollPage   = 11;// 分页栏每页显示的页数
     public $lastSuffix = true; // 最后一页是否显示总页数
+    public $page_nums = [5,10,20,50,100];
 
     private $p       = 'p'; //分页参数名
     private $url     = ''; //当前链接URL
@@ -34,13 +35,13 @@ class pages{
      * @param array $listRows  每页显示记录数
      * @param array $parameter  分页跳转的参数
      */
-    public function __construct($totalRows, $listRows=20, $parameter = array()) {
+    public function __construct($totalRows, $listRows=15, $parameter = array()) {
         /* 基础设置 */
         $this->totalRows  = $totalRows; //设置总记录数
         $this->listRows   = $listRows;  //设置每页显示行数
         $this->parameter  = empty($parameter) ? req::$gets : $parameter;
         $this->nowPage    = empty(req::$gets[$this->p]) ? 1 : intval(req::$gets[$this->p]);
-        $this->nowPage    = $this->nowPage>0 ? $this->nowPage : 1;
+        $this->nowPage    = $this->nowPage > 0 ? $this->nowPage : 1;
         $this->firstRow   = $this->listRows * ($this->nowPage - 1);
 
     }
@@ -74,7 +75,7 @@ class pages{
 
         /* 生成URL */
         $this->parameter[$this->p] = '[PAGE]';
-        $this->url = WWW_URL.'?'._make_url($this->parameter);
+        $this->url = WWW_URL.'/'.APP_NAME .'?'._make_url($this->parameter);
 
         /* 计算分页信息 */
         $this->totalPages = ceil($this->totalRows / $this->listRows); //总页数
@@ -136,7 +137,18 @@ class pages{
             array('%HEADER%', '%NOW_PAGE%', '%UP_PAGE%', '%DOWN_PAGE%', '%FIRST%', '%LINK_PAGE%', '%END%', '%TOTAL_ROW%', '%TOTAL_PAGE%'),
             array($this->config['header'], $this->nowPage, $up_page, $down_page, $the_first, $link_page, $the_end, $this->totalRows, $this->totalPages),
             $this->config['theme']);
-        $page_select = "<select name='page_num' class='btn btn-white' id='page-select'><option value='5'>5</option><option value='10'>10</option><option value='20'>20</option></select>";
+
+        $page_select = "<select name='page_num' class='btn btn-white' id='page-select'>";
+        foreach ($this->page_nums as $v_n)
+        {
+            $page_select .= "<option value='{$v_n}' ";
+            if ($this->listRows == $v_n)
+            {
+                $page_select .= " selected ";
+            }
+            $page_select .= " >{$v_n}</option>";
+        }
+        $page_select .= '</select>';
         return "<div class='btn-group' id='pages'>{$page_select}{$page_str}</div>";
     }
 }

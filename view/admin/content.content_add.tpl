@@ -155,6 +155,7 @@
             },
             callbacks: {
                 onImageUpload: function (files) {
+                    console.info(files);
                     sendFile($summernote, files[0]);
                 }
             }
@@ -172,9 +173,7 @@
                 processData: false,
                 type: 'POST',
                 success: function (data) {
-                    $summernote.summernote('insertImage', data, function ($image) {
-                        $image.attr('src', data);
-                    });
+                    console.log(data);
                 }
             });
         }

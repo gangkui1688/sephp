@@ -6,7 +6,13 @@ $(function () {
 
     //选择分页条数
     $('#pages #page-select').on('change',function () {
-        window.document.location.href = window.document.location.href + '&page_num=' + $(this).val();
+        if(window.location.href.match('page_num=\d*') == null)
+        {
+            window.document.location.href = window.document.location.href + '&page_num=' + $(this).val();
+        }else{
+            window.document.location.href = window.location.href.replace(/(page_num=)\d*/, '$110');
+        }
+
     });
 
     //add-file-href，上传文件插件，全局应用

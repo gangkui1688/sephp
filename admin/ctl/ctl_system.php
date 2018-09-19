@@ -34,10 +34,26 @@ class ctl_system
      */
     public function file_manager()
     {
-        view::assign('keywords',req::item('keywords',''));
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+
+        $type = req::item('type','log');
+        switch ($type)
+        {
+            case 'log':
+                $path_file = WWW_ROOT.'runtime/log/';
+                break;
+            case 'cache':
+                $path_file = WWW_ROOT.'runtime/cache/';
+                break;
+            case 'upload':
+                $path_file = WWW_ROOT.'upload/file/';
+                break;
+            default:
+                $path_file = WWW_ROOT.'runtime/log/';
+        }
         clearstatcache();
-        $path_file = WWW_ROOT.'upload/file/';
-        $files = glob($path_file.'*');
+        $files = glob($path_file."*{$keywords}*");
         $list = [];
         if(!empty($files))
         {
@@ -54,8 +70,67 @@ class ctl_system
             }
         }
 
-        view::assign('add_url',$this->_url.'add_file');
         view::assign('list',$list);
+        view::display();
+    }
+
+    /**
+     * 文件上传
+     */
+    public function upload_file()
+    {
+        $where[] = ['delete_user','=','0'];
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+        if($keywords)
+        {
+            $where[] = ['realname','like',"%{$keywords}%"];
+        }
+
+        $count  = db::select('count(file_id) as count')
+            ->from('file')
+            ->where($where)
+            ->as_row()
+            ->execute();
+        //分页
+        $pages = sys_pages::instance($count['count'],req::item('page_num','10'));
+
+        $list = db::select()->from('file')
+            ->where($where)
+            ->offset($pages->firstRow)
+            ->limit($pages->listRows)
+            ->order_by('file_id','desc')
+            ->execute();
+
+
+        view::assign('pages',$pages->show());
+        view::assign('list',$list);
+        view::assign('del_url',$this->_url.'del_file');
+        view::assign('add_url',$this->_url.'add_file');
+        view::display();
+    }
+
+    /**
+     * 删除文件 逻辑删除
+     */
+    public function del_file()
+    {
+        $file_id = req::item('file_id',0);
+        if(empty($file_id))
+        {
+            show_msg::redirect();
+        }
+        if(sys_upload::del_file($file_id))
+        {
+            is_ajax() ? show_msg::ajax('删除成功','200') : show_msg::success();
+        }
+        is_ajax() ? show_msg::ajax('删除失败','400') : show_msg::error();
+    }
+
+    public function file_label()
+    {
+
+        view::assign('list','');
         view::display();
     }
 
