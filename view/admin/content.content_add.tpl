@@ -25,7 +25,7 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane active">
                                 <div class="panel-body">
-                                    <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm">
+                                    <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" enctype="multipart/form-data" id="signupForm">
                                         <input name="<{$pk}>" type="hidden" value="<{if isset($data)}><{$data.cate_id}><{else}>0<{/if}>">
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">文章标题：</label>
@@ -105,7 +105,7 @@
 
                             <div id="tab-2" class="tab-pane">
                                 <div class="panel-body">
-                                    <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm">
+                                    <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" enctype="multipart/form-data" id="signupForm">
                                         <input name="<{$pk}>" type="hidden" value="<{if isset($data)}><{$data.cate_id}><{else}>0<{/if}>">
 
                                         <div class="form-group">
@@ -149,33 +149,52 @@
             maxHeight: null,             // set maximum height of editor
             focus: true,                  // set focus to editable area after
             //调用图片上传
-            onImageUpload: function(files, editor, welEditable) {
-                console.log(files,editor,welEditable);
-                sendFile(files[0],editor,welEditable);
-            },
+            //调用图片上传
             callbacks: {
                 onImageUpload: function (files) {
-                    console.info(files);
-                    sendFile($summernote, files[0]);
+                    editorSendFile(files[0]);
                 }
             }
         });
 
         //ajax上传图片
-        function sendFile($summernote, file) {
-            var formData = new FormData();
-            formData.append("file", file);
-            $.ajax({
-                url: "?ct=public&ac=upload_save",//路径是你控制器中上传图片的方法，下面controller里面我会写到
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function (data) {
-                    console.log(data);
-                }
-            });
+        function editorSendFile(file) {
+            console.log(file,editor,welEditable);
+            var chunkSize = 1024 * 1024;
+            var total = file.size,
+                chunks = Math.ceil(total / chunkSize),
+                start = 0, end = 0, index = 0, len;
+            while ( index < chunks ) {
+                len = Math.min( chunkSize, total - start );
+                end = chunkSize ? (start + len) : total;
+                var formData = new FormData();
+                console.log(start,end);
+                formData.append("file", file.slice(start,end));
+                formData.append("name", file.name);
+                formData.append("chunks", chunks);
+                formData.append("chunk", index++);
+                formData.append("type", file.type);
+                formData.append("size", file.size);
+                $.ajax({
+                    url: "?ct=public&ac=editor_update",//路径是你控制器中上传图片的方法
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function (data) {
+                        $summernote.summernote('insertImage', data, function ($image) {
+                            $image.attr('src', data);
+                        });
+                        console.log(data);
+
+                    }
+                });
+
+                start += len;
+            }
         }
+
+
     });
 </script>

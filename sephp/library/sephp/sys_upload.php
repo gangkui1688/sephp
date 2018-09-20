@@ -114,7 +114,7 @@ class sys_upload
         $result['name'] = $fileName;
         $result['size'] = req::$forms['size'];
         $result['type'] = req::$forms['type'];
-        ($type == 'save') ? self::save_file($result) : show_msg::ajax('success', 200,$result);
+        return ($type == 'save') ? self::save_file($result) : show_msg::ajax('success', 200,$result);
     }
 
     /**
@@ -126,7 +126,8 @@ class sys_upload
     {
         if(empty($result) || empty($result['realname']) || empty($result['type']))
         {
-            log::info('文件保存失败，数据确实.data:'.var_export($result,1));
+            log::error('文件保存失败，数据确实.data:'.var_export($result,1));
+            log::error('req::$forms:'.var_export(req::$forms));
             return false;
         }
         $data['realname'] = $result['realname'];
@@ -135,12 +136,15 @@ class sys_upload
         $data['type'] = $result['type'];
         $data['create_time'] = time();
         $data['create_user'] = sys_power::instanc()->_uid;
-        list($id,$rwos) = db::insert('file')->set($data)->execute();
+        list($id,$rows) = db::insert('file')->set($data)->execute();
         if($id)
         {
             $data['file_id'] = $id;
+            $data['upload_dir'] = SE_UPLOAD . 'file/';
+            $data['http'] = WWW_URL.'/upload/file/';
             return $data;
         }
+        log::error('文件保存sql执行失败:'.db::get_last_sql());
         return false;
     }
 

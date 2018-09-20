@@ -5,7 +5,7 @@ class ctl_public
     //上传方法
     public function upload()
     {
-        if(!empty($_FILES)){
+        if(!empty(req::$forms['file'])){
             sys_upload::web_upload();
         }
         show_msg::redirect('?ct=index&ac=index');
@@ -14,17 +14,34 @@ class ctl_public
     //上传自动保存file表
     public function upload_save()
     {
-        if(!empty($_FILES)){
+        //var_dump(req::$forms,$_FILES);exit;
+        if(!empty($_FILES['file'])){
             $result = sys_upload::web_upload('save');
             if(is_ajax())
             {
-                $result == false ? show_msg::ajax('upload_save faild',404) : show_msg::ajax('success','200',$result);
+                $result === false ? show_msg::ajax('upload_save faild',400) : show_msg::ajax('success','200',$result);
             }
             return $result;
         }
         show_msg::redirect('?ct=index&ac=index');
     }
 
+    /**
+     * 编辑器图片上传
+     */
+    public function editor_update()
+    {
+        if(!empty($_FILES['file'])){
+            $result = sys_upload::web_upload('save');
+            if(empty($result))
+            {
+                show_msg::ajax('upload faild','400');
+            }
+            exit($result['http'] . $result['filename']);
+        }
+        show_msg::redirect('?ct=index&ac=index');
+
+    }
 
     public function index()
     {
