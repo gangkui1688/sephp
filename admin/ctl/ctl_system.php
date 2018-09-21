@@ -3,7 +3,7 @@
 class ctl_system
 {
     protected $_url = '?ct=system&ac=';
-    protected $_config_table = 'config';
+    protected $_config_table = '#PB#_config';
 
     public function __construct()
     {
@@ -88,14 +88,14 @@ class ctl_system
         }
 
         $count  = db::select('count(file_id) as count')
-            ->from('file')
+            ->from('#PB#_file')
             ->where($where)
             ->as_row()
             ->execute();
         //分页
         $pages = sys_pages::instance($count['count'],req::item('page_num','10'));
 
-        $list = db::select()->from('file')
+        $list = db::select()->from('#PB#_file')
             ->where($where)
             ->offset($pages->firstRow)
             ->limit($pages->listRows)

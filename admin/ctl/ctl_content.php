@@ -2,9 +2,9 @@
 
 class ctl_content
 {
-    private $_cont_table = 'content';
+    private $_cont_table = '#PB#_content';
     private $_cont_pk = 'id';
-    private $_cate_table = 'content_cate';
+    private $_cate_table = '#PB#_content_cate';
     private $_cate_pk = 'cate_id';
 
     public function __construct()
@@ -15,9 +15,46 @@ class ctl_content
     //文章列表
     public function content_index()
     {
-        $list = [];
+        $where[] = ['delete_user','=','0'];
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+        if(!empty($keywords))
+        {
+            $where[] = [$this->_cont_table.'.title','like',"%{$keywords}%"];
+        }
+
+        $is_show = req::item('is_show','1');
+        view::assign('is_show',$is_show);
+        if(!empty($is_show))
+        {
+            $where[] = [$this->_cont_table.'.is_show','=',$is_show];
+        }
+
+        $count = db::select("count({$this->_cont_pk}) as  count")
+            ->from($this->_cont_table)
+            ->where($where)
+            ->as_row()
+            ->execute();
+
+        $pages = sys_pages::instance($count['count'],req::item('page_num',10));
+
+        $fields = [
+            $this->_cont_table.'.'.$this->_cont_pk,$this->_cont_table.'.cate_id',$this->_cont_table.'.create_time','title',
+            $this->_cate_table.'.name',$this->_cont_table.'.is_show','is_top','author','name as cate_name'
+        ];
+        $list = db::select($fields)
+            ->from($this->_cont_table)
+            ->join($this->_cate_table,'left')
+            ->on($this->_cate_table.'.'.$this->_cate_pk,'=',$this->_cont_table.'.cate_id')
+            ->where($where)
+            ->offset($pages->firstRow)
+            ->limit($pages->listRows)
+            ->order_by($this->_cont_pk,'DESC')
+            ->execute();
+
         setcookie('content_back_url',NOW_URL);
         view::assign('list',$list);
+        view::assign('pages',$pages->show());
         view::assign('add_url','?ct=content&ac=content_add');
         view::assign('edit_url','?ct=content&ac=content_edit');
         view::display();
@@ -26,9 +63,69 @@ class ctl_content
     //添加文章
     public function content_add()
     {
+        view::assign('pk',$this->_cont_pk);
+        if(empty(req::$posts))
+        {
+            view::assign('cates',$this->get_cates());
+            view::display();
+            exit;
+        }
+        $data = req::$posts;
+        if(empty($data['title']) || empty($data['cate_id']))
+        {
+            show_msg::error('标题或分类不能为空');
+        }
+        $data['create_time'] = time();
+        $data['create_user'] = sys_power::instanc()->_uid;
 
-        view::assign('cates',$this->get_cates());
-        view::display();
+        list($id,$rows) = db::insert($this->_cont_table)
+            ->set($data)
+            ->execute();
+        if($id)
+        {
+            show_msg::success('','?ct=content&ac=content_index');
+        }
+        show_msg::error();
+    }
+
+    public function content_edit()
+    {
+        $id = req::item($this->_cont_pk,0);
+        if(empty($id))
+        {
+            show_msg::error('文章不存在');
+        }
+        view::assign('pk',$this->_cont_pk);
+        if(empty(req::$posts))
+        {
+            view::assign('cates',$this->get_cates());
+            $info = db::select()
+                ->from($this->_cont_table)
+                ->where($this->_cont_pk,$id)
+                ->as_row()
+                ->execute();
+            view::assign('data',$info);
+            view::display('content.content_add');
+            exit;
+        }
+        $data = req::$posts;
+        if(empty($data['title']) || empty($data[$this->_cont_pk]))
+        {
+            show_msg::error('标题不能为空');
+        }
+        $data['create_time'] = time();
+        $data['create_user'] = sys_power::instanc()->_uid;
+
+        if(db::update($this->_cont_table)
+            ->set($data)
+            ->where($this->_cont_pk,$data[$this->_cont_pk])
+            ->execute() === false)
+        {
+            log::info(db::get_last_sql());
+            show_msg::error();
+        }
+        show_msg::success('',NOW_URL.'&id='.$data[$this->_cont_pk]);
+
     }
 
     //分类列表
@@ -83,6 +180,7 @@ class ctl_content
         }
 
         $data = req::$posts;
+
 
         if($data['parent_id'] > 0)
         {

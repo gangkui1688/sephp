@@ -11,6 +11,6 @@ class mod_index
 
     public static function getlist()
     {
-        return db::select()->from('config')->execute();
+        return db::select()->from('#PB#_config')->execute();
     }
 }

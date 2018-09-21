@@ -110,10 +110,6 @@ class db_build
 
     protected $_as_field = false;
 
-    public function __construct()
-    {
-    }
-
     public static function instance()
     {
         if (!self::$_instance instanceof self)
@@ -150,7 +146,6 @@ class db_build
         {
             $this->_crypt_key = $key;
         }
-
         return $this;
     }
 
@@ -190,7 +185,7 @@ class db_build
     {
         if ($table !== null)
         {
-            $table = '`'.$GLOBALS['config']['db']['prefix'].$table.'`';
+            $table = '`'.$table.'`';
             return $table;
         }
         return $GLOBALS['config']['db']['prefix'];
@@ -1121,8 +1116,7 @@ class db_build
             // Replace the values in the SQL
             $sql = $this->tr($sql, $values);
         }
-
-        return $sql;
+        return str_replace('#PB#_', $GLOBALS['config']['db']['prefix'], trim($sql));
     }
 
     public function get_compiled_sql()

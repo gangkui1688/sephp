@@ -1,7 +1,7 @@
 <?php
 
 
-class response
+class sys_response
 {
     // 原始数据
     protected $data;
@@ -49,7 +49,7 @@ class response
      * @param int    $code
      * @param array  $header
      * @param array  $options 输出参数
-     * @return Response|JsonResponse|ViewResponse|XmlResponse|RedirectResponse|JsonpResponse
+     * @return sysResponse|JsonResponse|ViewResponse|XmlResponse|RedirectResponse|JsonpResponse
      */
     public static function create($data = '', $type = '', $code = 200, array $header = [], $options = [])
     {

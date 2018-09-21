@@ -79,7 +79,7 @@ class sys_power
             return false;
         }
         $info = db::select()
-            ->from('admin_user')
+            ->from('#PB#_admin_user')
             ->where($where)
             ->as_row()
             ->execute();
@@ -92,7 +92,7 @@ class sys_power
         if($info['group_id'] > 0)
         {
             $power = db::select()
-                ->from('admin_group')
+                ->from('#PB#_admin_group')
                 ->where('group_id',$info['group_id'])
                 ->as_row()
                 ->execute();

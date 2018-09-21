@@ -3,7 +3,7 @@
 
 class config
 {
-    private static $table = 'config';
+    private static $table = '#PB#_config';
 
     /**
      * @var array 配置参数

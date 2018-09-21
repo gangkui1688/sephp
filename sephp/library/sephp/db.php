@@ -12,11 +12,16 @@ class db
     protected static $db_config = [];
     public static $links = null;
 
-    private static $operation = ['select','insert','update','delete','get_compiled_sql'];
+    private static $operation = ['query','select','insert','update','delete','get_compiled_sql'];
 
     public static function _start_mysql($operation,$param = null)
     {
+        if(!in_array($operation,self::$operation))
+        {
+            exceptions::throw_debug('mysql非法操作');
+        }
         return db_build::instance()->$operation($param);
+
     }
 
     public static function _init()

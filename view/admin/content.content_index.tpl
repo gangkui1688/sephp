@@ -14,11 +14,11 @@
                         <form action="<{$_self_url}>" method="get" target="_self" class="form-horizontal" >
                             <input type="hidden" name="ct" value="<{$_ct_name}>" />
                             <input type="hidden" name="ac" value="<{$_ac_name}>" />
-                            <div class="col-sm-1 m-b-xs">
-                                <select name="status" class="input-sm form-control input-s-sm inline">
+                            <div class="col-sm-2 m-b-xs">
+                                <select name="is_show" class="input-sm form-control input-s-sm inline">
                                     <option value="" >状态</option>
-                                    <option value="1" <{if $status == 1}>selected<{/if}> >已启用</option>
-                                    <option value="2" <{if $status == 2}>selected<{/if}> >已禁用</option>
+                                    <option value="1" <{if $is_show == 1}>selected<{/if}> >显示</option>
+                                    <option value="2" <{if $is_show == 2}>selected<{/if}> >不显示</option>
                                 </select>
                             </div>
                             <div class="col-sm-3">
@@ -45,22 +45,14 @@
 
                             <{foreach from=$list item=data }>
                             <tr>
-                                <td> <{$data.admin_id}> </td>
-                                <td> <{$data.username}> </td>
-                                <td><span class="pie"> <{$data.realname}></span></td>
-                                <td> <{if $data.status == 1}>已启用<{else}>已禁用<{/if}> </td>
-                                <td> <{$data.realname}> </td>
+                                <td> <{$data.id}> </td>
+                                <td> <{$data.title}> </td>
+                                <td><span class="pie"> <{$data.cate_name}></span></td>
+                                <td> <{if $data.is_top == 2}>不顶置<{else}>顶置<{/if}> </td>
+                                <td> <{if $data.is_show == 1}>显示<{else}>不显示<{/if}> </td>
+                                <td> <{$data.create_time|date_format:'%Y-%m-%d'}> </td>
                                 <td>
-                                    <{if $data.status == 1}>
-                                    <a class="btn btn-xs btn-danger" href="<{$save_url}>&admin_id=<{$data.admin_id}>&status=2">
-                                        禁用
-                                    </a>
-                                    <{else}>
-                                    <a class="btn btn-xs btn-primary" href="<{$save_url}>&admin_id=<{$data.admin_id}>&status=1">
-                                        启用
-                                    </a>
-                                    <{/if}>
-                                    <a class="btn btn-xs btn-success" href="<{$edit_url}>&admin_id=<{$data.admin_id}>">编辑</a>
+                                    <a class="btn btn-xs btn-success" href="<{$edit_url}>&id=<{$data.id}>">编辑</a>
                                 </td>
                             </tr>
                             <{foreachelse}>
@@ -68,7 +60,7 @@
                             <{/foreach}>
 
                             <tr>
-                                <td class="text-right" colspan="6">
+                                <td class="text-right" colspan="7">
                                     <{$pages}>
                                 </td>
                             </tr>

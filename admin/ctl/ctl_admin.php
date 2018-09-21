@@ -2,9 +2,9 @@
 
 class ctl_admin
 {
-    private $_admin_table = 'admin_user';
+    private $_admin_table = '#PB#_admin_user';
     private $_admin_id = 'admin_id';
-    private $_group_table = 'admin_group';
+    private $_group_table = '#PB#_admin_group';
     private $_group_id = 'group_id';
 
     public function __construct()
