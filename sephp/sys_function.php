@@ -1,5 +1,16 @@
 <?php
 
+//返回随机字符串,包括特殊字符
+function rand_str($length = 8)
+{
+    $output = '';
+    for ($i=0 ; $i < $length ; $i++ )
+    {
+        $output .= chr(mt_rand(33,126));
+    }
+    return $output;
+}
+
 function p($arg = null,$arg1 = null,$arg2 = null,$arg3 = null)
 {
     echo '<pre>';
@@ -147,3 +158,4 @@ function _shutdown_function($start_time = 0)
 
     log::init()->save();
 }
+

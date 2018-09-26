@@ -104,6 +104,32 @@ class sys_power
     }
 
 
+    /**
+     * 会员 生成 密码
+     * @param $password
+     * @param null $password_account
+     * @return boolean
+     */
+    public static function make_password($password,$password_account = null)
+    {
+        return md5(substr(md5($password),8,10) .'_'.$password_account);
+    }
+
+    /**
+     * 检测用户名是否存在
+     * @param string $login_account
+     * @return mixed
+     */
+    public static function check_member($login_account = '')
+    {
+        $info = db::select()
+            ->from('#PB#_member_pam')
+            ->where('login_account',$login_account)
+            ->as_row()
+            ->execute();
+        return $info;
+    }
+
 
 
 }

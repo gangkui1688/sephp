@@ -139,6 +139,7 @@ class ctl_system
      */
     public function data_optimization()
     {
+        db::select();
 
     }
 
