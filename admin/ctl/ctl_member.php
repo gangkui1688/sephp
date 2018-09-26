@@ -247,6 +247,11 @@ class ctl_member
 
     }
 
+    //会员信息
+    public function msg_list()
+    {
+        view::display();
+    }
 
     public function login_list()
     {
