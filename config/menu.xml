@@ -33,6 +33,11 @@
         <menu name='充值和提现申请' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
         <menu name='资金管理' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
         <menu name='登陆日志' ct='member' ac='log_list' icon='fa fa-file-text-o' display='' />
+        <menu name="卡劵管理"  icon='fa fa-database' display='' >
+            <menu name='创建充值卡' ct='coupons' ac='coupons_add' icon='fa fa-cogs' display='' />
+            <menu name='卡劵列表' ct='coupons' ac='coupons_list' icon='fa fa-cogs' display='' />
+            <menu name='会员充值' ct='coupons' ac='coupons_use' icon='fa fa-cogs' display='' />
+        </menu>
         <menu name="代理管理"  icon='fa fa-database' display='' >
             <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
             <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
