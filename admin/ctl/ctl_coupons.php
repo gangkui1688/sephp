@@ -8,6 +8,9 @@ class ctl_coupons
 {
     private $_pk = 'cpns_id';
     private $_table = '#PB#_coupons';
+    private $_field = [
+        'cpns_id','cpns_code','cpns_prefix','cpns_status','cpns_key','cpns_limit','create_time','cpns_type','create_user','expire_time'
+    ];
 
     public function __construct()
     {
@@ -18,7 +21,42 @@ class ctl_coupons
     public function coupons_list()
     {
         setcookie('coupons_back_url',NOW_URL);
-        view::display();
+        $cpns_status = req::item('cpns_status','');
+        view::assign('cpns_status',$cpns_status);
+        if(!empty($cpns_status))
+        {
+            $where[] = ['cpns_status','=',$cpns_status];
+        }
+
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+        if(!empty($keywords))
+        {
+            $where[] = ['cpns_code','like',"{$keywords}%"];
+        }
+
+
+        $where[] = [$this->_table . '.delete_user', '=', '0'];
+        $count = db::select("count({$this->_pk}) as  count")
+            ->from($this->_table)
+            ->where($where)
+            ->as_row()
+            ->execute();
+
+        $pages = sys_pages::instance($count['count'],req::item('page_num',20));
+
+        $list = db::select($this->_field)
+            ->from($this->_table)
+            ->where($where)
+            ->offset($pages->firstRow)
+            ->limit($pages->listRows)
+            ->order_by($this->_pk,'DESC')
+            ->execute();
+
+
+        view::assign('list',$list);
+        view::assign('pages',$pages->show());
+        view::display('coupons.coupons_list');
     }
 
     //创建卡劵

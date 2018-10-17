@@ -1,5 +1,7 @@
 <?php
+print_r(pathinfo('123123123/23jsldjflasjdkjfalsdfa.png'));
 
+exit;
 class  abc
 {
     /**
