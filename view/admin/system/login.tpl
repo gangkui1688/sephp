@@ -35,18 +35,25 @@
         <!--h3>欢迎使用 H+</h3-->
 
         <form class="m-t" method="post" target="_self"  role="form" action="<{$_self_url}>">
-            <div class="form-group">
-                <input type="text" class="form-control" name="username" placeholder="用户名" required="" />
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" name="password" placeholder="密码" required="" />
-            </div>
-            <div class="form-group">
-                <img style="width:100%;max-height: 38px;" src="<{$verify_url}>" onclick="this.src=this.src + '&time=' + Math.random()" />
-            </div>
-            <div class="form-group">
-                <input type="text" name="verify" class="form-control" placeholder="验证码" required="" />
-            </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="用户名" required="" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="密码" required="" />
+                </div>
+
+            <{if !empty($verify_url)}>
+                <div class="form-group">
+                    <img style="width:100%;max-height: 38px;" src="<{$verify_url}>" onclick="this.src=this.src + '&time=' + Math.random()" />
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="verify" class="form-control" placeholder="验证码" required="" />
+                </div>
+            <{/if}>
+
+
             <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
 
             <!--p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>

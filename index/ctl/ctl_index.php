@@ -2,11 +2,29 @@
 
 class ctl_index
 {
-
-
+    //首页
     public function index()
     {
+        view::display('index');
+    }
 
+    //申请合作
+    public function cooperate()
+    {
+        view::display('cooperate');
+    }
+
+    //产品服务
+    public function product()
+    {
+
+        view::display('product');
+    }
+
+    public function test()
+    {
+
+        p(req::$forms,mt_rand(0,99999999999999));
         view::display();
     }
 

@@ -3,8 +3,11 @@
 $config['web'] = [
     //是否开启验证码
     'verify_open' => false,
+    //是否开启google auth 验证
+    'google_auth' => true,
     //是否生成静态页面
-    'static_page' => true,
+    //'static_page' => ['index','member'],
+
 ];
 
 $config['log'] = [
@@ -12,7 +15,7 @@ $config['log'] = [
     'single'        => true, //单日志文件模式
     'file_size'     => 10240,//10M
     'type'          => 'file',
-    'path'          => WWW_ROOT.'runtime/log/',
+    'path'          => PATH_ROOT.'runtime/log/',
     'detail_info'   => true,
 ];
 
@@ -52,6 +55,17 @@ $config['upload'] = [
 ];
 
 
+
+//路由解析配置
+$config['route'] = [
+    'url_route_on' => ['index'], //开启路由模式的项目
+    'url_route_ext' => 'html',
+    'url_route_rules' => [
+        'index:id:uid' => '/index/index',
+        'help' => '/index/?ct=index&ac=help',
+    ],
+
+];
 
 
 

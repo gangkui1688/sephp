@@ -21,6 +21,12 @@
             <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
         </menu>
     </menu>
+    <menu name='微信管理' icon='fa fa-book' id='whcatManagement'  >
+        <menu name='基础设置' ct='wechat' ac='base' icon='fa fa-list-ol' display='' />
+        <menu name='公众号' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+        <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+        <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+    </menu>
     <menu name='内容管理' icon='fa fa-book' id='contentManagement'  >
         <menu name='内容分类' ct='content' ac='cate_index' icon='fa fa-list-ol' display='' />
         <menu name='文章列表' ct='content' ac='content_index' icon='fa fa-file-text-o' display='' />
@@ -60,9 +66,5 @@
     </menu>
     <menu name='订单管理' icon='fa fa-user-secret' id='orderCenter' >
         <menu name='订单列表' ct='order' ac='index' icon='fa fa-user' display='' />
-    </menu>
-    <menu name='打印日志' icon='fa fa-user-secret' id='printerCenter' >
-        <menu name='打印队列' ct='printer' ac='index' icon='fa fa-user' display='' />
-        <menu name='打印失败' ct='printer' ac='faillist' icon='fa fa-users' display='' />
     </menu>
 </menus>

@@ -72,7 +72,7 @@ class WeixinResponse extends WeixinApi{
             $this->_responseType = WeixinResponse::AS_VIEW;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseView($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }
 
         // 事件，需要加载外部配置数据
@@ -81,67 +81,67 @@ class WeixinResponse extends WeixinApi{
             $this->_responseType = WeixinResponse::AS_SUBSCRIBE;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseSubscribe($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isUnsubscribe($receiveObj))){
             $this->_responseType = WeixinResponse::AS_UNSUBSCRIBE;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseUnsubscribe($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isClick($receiveObj))){
             $this->_responseType = WeixinResponse::AS_CLICK;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseClick($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isScanCodePush($receiveObj))){
             $this->_responseType = WeixinResponse::AS_SCANCODE_PUSH;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseScancodePush($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isScanCodeWaitMsg($receiveObj))){
             $this->_responseType = WeixinResponse::AS_SCANCODE_WAITMSG;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseScanCodeWaitMsg($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isPicSysPhoto($receiveObj))){
             $this->_responseType = WeixinResponse::AS_PIC_SYSPHOTO;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responsePicSysPhoto($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isPicPhotoOrAlbum($receiveObj))){
             $this->_responseType = WeixinResponse::AS_PIC_PHOTO_OR_ALBUM;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responsePicPhotoOrAlbum($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isPicWeixin($receiveObj))){
             $this->_responseType = WeixinResponse::AS_PIC_WEIXIN;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responsePicWeixin($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isLocationSelect($receiveObj))){
             $this->_responseType = WeixinResponse::AS_LOCATION_SELECT;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseLocationSelect($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isScan($receiveObj))){
             $this->_responseType = WeixinResponse::AS_SCAN;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseScan($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isLocation($receiveObj))){
             $this->_responseType = WeixinResponse::AS_LOCATION;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseLocation($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isMassSendJobFinish($receiveObj))){
             $this->_responseType = WeixinResponse::AS_MASSSENDJOBFINISH;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseMassSendJobFinish($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isTemplateSendJobFinish($receiveObj))){
             $this->_responseType = WeixinResponse::AS_TEMPLATESENDJOBFINISH;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseTemplateSendJobFinish($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }
 
         // 文本消息
@@ -149,12 +149,12 @@ class WeixinResponse extends WeixinApi{
             $this->_responseType = WeixinResponse::AS_COMMAND;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseCommand($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }elseif(($key=$this->_isMessage($receiveObj))){
             $this->_responseType = WeixinResponse::AS_MESSAGE;
             $this->_responseKey = $key===true?'':$key;
             $this->_responseContent = $this->_responseMessage($receiveObj);
-            $msgFormat = 'xml';
+            $msgFormat = 'sysXml';
         }
 
         // 未知，可能是新类型
@@ -461,7 +461,7 @@ class WeixinResponse extends WeixinApi{
      * @param string $msgFormat 消息格式
      * @return array|false
      */
-    protected function _createResponseMessage($receiveObj, $responseContent, $msgFormat='xml'){
+    protected function _createResponseMessage($receiveObj, $responseContent, $msgFormat= 'sysXml'){
 
         if(is_array($responseContent) && !empty($responseContent['Callback'])){
             $data = $this->_run_callback($responseContent['Callback'], array($receiveObj, $this));
@@ -501,7 +501,7 @@ class WeixinResponse extends WeixinApi{
         }
 
         // 预处理消息
-        if($msgFormat=='xml'){
+        if($msgFormat== 'sysXml'){
             $responseContent = $this->_preprocessResponseMedia($responseContent);
         }
 
@@ -540,7 +540,7 @@ class WeixinResponse extends WeixinApi{
         return array(
             'MsgType' => $responseContent['MsgType'],
             'MsgFormat' => $msgFormat,
-            'MsgContent' => $msgFormat=='xml'?$msgContentOutput: $responseContent['Content'],
+            'MsgContent' => $msgFormat== 'sysXml' ?$msgContentOutput: $responseContent['Content'],
             'MsgOriginal' => $msgContentOriginal?$msgContentOriginal:NULL,
             'MsgEncoding' => $msgEncoding,
             'RawContent' => $responseContent['Content']

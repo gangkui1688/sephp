@@ -88,7 +88,7 @@ function _exception_handler($e)
     $line   = $e->getLine();
     $filename  = $e->getFile();
     $backtrace = $e->getTrace();
-    se_debug::show($code, $msg, $filename, $line, $backtrace);
+    sys_debug::show($code, $msg, $filename, $line, $backtrace);
 }
 
 /**

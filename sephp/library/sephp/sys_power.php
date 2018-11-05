@@ -9,6 +9,7 @@ class sys_power
 {
     //用户session标示
     public $_user_marking = 'admin_info';
+
     /**
      * @var array 登陆用户信息
      */
@@ -97,9 +98,9 @@ class sys_power
                 ->as_row()
                 ->execute();
         }
-        $info['powerlist'] = empty($power) ? [] : json_decode($power['powerlist'],true);
+        $info['powerlist'] = empty($power) ? [] : json_decode($power['powerlist'], true);
         log::info('用户【ID:'.$info['admin_id'].'】登陆成功');
-        session::set($this->_user_marking,$info);
+        session::set($this->_user_marking, $info);
         return true;
     }
 

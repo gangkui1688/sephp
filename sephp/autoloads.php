@@ -1,16 +1,8 @@
 <?php
 class autoloads
 {
-    /**
-     * @var array 实例数组
-     */
-    protected static $instance = [];
 
-    /**
-     * @var array 自动加载的文件
-     */
-    private static $autoloadFiles = [];
-
+    protected static $autoload_files = null;
     /**
      * 自动加载
      * @access public
@@ -19,30 +11,17 @@ class autoloads
      */
     public static function autoload($class)
     {
-        self::getModuleAndClass($class);
-    }
-
-
-
-    /**
-     * 注册 classmap
-     * @access public
-     * @param  string|array $class 类名
-     * @param  string       $map   映射
-     * @return void
-     */
-    public static function addClassMap($class, $map = '')
-    {
-        if (is_array($class)) {
-            self::$map = array_merge(self::$map, $class);
-        } else {
-            self::$map[$class] = $map;
+        if(strpos('smarty',$class) !== false)
+        {
+            return true;
         }
+        self::load_class($class);
     }
 
 
+
     /**
-     * 注册自动加载机制
+     * 注册函数
      * @access public
      * @param  callable $autoload 自动加载处理方法
      * @return void
@@ -53,114 +32,39 @@ class autoloads
         $func_file = APP_PATH.'function.php';
         if(file_exists($func_file))
         {
-            require $func_file;
+            require_once $func_file;
         }
-
-
     }
 
 
-    /**
-     * 实例化（分层）控制器 格式：[模块名/]控制器名
-     * @access public
-     * @param  string $name         资源地址
-     * @param  string $layer        控制层名称
-     * @param  bool   $appendSuffix 是否添加类名后缀
-     * @param  string $empty        空控制器名称
-     * @return object
-     * @throws ClassNotFoundException
-     */
-    public static function controller($name, $layer = 'controller', $appendSuffix = false, $empty = '')
-    {
-        list($module, $class) = self::getModuleAndClass($name, $layer, $appendSuffix);
 
-        if (class_exists($class)) {
-            return App::invokeClass($class);
-        }
-
-        if ($empty) {
-            $emptyClass = self::parseClass($module, $layer, $empty, $appendSuffix);
-
-            if (class_exists($emptyClass)) {
-                return new $emptyClass(Request::instance());
-            }
-        }
-
-        throw new ClassNotFoundException('class not exists:' . $class, $class);
-    }
-
-    /**
-     * 实例化验证类 格式：[模块名/]验证器名
-     * @access public
-     * @param  string $name         资源地址
-     * @param  string $layer        验证层名称
-     * @param  bool   $appendSuffix 是否添加类名后缀
-     * @param  string $common       公共模块名
-     * @return object|false
-     * @throws ClassNotFoundException
-     */
-    public static function validate($name = '', $layer = 'validate', $appendSuffix = false, $common = 'common')
-    {
-        $name = $name ?: Config::get('default_validate');
-
-        if (empty($name)) {
-            return new Validate;
-        }
-
-        $uid = $name . $layer;
-        if (isset(self::$instance[$uid])) {
-            return self::$instance[$uid];
-        }
-
-        list($module, $class) = self::getModuleAndClass($name, $layer, $appendSuffix);
-
-        if (class_exists($class)) {
-            $validate = new $class;
-        } else {
-            $class = str_replace('\\' . $module . '\\', '\\' . $common . '\\', $class);
-
-            if (class_exists($class)) {
-                $validate = new $class;
-            } else {
-                throw new ClassNotFoundException('class not exists:' . $class, $class);
-            }
-        }
-
-        return self::$instance[$uid] = $validate;
-    }
-
-    /**
-     * 解析模块和类名
-     * @access protected
-     * @param  string $name         资源地址
-     * @param  string $layer        验证层名称
-     * @param  bool   $appendSuffix 是否添加类名后缀
-     * @return array
-     */
-    protected static function getModuleAndClass($name)
+    protected static function load_class($name)
     {
         if(file_exists($name.'php'))
         {
-            require self::$autoloadFiles;
+            require self::$autoload_files;
             return true;
         }
         $prefix = substr($name,0,4);
         switch ($prefix)
         {
+            case 'sys_':
+                self::$autoload_files = PATH_LIB . 'sephp/' . $name.'.php';
+                break;
             case 'lib_':
-                self::$autoloadFiles = APP_PATH.'/lib/'.$name.'.php';
+                self::$autoload_files = APP_PATH . '/lib/' . $name . '.php';
                 break;
             case 'mod_':
-                self::$autoloadFiles = APP_PATH.'mod/'.$name.'.php';
+                self::$autoload_files = APP_PATH . 'mod/' . $name . '.php';
                 break;
             default:
-                self::$autoloadFiles = SE_LIB.$name.'.php';
+                self::$autoload_files = PATH_LIB . $name . '.php';
                 break;
         }
 
-        if( file_exists( self::$autoloadFiles ) )
+        if( file_exists( self::$autoload_files ) )
         {
-            require self::$autoloadFiles;
+            require self::$autoload_files;
         }
         else
         {
@@ -170,58 +74,5 @@ class autoloads
 
     }
 
-    /**
-     * 数据库初始化 并取得数据库类实例
-     * @access public
-     * @param  mixed       $config 数据库配置
-     * @param  bool|string $name   连接标识 true 强制重新连接
-     * @return \sephp\db\Connection
-     */
-    public static function db($config = [], $name = false)
-    {
-        return Db::connect($config, $name);
-    }
 
-    /**
-     * 远程调用模块的操作方法 参数格式 [模块/控制器/]操作
-     * @access public
-     * @param  string       $url          调用地址
-     * @param  string|array $vars         调用参数 支持字符串和数组
-     * @param  string       $layer        要调用的控制层名称
-     * @param  bool         $appendSuffix 是否添加类名后缀
-     * @return mixed
-     */
-    public static function action($url, $vars = [], $layer = 'controller', $appendSuffix = false)
-    {
-        $info   = pathinfo($url);
-        $action = $info['basename'];
-        $module = '.' != $info['dirname'] ? $info['dirname'] : Request::instance()->controller();
-        $class  = self::controller($module, $layer, $appendSuffix);
-
-        if ($class) {
-            if (is_scalar($vars)) {
-                if (strpos($vars, '=')) {
-                    parse_str($vars, $vars);
-                } else {
-                    $vars = [$vars];
-                }
-            }
-
-            return App::invokeMethod([$class, $action . Config::get('action_suffix')], $vars);
-        }
-
-        return false;
-    }
-
-
-
-    /**
-     * 初始化类的实例
-     * @access public
-     * @return void
-     */
-    public static function clearInstance()
-    {
-        self::$instance = [];
-    }
 }

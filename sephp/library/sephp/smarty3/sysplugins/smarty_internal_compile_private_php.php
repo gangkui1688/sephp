@@ -40,7 +40,7 @@ class Smarty_Internal_Compile_Private_Php extends Smarty_Internal_CompileBase
         // check and get attributes
         $_attr = $this->getAttributes($compiler, $args);
         $compiler->has_code = false;
-        if ($_attr[ 'type' ] === 'xml') {
+        if ($_attr[ 'type' ] === 'sysXml') {
             $compiler->tag_nocache = true;
             $output = addcslashes($_attr[ 'code' ], "'\\");
             $compiler->parser->current_buffer->append_subtree($compiler->parser,
@@ -115,7 +115,7 @@ class Smarty_Internal_Compile_Private_Php extends Smarty_Internal_CompileBase
         $closeTag = '?>';
         if (strpos($lex->value, '<?xml') === 0) {
             $lex->is_xml = true;
-            $lex->phpType = 'xml';
+            $lex->phpType = 'sysXml';
             return;
         } elseif (strpos($lex->value, '<?') === 0) {
             $lex->phpType = 'php';
@@ -127,7 +127,7 @@ class Smarty_Internal_Compile_Private_Php extends Smarty_Internal_CompileBase
         } elseif (strpos($lex->value, '?>') === 0) {
             if ($lex->is_xml) {
                 $lex->is_xml = false;
-                $lex->phpType = 'xml';
+                $lex->phpType = 'sysXml';
                 return;
             }
             $lex->phpType = 'unmatched';

@@ -45,6 +45,10 @@
                             <th class="text-center">变 量 值</th>
                         </tr>
                         <tr>
+                            <td>网站名称</td>
+                            <td><input class="form-control" name="web_name" value="<{if isset($data.web_name)}><{$data.web_name}><{/if}>" /></td>
+                        </tr>
+                        <tr>
                             <td>网址标题</td>
                             <td><textarea class="form-control" name="page_title"><{if isset($data.page_title)}><{$data.page_title}><{/if}></textarea></td>
                         </tr>

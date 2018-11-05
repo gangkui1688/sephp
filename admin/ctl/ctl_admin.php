@@ -249,4 +249,5 @@ class ctl_admin
         show_msg::success('','?ct=admin&ac=grouplist');
     }
 
+
 }

@@ -41,16 +41,16 @@ class ctl_system
         switch ($type)
         {
             case 'log':
-                $path_file = WWW_ROOT.'runtime/log/';
+                $path_file = PATH_ROOT.'runtime/log/';
                 break;
             case 'cache':
-                $path_file = WWW_ROOT.'runtime/cache/';
+                $path_file = PATH_ROOT.'runtime/cache/';
                 break;
             case 'upload':
-                $path_file = WWW_ROOT.'upload/file/';
+                $path_file = PATH_ROOT.'upload/file/';
                 break;
             default:
-                $path_file = WWW_ROOT.'runtime/log/';
+                $path_file = PATH_ROOT.'runtime/log/';
         }
         clearstatcache();
         $files = glob($path_file."*{$keywords}*");
@@ -236,7 +236,7 @@ class ctl_system
     {
         //p(session::get('admin_info'),pathinfo(NOW_URL));
         $menus = req::item('menus','');
-        $file = SEPHP . '../config/menu.xml';
+        $file = PATH_SEPHP . '../config/menu.xml';
         if(empty($menus))
         {
             view::assign('menus',file_get_contents($file));
@@ -258,7 +258,7 @@ class ctl_system
 
     public function clear_view_cache()
     {
-        $dir = SE_RUNTIME.'compile/';
+        $dir = PATH_RUNTIME.'compile/';
         if(!file_exists($dir))
         {
             show_msg::success('','-1');

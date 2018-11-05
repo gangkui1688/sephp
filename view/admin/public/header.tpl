@@ -6,7 +6,7 @@
     <meta name="keywords" content="EZ" />
     <base target="_self" />
     <meta name="description" content="EZ" />
-    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
     <link href="static/frame/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
     <link href="static/frame/css/font-awesome.min.css" rel="stylesheet">
 
@@ -24,8 +24,14 @@
 
     <link href="static/frame/css/plugins/iCheck/custom.css" rel="stylesheet"  />
     <link href="static/frame/css/animate.min.css" rel="stylesheet">
+
+    <link href="static/frame/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+
+    <link href="static/frame/js/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+
     <link href="static/frame/css/style.min.css?v=4.0.0" rel="stylesheet">
     <link href="static/frame/css/plugins/bootstrap-table/src/bootstrap-table.css" rel="stylesheet"  />
+
 
 
 </head>

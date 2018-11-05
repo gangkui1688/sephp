@@ -44,7 +44,7 @@ class sys_dbmanage {
      * @return bool
      */
     function backup($tablename = '', $dir='', $size=10) {
-        $dir = empty($dir) ? WWW_ROOT.'upload/backup/' : './';
+        $dir = empty($dir) ? PATH_ROOT.'upload/backup/' : './';
         // 创建目录
         if (! is_dir ( $dir )) {
             if(!mkdir ( $dir, 0777, true ))

@@ -10,7 +10,7 @@ class mod_system
      */
     public static function get_menus($type = 'left_menu')
     {
-        $file = SEPHP . '../config/menu.xml';
+        $file = PATH_SEPHP . '../config/menu.xml';
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
         $xml = file_get_contents($file);
@@ -119,7 +119,7 @@ class mod_system
 
     public static function parseMenu_old()
     {
-        $file = SEPHP.'../config/menu.xml';
+        $file = PATH_SEPHP.'../config/menu.xml';
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
         $xml = file_get_contents($file);
@@ -131,7 +131,7 @@ class mod_system
 
         return true;
 
-        $array = xml::xmlToArray(file_get_contents($file));
+        $array = sysXml::xmlToArray(file_get_contents($file));
         $menus = array();
         foreach ($array['menus']['menu'] as $k => $v)
         {

@@ -8,7 +8,7 @@ class File
         'time_format' => ' c ',
         'single'      => false,
         'file_size'   => 2097152,
-        'path'        => WWW_ROOT.'data/log/',
+        'path'        => PATH_ROOT.'data/log/',
         'apart_level' => [],
     ];
 

@@ -13,7 +13,11 @@
 
 <script src="static/frame/js/content.min.js?v=1.0.0"></script>
 <script src="static/frame/js/plugins/iCheck/icheck.min.js"></script>
+<script src="static/frame/js/plugins/staps/jquery.steps.min.js"></script>
 <script src="static/frame/js/plugins/BootstrapSwitch/BootstrapSwitch.js"></script>
+
+<script src="static/frame/js/plugins/peity/jquery.peity.min.js"></script>
+<script src="static/frame/js/plugins/fancybox/jquery.fancybox.js"></script>
 
 <script src="static/frame/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="static/frame/js/main.js"></script>

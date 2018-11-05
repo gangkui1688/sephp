@@ -24,8 +24,8 @@ class sys_upload
 
         $maxFileAge = 5 * 3600; // Temp file age in seconds
 
-        $targetDir = WWW_ROOT . 'upload/temp';
-        $uploadDir = WWW_ROOT . 'upload/file';
+        $targetDir = PATH_ROOT . 'upload/temp';
+        $uploadDir = PATH_ROOT . 'upload/file';
 
         if (!file_exists($targetDir)) {
             @mkdir($targetDir, '0777', true);
@@ -140,7 +140,7 @@ class sys_upload
         if($id)
         {
             $data['file_id'] = $id;
-            $data['upload_dir'] = SE_UPLOAD . 'file/';
+            $data['upload_dir'] = PATH_UPLOAD . 'file/';
             $data['http'] = WWW_URL.'/upload/file/';
             return $data;
         }

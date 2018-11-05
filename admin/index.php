@@ -4,6 +4,7 @@ define('APP_PATH',__DIR__.'/');
 define('APP_NAME','admin');
 define('APP_DEBUG',true);
 
+
 $_authority = [
     'need_login' => true,
     'not_login'  => ['public'],

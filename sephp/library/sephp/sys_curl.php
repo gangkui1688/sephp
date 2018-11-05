@@ -42,7 +42,7 @@ class sys_curl
      */
     private function saveAsImage($url, $file, $path = '')
     {
-        $path = empty($path) ? SE_UPLOAD . '/file/' : $path;
+        $path = empty($path) ? PATH_UPLOAD . '/file/' : $path;
         $filename = pathinfo($url, PATHINFO_BASENAME);
         $resource = fopen($path . $filename, 'a');
         fwrite($resource, $file);

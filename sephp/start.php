@@ -16,15 +16,15 @@ else
 $_start_time = microtime(true);
 session_start();
 define('SE_START_TIME',$_start_time);
-define('SEPHP',__DIR__.'/');
-define('WWW_ROOT',__DIR__.'/../');
-define('SE_VIEW',__DIR__.'/../view/');
-define('SE_LIB',__DIR__.'/library/sephp/');
-define('SE_RUNTIME',__DIR__.'/../runtime/');
-define('SE_UPLOAD',__DIR__.'/../upload/');
+define('PATH_SEPHP',__DIR__.'/');
+define('PATH_ROOT',__DIR__.'/../');
+define('PATH_VIEW',__DIR__.'/../view/');
+define('PATH_LIB',__DIR__.'/library/');
+define('PATH_RUNTIME',__DIR__.'/../runtime/');
+define('PATH_UPLOAD',__DIR__.'/../upload/');
 
-include_once SEPHP . 'sys_function.php';
-include_once SEPHP . 'autoloads.php';
+include_once PATH_SEPHP . 'sys_function.php';
+include_once PATH_SEPHP . 'autoloads.php';
 
 class start
 {
@@ -32,20 +32,27 @@ class start
     public static $_now_url = null;
     public static $_ct = '';
     public static $_ac = '';
+    public static $_config = [];
 
     public function __construct($_authority = [])
     {
-        $GLOBALS['config'] = include(WWW_ROOT . '/config/config.php');
+        $GLOBALS['config'] = include(PATH_ROOT . '/config/config.php');
         $GLOBALS['config']['_authority'] = $_authority;
+        self::$_config = $GLOBALS['config'];
         //自动注册类库
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获
-        set_exception_handler('_exception_handler');
+        set_exception_handler('sys_debug::exception');
         //找类库
         autoloads::register();
         //注册一个会在php中止时执行的函数
         register_shutdown_function('_shutdown_function',['_start_time'=>SE_START_TIME]);
+        //路由解析
+        $GLOBALS['config']['route']['url_route_on'] ? sys_route::instance() : null;
         $this->_get_ap_ct_ac();
+        //页面静态缓存
+        empty($GLOBALS['config']['web']['static_page']) ? '' : $this->_static_page();
+       // p($_REQUEST,$_SERVER);exit;
         //GET.POST.COOKIE 参数过滤
         req::init();
         //权限控制
@@ -68,6 +75,7 @@ class start
         }
 
         $class_name = 'ctl_'.self::$_ct;
+
         if(class_exists($class_name,false))
         {
             self::$_instance = new $class_name();
@@ -85,7 +93,7 @@ class start
         }
         else
         {
-            exceptions::throw_debug("the action ctl_".self::$_ct."->".self::$_ac."() is not exists!",debug_backtrace(),'方法不存在');
+            exceptions::throw_debug("the action ctl_".self::$_ct."->".self::$_ac."() is not exists!", debug_backtrace(), '方法不存在');
         }
 
     }
@@ -99,6 +107,24 @@ class start
         self::$_now_url =  $_SERVER['REQUEST_URI'];
         define('NOW_URL',self::$_now_url);
         define('WWW_URL','http://'.$_SERVER['SERVER_NAME']);
-
     }
+
+    protected function _static_page()
+    {
+        if(in_array(APP_NAME, $GLOBALS['config']['web']['static_page']))
+        {
+            $name = null;
+            foreach ($_REQUEST as $k=>$v)
+            {
+                $name .= $k . '-' . $v . '_';
+            }
+            $html_file_name = PATH_RUNTIME . 'cache/html/' . APP_NAME . '/' . rtrim($name, '_') . '.html';
+            if(file_exists($html_file_name))
+            {
+                $html = file_get_contents($html_file_name);
+                exit($html);
+            }
+        }
+    }
+
 }
