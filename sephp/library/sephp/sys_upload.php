@@ -135,7 +135,7 @@ class sys_upload
         $data['size'] = $result['size'];
         $data['type'] = $result['type'];
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instanc()->_uid;
+        $data['create_user'] = sys_power::instance()->_uid;
         list($id,$rows) = db::insert('file')->set($data)->execute();
         if($id)
         {
@@ -154,7 +154,7 @@ class sys_upload
         {
             return false;
         }
-        $data['delete_user'] = sys_power::instanc()->_uid;
+        $data['delete_user'] = sys_power::instance()->_uid;
         $data['delete_time'] = time();
         if(db::update('file')->set($data)->where('file_id',$file_id)->execute() === false)
         {

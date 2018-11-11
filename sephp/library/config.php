@@ -149,8 +149,11 @@ class config
             }
             return true;
         }
-        $GLOBALS['config'][$key] = $value;
-        return true;
+        else
+        {
+            $GLOBALS['config'][$key] = $value;
+            return true;
+        }
     }
 
     /**

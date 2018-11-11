@@ -18,8 +18,12 @@ class ctl_index
         view::assign('top_menu',$top_menu);
         view::assign('left_menu',json_encode($left_menu,JSON_UNESCAPED_UNICODE));
 
-        view::assign('default_page_url','?ct=index&ac=home');
+        $user_info = session::get(sys_power::$_mark);
 
+        view::assign('realname', $user_info['realname']);
+        view::assign('goup_name', empty($user_info['group_name']) ? '---' : $user_info['group_name']);
+
+        view::assign('default_page_url','?ct=index&ac=home');
         view::assign('logout_url', '?ct=public&ac=logout');
         view::assign('login_url', $GLOBALS['_authority']['login_url']);
         view::display('index');

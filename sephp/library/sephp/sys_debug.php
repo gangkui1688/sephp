@@ -35,28 +35,29 @@ class sys_debug
         $filename = empty(self::$error_file) ? $filename : self::$error_file;
         $line = empty(self::$error_line) ? $line : self::$error_line;
         $code = empty(self::$error_code) ? $code : self::$error_code;
+        $code_name = $code >= 100 ? '手动抛出' : '系统错误';  
+            
         log::info($msg);
         $codes = file($filename);
-        //p($codes[$line-1]);
+                
         self::$html .= '<div style=\'font-size:14px;line-height:160%;border-bottom:1px dashed #ccc;margin-top:8px;\'>';
         self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()) . '::' . NOW_URL . "<br />\n";
-        self::$html .= "错误类型：" . $code . "<br />\n";
+        self::$html .= "错误类型：" . $code_name . "<br />\n";
         self::$html .= "出错原因：<font color='#3F7640'>" . $msg . "</font><br />\n";
-        self::$html .= "提示位置：" . $filename . " 第 {$line} 行<br />\n";
+        self::$html .= "提示位置：<a href='" .  str_replace(['%file%','%line%'], [$filename,$line], start::$_config['web']['edit_tool']) . "'>" . $filename . " 第 {$line} 行<br />\n";
         self::$html .= "断点源码：<font color='#747267'>{$codes[$line-1]}</font><br />\n";
         self::$html .= "详细跟踪：<br />\n";
 
-        $debug_backtrace = debug_backtrace();
-        //p($debug_backtrace);exit;
         array_shift($backtrace);
+        //p($debug_backtrace);exit;
         $narr = array('class', 'type', 'function', 'file', 'line');
         foreach ($backtrace as $i => $l) {
             foreach ($narr as $k) {
                 if (!isset($l[$k])) $l[$k] = '';
             }
-            self::$html .= "<font color='#747267'>[$i] in function {$l['class']}{$l['type']}{$l['function']} ";
-            if ($l['file']) self::$html .= " in {$l['file']} ";
-            if ($l['line']) self::$html .= " on line {$l['line']} ";
+            self::$html .= "<font color='#747267'>[$i] In function {$l['class']}{$l['type']}{$l['function']} ";
+            empty($l['file']) ? '' : self::$html .= " In <a href='" . str_replace(['%file%','%line%'], [$l['file'],$l['line']], start::$_config['web']['edit_tool']) . "' >{$l['file']}</a>";
+            empty($l['line']) ? '' : self::$html .= " on line {$l['line']} ";
             self::$html .= "</font><br />\n";
         }
 

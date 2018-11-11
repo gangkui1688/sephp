@@ -137,7 +137,7 @@ class log
         }
         $handle = fopen($destination,'a+');
         if (fwrite($handle, $message) === FALSE) {
-            exceptions::throw_debug('日志写入失败,请检查日志文件写入权限',debug_backtrace());
+            throw new Exception('日志写入失败,请检查日志文件写入权限');
             return false;
         }
         return (fclose($handle));

@@ -1,21 +1,21 @@
 <?php
 
 
-class redis
+class sys_redis
 {
     public static $_instance = null;
     public static $_config = null;
 
     public function __construct($options = [])
     {
-        self::$_config = $GLOBALS['config']['redis'];
-        if (!extension_loaded('redis')) {
-            exceptions::throw_debug('not support: redis',debug_backtrace());
+        self::$_config = $GLOBALS['config']['sysRedis'];
+        if (!extension_loaded('sysRedis')) {
+            throw new Exception('not support: redis');
         }
         if (!empty($options)) {
             self::$_config = array_merge($options, self::$_config);
         }
-        self::$_instance = new Redis;
+        self::$_instance = new sysRedis;
         if (self::$_config['persistent']) {
             self::$_instance->pconnect(self::$_config['host'], self::$_config['port'], self::$_config['timeout'], 'persistent_id_' . self::$_config['select']);
         } else {

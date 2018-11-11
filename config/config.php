@@ -4,7 +4,10 @@ $config['web'] = [
     //是否开启验证码
     'verify_open' => false,
     //是否开启google auth 验证
-    'google_auth' => true,
+    'google_auth' => false,
+    //编辑器指定
+    'edit_tool' => 'mvim://open/?url=file://%file%&line=%line%',
+    //phpstrom 'idea://open?file=%file%&line=%line%
     //是否生成静态页面
     //'static_page' => ['index','member'],
 
@@ -15,14 +18,17 @@ $config['log'] = [
     'single'        => true, //单日志文件模式
     'file_size'     => 10240,//10M
     'type'          => 'file',
-    'path'          => PATH_ROOT.'runtime/log/',
+    'path'          => PATH_ROOT . 'runtime/log/',
     'detail_info'   => true,
 ];
 
 //session 设置
 $config['session'] = [
-    'prefix'=>'_sephp.a.com',
-    'auto_start'=>true,
+    'prefix' => 'sephp.a.com_',
+    'auto_start' => true,
+    'path' => '',
+    'expire' => 14400,
+    'secure' => true,
 ];
 
 //可以做读写分离的设置
@@ -36,7 +42,7 @@ $config['db'] = [
     'prefix'=>'se_'
 ];
 
-$config['redis'] = [
+$config['sysRedis'] = [
     'host'  => '127.0.0.1',
     'port'  => '6370',
     'user'  => '',
@@ -58,11 +64,12 @@ $config['upload'] = [
 
 //路由解析配置
 $config['route'] = [
-    'url_route_on' => ['index'], //开启路由模式的项目
+    'url_route_on' => ['index','admin'], //开启路由模式的项目
     'url_route_ext' => 'html',
     'url_route_rules' => [
-        'index:id:uid' => '/index/index',
-        'help' => '/index/?ct=index&ac=help',
+        'adduser-(\w+)-(\w+)' => '?ct=admin&ac=adduser&admin_id=$1&admin=$2',
+        'upload_file_list' => '?ct=system&ac=upload_file',
+        'help' => '?ct=index&ac=help',
     ],
 
 ];

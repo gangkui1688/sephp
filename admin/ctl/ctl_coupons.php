@@ -78,7 +78,7 @@ class ctl_coupons
         $data['cpns_status'] = 1;//,1未使用，2已使用
         $data['cpns_limit'] = $data['cpns_status'] == 1 ? req::$posts['cpns_limit'] : 0;//卡券额度
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instanc()->_uid;
+        $data['create_user'] = sys_power::instance()->_uid;
         $data['expire_time'] = req::$posts['expire_time'];
         $fail_num = 0;
         for($i = 0 ; $i < $number; $i++)

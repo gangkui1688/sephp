@@ -125,20 +125,18 @@ class sys_google_auth
      *
      * @return bool
      */
-    public function verify_code($code, $discrepancy = 1, $currentTimeSlice = null)
+    public function verify_code($code , $secret, $discrepancy = 1, $currentTimeSlice = null)
     {
         if ($currentTimeSlice === null) {
             $currentTimeSlice = floor(time() / 30);
         }
 
-        $secret = session::get('googel_auth_secret');
         for ($i = -$discrepancy; $i <= $discrepancy; ++$i) {
             $calculatedCode = $this->get_code($secret, $currentTimeSlice + $i);
             if ($this->timingSafeEquals($calculatedCode, $code)) {
                 return true;
             }
         }
-
         return false;
     }
 

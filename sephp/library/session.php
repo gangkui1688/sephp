@@ -2,8 +2,11 @@
 
 class session
 {
-    protected static $prefix = '';
-    protected static $init   = null;
+    protected static
+        $prefix = '',
+        $init = null,
+        $config = [];
+
 
     /**
      * 设置或者获取session作用域（前缀）
@@ -25,58 +28,64 @@ class session
      * @param array $config
      * @return void
      */
-    public static function init(array $config = [])
+    protected static function instance()
     {
-        if (empty($config)) {
-            $config = isset($GLOBALS['config']['session'])?$GLOBALS['config']['session']:null;
+        //重构session
+        session_set_save_handler('session::open', 'session::close', 'session::read',
+            'session::write', 'session::destroy', 'session::gc');
+
+        self::$config = empty($config) ? $GLOBALS['config']['session'] : $config;
+
+        if (isset(self::$config['prefix'])) {
+            self::$prefix = self::$config['prefix'];
         }
 
-        if (isset($config['prefix'])) {
-            self::$prefix = $config['prefix'];
-        }
 
-
-        if(session_status() == PHP_SESSION_ACTIVE){
+        if (session_status() == PHP_SESSION_ACTIVE) {
             self::$init = true;
             return true;
         }
 
-        if (!$config['auto_start']) {
+        if (!self::$config['auto_start']) {
             self::$init = false;
             return false;
         }
 
-        if (isset($config['path'])) {
-            session_save_path($config['path']);
+        if (isset(self::$config['path'])) {
+            session_save_path(self::$config['path']);
         }
 
-        if (isset($config['expire'])) {
+        if (isset(self::$config['expire'])) {
             //Session数据在服务器端储存的时间
-            ini_set('session.gc_maxlifetime', $config['expire']);
+            ini_set('session.gc_maxlifetime', self::$config['expire']);
             //SessionID在客户端Cookie储存的时间
-            ini_set('session.cookie_lifetime', $config['expire']);
+            ini_set('session.cookie_lifetime', self::$config['expire']);
         }
-        if (isset($config['secure'])) {
+
+        if (isset(self::$config['secure'])) {
             //session.cookie_secure设置为true意味着它只会通过安全连接（SSL）发送会话cookie，
-            ini_set('session.cookie_secure', $config['secure']);
+            ini_set('session.cookie_secure', self::$config['secure']);
         }
+
         //不能通过客户端脚本访问，则为 true
         ini_set('session.cookie_httponly', true);
 
-        if (isset($config['use_cookies'])) {
+        if (isset(self::$config['use_cookies'])) {
             ////是否使用cookies(默认值为1)
-            ini_set('session.use_cookies', $config['use_cookies'] ? 1 : 0);
+            ini_set('session.use_cookies', self::$config['use_cookies'] ? 1 : 0);
         }
-        if (isset($config['cache_limiter'])) {
+
+        if (isset(self::$config['cache_limiter'])) {
             //session在客户端的缓存方式，有nocache,private,private_no_expire,publice主这几种
-            session_cache_limiter($config['cache_limiter']);
+            session_cache_limiter(self::$config['cache_limiter']);
         }
-        if (isset($config['cache_expire'])) {
-            session_cache_expire($config['cache_expire']);
+
+        if (isset(self::$config['cache_expire'])) {
+            session_cache_expire(self::$config['cache_expire']);
         }
 
         // 启动session
-        if ($config['auto_start']) {
+        if (self::$config['auto_start']) {
             ini_set('session.auto_start', 0);
             session_start();
             self::$init = true;
@@ -88,14 +97,14 @@ class session
 
     /**
      * session设置
-     * @param string        $name session名称
-     * @param mixed         $value session值
-     * @param string|null   $prefix 作用域（前缀）
+     * @param string $name session名称
+     * @param mixed $value session值
+     * @param string|null $prefix 作用域（前缀）
      * @return void
      */
     public static function set($name, $value = '', $prefix = null)
     {
-        if(!self::$init) self::init();
+        if (!self::$init) self::init();
         $prefix = !is_null($prefix) ? $prefix : self::$prefix;
         if (strpos($name, '.')) {
             // 二维数组赋值
@@ -114,8 +123,8 @@ class session
 
     /**
      * session获取
-     * @param string        $name session名称
-     * @param string|null   $prefix 作用域（前缀）
+     * @param string $name session名称
+     * @param string|null $prefix 作用域（前缀）
      * @return mixed
      */
     public static function get($name = '', $prefix = null)
@@ -129,14 +138,14 @@ class session
             // 获取session
             if (strpos($name, '.')) {
                 list($name1, $name2) = explode('.', $name);
-                $value               = isset($_SESSION[$prefix][$name1][$name2]) ? $_SESSION[$prefix][$name1][$name2] : null;
+                $value = isset($_SESSION[$prefix][$name1][$name2]) ? $_SESSION[$prefix][$name1][$name2] : null;
             } else {
                 $value = isset($_SESSION[$prefix][$name]) ? $_SESSION[$prefix][$name] : null;
             }
         } else {
             if (strpos($name, '.')) {
                 list($name1, $name2) = explode('.', $name);
-                $value               = isset($_SESSION[$name1][$name2]) ? $_SESSION[$name1][$name2] : null;
+                $value = isset($_SESSION[$name1][$name2]) ? $_SESSION[$name1][$name2] : null;
             } else {
                 $value = isset($_SESSION[$name]) ? $_SESSION[$name] : null;
             }
@@ -147,9 +156,9 @@ class session
 
     /**
      * session设置 下一次请求有效
-     * @param string        $name session名称
-     * @param mixed         $value session值
-     * @param string|null   $prefix 作用域（前缀）
+     * @param string $name session名称
+     * @param mixed $value session值
+     * @param string|null $prefix 作用域（前缀）
      * @return void
      */
     public static function flash($name, $value)
@@ -183,15 +192,14 @@ class session
 
     /**
      * 删除session数据
-     * @param string|array  $name session名称
-     * @param string|null   $prefix 作用域（前缀）
+     * @param string|array $name session名称
+     * @param string|null $prefix 作用域（前缀）
      * @return void
      */
     public static function delete($name = null, $prefix = null)
     {
         empty(self::$init) && self::init();
-        if(empty($name))
-        {
+        if (empty($name)) {
             session_unset();//释放内存
             session_destroy();//删除当前会话
             return true;
@@ -224,7 +232,7 @@ class session
 
     /**
      * 清空session数据
-     * @param string|null   $prefix 作用域（前缀）
+     * @param string|null $prefix 作用域（前缀）
      * @return void
      */
     public static function clear($prefix = null)
@@ -234,8 +242,8 @@ class session
 
     /**
      * 判断session数据
-     * @param string        $name session名称
-     * @param string|null   $prefix
+     * @param string $name session名称
+     * @param string|null $prefix
      * @return bool
      */
     public static function has($name, $prefix = null)
@@ -253,8 +261,8 @@ class session
 
     /**
      * 添加数据到一个session数组
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed $value
      * @return void
      */
     public static function push($key, $value)
@@ -273,15 +281,14 @@ class session
      */
     public static function start()
     {
-        session_start();
-        self::$init = true;
+        self::init();
     }
 
     /**
      * 销毁session
      * @return void
      */
-    public static function destroy()
+    public static function destroy123()
     {
         if (!empty($_SESSION)) {
             $_SESSION = [];
@@ -311,4 +318,87 @@ class session
         session_write_close();
         self::$init = false;
     }
+
+
+    /**
+     * session_start() 之后第一个被调用的回调函数
+     * @param string $savePath
+     * @param string $sessionName
+     */
+    public static function open()
+    {
+
+        p(__METHOD__);
+
+        return true;
+    }
+
+    /**
+     * 在 write 回调函数调用之后调用。
+     * 当调用 session_write_close() 函数之后，也会执行本方法
+     */
+    public static function close()
+    {
+        p(__METHOD__);
+
+        return true;
+    }
+
+    /**
+     *  session_start() 函数手动开始会话之后，PHP 内部调用 read 回调函数来获取会话数据。
+     * 在调用 read 之前，PHP 会调用 open 回调函数。
+     * @param $session_id
+     */
+    public static function read()
+    {
+        p(__METHOD__);
+
+    }
+
+    /**
+     * 在会话保存数据时会调用
+     * PHP 会在脚本执行完毕或调用 session_write_close() 函数之后调用此回调函数
+     * @param $session_id
+     * @param $data
+     */
+    public static function write()
+    {
+
+        p(__METHOD__);
+        return true;
+    }
+
+    /**
+     * 当调用 session_destroy() 函数，
+     * 或者调用 session_regenerate_id() 函数并且设置 destroy 参数为 TRUE 时，
+     * 会调用此回调函数
+     * @param $session_id
+     */
+    public static function destroy()
+    {
+        p(__METHOD__);
+
+        return true;
+    }
+
+
+    public static function gc()
+    {
+        //session_gc();
+
+        return true;
+    }
+
+    /**
+     * 当需要新的会话 ID 时被调用的回调函数。 回调函数被调用时无传入参数，
+     * 其返回值应该是一个字符串格式的、有效的会话 ID。
+     */
+    public static function create_sid()
+    {
+        p(__METHOD__);
+
+        return true;
+    }
+
+
 }

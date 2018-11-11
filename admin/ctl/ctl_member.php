@@ -97,7 +97,7 @@ class ctl_member
         $data['remark'] = req::$posts['remark'];
         $data['member_lv_id'] = req::$posts['member_lv_id'];
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instanc()->_uid;
+        $data['create_user'] = sys_power::instance()->_uid;
 
         db::autocommit(false);
         list($member_id , $rows) = db::insert($this->_member_table)->set($data)->execute();
@@ -150,7 +150,7 @@ class ctl_member
         $data['remark'] = req::$posts['remark'];
         $data['member_lv_id'] = req::$posts['member_lv_id'];
         $data['update_time'] = time();
-        $data['update_user'] = sys_power::instanc()->_uid;
+        $data['update_user'] = sys_power::instance()->_uid;
 
         db::autocommit();
         if(db::update($this->_member_table)

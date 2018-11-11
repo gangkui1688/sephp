@@ -36,7 +36,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>登录名称</th>
-                                <th>真实名称</th>
+                                <th>邮箱</th>
+                                <th>用户组</th>
+                                <th>真实姓名</th>
                                 <th>状态</th>
                                 <th>备注</th>
                                 <th>操作</th>
@@ -46,10 +48,13 @@
                             <tr>
                                 <td> <{$data.admin_id}> </td>
                                 <td> <{$data.username}> </td>
+                                <td> <{$data.email}> </td>
+                                <td> <{$data.name}> </td>
                                 <td><span class="pie"> <{$data.realname}></span></td>
                                 <td> <{if $data.status == 1}>已启用<{else}>已禁用<{/if}> </td>
                                 <td> <{$data.realname}> </td>
                                 <td>
+                                    <a class="btn btn-xs btn-warning" href="<{$save_url}>&admin_id=<{$data.admin_id}>&auth_secert=">重置Google密钥</a>
                                         <{if $data.status == 1}>
                                             <a class="btn btn-xs btn-danger" href="<{$save_url}>&admin_id=<{$data.admin_id}>&status=2">
                                                 禁用
@@ -59,6 +64,7 @@
                                                 启用
                                             </a>
                                         <{/if}>
+
                                     <a class="btn btn-xs btn-success" href="<{$edit_url}>&admin_id=<{$data.admin_id}>">编辑</a>
                                 </td>
                             </tr>
@@ -67,7 +73,7 @@
                             <{/foreach}>
 
                             <tr>
-                                <td class="text-right" colspan="6">
+                                <td class="text-right" colspan="8">
                                     <{$pages}>
                                 </td>
                             </tr>

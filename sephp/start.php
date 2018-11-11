@@ -14,7 +14,7 @@ else
     ini_set('display_errors',1);
 }
 $_start_time = microtime(true);
-session_start();
+
 define('SE_START_TIME',$_start_time);
 define('PATH_SEPHP',__DIR__.'/');
 define('PATH_ROOT',__DIR__.'/../');
@@ -23,7 +23,7 @@ define('PATH_LIB',__DIR__.'/library/');
 define('PATH_RUNTIME',__DIR__.'/../runtime/');
 define('PATH_UPLOAD',__DIR__.'/../upload/');
 
-include_once PATH_SEPHP . 'sys_function.php';
+include_once PATH_SEPHP . 'function.php';
 include_once PATH_SEPHP . 'autoloads.php';
 
 class start
@@ -43,20 +43,23 @@ class start
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获
         set_exception_handler('sys_debug::exception');
-        //找类库
-        autoloads::register();
+        //引入所有自定义函数
+        autoloads::register_function();
+        //初始化session
+        session::instance();
         //注册一个会在php中止时执行的函数
         register_shutdown_function('_shutdown_function',['_start_time'=>SE_START_TIME]);
         //路由解析
-        $GLOBALS['config']['route']['url_route_on'] ? sys_route::instance() : null;
+        empty(self::$_config['route']['url_route_on']) ? null : sys_route::instance();
+
         $this->_get_ap_ct_ac();
         //页面静态缓存
         empty($GLOBALS['config']['web']['static_page']) ? '' : $this->_static_page();
-       // p($_REQUEST,$_SERVER);exit;
+        //p($_REQUEST,$_GET);exit;
         //GET.POST.COOKIE 参数过滤
         req::init();
         //权限控制
-        sys_power::instanc()->check_in();
+        sys_power::instance()->check_in();
         //执行方法
         $this->run();
     }
@@ -71,7 +74,7 @@ class start
         }
         else
         {
-            exceptions::throw_debug("controler file[".$ctl_file."]is not exists!",debug_backtrace());
+           throw new Exception("controler file[".$ctl_file."]is not exists!", 100);
         }
 
         $class_name = 'ctl_'.self::$_ct;
@@ -82,7 +85,7 @@ class start
         }
         else
         {
-            exceptions::throw_debug("class ".self::$_ct."() is not exists!",debug_backtrace(),'类不存在');
+            throw new Exception("class ".self::$_ct."() is not exists!", 100);
         }
 
 
@@ -93,7 +96,7 @@ class start
         }
         else
         {
-            exceptions::throw_debug("the action ctl_".self::$_ct."->".self::$_ac."() is not exists!", debug_backtrace(), '方法不存在');
+            throw new Exception("the action ctl_".self::$_ct."->".self::$_ac."() is not exists!", 100);
         }
 
     }

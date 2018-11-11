@@ -126,8 +126,7 @@ class db_mysqli
                 mysqli_query(self::$links, " SET character_set_connection=" . $charset . ", character_set_results=" . $charset . ", character_set_client=binary, sql_mode='' ");
 
             } catch (Exception $e) {
-
-                exceptions::throw_dexbug(mysqli_error(self::$links),mysqli_sqlstate(self::$links));
+                throw new Exception(mysqli_error(self::$links));
             }
 
 
@@ -1380,7 +1379,7 @@ class db_mysqli
 
         if(mysqli_errno(self::$links) > 0)
         {
-            exceptions::throw_debug(mysqli_error(self::$links).' | '.$sql, debug_backtrace(), 'SQL statement error');
+            throw new Exception(mysqli_error(self::$links) . ' | '. $sql);
         }
         if ($this->_type === db::SELECT)
         {
@@ -1487,7 +1486,7 @@ class db_mysqli
     {
         if ( ! is_array($this->_values))
         {
-            exceptions::throw_debug('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES',debug_backtrace());
+           throw new Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
         }
 
         // Get all of the passed values

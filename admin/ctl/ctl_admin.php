@@ -2,10 +2,12 @@
 
 class ctl_admin
 {
-    private $_admin_table = '#PB#_admin_user';
-    private $_admin_id = 'admin_id';
-    private $_group_table = '#PB#_admin_group';
-    private $_group_id = 'group_id';
+    private
+        $_admin_table = '#PB#_admin_user',
+        $_admin_id = 'admin_id',
+        $_group_table = '#PB#_admin_group',
+        $_group_id = 'group_id',
+        $_log_table = '#PB#_admin_login';
 
     public function __construct()
     {
@@ -34,17 +36,21 @@ class ctl_admin
             $query->where($where);
         }
 
-        $count = $query->as_row()->execute();
+        $count = $query->join($this->_group_table, 'left')
+            ->on($this->_group_table . '.group_id', '=', $this->_admin_table . '.group_id')
+            ->as_row()->execute();
 
         $pages = sys_pages::instance($count['count'],req::item('page_num',10));
 
-        $query = db::select('*')
+        $query = db::select($this->_admin_table . '.*,' . $this->_group_table . '.*')
             ->from($this->_admin_table);
         if($where)
         {
             $query->where($where);
         }
-        $data = $query->offset($pages->firstRow)
+        $data = $query->join($this->_group_table, 'left')
+            ->on($this->_group_table . '.group_id', '=', $this->_admin_table . '.group_id')
+            ->offset($pages->firstRow)
             ->limit($pages->listRows)
             ->order_by($this->_admin_id,'desc')
             ->execute();
@@ -74,22 +80,29 @@ class ctl_admin
                 ->execute();
                 view::assign('data',$data);
             }
+            $groups = db::select()->from($this->_group_table)->where('status','1')->execute();
+            view::assign('groups', $groups);
             view::assign('add_save_url','?ct='.CT_NAME.'&ac=saveuser');
             view::display('admin.adduser');
             exit;
         }
+
         $data['username'] = req::$posts['username'];
         $data['realname'] = req::$posts['realname'];
         $data['email'] = req::$posts['email'];
+        $data['group_id'] = req::$posts['group_id'];
         $data['remark'] = req::$posts['remark'];
 
         if(req::$posts[$this->_admin_id])
         {
             if(!empty(req::$posts['password']))
             {
-                $data['password'] = md5(req::$posts['password']);
+                $data['password'] = sys_power::make_password(req::$posts['password']);
             }
-            if(db::update($this->_admin_table)->set($data)->where($this->_admin_id,req::$posts[$this->_admin_id])->execute() === false)
+            if(db::update($this->_admin_table)
+                ->set($data)
+                ->where($this->_admin_id,req::$posts[$this->_admin_id])
+                ->execute() === false)
             {
                 show_msg::error('编辑失败');
             }
@@ -99,7 +112,7 @@ class ctl_admin
             }
         }
 
-        $data['password'] = md5(req::$posts['password']);
+        $data['password'] = sys_power::make_password(req::$posts['password']);
         $data['create_time'] = time();
         if(db::insert($this->_admin_table)->set($data)->execute() > 0)
         {
@@ -113,8 +126,11 @@ class ctl_admin
     {
         if(req::$forms[$this->_admin_id] > 0)
         {
+            $status = req::item('status', null);
+            $auth_secert = req::item('auth_secert','');
+            $data = !empty($status) ? ['status'=>$status] : ['auth_secert'=>$auth_secert];
             $result = db::update($this->_admin_table)
-                ->set(['status'=>req::$forms['status']])
+                ->set($data)
                 ->where($this->_admin_id,req::$forms[$this->_admin_id])
                 ->execute();
         }
@@ -212,6 +228,7 @@ class ctl_admin
         show_msg::error();
     }
 
+    //用户组权限编辑
     public function groupedit_power()
     {
         if (empty(req::$posts)) {
@@ -247,6 +264,103 @@ class ctl_admin
             show_msg::error();
         }
         show_msg::success('','?ct=admin&ac=grouplist');
+    }
+
+    //个人资料，个人中心
+    public function user_info()
+    {
+        $info = db::select($this->_admin_table . '.*,' . $this->_group_table . '.*')
+            ->from($this->_admin_table)
+            ->join($this->_group_table, 'left')
+            ->on($this->_group_table . '.group_id', '=', $this->_admin_table . '.group_id')
+            ->where($this->_admin_id, sys_power::instance()->_uid)
+            ->as_row()->execute();
+
+        p(session::get(sys_power::$_mark));
+
+        view::assign('data', $info);
+        view::display('admin.user_info');
+    }
+
+    //登陆日志
+    public function loginlog()
+    {
+        $where = [];
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+        if(!empty($keywords))
+        {
+            $where[] = ['username','like',"{$keywords}%"];
+        }
+        $status = req::item('status',0);
+        view::assign('status',$status);
+        if(!empty($status))
+        {
+            $where[] = ['status','=',$status];
+        }
+
+        $query = db::select('COUNT(*) as count')
+            ->from($this->_log_table);
+        if(!empty($where))
+        {
+            $query->where($where);
+        }
+        $count = $query->as_field()->execute();
+
+        $pages = sys_pages::instance($count['count'], req::item('page_num',1));
+
+        $data = db::select()->from($this->_log_table);
+        if(!empty($where))
+        {
+            $data = $data->where($where);
+        }
+        $data = $data->offset($pages->firstRow)
+            ->limit($pages->listRows)
+            ->execute();
+        view::assign('pages', $pages->show());
+        view::assign('list', $data);
+        view::display('system/loginlog');
+    }
+
+    //在线会话
+    public function online()
+    {
+        $where = [];
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+        if(!empty($keywords))
+        {
+            $where[] = ['username','like',"{$keywords}%"];
+        }
+        $status = req::item('status',0);
+        view::assign('status',$status);
+        if(!empty($status))
+        {
+            $where[] = ['status','=',$status];
+        }
+
+        $query = db::select('COUNT(*) as count')
+            ->from($this->_log_table);
+        if(!empty($where))
+        {
+            $query->where($where);
+        }
+        $count = $query->as_field()->execute();
+
+        $pages = sys_pages::instance($count, req::item('page_num',1));
+
+        $data = db::select()->from($this->_log_table);
+        if(!empty($where))
+        {
+            $data = $data->where($where);
+        }
+        $data = $data->offset($pages->firstRow)
+            ->limit($pages->listRows)
+            ->execute();
+
+        view::assign('pages', $pages->show());
+        view::assign('list', $data);
+        view::display('system/online');
     }
 
 

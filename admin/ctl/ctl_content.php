@@ -76,7 +76,7 @@ class ctl_content
             show_msg::error('标题或分类不能为空');
         }
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instanc()->_uid;
+        $data['create_user'] = sys_power::instance()->_uid;
 
         list($id,$rows) = db::insert($this->_cont_table)
             ->set($data)
@@ -114,7 +114,7 @@ class ctl_content
             show_msg::error('标题不能为空');
         }
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instanc()->_uid;
+        $data['create_user'] = sys_power::instance()->_uid;
 
         if(db::update($this->_cont_table)
             ->set($data)
@@ -194,7 +194,7 @@ class ctl_content
             $data['level'] = 1;
         }
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instanc()->_uid;
+        $data['create_user'] = sys_power::instance()->_uid;
         //p($data);exit;
         list($res,$id) = db::insert($this->_cate_table)->set($data)->execute();
         if($res)

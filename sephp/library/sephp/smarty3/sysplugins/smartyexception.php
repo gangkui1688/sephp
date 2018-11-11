@@ -5,7 +5,7 @@
  *
  * @package Smarty
  */
-class SmartyException extends exceptions
+class SmartyException extends Exception
 {
     public static $escape = false;
 

@@ -89,9 +89,9 @@
 
 <script>
     $(document).ready(function(){
-        $("#wizard").steps();
 
         $("#form").steps({
+            startIndex: 1,
             bodyTag:"fieldset",
             onStepChanging:function(event,currentIndex,newIndex){
                 if(currentIndex>newIndex){

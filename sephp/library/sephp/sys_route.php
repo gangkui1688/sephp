@@ -9,6 +9,8 @@
 class sys_route
 {
     public static $instance = null;
+    public $config = null;
+
 
     public static function instance()
     {
@@ -20,37 +22,70 @@ class sys_route
         {
             self::$instance = new self();
         }
+        self::$instance->config = start::$_config['route'];
         self::$instance->start();
     }
 
     public function start()
     {
-        $param = $_REQUEST['s'];
-        $rules = $GLOBALS['config']['route']['url_route_rules'];
-
-        $arr = explode('/', $param);
-        p(APP_NAME);
-
-        if(empty($rules))
+        $param = basename($_REQUEST['s'], '.html');
+        //p($param);p(strpos($param, '-'));
+        if(empty($param))
         {
-            //路由规则空，执行默认规则
-
+            $_GET['ac'] = 'index';
+            $_GET['ct'] = 'index';
         }
-        if(in_array($param, array_keys($rules)))
+        elseif(strpos($param, '-') === false && !in_array($param, $this->config['url_route_rules']))
         {
-            $url = $rules[$param];
-            $arr_query = parse_url($url);
-
-            $get = self::$instance->convertUrlQuery($arr_query['query']);
-            $_GET['ac'] = $_REQUEST['ac'] = $get['ac'];
-            $_GET['ct'] = $_REQUEST['ct'] = $get['ct'];
+            $_GET['ac'] = 'page_404';
+            $_GET['ct'] = 'public';
         }
-
-        //p($_REQUEST,$_GET);exit;
+        else
+        {
+            $this->parse_url($param);
+        }
+        return true;
     }
 
-    public function convertUrlQuery($query)
+
+    //解析路由
+    public function parse_url($url)
     {
+        $key = preg_replace("/-\w+/",'-(\w+)', $url);
+       //p($key, $this->config['url_route_rules'][$key]);
+        if(isset($this->config['url_route_rules'][$key]))
+        {
+            $val = $this->config['url_route_rules'][$key];
+            $matches = '';
+            preg_match("/{$key}/", $url, $matches);
+            foreach ($matches as $k=>$v)
+            {
+                if($k == 0)  continue;
+                $val = str_replace('$' . $k, $v, $val);
+            }
+            if(strpos($val, '$') !== false)
+            {
+                log::info("路由配置错误，错误参数：url_route_rules['{$key}']");
+            }
+            $param = $this->convert_url($val);
+            foreach ($param as $key=>$val)
+            {
+                $_GET[$key] = $val;
+            }
+
+        }
+        return true;
+    }
+
+
+    /**
+     * url 地址解析成数组
+     * @param $query
+     * @return array
+     */
+    public function convert_url($query)
+    {
+        $query = trim($query, '?');
         $queryParts = explode('&', $query);
         $params = array();
         foreach ($queryParts as $param) {

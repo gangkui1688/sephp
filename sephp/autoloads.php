@@ -26,14 +26,15 @@ class autoloads
      * @param  callable $autoload 自动加载处理方法
      * @return void
      */
-    public static function register()
+    public static function register_function()
     {
         // 注册自定义函数
-        $func_file = APP_PATH.'function.php';
+        $func_file = APP_PATH . 'function.php';
         if(file_exists($func_file))
         {
             require_once $func_file;
         }
+        return true;
     }
 
 

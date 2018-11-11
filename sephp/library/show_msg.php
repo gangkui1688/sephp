@@ -22,10 +22,9 @@ class show_msg
      * @param int $code 返回错误状态号 200，400
      * @param string $data
      */
-    public static function ajax($msg,$code = 200,$data = '')
+    public static function ajax($msg, $code = 200, $data = [])
     {
-
-        http_response_code($code);
+        //http_response_code($code);
         $data = [
             'code'  =>  $code,
             'msg'   =>  $msg,
@@ -34,14 +33,14 @@ class show_msg
         exit(json_encode($data,JSON_UNESCAPED_UNICODE));
     }
 
-    public static function flush_msg($msg,$err=false){
+    public static function flush_msg($msg, $err=false){
         $err = $err ? "<span class='err'>ERROR:</span>" : '' ;
         echo "<p class='dbDebug'>".$err . $msg."</p>";
         flush();
     }
 
 
-    public static function success($message = '',$url = '',$time = '',$title = '')
+    public static function success($message = '', $url = '', $time = '', $title = '')
     {
         $message = empty($message)?'操作成功':$message;
         self::get_return_html($title,$message,$url,'success',$time);

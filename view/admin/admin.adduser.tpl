@@ -30,6 +30,17 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">所 属 组：</label>
+                            <div class="col-sm-3">
+                                <select name="group_id" class="form-control">
+                                    <option value="0">--请选择用户组--</option>
+                                    <{foreach from=$groups item=group}>
+                                        <option value="<{$group.group_id}>" <{if isset($data) && $group.group_id == $data.group_id}>selected<{/if}> ><{$group.name}></option>
+                                    <{/foreach}>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">密码：</label>
                             <div class="col-sm-8">
                                 <input id="password" name="password" class="form-control" type="password" <{if !isset($data)}>required<{/if}> />
