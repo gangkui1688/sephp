@@ -39,6 +39,10 @@ class start
         $GLOBALS['config'] = include(PATH_ROOT . '/config/config.php');
         $GLOBALS['config']['_authority'] = $_authority;
         self::$_config = $GLOBALS['config'];
+
+        self::$_now_url =  $_SERVER['REQUEST_URI'];
+        define('NOW_URL',self::$_now_url);
+
         //自动注册类库
         spl_autoload_register(  "autoloads::autoload", true, true);
         //异常捕获
@@ -46,7 +50,11 @@ class start
         //引入所有自定义函数
         autoloads::register_function();
         //初始化session
-        session::instance();
+        session_start();
+        p(session_id());
+        session::start();
+
+        exit;
         //注册一个会在php中止时执行的函数
         register_shutdown_function('_shutdown_function',['_start_time'=>SE_START_TIME]);
         //路由解析
@@ -107,8 +115,7 @@ class start
         self::$_ac = empty($_GET['ac'])? 'index' :$_GET['ac'];
         define('AC_NAME',self::$_ac);
         define('CT_NAME',self::$_ct);
-        self::$_now_url =  $_SERVER['REQUEST_URI'];
-        define('NOW_URL',self::$_now_url);
+
         define('WWW_URL','http://'.$_SERVER['SERVER_NAME']);
     }
 

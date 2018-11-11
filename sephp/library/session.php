@@ -28,7 +28,7 @@ class session
      * @param array $config
      * @return void
      */
-    protected static function instance()
+    public static function instance()
     {
         //重构session
         session_set_save_handler('session::open', 'session::close', 'session::read',
@@ -281,7 +281,7 @@ class session
      */
     public static function start()
     {
-        self::init();
+        self::instance();
     }
 
     /**
@@ -328,7 +328,8 @@ class session
     public static function open()
     {
 
-        p(__METHOD__);
+
+        p(session_id());
 
         return true;
     }
