@@ -31,8 +31,7 @@ class session
     public static function instance()
     {
         //重构session
-        session_set_save_handler('session::open', 'session::close', 'session::read',
-            'session::write', 'session::destroy', 'session::gc');
+        //session_set_save_handler('session::open', 'session::close', 'session::read', 'session::write', 'session::destroy', 'session::gc');
 
         self::$config = empty($config) ? $GLOBALS['config']['session'] : $config;
 

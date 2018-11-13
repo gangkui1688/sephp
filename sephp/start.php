@@ -50,11 +50,8 @@ class start
         //引入所有自定义函数
         autoloads::register_function();
         //初始化session
-        session_start();
-        p(session_id());
         session::start();
 
-        exit;
         //注册一个会在php中止时执行的函数
         register_shutdown_function('_shutdown_function',['_start_time'=>SE_START_TIME]);
         //路由解析
