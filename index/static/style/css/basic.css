@@ -42,7 +42,7 @@ a:active {color:#d6312d;text-decoration:none;}
 .mail span,.tel span{font-family:Arial;padding-left:0;}
 
 .head{width:1200px;margin:0 auto;height:100px;}
-.logo{margin:0px; padding:0px; height:39px;line-height:39px; margin-top:26px;}
+.logo{margin:0px; padding:0px; height:39px;line-height:39px; margin-top:0px;}
 
 .menu{font-family:"微软雅黑";font-size:16px;line-height:100px;}
 .menu ul li{float:left;width:105px;text-align:center;}

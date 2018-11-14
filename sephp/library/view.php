@@ -56,6 +56,7 @@ class view {
 
 	public static function display($tpl = '') {
 		$tpl = empty($tpl)?CT_NAME.'.'.AC_NAME:$tpl;
+
 		if (!empty($GLOBALS['config']['web']['static_page']) && in_array(APP_NAME, $GLOBALS['config']['web']['static_page'])) {
 			$file_path = PATH_RUNTIME.'cache/html/'.APP_NAME.'/';
 			if (!file_exists($file_path)) {

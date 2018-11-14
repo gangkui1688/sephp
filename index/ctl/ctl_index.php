@@ -1,6 +1,28 @@
 <?php
 
 class ctl_index {
+	protected $page_title       = null;
+	protected $page_description = null;
+	protected $page_keywords    = null;
+
+	public function __construct() {
+		$site_info = config::get('base_config');
+		view::assign('site_info', $site_info);
+		$this->page_keywords    = $site_info['page_keywords'];
+		$this->page_description = $site_info['page_description'];
+		$this->page_title       = $site_info['page_title'];
+
+		//friend link
+		$links = config::get('friend_link');
+    array_multisort(array_column($links,'sort_id'), )
+		var_dump($links);
+
+		view::assign('page_title', $this->page_title);
+		view::assign('page_description', $this->page_description);
+		view::assign('page_keywords', $this->page_keywords);
+
+		var_dump($site_info);
+	}
 	//首页
 	public function index() {
 

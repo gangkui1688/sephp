@@ -19,16 +19,18 @@
 <header>
   <div class="header">
     <div class="top">
-      <div class="top_con"> 
+      <div class="top_con">
       <span class="mail">
-      <img alt="咨询邮箱" src="style/images/mail.png" align="Baseline" /> 咨询邮箱：<span>service@yitianxinda.com</span></span> 
+      <img alt="咨询邮箱" src="style/images/mail.png" align="Baseline" /> 咨询邮箱：<span>service@yitianxinda.com</span></span>
       <span class="tel"><img alt="咨询热线" src="style/images/tel.png" align="Baseline" /> 咨询热线：<span>400-668-3065</span></span>
        <span><a href="#" rel="noFollow" target="_blank"><img alt="微博" src="style/images/xinlang.png" align="Baseline" /></a></span>
        <span><img alt="微信" src="style/images/weixin.png" align="Baseline" /></span> </div>
     </div>
     <div class="head_bg">
       <div class="head">
-        <div class="logo fl"><h1><a href="#"><img alt="logo 北京宜天信达网络科技有限公司简称" src="style/images/logo.png" /></a></h1></div>
+        <div class="logo fl"><h1><a href="#">
+          <img style="max-height:100px;min-withe:300px;" alt="logo 北京宜天信达网络科技有限公司简称" src="style/images/logo.png" />
+        </a></h1></div>
         <div class="menu fr">
           <nav>
             <ul>
@@ -66,13 +68,13 @@
         <dt>执行效率</dt>
         <dd class="design_dd"  >拒绝拖拉让您放心，做一个按时、高质、高效的软件开发行业典范企业。</dd>
       </dl>-->
-            
-      
-     
+
+
+
       <div class="clear"></div>
     </div>
     </div>
-     
+
   </div>
  <div class="service_bg">
     <div class="service">
@@ -100,7 +102,7 @@
 </div>
 <div class="content">
   <div class="cases">
-    <div class="content_title">   
+    <div class="content_title">
       <div class="content_title3"><a class="title_ch" href="cases/index.html" >经典案例</a><span class="title_en">classic cases</span></div>
     </div>
     <div class="cases_dl" init="false">
@@ -108,22 +110,22 @@
         <dt  style="height:234px;   overflow: hidden;"><a href="cases/dwzz/646.html"><img class="img_case" alt="宜天信达北京软件公司与安道拓合" src="uploads/allimg/180802/1-1PP21J6010-L.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
         <dd class="cases_name">宜天信达北京软件公司与安道拓合</dd>
         <dd class="cases_int">北京软件公司 宜天信达-完成奔驰汽车座椅Z177线生产线MES系统设计、开发、安装、调试与PLC交互，主要功能为订单接收、下发、生...</dd>
- 
+
       </dl>
 <dl class="cases_center">
         <dt  style="height:234px;   overflow: hidden;"><a href="cases/sjwz/645.html"><img class="img_case" alt="物联网传感器数据监测平台" src="uploads/180802/1-1PP21530301D.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
         <dd class="cases_name">物联网传感器数据监测平台</dd>
         <dd class="cases_int">北京软件开发公司 宜天信达与昆仑中大传感器公司合作开发物联网数据监测系统平台 物联网云平台的优势如下： 1.提供数据存储，...</dd>
- 
+
       </dl>
 <dl class="cases_center">
         <dt  style="height:234px;   overflow: hidden;"><a href="cases/615.html"><img class="img_case" alt="北京软件公司-云教育客户端" src="uploads/allimg/170214/1-1F214122J50-L.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
         <dd class="cases_name">北京软件公司-云教育客户端</dd>
         <dd class="cases_int">北京软件公司 定制开发纵横云教育客户端包括学生答题、pk、错题解析、题检、排名、档案、战盟、任务中心等功能，利用3D、大数...</dd>
- 
+
       </dl>
-     
-      
+
+
       <div class="clear"></div>
     </div>
   </div>
@@ -177,7 +179,7 @@
 
   </div>
 
-          
+
         <div class="news_con_right fr">
 <dl>
             <dt>
@@ -220,7 +222,7 @@
             <dd><a href="news/company/618.html" target="_blank"> 北京软件开发公司是用于安全调查和网络性能管理的分组智能解决方案的软件开发服务商，调查表明，公司必须克服收集和利用网络和端点安全程序数据的...</a></dd>
           </dl>
 
-          
+
             </div>
         <div class="clear"></div>
       </div>
@@ -240,10 +242,10 @@
         <li><img alt="北京软件开发公司与航天科工合作" class="img_partner" src="style/images/hz7.jpg" /></li>
         <li><img alt="北京软件开发公司与中国兵器工业合作" class="img_partner" src="style/images/hz8.jpg" /></li>
         <li><img alt="北京手机app软件开发与百度公司合作" class="img_partner" src="style/images/hz9.jpg" /></li>
-        <li><img alt="北京手机app软件公司与IBM合作" class="img_partner" src="style/images/hz10.jpg" /></li> 
+        <li><img alt="北京手机app软件公司与IBM合作" class="img_partner" src="style/images/hz10.jpg" /></li>
                 <li><img alt="软件开发公司与联想集团合作" class="img_partner" src="style/images/hz11.jpg" /></li>
-                <li><img alt="北京软件公司与中国核建合作" class="img_partner" src="style/images/hz12.jpg" /></li> 
-                <li><img alt="软件开发公司与北京昌平旅游委合作" class="img_partner" src="style/images/hz1.jpg" /></li>  
+                <li><img alt="北京软件公司与中国核建合作" class="img_partner" src="style/images/hz12.jpg" /></li>
+                <li><img alt="软件开发公司与北京昌平旅游委合作" class="img_partner" src="style/images/hz1.jpg" /></li>
         <div class="clear"></div>
       </ul>
       <div class="clear"></div>
@@ -260,7 +262,7 @@
           <dd> <a href="service/index.html">服务范围</a></dd>
           <dd> <a href="mobile/index.html">手机app开发</a></dd>
           <dd> <a href="contact/index.html">联系我们</a></dd>
-      
+
         </dl>
         <dl>
           <dt>经典案例</dt>
@@ -320,7 +322,7 @@
         <div class="clear"></div>
       </div>
       <div class="link" ><dt style="float:left; margin-right:10px;">友情链接：</dt>
-<li><a href='index.html' target='_blank'>北京软件开发公司</a> </li><li><a href='../www.yitianxinda.cn/index.html' target='_blank'>北京软件外包公司</a> </li><li><a href='sitemap.html' target='_blank'>网站地图</a> </li><li><a href='../www.foxgod.com/index.html' target='_blank'>进销存软件</a> </li><li><a href='../www.qdydkj.com/index.html' target='_blank'>聊城软件开发</a> </li><li><a href='../www.microlink.im/index.html' target='_blank'>呼叫中心</a> </li><li><a href='../www.forwardsoft.com.cn/index.html' target='_blank'>大连app定制</a> </li><li><a href='../www.wehang.com.cn/index.html' target='_blank'>成都app开发公司</a> </li><li><a href='../www.logicalthinksoft.com/index.html' target='_blank'>深圳软件开发</a> </li><li><a href='../www.3derp.net/index.html' target='_blank'>家装预算软件</a> </li><li><a href='../www.gzyhinfo.com/index.html' target='_blank'>广州APP开发</a> </li><li><a href='../www.it0755.com/index.html' target='_blank'>深圳app开发</a> </li><li><a href='../www.akeyun.com/index.html' target='_blank'>进销存管理软件</a> </li><li><a href='../www.qixiangnet.com/index.html' target='_blank'>杭州app开发</a> </li><li><a href='../www.dyysoft.net/index.html' target='_blank'>美容美发软件</a> </li><li><a href='../www.xindj.net/index.html' target='_blank'>趣推</a> </li><li><a href='../www.jsecqq.com/index.html' target='_blank'>腾讯EC</a> </li><li><a href='../www.mairuan.com/index.html' target='_blank'>正版软件</a> </li><li><a href='../www.bjttsf.com/index.html' target='_blank'>西门子变频器</a> </li><li><a href='../www.weiyunyi.com/index.html' target='_blank'>小程序开发</a> </li><li><a href='../www.hivekion.com/index.html' target='_blank'>北京软件开发公司</a> </li><li><a href='../new.weijuju.com/index.html' target='_blank'>微信小程序开发</a> </li> 
+<li><a href='index.html' target='_blank'>北京软件开发公司</a> </li><li><a href='../www.yitianxinda.cn/index.html' target='_blank'>北京软件外包公司</a> </li><li><a href='sitemap.html' target='_blank'>网站地图</a> </li><li><a href='../www.foxgod.com/index.html' target='_blank'>进销存软件</a> </li><li><a href='../www.qdydkj.com/index.html' target='_blank'>聊城软件开发</a> </li><li><a href='../www.microlink.im/index.html' target='_blank'>呼叫中心</a> </li><li><a href='../www.forwardsoft.com.cn/index.html' target='_blank'>大连app定制</a> </li><li><a href='../www.wehang.com.cn/index.html' target='_blank'>成都app开发公司</a> </li><li><a href='../www.logicalthinksoft.com/index.html' target='_blank'>深圳软件开发</a> </li><li><a href='../www.3derp.net/index.html' target='_blank'>家装预算软件</a> </li><li><a href='../www.gzyhinfo.com/index.html' target='_blank'>广州APP开发</a> </li><li><a href='../www.it0755.com/index.html' target='_blank'>深圳app开发</a> </li><li><a href='../www.akeyun.com/index.html' target='_blank'>进销存管理软件</a> </li><li><a href='../www.qixiangnet.com/index.html' target='_blank'>杭州app开发</a> </li><li><a href='../www.dyysoft.net/index.html' target='_blank'>美容美发软件</a> </li><li><a href='../www.xindj.net/index.html' target='_blank'>趣推</a> </li><li><a href='../www.jsecqq.com/index.html' target='_blank'>腾讯EC</a> </li><li><a href='../www.mairuan.com/index.html' target='_blank'>正版软件</a> </li><li><a href='../www.bjttsf.com/index.html' target='_blank'>西门子变频器</a> </li><li><a href='../www.weiyunyi.com/index.html' target='_blank'>小程序开发</a> </li><li><a href='../www.hivekion.com/index.html' target='_blank'>北京软件开发公司</a> </li><li><a href='../new.weijuju.com/index.html' target='_blank'>微信小程序开发</a> </li>
            </div>
     </div>
   </div>
