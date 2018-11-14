@@ -31,6 +31,9 @@
                                 <input type="radio" value="1" <{if !isset($data) || $data.status != 2}>checked<{/if}> name="status" class="form-control" required />启用
                             </div>
                         </div>
+
+
+                        
                         <div class="form-group">
                             <label class="col-sm-3 control-label">备 注：</label>
                             <div class="col-sm-8">
