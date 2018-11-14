@@ -43,6 +43,7 @@
                         <tr>
                             <th class="text-center col-sm-2">变量说明</th>
                             <th class="text-center">变 量 值</th>
+                            <th class="text-center">变 量 名</th>
                         </tr>
                         <tr>
                             <td>网站名称</td>
@@ -76,6 +77,13 @@
                             <td>联系电话</td>
                             <td>
                                 <input class="form-control" name="contact_number" value="<{if isset($data.contact_number)}><{$data.contact_number}><{/if}>" />
+                                <span class="help-block m-b-none text-left" ><i class="fa fa-info-circle"></i> 多个号码用之间 @ 隔开</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>邮箱地址</td>
+                            <td>
+                                <input class="form-control" name="email" value="<{if isset($data.email)}><{$data.email}><{/if}>" />
                                 <span class="help-block m-b-none text-left" ><i class="fa fa-info-circle"></i> 多个号码用之间 @ 隔开</span>
                             </td>
                         </tr>

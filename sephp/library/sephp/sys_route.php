@@ -14,7 +14,7 @@ class sys_route
 
     public static function instance()
     {
-        if(empty($rules = $GLOBALS['config']['route']['url_route_on']) || empty($_REQUEST['s']))
+        if(empty(start::$_config['route']['url_route_on']) || empty($_REQUEST['s']))
         {
             return false;
         }
@@ -29,7 +29,6 @@ class sys_route
     public function start()
     {
         $param = basename($_REQUEST['s'], '.html');
-        //p($param);p(strpos($param, '-'));
         if(empty($param))
         {
             $_GET['ac'] = 'index';
@@ -37,8 +36,9 @@ class sys_route
         }
         elseif(strpos($param, '-') === false && !in_array($param, $this->config['url_route_rules']))
         {
-            $_GET['ac'] = 'page_404';
-            $_GET['ct'] = 'public';
+            $this->parse_url($param);
+            //$_GET['ac'] = 'page_404';
+            //$_GET['ct'] = 'public';
         }
         else
         {

@@ -12,39 +12,76 @@ class ctl_index {
 		$this->page_description = $site_info['page_description'];
 		$this->page_title       = $site_info['page_title'];
 
+
 		//friend link
 		$links = config::get('friend_link');
-    array_multisort(array_column($links,'sort_id'), )
-		var_dump($links);
+		array_multisort(array_column($links,'sort_id'), SORT_ASC, $links);
+        view::assign('links', $links);
+
 
 		view::assign('page_title', $this->page_title);
 		view::assign('page_description', $this->page_description);
 		view::assign('page_keywords', $this->page_keywords);
 
-		var_dump($site_info);
 	}
+
 	//首页
 	public function index() {
 
 		view::display('index');
 	}
 
+
+    //关于我们
+    public function about()
+    {
+
+        view::display('about');
+    }
+
+
+    //服务范围
+    public function service()
+    {
+
+        view::display('service');
+    }
+
 	//申请合作
 	public function cooperate() {
 		view::display('cooperate');
 	}
 
-	//产品服务
-	public function product() {
+	//成功案例
+	public function cases() {
 
 		view::display('product');
 	}
 
-	public function test() {
+    //解决方案
+    public function solutions()
+    {
 
-		p(req::$forms, mt_rand(0, 99999999999999));
-		view::display();
-	}
+        view::display('solutions');
+    }
+
+    //新闻文章
+    public function news()
+    {
+
+        view::display('news');
+    }
+
+    //联系我们
+    public function contact()
+    {
+
+        view::display('contact');
+    }
+
+
+
+
 
 	public function getList_json() {
 		echo '{
