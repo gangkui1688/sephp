@@ -1,435 +1,342 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns="../www.w3.org/1999/xhtml/index.html">
+
+<!-- Mirrored from www.yitianxinda.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 14 Nov 2018 03:34:56 GMT -->
 <head>
-    <meta charset="utf-8">
-    <title>layui</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="static/css/layui.css"  media="all">
-    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>北京软件开发_软件开发公司_北京软件公司-北京宜天信达软件开发公司</title>
+<meta name="description" content="北京软件开发公司宜天信达-为企业提供专业的软件开发外包解决方案，涵盖多种应用与技术平台，拥有成熟的信息系统和行业软件开发外包解决方案，我们的专业团队将作为您的IT部门来开展长期紧密的合作，立足于您的业务和信息化目标，开发符合您业务目标和商业价值的软件。" />
+<meta name="keywords" content="北京软件开发公司,软件开发公司,北京软件公司,北京软件开发,北京手机软件开发公司,北京app开发公司" />
+<!--<link href="/templets/weiducn/style/dedecms.css" rel="stylesheet" media="screen" type="text/css" />-->
+<link rel="stylesheet" type="text/css" href="style/css/basic.css"/>
+<link rel="stylesheet" type="text/css" href="style/css/index.css"/>
+<meta property="qc:admins" content="24633536476326167751636" />
+<script type="text/javascript" src="style/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="style/js/jquery.cycle.all.js"></script>
+<script type="text/javascript" src="style/js/index.js"></script>
 </head>
 <body>
-
-<blockquote class="layui-elem-quote">
-    注意：LayIM 是基于 layui 的一款独立的付费组件，它是网页即时通讯 UI 解决方案，您购买授权后得到的是一套前端源代码，而服务端程序需自写。</blockquote>
-
-<a class="layui-btn layui-btn-normal" href="http://layim.layui.com/" target="_blank">前去LayIM官网</a>
-
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
-    <legend>面板外的操作示例</legend>
-</fieldset>
-
-<div class="site-demo-button">
-    <button class="layui-btn site-demo-layim" data-type="chat">自定义会话</button>
-    <button class="layui-btn site-demo-layim" data-type="message">接受好友的消息</button>
-    <button class="layui-btn site-demo-layim" data-type="messageAudio">接受音频消息</button>
-    <button class="layui-btn site-demo-layim" data-type="messageVideo">接受视频消息</button>
-    <button class="layui-btn site-demo-layim" data-type="messageTemp">接受临时会话消息</button>
-
-    <br>
-
-    <button class="layui-btn site-demo-layim" data-type="add">申请好友</button>
-    <button class="layui-btn site-demo-layim" data-type="addqun">申请加群</button>
-    <button class="layui-btn site-demo-layim" data-type="addFriend">同意好友</button>
-    <button class="layui-btn site-demo-layim" data-type="addGroup">增加群组到主面板</button>
-    <button class="layui-btn site-demo-layim" data-type="removeFriend">删除主面板好友</button>
-    <button class="layui-btn site-demo-layim" data-type="removeGroup">删除主面板群组</button>
-
-    <br>
-    <button class="layui-btn site-demo-layim" data-type="setGray">置灰离线好友</button>
-    <button class="layui-btn site-demo-layim" data-type="unGray">取消好友置灰</button>
-    <a href="http://layim.layui.com/kefu.html" class="layui-btn site-demo-layim" target="_blank">客服模式</a>
-    <button class="layui-btn site-demo-layim" data-type="mobile">移动端版本</button>
+<header>
+  <div class="header">
+    <div class="top">
+      <div class="top_con"> 
+      <span class="mail">
+      <img alt="咨询邮箱" src="style/images/mail.png" align="Baseline" /> 咨询邮箱：<span>service@yitianxinda.com</span></span> 
+      <span class="tel"><img alt="咨询热线" src="style/images/tel.png" align="Baseline" /> 咨询热线：<span>400-668-3065</span></span>
+       <span><a href="#" rel="noFollow" target="_blank"><img alt="微博" src="style/images/xinlang.png" align="Baseline" /></a></span>
+       <span><img alt="微信" src="style/images/weixin.png" align="Baseline" /></span> </div>
+    </div>
+    <div class="head_bg">
+      <div class="head">
+        <div class="logo fl"><h1><a href="#"><img alt="logo 北京宜天信达网络科技有限公司简称" src="style/images/logo.png" /></a></h1></div>
+        <div class="menu fr">
+          <nav>
+            <ul>
+              <li><a id="menu1" href="index.html">网站首页</a></li>
+              <li><a id="menu2" href="about/index.html">关于我们</a></li>
+              <li><a id="menu3" href="cases/index.html">成功案例</a></li>
+              <li><a id="menu4" href="service/index.html">服务范围</a></li>
+              <li><a id="menu5" href="mobile/index.html">手机app开发</a></li>
+              <li><a id="menu6" href="solutions/index.html">解决方案</a></li>
+              <li><a id="menu7" href="news/index.html">新闻动态</a></li>
+              <li><a id="menu8" href="contact/index.html">联系我们</a></li>
+            </ul>
+            <div class="clear"></div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<script type="text/javascript">document.getElementById("menu1").className="a1";</script>
+<div class="container index_header">
+  <div  class="index_banner" id="wrapper">
+    <div id="home-slider" class="home-slider">
+     <div class="slider-item"><img alt="" width="1920px" height="480px" src="style/images/1389083288.jpg" /></div><div class="slider-item"><img alt="" width="1920px" height="480px" src="style/images/1389083308.jpg" /></div><div class="slider-item"><img alt="" width="1920px" height="480px" src="style/images/1389083323.jpg" /></div>    </div>
+    <div class="design_box">
+    <div class="design" id="home-slider-nav">
+     <!--<dl  class="sel"  onMouseOver="banner_hover(0)" >
+        <dt>专业技术</dt>
+        <dd class="design_dd"  >拥有专业的软件开发团队，丰富的实战经验，专业软件开发公司的协同开发经验与成果积累。 </dd>
+      </dl>
+            <dl class="design_center" onMouseOver="banner_hover(1)"   >
+         <dt>客户服务</dt>
+        <dd class="design_dd"  >以客户为中心，为客户提供优质的服务，为客户提供个性化的、适合您的软件开发服务。</dd>
+      </dl><dl    onMouseOver="banner_hover(2)" >
+        <dt>执行效率</dt>
+        <dd class="design_dd"  >拒绝拖拉让您放心，做一个按时、高质、高效的软件开发行业典范企业。</dd>
+      </dl>-->
+            
+      
+     
+      <div class="clear"></div>
+    </div>
+    </div>
+     
+  </div>
+ <div class="service_bg">
+    <div class="service">
+      <dl class="service01" onMouseOver="this.className='service_hover service01'" onMouseOut="this.className='service01'">
+        <dt>
+          <h1 style=" font-size:16px;">C/S软件开发</h1>
+        </dt>
+        <dd>C#.NET技术开发、,VC技术开发、MFC技术开发</dd>
+      </dl>
+      <dl class="service02" onMouseOver="this.className='service_hover service02'" onMouseOut="this.className='service02'">
+        <dt>B/S软件开发</dt>
+        <dd>Java、ASP.NET软件开发团队</dd>
+      </dl>
+      <dl class="service03" onMouseOver="this.className='service_hover service03'" onMouseOut="this.className='service03'">
+        <dt>手机App软件开发</dt>
+        <dd>Android安卓应用开发、IOS苹果软件应用开发</dd>
+      </dl>
+      <dl class="service04" onMouseOver="this.className='service_hover service04'" onMouseOut="this.className='service04'">
+        <dt>系统改版、系统维护</dt>
+        <dd>打造安全、优质系统平台</dd>
+      </dl>
+      <div class="clear"></div>
+    </div>
+  </div>
 </div>
+<div class="content">
+  <div class="cases">
+    <div class="content_title">   
+      <div class="content_title3"><a class="title_ch" href="cases/index.html" >经典案例</a><span class="title_en">classic cases</span></div>
+    </div>
+    <div class="cases_dl" init="false">
+<dl class="cases_center">
+        <dt  style="height:234px;   overflow: hidden;"><a href="cases/dwzz/646.html"><img class="img_case" alt="宜天信达北京软件公司与安道拓合" src="uploads/allimg/180802/1-1PP21J6010-L.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
+        <dd class="cases_name">宜天信达北京软件公司与安道拓合</dd>
+        <dd class="cases_int">北京软件公司 宜天信达-完成奔驰汽车座椅Z177线生产线MES系统设计、开发、安装、调试与PLC交互，主要功能为订单接收、下发、生...</dd>
+ 
+      </dl>
+<dl class="cases_center">
+        <dt  style="height:234px;   overflow: hidden;"><a href="cases/sjwz/645.html"><img class="img_case" alt="物联网传感器数据监测平台" src="uploads/180802/1-1PP21530301D.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
+        <dd class="cases_name">物联网传感器数据监测平台</dd>
+        <dd class="cases_int">北京软件开发公司 宜天信达与昆仑中大传感器公司合作开发物联网数据监测系统平台 物联网云平台的优势如下： 1.提供数据存储，...</dd>
+ 
+      </dl>
+<dl class="cases_center">
+        <dt  style="height:234px;   overflow: hidden;"><a href="cases/615.html"><img class="img_case" alt="北京软件公司-云教育客户端" src="uploads/allimg/170214/1-1F214122J50-L.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
+        <dd class="cases_name">北京软件公司-云教育客户端</dd>
+        <dd class="cases_int">北京软件公司 定制开发纵横云教育客户端包括学生答题、pk、错题解析、题检、排名、档案、战盟、任务中心等功能，利用3D、大数...</dd>
+ 
+      </dl>
+     
+      
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="news_bg">
+    <div class="news">
+      <div class="content_title">
+   <div class="content_title4"><a class="title_ch" href="news/index.html" >新闻动态</a><span class="title_en">News</span></div>
+      </div>
+      <div class="news_con">
+        <div class="news_con_left fl">
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/signing/170.html" target="_blank">软件开发公司电子文档管理系统</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/signing/170.html" target="_blank"> 北京软件开发公司电子文档管理系统网络空间的视觉比布鲁斯（VBC）是一个强大的和先进的电子文档管理系统...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/168.html" target="_blank">北京软件开发公司软件产品开发的重要指标</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/168.html" target="_blank"> 北京软件开发公司宜天信达已经研究了行业的第一个产品开发成功指数（PDSI）的领先软件开发商。...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/459.html" target="_blank">北京软件开发公司软件快速交付的下一个浪潮</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/459.html" target="_blank"> 什么是驱动软件开发公司软件软件快速交付的下一个浪潮吗？在过去的五年中，商业软件开发周期大大加快，迫使软件公司更快地响应客户的需求和竞争的...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/181.html" target="_blank">北京软件开发公司在安全移动应用程序开发的较佳实践</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/181.html" target="_blank"> 北京软件开发公司在开发移动应用时需要注意应用程序的安全...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/533.html" target="_blank">北京软件开发软件外包定做软件开发定制</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/533.html" target="_blank"> 我们将App开发细分为App方案设计，App用户界面(UI)设计，App功能研发，App使用测试，App维护服务等5大服务模块，严格要求研发细节，确保客户定制产品完美...</a></dd>
+          </dl>
 
+  </div>
 
-<script src="static/js/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
-    layui.use('layim', function(){
-        var layim = layui.layim;
+          
+        <div class="news_con_right fr">
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/181.html" target="_blank">北京软件开发公司在安全移动应用程序开发的较佳实践</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/181.html" target="_blank"> 北京软件开发公司在开发移动应用时需要注意应用程序的安全...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/533.html" target="_blank">北京软件开发软件外包定做软件开发定制</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/533.html" target="_blank"> 我们将App开发细分为App方案设计，App用户界面(UI)设计，App功能研发，App使用测试，App维护服务等5大服务模块，严格要求研发细节，确保客户定制产品完美...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/609.html" target="_blank">软件开发过程不要忘了安全测试数据</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/609.html" target="_blank"> 北京软件开发公司通常使用的DevOps是一种需要软件开发人员和IT运营团队密切协作的文化，目标是更快地推出更高质量的软件和频繁修改该软件。...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/619.html" target="_blank">祝贺北京宜天信达网络科技有限公司成为北京市2016年第二批认定</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/619.html" target="_blank"> 北京宜天信达网络科技有限公司 荣获由北京市科技创新委员会、北京市财政委员会批准颁发的高新技术企业认定。 公司申报高新技术企业工作，是在公司...</a></dd>
+          </dl>
+<dl>
+            <dt>
+              <div class="news_title fl"><a href="news/company/618.html" target="_blank">北京软件开发公司报告:大多数公司没有利用网络安全数据</a></div>
+              <div class="news_date fr"></div>
+              <div class="clear"></div>
+            </dt>
+            <dd><a href="news/company/618.html" target="_blank"> 北京软件开发公司是用于安全调查和网络性能管理的分组智能解决方案的软件开发服务商，调查表明，公司必须克服收集和利用网络和端点安全程序数据的...</a></dd>
+          </dl>
 
-        //演示自动回复
-        var autoReplay = [
-            '您好，我现在有事不在，一会再和您联系。',
-            '你没发错吧？face[微笑] ',
-            '洗澡中，请勿打扰，偷窥请购票，个体四十，团体八折，订票电话：一般人我不告诉他！face[哈哈] ',
-            '你好，我是主人的美女秘书，有什么事就跟我说吧，等他回来我会转告他的。face[心] face[心] face[心] ',
-            'face[威武] face[威武] face[威武] face[威武] ',
-            '<（@￣︶￣@）>',
-            '你要和我说话？你真的要和我说话？你确定自己想说吗？你一定非说不可吗？那你说吧，这是自动回复。',
-            'face[黑线]  你慢慢说，别急……',
-            '(*^__^*) face[嘻嘻] ，是贤心吗？'
-        ];
+          
+            </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div class="partners">
+    <div class="content_title">
+    <div class="content_title2">
+    <span class="title_ch">合作伙伴</span><span class="title_en">partners</span></div>
+    </div>
+    <div class="partners_table" init="false">
+      <ul>
+        <li><img alt="北京软件开发公司与中国海关合作" class="img_partner" src="style/images/hz3.jpg" /></li>
+        <li><img alt="北京软件公司与中国电信合作" class="img_partner" src="style/images/hz4.jpg" /></li>
+        <li><img alt="北京软件公司与东软集团合作" class="img_partner" src="style/images/hz5.jpg" /></li>
+        <li><img alt="北京软件开发公司与与中国电力合作" class="img_partner" src="style/images/hz6.jpg" /></li>
+        <li><img alt="北京软件开发公司与航天科工合作" class="img_partner" src="style/images/hz7.jpg" /></li>
+        <li><img alt="北京软件开发公司与中国兵器工业合作" class="img_partner" src="style/images/hz8.jpg" /></li>
+        <li><img alt="北京手机app软件开发与百度公司合作" class="img_partner" src="style/images/hz9.jpg" /></li>
+        <li><img alt="北京手机app软件公司与IBM合作" class="img_partner" src="style/images/hz10.jpg" /></li> 
+                <li><img alt="软件开发公司与联想集团合作" class="img_partner" src="style/images/hz11.jpg" /></li>
+                <li><img alt="北京软件公司与中国核建合作" class="img_partner" src="style/images/hz12.jpg" /></li> 
+                <li><img alt="软件开发公司与北京昌平旅游委合作" class="img_partner" src="style/images/hz1.jpg" /></li>  
+        <div class="clear"></div>
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </div>
+</div>
+﻿<footer>
+  <div class="footer"><a name="foot"></a>
+    <div class="footer_con">
+      <div class="footer_dl">
+        <dl>
+          <dt>关于我们</dt>
+          <dd> <a href="about/index.html">关于我们</a></dd>
+          <dd> <a href="service/index.html">服务范围</a></dd>
+          <dd> <a href="mobile/index.html">手机app开发</a></dd>
+          <dd> <a href="contact/index.html">联系我们</a></dd>
+      
+        </dl>
+        <dl>
+          <dt>经典案例</dt>
+          <dd>
+<a href='cases/dwzz/index.html'>管理系统</a> </dd>
+<dd>
+<a href='cases/qywz/index.html'>大数据</a> </dd>
+<dd>
+<a href='cases/scwz/index.html'>系统平台</a> </dd>
+<dd>
+<a href='cases/wmwz/index.html'>手机APP</a> </dd>
+<dd>
+<a href='cases/sjwz/index.html'>物联网平台</a> </dd>
 
-        //基础配置
-        layim.config({
-            //初始化接口
-            init: {
-                url: '?ct=index&ac=getList_json'
-                ,data: {}
-            }
-            //查看群员接口
-            ,members: {
-                url: '/layim/json/getMembers.json'
-                ,data: {}
-            }
+        </dl>
+        <dl>
+          <dt>服务范围</dt>
+          <dd>
+<a href='service/index.html'>手机app外包</a> </dd>
+<dd>
+<a href='service/index.html'>软件外包</a> </dd>
+<dd>
+<a href='service/index.html'>Flsh设计</a> </dd>
+<dd>
+<a href='service/index.html'>软件系统外包</a> </dd>
 
-            ,uploadImage: {
-                url: '' //（返回的数据格式见下文）
-                ,type: '' //默认post
-            }
-            ,uploadFile: {
-                url: '' //（返回的数据格式见下文）
-                ,type: '' //默认post
-            }
+        </dl>
+        <dl class="footer_dl2" style="width:340px;">
+          <dt>联系我们</dt>
+          <dd><img src="style/images/xinlang.png" alt="官方微博"  /><a href="#" rel="noFollow" target="_blank">官方微博: </a></dd>
+          <dd><img src="style/images/mail.png" alt="软件开发咨询邮箱" /><a href="mailto:service@yitianxinda.com">咨询邮箱：service@yitianxinda.com</a></dd>
+          <dd><img src="style/images/tel.png" alt="北京软件开发免费咨询电话" />咨询热线：400-668-3065</dd>
+          <dd><img src="style/images/weixin.png" alt="软件开发公司" />微信：</dd>
+        </dl>
+        <form action="http://www.yitianxinda.com/plus/diy.php" enctype="multipart/form-data" method="post">
+        <input type="hidden" name="required" value="tel,name,books" />
+<input type="hidden" name="action" value="post" />
+<input type="hidden" name="diyid" value="1" />
+<input type="hidden" name="do" value="2" />
 
-            ,isAudio: true //开启聊天工具栏音频
-            ,isVideo: true //开启聊天工具栏视频
-
-            //扩展工具栏
-            ,tool: [{
-                alias: 'code'
-                ,title: '代码'
-                ,icon: '&#xe64e;'
-            }]
-
-            //,brief: true //是否简约模式（若开启则不显示主面板）
-
-            //,title: 'WebIM' //自定义主面板最小化时的标题
-            //,right: '100px' //主面板相对浏览器右侧距离
-            //,minRight: '90px' //聊天面板最小化时相对浏览器右侧距离
-            ,initSkin: '3.jpg' //1-5 设置初始背景
-            //,skin: ['aaa.jpg'] //新增皮肤
-            //,isfriend: false //是否开启好友
-            //,isgroup: false //是否开启群组
-            //,min: true //是否始终最小化主面板，默认false
-            //,notice: true //是否开启桌面消息提醒，默认false
-            //,voice: false //声音提醒，默认开启，声音文件为：default.mp3
-
-            ,msgbox: '/layim/demo/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
-            ,find: '/layim/demo/find.html' //发现页面地址，若不开启，剔除该项即可
-            ,chatLog: '/layim/demo/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
-
-        });
-        //监听在线状态的切换事件
-        layim.on('online', function(status){
-            layer.msg(status);
-        });
-
-        //监听签名修改
-        layim.on('sign', function(value){
-            layer.msg(value);
-        });
-        //监听自定义工具栏点击，以添加代码为例
-        layim.on('tool(code)', function(insert){
-            layer.prompt({
-                title: '插入代码 - 工具栏扩展示例'
-                ,formType: 2
-                ,shade: 0
-            }, function(text, index){
-                layer.close(index);
-                insert('[pre class=layui-code]' + text + '[/pre]'); //将内容插入到编辑器
-            });
-        });
-
-        //监听layim建立就绪
-        layim.on('ready', function(res){
-            //console.log(res.mine);
-            layim.msgbox(5); //模拟消息盒子有新消息，实际使用时，一般是动态获得
-        });
-        //监听发送消息
-        layim.on('sendMessage', function(data){
-            var To = data.to;
-            //console.log(data);
-
-            if(To.type === 'friend'){
-                layim.setChatStatus('<span style="color:#FF5722;">对方正在输入。。。</span>');
-            }
-
-            //演示自动回复
-            setTimeout(function(){
-                var obj = {};
-                if(To.type === 'group'){
-                    obj = {
-                        username: '模拟群员'+(Math.random()*100|0)
-                        ,avatar: layui.cache.dir + 'images/face/'+ (Math.random()*72|0) + '.gif'
-                        ,id: To.id
-                        ,type: To.type
-                        ,content: autoReplay[Math.random()*9|0]
-                    }
-                } else {
-                    obj = {
-                        username: To.name
-                        ,avatar: To.avatar
-                        ,id: To.id
-                        ,type: To.type
-                        ,content: autoReplay[Math.random()*9|0]
-                    }
-                    layim.setChatStatus('<span style="color:#FF5722;">在线</span>');
-                }
-                layim.getMessage(obj);
-            }, 1000);
-        });
-        //监听查看群员
-        layim.on('members', function(data){
-            //console.log(data);
-        });
-
-        //监听聊天窗口的切换
-        layim.on('chatChange', function(res){
-            var type = res.data.type;
-            console.log(res.data.id)
-            if(type === 'friend'){
-                //模拟标注好友状态
-                //layim.setChatStatus('<span style="color:#FF5722;">在线</span>');
-            } else if(type === 'group'){
-                //模拟系统消息
-                layim.getMessage({
-                    system: true
-                    ,id: res.data.id
-                    ,type: "group"
-                    ,content: '模拟群员'+(Math.random()*100|0) + '加入群聊'
-                });
-            }
-        });
-
-
-        //面板外的操作
-        var $ = layui.jquery, active = {
-            chat: function(){
-                //自定义会话
-                layim.chat({
-                    name: '小闲'
-                    ,type: 'friend'
-                    ,avatar: '//tva3.sinaimg.cn/crop.0.0.180.180.180/7f5f6861jw1e8qgp5bmzyj2050050aa8.jpg'
-                    ,id: 1008612
-                });
-                layer.msg('也就是说，此人可以不在好友面板里');
-            }
-            ,message: function(){
-                //制造好友消息
-                layim.getMessage({
-                    username: "贤心"
-                    ,avatar: "//tp1.sinaimg.cn/1571889140/180/40030060651/1"
-                    ,id: "100001"
-                    ,type: "friend"
-                    ,content: "嗨，你好！欢迎体验LayIM。演示标记："+ new Date().getTime()
-                    ,timestamp: new Date().getTime()
-                });
-            }
-            ,messageAudio: function(){
-                //接受音频消息
-                layim.getMessage({
-                    username: "林心如"
-                    ,avatar: "//tp3.sinaimg.cn/1223762662/180/5741707953/0"
-                    ,id: "76543"
-                    ,type: "friend"
-                    ,content: "audio[http://gddx.sc.chinaz.com/Files/DownLoad/sound1/201510/6473.mp3]"
-                    ,timestamp: new Date().getTime()
-                });
-            }
-            ,messageVideo: function(){
-                //接受视频消息
-                layim.getMessage({
-                    username: "林心如"
-                    ,avatar: "//tp3.sinaimg.cn/1223762662/180/5741707953/0"
-                    ,id: "76543"
-                    ,type: "friend"
-                    ,content: "video[http://www.w3school.com.cn//i/movie.ogg]"
-                    ,timestamp: new Date().getTime()
-                });
-            }
-            ,messageTemp: function(){
-                //接受临时会话消息
-                layim.getMessage({
-                    username: "小酱"
-                    ,avatar: "//tva1.sinaimg.cn/crop.7.0.736.736.50/bd986d61jw8f5x8bqtp00j20ku0kgabx.jpg"
-                    ,id: "198909151014"
-                    ,type: "friend"
-                    ,content: "临时："+ new Date().getTime()
-                });
-            }
-            ,add: function(){
-                //实际使用时数据由动态获得
-                layim.add({
-                    type: 'friend'
-                    ,username: '麻花疼'
-                    ,avatar: '//tva1.sinaimg.cn/crop.0.0.720.720.180/005JKVuPjw8ers4osyzhaj30k00k075e.jpg'
-                    ,submit: function(group, remark, index){
-                        layer.msg('好友申请已发送，请等待对方确认', {
-                            icon: 1
-                            ,shade: 0.5
-                        }, function(){
-                            layer.close(index);
-                        });
-
-                        //通知对方
-                        /*
-                        $.post('/im-applyFriend/', {
-                          uid: info.uid
-                          ,from_group: group
-                          ,remark: remark
-                        }, function(res){
-                          if(res.status != 0){
-                            return layer.msg(res.msg);
-                          }
-                          layer.msg('好友申请已发送，请等待对方确认', {
-                            icon: 1
-                            ,shade: 0.5
-                          }, function(){
-                            layer.close(index);
-                          });
-                        });
-                        */
-                    }
-                });
-            }
-            ,addqun: function(){
-                layim.add({
-                    type: 'group'
-                    ,username: 'LayIM会员群'
-                    ,avatar: '//tva2.sinaimg.cn/crop.0.0.180.180.50/6ddfa27bjw1e8qgp5bmzyj2050050aa8.jpg'
-                    ,submit: function(group, remark, index){
-                        layer.msg('申请已发送，请等待管理员确认', {
-                            icon: 1
-                            ,shade: 0.5
-                        }, function(){
-                            layer.close(index);
-                        });
-
-                        //通知对方
-                        /*
-                        $.post('/im-applyGroup/', {
-                          uid: info.uid
-                          ,from_group: group
-                          ,remark: remark
-                        }, function(res){
-
-                        });
-                        */
-                    }
-                });
-            }
-            ,addFriend: function(){
-                var user = {
-                    type: 'friend'
-                    ,id: 1234560
-                    ,username: '李彦宏' //好友昵称，若申请加群，参数为：groupname
-                    ,avatar: '//tva4.sinaimg.cn/crop.0.0.996.996.180/8b2b4e23jw8f14vkwwrmjj20ro0rpjsq.jpg' //头像
-                    ,sign: '全球最大的中文搜索引擎'
-                }
-                layim.setFriendGroup({
-                    type: user.type
-                    ,username: user.username
-                    ,avatar: user.avatar
-                    ,group: layim.cache().friend //获取好友列表数据
-                    ,submit: function(group, index){
-                        //一般在此执行Ajax和WS，以通知对方已经同意申请
-                        //……
-
-                        //同意后，将好友追加到主面板
-                        layim.addList({
-                            type: user.type
-                            ,username: user.username
-                            ,avatar: user.avatar
-                            ,groupid: group //所在的分组id
-                            ,id: user.id //好友ID
-                            ,sign: user.sign //好友签名
-                        });
-
-                        layer.close(index);
-                    }
-                });
-            }
-            ,addGroup: function(){
-                layer.msg('已成功把[Angular开发]添加到群组里', {
-                    icon: 1
-                });
-                //增加一个群组
-                layim.addList({
-                    type: 'group'
-                    ,avatar: "//tva3.sinaimg.cn/crop.64.106.361.361.50/7181dbb3jw8evfbtem8edj20ci0dpq3a.jpg"
-                    ,groupname: 'Angular开发'
-                    ,id: "12333333"
-                    ,members: 0
-                });
-            }
-            ,removeFriend: function(){
-                layer.msg('已成功删除[凤姐]', {
-                    icon: 1
-                });
-                //删除一个好友
-                layim.removeList({
-                    id: 121286
-                    ,type: 'friend'
-                });
-            }
-            ,removeGroup: function(){
-                layer.msg('已成功删除[前端群]', {
-                    icon: 1
-                });
-                //删除一个群组
-                layim.removeList({
-                    id: 101
-                    ,type: 'group'
-                });
-            }
-            //置灰离线好友
-            ,setGray: function(){
-                layim.setFriendStatus(168168, 'offline');
-
-                layer.msg('已成功将好友[马小云]置灰', {
-                    icon: 1
-                });
-            }
-            //取消好友置灰
-            ,unGray: function(){
-                layim.setFriendStatus(168168, 'online');
-
-                layer.msg('成功取消好友[马小云]置灰状态', {
-                    icon: 1
-                });
-            }
-            //移动端版本
-            ,mobile: function(){
-                var device = layui.device();
-                var mobileHome = '/layim/demo/mobile.html';
-                if(device.android || device.ios){
-                    return location.href = mobileHome;
-                }
-                var index = layer.open({
-                    type: 2
-                    ,title: '移动版演示 （或手机扫右侧二维码预览）'
-                    ,content: mobileHome
-                    ,area: ['375px', '667px']
-                    ,shadeClose: true
-                    ,shade: 0.8
-                    ,end: function(){
-                        layer.close(index + 2);
-                    }
-                });
-                layer.photos({
-                    photos: {
-                        "data": [{
-                            "src": "http://cdn.layui.com/upload/2016_12/168_1481056358469_50288.png",
-                        }]
-                    }
-                    ,anim: 0
-                    ,shade: false
-                    ,success: function(layero){
-                        layero.css('margin-left', '350px');
-                    }
-                });
-            }
-        };
-        $('.site-demo-layim').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-    });
-</script>
-
+        <dl class="footer_dl3">
+          <dt>给我们留言</dt>
+          <dd >
+            <input name="name" class="input" type="text" value="称呼（必填）" onFocus="if(this.value='称呼（必填）')this.value=''" onBlur="if(this.value=='')this.value=='称呼（必填）'" />
+          </dd>
+          <dd>
+            <input name="tel" class="input" type="text" value="电话（必填）" onFocus="if(this.value='电话（必填）')this.value=''" onBlur="if(this.value=='')this.value=='电话（必填）'" />
+          </dd>
+          <dd>
+            <textarea name="books" cols="" rows=""></textarea>
+          </dd>
+          <dd><input type="image" alt="提交留言"  src="style/images/submit_button.png"/></dd>
+        </dl>
+        <input type="hidden" name="dede_fields" value="name,text;tel,text;books,multitext" />
+<input type="hidden" name="dede_fieldshash" value="ffb81e41100692b82a203f9e43546ab1" />
+        </form>
+        <div class="clear"></div>
+      </div>
+      <div class="link" ><dt style="float:left; margin-right:10px;">友情链接：</dt>
+<li><a href='index.html' target='_blank'>北京软件开发公司</a> </li><li><a href='../www.yitianxinda.cn/index.html' target='_blank'>北京软件外包公司</a> </li><li><a href='sitemap.html' target='_blank'>网站地图</a> </li><li><a href='../www.foxgod.com/index.html' target='_blank'>进销存软件</a> </li><li><a href='../www.qdydkj.com/index.html' target='_blank'>聊城软件开发</a> </li><li><a href='../www.microlink.im/index.html' target='_blank'>呼叫中心</a> </li><li><a href='../www.forwardsoft.com.cn/index.html' target='_blank'>大连app定制</a> </li><li><a href='../www.wehang.com.cn/index.html' target='_blank'>成都app开发公司</a> </li><li><a href='../www.logicalthinksoft.com/index.html' target='_blank'>深圳软件开发</a> </li><li><a href='../www.3derp.net/index.html' target='_blank'>家装预算软件</a> </li><li><a href='../www.gzyhinfo.com/index.html' target='_blank'>广州APP开发</a> </li><li><a href='../www.it0755.com/index.html' target='_blank'>深圳app开发</a> </li><li><a href='../www.akeyun.com/index.html' target='_blank'>进销存管理软件</a> </li><li><a href='../www.qixiangnet.com/index.html' target='_blank'>杭州app开发</a> </li><li><a href='../www.dyysoft.net/index.html' target='_blank'>美容美发软件</a> </li><li><a href='../www.xindj.net/index.html' target='_blank'>趣推</a> </li><li><a href='../www.jsecqq.com/index.html' target='_blank'>腾讯EC</a> </li><li><a href='../www.mairuan.com/index.html' target='_blank'>正版软件</a> </li><li><a href='../www.bjttsf.com/index.html' target='_blank'>西门子变频器</a> </li><li><a href='../www.weiyunyi.com/index.html' target='_blank'>小程序开发</a> </li><li><a href='../www.hivekion.com/index.html' target='_blank'>北京软件开发公司</a> </li><li><a href='../new.weijuju.com/index.html' target='_blank'>微信小程序开发</a> </li> 
+           </div>
+    </div>
+  </div>
+  </div>
+  <div class="bottom">
+    <div class="bottom_con">Copyright &copy; 2014-2018. 北京宜天信达软件开发公司 版权所有   地址：北京市朝阳区百子湾路百子园4号楼B座1107室   咨询热线：400-668-3065   备案号：京ICP备15024079号</div>
+  </div>
+</footer>
+<script type="text/javascript" src="style/js/qq3.js"></script>
+<div style="display:none">
+    <!-- Baidu Tongji Button BEGIN -->
+<script type="text/javascript"> var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F55b975ca5291e26f6106c821f3e928ac' type='text/javascript'%3E%3C/script%3E")) </script>
+<!-- Baidu Button END -->
+</div>
+<script type="text/javascript"> var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F55b975ca5291e26f6106c821f3e928ac' type='text/javascript'%3E%3C/script%3E")) </script>
 </body>
+
+<!-- Mirrored from www.yitianxinda.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 14 Nov 2018 03:36:48 GMT -->
 </html>

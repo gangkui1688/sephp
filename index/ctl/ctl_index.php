@@ -1,37 +1,31 @@
 <?php
 
-class ctl_index
-{
-    //首页
-    public function index()
-    {
-        view::display('index');
-    }
+class ctl_index {
+	//首页
+	public function index() {
 
-    //申请合作
-    public function cooperate()
-    {
-        view::display('cooperate');
-    }
+		view::display('index');
+	}
 
-    //产品服务
-    public function product()
-    {
+	//申请合作
+	public function cooperate() {
+		view::display('cooperate');
+	}
 
-        view::display('product');
-    }
+	//产品服务
+	public function product() {
 
-    public function test()
-    {
+		view::display('product');
+	}
 
-        p(req::$forms,mt_rand(0,99999999999999));
-        view::display();
-    }
+	public function test() {
 
+		p(req::$forms, mt_rand(0, 99999999999999));
+		view::display();
+	}
 
-    public function getList_json()
-    {
-        echo '{
+	public function getList_json() {
+		echo '{
           "code": 0
           ,"msg": ""
           ,"data": {
@@ -127,5 +121,5 @@ class ctl_index
             }]
           }
         }';
-    }
+	}
 }
