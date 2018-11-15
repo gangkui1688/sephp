@@ -237,10 +237,11 @@ class ctl_content
     {
         if(!empty(req::$posts))
         {
+            foreach (req::$posts as $key => $value) {
+                config::set($key, $value);
+            }
 
-
-
-
+            show_msg::success('保存成功', NOW_URL);
         }
         //公司概况
         view::assign('company_profile', config::get('company_profile'));

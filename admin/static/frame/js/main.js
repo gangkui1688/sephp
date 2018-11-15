@@ -23,7 +23,7 @@ $(function () {
             shadeClose:true,
             skin: 'layui-layer-rim', //加上边框
             area: ['688px','550px'], //宽高
-            content: '?ct=public&ac=add_file'
+            content: '?ct=public&ac=layer_add_file'
         });
     })
 

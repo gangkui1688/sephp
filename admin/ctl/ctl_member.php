@@ -247,9 +247,54 @@ class ctl_member
 
     }
 
-    //会员信息
-    public function msg_list()
+    //留言
+    public function message_list()
     {
+        $where[] = ['delete_user','=','0'];
+        $keywords = req::item('keywords','');
+        view::assign('keywords',$keywords);
+        if(!empty($keywords))
+        {
+            $where[] = [$this->_member_table.'.name','like',"%{$keywords}%"];
+        }
+
+        $status = req::item('status','1');
+        view::assign('status',$status);
+        if(!empty($status))
+        {
+            $where[] = [$this->_member_table.'.status','=',$status];
+        }
+
+        $count = db::select("count({$this->_member_pk}) as  count")
+            ->from($this->_member_table)
+            ->where($where)
+            ->as_row()
+            ->execute();
+
+        $pages = sys_pages::instance($count['count'],req::item('page_num',10));
+
+        $fields = [
+            $this->_member_table.'.'.$this->_member_pk,$this->_member_table.'.create_time',$this->_member_table.'.create_user',
+            $this->_member_table.'.realname',$this->_member_table.'.status','nickname','advance','mobile','email','state',
+            $this->_member_table.'.point','login_account',
+            $this->_grade_table.'.name as lv_name'
+        ];
+        $list = db::select($fields)
+            ->from($this->_member_table)
+            ->join($this->_grade_table,'left')
+            ->on($this->_grade_table.'.'.$this->_grade_pk,'=',$this->_member_table.'.'.$this->_grade_pk)
+            ->join($this->_pam_table,'left')
+            ->on($this->_pam_table.'.member_id','=',$this->_member_table.'.member_id')
+            ->where($where)
+            ->offset($pages->firstRow)
+            ->limit($pages->listRows)
+            ->order_by($this->_member_pk,'DESC')
+            ->execute();
+
+        setcookie('member_back_url',NOW_URL);
+        view::assign('list',$list);
+        view::assign('pages',$pages->show());
+
         view::display();
     }
 

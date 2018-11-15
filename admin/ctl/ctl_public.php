@@ -11,24 +11,22 @@ class ctl_public
         show_msg::redirect('?ct=index&ac=index');
     }
 
-    //上传自动保存file表
-    public function upload_save()
+    public function layer_add_file()
     {
-        //var_dump(req::$forms,$_FILES);exit;
-        if(!empty($_FILES['file'])){
-            //save
+        if(!empty($_FILES['file']) && is_ajax()){
             $type = req::item('save_type', '');
-            $result = sys_upload::web_upload('save');
-            if(is_ajax())
+            $result = sys_upload::web_upload();
+            if(empty($result))
             {
-                $result === false ? show_msg::ajax('upload_save faild',400) : show_msg::ajax('success','200',$result);
+                show_msg::ajax('upload_save faild',400);
             }
-            return $result;
+            else
+            {
+                show_msg::ajax('success','200',$result);
+            }
         }
-        show_msg::redirect('?ct=index&ac=index');
+        view::display('system/add_file');
     }
-
-
 
 
     /**
@@ -146,7 +144,7 @@ class ctl_public
     public function verify_goole_code()
     {
         sys_power::instance()->is_login();
-        view::display('system/verify.gogole.code'); 
+        view::display('system/verify.gogole.code');
     }
 
     /**
@@ -251,11 +249,6 @@ class ctl_public
 
         }
         view::display('system/verify_google_code');
-    }
-
-    public function add_file()
-    {
-        view::display('system/add_file');
     }
 
     public function page_500()

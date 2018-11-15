@@ -79,6 +79,19 @@ class ctl_index {
         view::display('contact');
     }
 
+    public function send_msg()
+    {
+        $data['send_ip']    = get_client_ip();
+        $data['send_time']  = time();
+        $data['from_mobile'] = req::item('from_mobile', '');
+
+        if (empty($data['from_mobile'])) {
+
+        }
+
+
+
+    }
 
 
 
