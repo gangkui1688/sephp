@@ -55,7 +55,7 @@ class ctl_index {
 	//成功案例
 	public function cases() {
 
-		view::display('product');
+		view::display('cases');
 	}
 
     //解决方案

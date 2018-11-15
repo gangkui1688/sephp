@@ -16,6 +16,8 @@ class ctl_public
     {
         //var_dump(req::$forms,$_FILES);exit;
         if(!empty($_FILES['file'])){
+            //save
+            $type = req::item('save_type', '');
             $result = sys_upload::web_upload('save');
             if(is_ajax())
             {
@@ -30,17 +32,20 @@ class ctl_public
 
 
     /**
-     * 编辑器图片上传
+     * 图片上传
      */
-    public function editor_update()
+    public function editor_upload()
     {
-        if(!empty($_FILES['file'])){
-            $result = sys_upload::web_upload('save');
-            if(empty($result))
-            {
-                show_msg::ajax('upload faild','400');
-            }
-            exit($result['http'] . $result['filename']);
+        if(!empty($_FILES['file']) && is_ajax()) {
+            $result = sys_upload::web_upload();
+
+                if(empty($result))
+                {
+                    show_msg::ajax('upload faild', '400');
+                }
+                $path_file =  '/upload/file/' . $result['name'];
+                exit($path_file);
+
         }
         show_msg::redirect('?ct=index&ac=index');
     }
@@ -60,11 +65,12 @@ class ctl_public
     //验证码
     public function verify()
     {
+        var_dump(session::get(sys_power::$_mark), session_id());exit;
         $config = [
             'length' => req::item('length',4),
             'expire' => req::item('expire',300),
         ];
-        echo sysVerifiy_::instance($config)->show();
+        echo sys_verifiy::instance($config)->show();
     }
 
     //登出
@@ -96,8 +102,11 @@ class ctl_public
             {
                 if(empty(start::$_config['web']['google_auth']))
                 {
-                    log::info('用户【ID:'.sys_power::instance()->_info['admin_id'].'】登陆成功');
+                    log::info('用户【ID:' . sys_power::instance()->_info['admin_id'] . '】登陆成功');
                     sys_power::instance()->login_log();
+                    p(session_id());
+                    p(session::get(sys_power::$_mark));
+                    exit;
                     show_msg::success('登陆成功','?ct=index&ac=index');
                 }
                 elseif(empty(sys_power::instance()->_info['auth_secert']))

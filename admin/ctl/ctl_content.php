@@ -231,4 +231,31 @@ class ctl_content
         $sql = "select cate_id,parent_id,name,`level`,child_num,is_show,status,sort_num,concat(path,'-',cate_id) as bpath from se_content_cate order by bpath";
         return db::query($sql)->execute();
     }
+
+    //关于我们
+    public function basic_content()
+    {
+        if(!empty(req::$posts))
+        {
+
+
+
+
+        }
+        //公司概况
+        view::assign('company_profile', config::get('company_profile'));
+        //企业文化
+        view::assign('company_cultural', config::get('company_cultural'));
+        //企业资质
+        view::assign('company_aptitude', config::get('company_aptitude'));
+        //加入我们
+        view::assign('join_us', config::get('join_us'));
+        //服务范围
+        view::assign('service_range', config::get('service_range'));
+        //我们的愿景
+        view::assign('we_hope', config::get('we_hope'));
+
+
+        view::display();
+    }
 }

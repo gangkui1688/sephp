@@ -1,4 +1,10 @@
 <?php
+/**
+ * session 管理
+ * @ClassName: session
+ * @Author: Gangkui
+ * @Date: 2018-11-15 14:53:40
+ */
 
 class session
 {

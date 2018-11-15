@@ -107,19 +107,19 @@
     </div>
     <div class="cases_dl" init="false">
 <dl class="cases_center">
-        <dt  style="height:234px;   overflow: hidden;"><a href="cases/dwzz/646.html"><img class="img_case" alt="宜天信达北京软件公司与安道拓合" src="uploads/allimg/180802/1-1PP21J6010-L.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
+        <dt  style="height:234px;   overflow: hidden;"><a href="cases/dwzz/646.html"><img class="img_case" alt="宜天信达北京软件公司与安道拓合" src="/upload/file/allimg/180802/1-1PP21J6010-L.png"  style="height:235px; min-height:235px;" width="380"></a></dt>
         <dd class="cases_name">宜天信达北京软件公司与安道拓合</dd>
         <dd class="cases_int">北京软件公司 宜天信达-完成奔驰汽车座椅Z177线生产线MES系统设计、开发、安装、调试与PLC交互，主要功能为订单接收、下发、生...</dd>
 
       </dl>
 <dl class="cases_center">
-        <dt  style="height:234px;   overflow: hidden;"><a href="cases/sjwz/645.html"><img class="img_case" alt="物联网传感器数据监测平台" src="uploads/180802/1-1PP21530301D.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
+        <dt  style="height:234px;   overflow: hidden;"><a href="cases/sjwz/645.html"><img class="img_case" alt="物联网传感器数据监测平台" src="/upload/file/180802/1-1PP21530301D.png"  style="height:235px; min-height:235px;" width="380"></a></dt>
         <dd class="cases_name">物联网传感器数据监测平台</dd>
         <dd class="cases_int">北京软件开发公司 宜天信达与昆仑中大传感器公司合作开发物联网数据监测系统平台 物联网云平台的优势如下： 1.提供数据存储，...</dd>
 
       </dl>
 <dl class="cases_center">
-        <dt  style="height:234px;   overflow: hidden;"><a href="cases/615.html"><img class="img_case" alt="北京软件公司-云教育客户端" src="uploads/allimg/170214/1-1F214122J50-L.png"  style="{_height:235px; min-height:235px;" width="380"></a></dt>
+        <dt  style="height:234px;   overflow: hidden;"><a href="cases/615.html"><img class="img_case" alt="北京软件公司-云教育客户端" src="/upload/file/allimg/170214/1-1F214122J50-L.png"  style="height:235px; min-height:235px;" width="380"></a></dt>
         <dd class="cases_name">北京软件公司-云教育客户端</dd>
         <dd class="cases_int">北京软件公司 定制开发纵横云教育客户端包括学生答题、pk、错题解析、题检、排名、档案、战盟、任务中心等功能，利用3D、大数...</dd>
 

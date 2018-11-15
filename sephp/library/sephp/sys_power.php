@@ -37,30 +37,34 @@ class sys_power
         {
             self::$instance = new self();
         }
+        
         return self::$instance;
     }
 
     public function __construct()
     {
-        $this->_info = session::get(self::$_mark);
-        $this->_uid = empty($this->_info) ? 0 : $this->_info['admin_id'];
-        $this->config = $GLOBALS['config']['_authority'];
+        $this->_info = empty($this->_info) ? session::get(self::$_mark) : $this->_info;
+        $this->_uid = $this->_info['admin_id'];
 
+        $this->config = $GLOBALS['config']['_authority'];
         $this->is_login();
     }
 
     //判断是否登陆
     public function is_login()
     {
-        if(!empty($this->_uid) && $this->config['login_url'] == '?ct='.CT_NAME.'&ac='.AC_NAME)
+
+        if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CT_NAME.'&ac='.AC_NAME)
         {
             show_msg::error('您已经登陆','?ct=index&ac=index');
         }
+
         if(isset($this->config['need_login']) && $this->config['need_login'] == true &&
             in_array(CT_NAME,$this->config['not_login']))
         {
             return true;
         }
+
         if(empty($this->_uid))
         {
             show_msg::error('您还没有登陆',$this->config['login_url']);
@@ -155,8 +159,9 @@ class sys_power
             log::error('用户登陆，当前会话session_id写入失败');
             return false;
         }
-
+        
         session::set(self::$_mark, $this->_info);
+        $this->_uid = $this->_info['admin_id'];
         return true;
 
     }

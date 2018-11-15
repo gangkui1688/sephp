@@ -32,6 +32,7 @@
     <menu name='内容管理' icon='fa fa-book' id='contentManagement'  >
         <menu name='内容分类' ct='content' ac='cate_index' icon='fa fa-list-ol' display='' />
         <menu name='文章列表' ct='content' ac='content_index' icon='fa fa-file-text-o' display='' />
+        <menu name='基本内容' ct='content' ac='basic_content' icon='fa fa-file-text-o' display='' />
     </menu>
     <menu name='会员管理' icon='fa fa-book' id='membersManagement'  >
         <menu name='会员列表' ct='member' ac='member_list' icon='fa fa-list-ol' display='' />

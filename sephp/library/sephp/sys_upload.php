@@ -114,7 +114,7 @@ class sys_upload
         $result['name'] = $fileName;
         $result['size'] = req::$forms['size'];
         $result['type'] = req::$forms['type'];
-        return ($type == 'save') ? self::save_file($result) : show_msg::ajax('success', 200,$result);
+        return $result;
     }
 
     /**

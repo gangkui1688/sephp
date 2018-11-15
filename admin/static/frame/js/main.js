@@ -86,8 +86,9 @@ function editorSendFile(file,$summernote) {
         formData.append("chunk", index++);
         formData.append("type", file.type);
         formData.append("size", file.size);
+        formData.append("save_type", '');
         $.ajax({
-            url: "?ct=public&ac=editor_update",//路径是你控制器中上传图片的方法
+            url: "?ct=public&ac=editor_upload",//路径是你控制器中上传图片的方法
             data: formData,
             cache: false,
             contentType: false,
