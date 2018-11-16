@@ -29,6 +29,7 @@ $config['session'] = [
     'path' => '',
     'expire' => 14400,
     'secure' => true,
+    'use_cookies' => true,
 ];
 
 //可以做读写分离的设置

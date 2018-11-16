@@ -39,8 +39,10 @@ class session
         //重构session
         //session_set_save_handler('session::open', 'session::close', 'session::read', 'session::write', 'session::destroy', 'session::gc');
 
-        self::$config = empty($config) ? $GLOBALS['config']['session'] : $config;
+        self::$config = empty($config) ? start::$_config['session'] : $config;
 
+        p(self::$config);
+        p(PHP_SESSION_ACTIVE);
         if (isset(self::$config['prefix'])) {
             self::$prefix = self::$config['prefix'];
         }

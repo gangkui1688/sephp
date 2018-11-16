@@ -82,6 +82,7 @@ class ctl_public
     //登陆
     public function login()
     {
+        p(session_id());
         if(!empty(req::$posts))
         {
             if(start::$_config['web']['verify_open'] && !sysVerifiy_::instance()->check(req::$posts['verify']))
@@ -102,9 +103,6 @@ class ctl_public
                 {
                     log::info('用户【ID:' . sys_power::instance()->_info['admin_id'] . '】登陆成功');
                     sys_power::instance()->login_log();
-                    p(session_id());
-                    p(session::get(sys_power::$_mark));
-                    exit;
                     show_msg::success('登陆成功','?ct=index&ac=index');
                 }
                 elseif(empty(sys_power::instance()->_info['auth_secert']))
