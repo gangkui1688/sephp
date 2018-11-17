@@ -28,7 +28,7 @@ $config['session'] = [
     'auto_start' => true,
     'path' => '',
     'expire' => 14400,
-    'secure' => true,
+    'secure' => false,
     'use_cookies' => true,
 ];
 

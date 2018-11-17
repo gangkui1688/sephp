@@ -1,5 +1,25 @@
 <menus>
-    <menu name='系统管理'  icon='fa fa-gears' id='systemManagement' >
+    <menu name='首页' icon='fa fa-home'  >
+        <menu name='今日总揽' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='运营分析' ct='system' ac='menus' icon='fa fa-dashboard'  />
+    </menu>
+    
+    <menu name='幼儿管理'  icon='fa fa-gears' id='studentsManagement' >
+        <menu name='幼儿信息' icon='fa fa-user-secret'  default='true' >
+            <menu name='在园幼儿' ct='students' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='离园幼儿' ct='students' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='看园幼儿' ct='students' ac='online' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="幼儿考勤" icon="fa fa-file" >
+            <menu name='考勤' ct='students' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='出勤率分析' ct='students' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='病假追踪' ct='students' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='打卡记录' ct='students' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+    </menu>
+
+    <menu name='职工管理'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
             <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
@@ -23,6 +43,189 @@
             <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
         </menu>
     </menu>
+    
+    <menu name='教学管理'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="文件管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+        <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
+        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
+
+        <menu name='数据库管理'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+    
+    <menu name='营养保健'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='膳食配餐' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='日常保健' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='体格评测' icon='fa fa-user-secret'  default='true' >
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="体质评测" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+        <menu name='提报中心'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+    <menu name='办公管理'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="文件管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+        <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
+        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
+
+        <menu name='数据库管理'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+    <menu name='财务管理'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='收费管理' icon='fa fa-user-secret'  default='true' >
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="退费管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+        <menu name="财务核算" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+
+        <menu name='记账管理'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+        <menu name='物资管理'  icon='fa fa-database' display='' >
+            <menu name='物品登记' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='物品申购' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='物品申领' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+            <menu name='物品入库' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+    <menu name='消息中心'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="文件管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+        <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
+        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
+
+        <menu name='数据库管理'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+
+    <menu name='控制中心'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="文件管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+        <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
+        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
+
+        <menu name='数据库管理'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+
+    
+    <menu name='系统管理'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="文件管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+        <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
+        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
+
+        <menu name='数据库管理'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+
     <menu name='微信管理' icon='fa fa-book' id='whcatManagement'  >
         <menu name='基础设置' ct='wechat' ac='base' icon='fa fa-list-ol' display='' />
         <menu name='公众号' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />

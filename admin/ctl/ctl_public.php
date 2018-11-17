@@ -63,7 +63,6 @@ class ctl_public
     //验证码
     public function verify()
     {
-        var_dump(session::get(sys_power::$_mark), session_id());exit;
         $config = [
             'length' => req::item('length',4),
             'expire' => req::item('expire',300),
@@ -82,7 +81,6 @@ class ctl_public
     //登陆
     public function login()
     {
-        p(session_id());
         if(!empty(req::$posts))
         {
             if(start::$_config['web']['verify_open'] && !sysVerifiy_::instance()->check(req::$posts['verify']))

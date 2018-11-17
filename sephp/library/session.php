@@ -41,8 +41,6 @@ class session
 
         self::$config = empty($config) ? start::$_config['session'] : $config;
 
-        p(self::$config);
-        p(PHP_SESSION_ACTIVE);
         if (isset(self::$config['prefix'])) {
             self::$prefix = self::$config['prefix'];
         }
@@ -79,7 +77,7 @@ class session
 
         if (isset(self::$config['use_cookies'])) {
             ////是否使用cookies(默认值为1)
-            ini_set('session.use_cookies', self::$config['use_cookies'] ? 1 : 0);
+            ini_set('session.use_cookies', self::$config['use_cookies']);
         }
 
         if (isset(self::$config['cache_limiter'])) {
