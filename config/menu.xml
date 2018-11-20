@@ -1,5 +1,5 @@
 <menus>
-    <menu name='首页' icon='fa fa-home'  >
+    <menu name='首页' icon='fa fa-home' id='homePage' >
         <menu name='今日总揽' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='运营分析' ct='system' ac='menus' icon='fa fa-dashboard'  />
     </menu>
@@ -18,7 +18,7 @@
         </menu>
     </menu>
 
-    <menu name='职工管理'  icon='fa fa-gears' id='systemManagement' >
+    <menu name='职工管理'  icon='fa fa-gears' id='teachersManagement' >
         <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
         <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
@@ -197,47 +197,23 @@
             <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
             <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
         </menu>
+
+         <menu name='内容管理' icon='fa fa-book' id='contentManagement'  >
+            <menu name='内容分类' ct='content' ac='cate_index' icon='fa fa-list-ol' display='' />
+            <menu name='文章列表' ct='content' ac='content_index' icon='fa fa-file-text-o' display='' />
+            <menu name='基本内容' ct='content' ac='basic_content' icon='fa fa-file-text-o' display='' />
+        </menu>
+
     </menu>
 
-    
-    <menu name='系统管理'  icon='fa fa-gears' id='systemManagement' >
-        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='后台用户管理' icon='fa fa-user-secret'  default='true' >
-            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
-            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
-            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
-            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
-        </menu>
-        <menu name="文件管理" icon="fa fa-file" >
-            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
-            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
-            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
-        </menu>
-
-        <menu name='基本设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
-        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
-        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
-
-        <menu name='数据库管理'  icon='fa fa-database' display='' >
-            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
-            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
-            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
-        </menu>
-    </menu>
-
-    <menu name='微信管理' icon='fa fa-book' id='whcatManagement'  >
+    <!--menu name='微信管理' icon='fa fa-book' id='whcatManagement'  >
         <menu name='基础设置' ct='wechat' ac='base' icon='fa fa-list-ol' display='' />
         <menu name='公众号' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
         <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
         <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
-    </menu>
-    <menu name='内容管理' icon='fa fa-book' id='contentManagement'  >
-        <menu name='内容分类' ct='content' ac='cate_index' icon='fa fa-list-ol' display='' />
-        <menu name='文章列表' ct='content' ac='content_index' icon='fa fa-file-text-o' display='' />
-        <menu name='基本内容' ct='content' ac='basic_content' icon='fa fa-file-text-o' display='' />
-    </menu>
-    <menu name='会员管理' icon='fa fa-book' id='membersManagement'  >
+    </menu-->
+   
+   <!--menu name='会员管理' icon='fa fa-book' id='membersManagement'  >
         <menu name='会员列表' ct='member' ac='member_list' icon='fa fa-list-ol' display='' />
         <menu name='会员等级' ct='member' ac='grade_list' icon='fa fa-file-text-o' display='' />
         <menu name='会员留言' ct='member' ac='message_list' icon='fa fa-file-text-o' display='' />
@@ -272,5 +248,5 @@
     </menu>
     <menu name='订单管理' icon='fa fa-user-secret' id='orderCenter' >
         <menu name='订单列表' ct='order' ac='index' icon='fa fa-user' display='' />
-    </menu>
+    </menu-->
 </menus>

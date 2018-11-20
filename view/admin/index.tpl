@@ -63,7 +63,7 @@
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
+                <div class="navbar-header" style="width:80%;">
                     <a style="margin: 9px;" class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i></a>
                     <ul class="nav navbar-nav top-navigation">
 

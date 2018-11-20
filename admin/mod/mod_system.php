@@ -29,7 +29,7 @@ class mod_system
                 $data[$key] = [
                     'title' => $val['@attributes']['name'],
                     'icon' => $val['@attributes']['icon'],
-                    'id' => $val['@attributes']['id'],
+                    'id' => empty($val['@attributes']['id']) ? '' : $val['@attributes']['id'],
                     'spread' => empty($v['@attributes']['spread']) ? false : $v['@attributes']['spread']
                 ];
                 if($type != 'all')
@@ -48,7 +48,7 @@ class mod_system
                 {
                     $data[$key]['menu'] = $m;
                 }
-                else
+                elseif(!empty($val['@attributes']['id']))
                 {
                     $data[$val['@attributes']['id']] = $m;
                 }
