@@ -49,9 +49,27 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">封 面 图：</label>
-                                                <div class="col-sm-8">
-
+                                            
+                                            
+                                            <label class="col-sm-2 control-label"><code>*</code> 封面图:</label>
+                                                <div class="col-sm-10 uploader-group"
+                                                     data-extensions="zip"
+                                                     data-mime-Types="application/zip"
+                                                     data-dir="<{$upload_dir}>"
+                                                     data-size="50"
+                                                     data-len="3"
+                                                     data-randname="0"
+                                                     data-multiple="false"
+                                                     data-chunked="chunked"
+                                                     data-auto="true" >
+                                                    <div class="col-sm-10 more-img-wrap" >
+                                                        <div class="uploader-list"></div>
+                                                        <a class="btn btn-dark uploader-picker" data-file="zip_file"><i class="fa fa-upload"></i> 上传ZIP文件</a>
+                                                        <p class="help-block m-b-none m-t-xs"><i class="fa fa-info-circle"></i>只限zip文件上传，每个zip文件大小限制50M</p>
+                                                    </div>
+                                                    <div class="hidden-input col-sm-10 col-sm-offset-2">
+                                                        <input type="hidden" class="form-control file" nullmsg="请上传zip文件">
+                                                    </div>
                                                 </div>
                                             </div>
 
