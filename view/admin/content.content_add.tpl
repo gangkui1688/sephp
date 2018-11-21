@@ -49,6 +49,13 @@
                                             </div>
 
                                             <div class="form-group">
+                                                <label class="col-sm-3 control-label">封 面 图：</label>
+                                                <div class="col-sm-8">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
                                                 <label class="col-sm-3 control-label">文章重要性：</label>
                                                 <div class="col-sm-4">
                                                     <input type="radio" value="2" <{if isset($data) && $data.is_top == 2}>checked<{/if}> name="is_top" required /> 普通

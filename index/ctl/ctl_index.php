@@ -27,7 +27,6 @@ class ctl_index {
 
 	//首页
 	public function index() {
-
 		view::display('index');
 	}
 

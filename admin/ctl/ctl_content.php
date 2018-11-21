@@ -132,9 +132,12 @@ class ctl_content
     public function cate_index()
     {
         setcookie('content_back_url',NOW_URL);
+
         view::assign('list',$this->get_cates());
         view::assign('add_url','?ct=content&ac=cate_add');
         view::assign('edit_url','?ct=content&ac=cate_edit');
+        view::assign('save_url', '');
+
         view::display();
     }
     //编辑分类
@@ -145,7 +148,10 @@ class ctl_content
             $data = req::$posts;
             if($data[$this->_cate_pk] > 0)
             {
-                if(db::update($this->_cate_table)->set($data)->where($this->_cate_pk,$data[$this->_cate_pk])->execute() === false)
+                if(db::update($this->_cate_table)
+                    ->set($data)
+                    ->where($this->_cate_pk,$data[$this->_cate_pk])
+                    ->execute() === false)
                 {
                     show_msg::error();
                 }

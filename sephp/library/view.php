@@ -75,9 +75,7 @@ class view {
 			}
 		}
 
-		self::instance()->display($tpl.'.tpl');
+		self::instance()->display($tpl . '.tpl');
 	}
 
 }
-
-/* vim: set expandtab: */
