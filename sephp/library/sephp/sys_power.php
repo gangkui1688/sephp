@@ -53,16 +53,14 @@ class sys_power
     //判断是否登陆
     public function is_login()
     {
+        if(empty($this->config['need_login']) || in_array(CT_NAME,$this->config['not_login']))
+        {
+            return true;
+        }
 
         if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CT_NAME.'&ac='.AC_NAME)
         {
             show_msg::error('您已经登陆','?ct=index&ac=index');
-        }
-
-        if(isset($this->config['need_login']) && $this->config['need_login'] == true &&
-            in_array(CT_NAME,$this->config['not_login']))
-        {
-            return true;
         }
 
         if(empty($this->_uid))
