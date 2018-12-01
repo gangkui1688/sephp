@@ -191,6 +191,4 @@ class sys_power
         return $info;
     }
 
-
-
 }

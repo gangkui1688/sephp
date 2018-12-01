@@ -27,7 +27,7 @@
 .service dl.service_hover dd{color:#2eafbb;}
 
 .content{margin-top:40px;}
-.content_title{margin-bottom:25px;background:url(img/content_title_bg.png) repeat-x center center;}
+.content_title{width:1200px;margin:auto;margin-bottom:25px;background:url(img/content_title_bg.png) repeat-x center center;}
 .content_title2{ background-color:#fff; width:207px;}
 .content_title3{ background-color:#fff; width:260px;}
 .content_title4{ background-color:#f9f9f9; width:268px;}

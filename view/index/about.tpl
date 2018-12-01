@@ -18,11 +18,13 @@
       <div class="box_parent">
         <div class="box1  box-l J_Box" init="true" style="padding-top:35px;"  ><img src="/index/static/style/images/about_who_img.gif" width="288px" height="135" /></div>
         <div class="general_con_c_ri  box-r J_Box" init="true" >
-          <div class="general_con_c_ri_title">我们是谁？</div>
+          <!--div class="general_con_c_ri_title">我们是谁？</div>
           <div class="general_con_c_ri_word">北京宜天信达网络科技有限公司-软件开发公司是国内专业的软件外包、定制开发公司。自成立以来，秉承"诚信、协作、奉献、超越"的精神，着力打造集战略咨询、平台技术和专业服务为一体的软件企业。在金融、保险、银行、医疗、物流、制造、教育、核能、汽车等行业拥有丰富的软件开发经验。
 北京软件开发公司宜天信达涵盖多种应用与技术平台，拥有成熟的信息系统和软件开发外包解决方案，我们的专业团队将作为您的IT部门来开展长期紧密的合作，立足于您的业务和信息化目标，开发符合您业务目标和商业价值的软件。
 我们将抓住机遇，坚持以人为本，加大自主产品创新，提升重大工程实施能力，加快规范化进程，实现规模经济和跨越式发展，立志打造“中国软件行业优秀企业”。 </div>
-          <div class="general_con_c_ri_int"> 我们之所以存在，是因为我们帮助客户解决问题</div>
+          <div class="general_con_c_ri_int"> 我们之所以存在，是因为我们帮助客户解决问题</div-->
+
+            <{$company_profile|htmlspecialchars_decode}>
         </div>
         <div class="clear"></div>
       </div>
@@ -86,10 +88,7 @@
         <div class="box_parent">
           <div class="box3 J_Box box-l"><img src="/index/static/style/images/about_culture_img.gif" width="268" height="190" /></div>
           <div class="box32 J_Box box-r">
-            <div class="general_con_c_ri_title">专业+经验+创意+服务</div>
-            <div class="general_con_c_ri_ad"> 专业的<span>  技术   </span>，丰富的<span>成功经验</span>，卓越的<span>设计思维</span>，为您创作符合您业务和商业价值的解决方案！</div>
-            <div class="general_con_c_ri_word">为客户服务而努力，是我们每一个人贡献自己才华的方向，我们不光要懂得软件开发技术，还需要与客户发展战略规划对接，给客户优质服务，公司将坚持以创新、求实、诚信作为经营理念，不断吸收先进团队管理经验，继续为各个行业提供更加优秀、更加完善的解决方案。
-               </div>
+            <{$company_cultural|htmlspecialchars_decode}>
           </div>
           <div class="clear"></div>
         </div>

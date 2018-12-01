@@ -35,6 +35,19 @@ class ctl_index {
     public function about()
     {
 
+        //公司概况
+        view::assign('company_profile', config::get('company_profile'));
+        //企业文化
+        view::assign('company_cultural', config::get('company_cultural'));
+        //企业资质
+        view::assign('company_aptitude', config::get('company_aptitude'));
+        //加入我们
+        view::assign('join_us', config::get('join_us'));
+        //服务范围
+        view::assign('service_range', config::get('service_range'));
+        //我们的愿景
+        view::assign('we_hope', config::get('we_hope'));
+
         view::display('about');
     }
 

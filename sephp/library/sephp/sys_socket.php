@@ -1,231 +1,518 @@
 <?php
 
+//// 使用 WebSocket 通知客户端
+//$client = new cls_websocket();
+////$client->connect($_SERVER['HTTP_HOST'], 9527, '/');
+//$client->connect("127.0.0.1", 9527, '/json?utma=jjj&userid=1&username=yangzetao');
+
+//$payload = json_encode(array(
+//'Event' => 'IncrMessageCount',
+//'Msg' => 'Hello'
+//));
+//$rs = $client->send_data($payload);
+
+//if( $rs !== true )
+//{
+//echo "send data error...\n";
+//}
+//else
+//{
+//echo "ok\n";
+//}
+
+//$client->disconnect();
+//exit;
+//for ($i = 0; $i < 10; $i++)
+//{
+//$payload = json_encode(array(
+//'Event' => 'message',
+//'Msg' => 'Hello'
+//));
+//$rs = $client->send_data($payload);
+
+//if( $rs !== true )
+//{
+//echo "send data error...\n";
+//}
+//else
+//{
+//echo "ok\n";
+//}
+//}
+
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+
+/**
+ * Very basic websocket client.
+ * Supporting draft hybi-10.
+ *
+ * @author Simon Samtleben <web@lemmingzshadow.net>
+ * @version 2011-10-18
+ */
+
 class sys_socket
 {
-    public $port = 1116; //SocketLog 服务的http的端口号
+    private $_host;
+    private $_port;
+    private $_path;
+    private $_origin;
+    private $_socket = null;
+    private $_connected = false;
+    private $_recv_buffer = '';
+    private $_current_package_length = 0;
+    const READ_BUFFER_SIZE = 2;
 
-    protected $config = [
-        // socket服务器地址
-        'host'                => 'localhost',
-        // 是否显示加载的文件列表
-        'show_included_files' => false,
-        // 日志强制记录到配置的client_id
-        'force_client_ids'    => [],
-        // 限制允许读取日志的client_id
-        'allow_client_ids'    => [],
-    ];
+    public function __construct() { }
 
-    protected $css = [
-        'sql'      => 'color:#009bb4;',
-        'sql_warn' => 'color:#009bb4;font-size:14px;',
-        'error'    => 'color:#f4006b;font-size:14px;',
-        'page'     => 'color:#40e2ff;background:#171717;',
-        'big'      => 'font-size:20px;color:red;',
-    ];
-
-    protected $allowForceClientIds = []; //配置强制推送且被授权的client_id
-
-    /**
-     * 构造函数
-     * @param array $config 缓存参数
-     * @access public
-     */
-    public function __construct(array $config = [])
+    public function __destruct()
     {
-        if (!empty($config)) {
-            $this->config = array_merge($this->config, $config);
-        }
+        $this->disconnect();
     }
 
-    /**
-     * 调试输出接口
-     * @access public
-     * @param array     $log 日志信息
-     * @return bool
-     */
-    public function save(array $log = [])
+    public function recv_data()
     {
-        if (!$this->check()) {
+        if (feof($this->_socket))
+        {
+            fclose($this->_socket);
+            echo "server close \n";
             return false;
         }
-        $trace = [];
-        if (App::$debug) {
-            $runtime    = round(microtime(true) - THINK_START_TIME, 10);
-            $reqs       = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
-            $time_str   = ' [运行时间：' . number_format($runtime, 6) . 's][吞吐率：' . $reqs . 'req/s]';
-            $memory_use = number_format((memory_get_usage() - THINK_START_MEM) / 1024, 2);
-            $memory_str = ' [内存消耗：' . $memory_use . 'kb]';
-            $file_load  = ' [文件加载：' . count(get_included_files()) . ']';
-
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            } else {
-                $current_uri = 'cmd:' . implode(' ', $_SERVER['argv']);
-            }
-            // 基本信息
-            $trace[] = [
-                'type' => 'group',
-                'msg'  => $current_uri . $time_str . $memory_str . $file_load,
-                'css'  => $this->css['page'],
-            ];
+        $data = fread($this->_socket, self::READ_BUFFER_SIZE);
+        return $data;
+        //$buffer = ' ';
+        //while($buffer !== '')
+        //{
+        //$buffer = fread($this->_socket, 512);
+        //}
+        // 注意如果服务端没有发送数据过来，会一直堵塞到超时
+        // 比如下面链接的时候设置了2秒超时
+        // socket_set_timeout($this->_socket, 2, 10000);
+        $this->_recv_buffer = fread($this->_socket, self::READ_BUFFER_SIZE);
+        if ($this->_recv_buffer === "" || $this->_recv_buffer === false)
+        {
+            echo "length 0\n";
+            fclose($this->_socket);
+            return $data;
         }
 
-        foreach ($log as $type => $val) {
-            $trace[] = [
-                'type' => 'groupCollapsed',
-                'msg'  => '[ ' . $type . ' ]',
-                'css'  => isset($this->css[$type]) ? $this->css[$type] : '',
-            ];
-            foreach ($val as $msg) {
-                if (!is_string($msg)) {
-                    $msg = var_export($msg, true);
+        echo "get buffer\n";
+        $payloadLength = '';
+        $mask = '';
+        $unmaskedPayload = '';
+        $decodedData = array();
+
+        $firstByteBinary = sprintf('%08b', ord($data[0]));
+        $secondByteBinary = sprintf('%08b', ord($data[1]));
+        $opcode = bindec(substr($firstByteBinary, 4, 4));
+        $isMasked = ($secondByteBinary[0] == '1') ? true : false;
+        $payloadLength = ord($data[1]) & 127;
+
+        switch($opcode)
+        {
+            // text frame:
+            case 1:
+                $decodedData['type'] = 'text';
+                break;
+
+            case 2:
+                $decodedData['type'] = 'binary';
+                break;
+
+            // connection close frame:
+            case 8:
+                $decodedData['type'] = 'close';
+                break;
+
+            // ping frame:
+            case 9:
+                $decodedData['type'] = 'ping';
+                break;
+
+            // pong frame:
+            case 10:
+                $decodedData['type'] = 'pong';
+                break;
+
+            default:
+                return false;
+                break;
+        }
+
+        $data = fread($this->_socket, $payloadLength);
+
+        if($payloadLength === 126)
+        {
+            $mask = substr($data, 4, 4);
+            $payloadOffset = 8;
+            $dataLength = bindec(sprintf('%08b', ord($data[2])) . sprintf('%08b', ord($data[3]))) + $payloadOffset;
+        }
+        elseif($payloadLength === 127)
+        {
+            $mask = substr($data, 10, 4);
+            $payloadOffset = 14;
+            $tmp = '';
+            for($i = 0; $i < 8; $i++)
+            {
+                $tmp .= sprintf('%08b', ord($data[$i+2]));
+            }
+            $dataLength = bindec($tmp) + $payloadOffset;
+            unset($tmp);
+        }
+        else
+        {
+            $mask = substr($data, 2, 4);
+            $payloadOffset = 6;
+            $dataLength = $payloadLength + $payloadOffset;
+        }
+
+        if($isMasked === true)
+        {
+            for($i = $payloadOffset; $i < $dataLength; $i++)
+            {
+                $j = $i - $payloadOffset;
+                if(isset($data[$i]))
+                {
+                    $unmaskedPayload .= $data[$i] ^ $mask[$j % 4];
                 }
-                $trace[] = [
-                    'type' => 'log',
-                    'msg'  => $msg,
-                    'css'  => '',
-                ];
             }
-            $trace[] = [
-                'type' => 'groupEnd',
-                'msg'  => '',
-                'css'  => '',
-            ];
+            $decodedData['payload'] = $unmaskedPayload;
+        }
+        else
+        {
+            $payloadOffset = $payloadOffset - 4;
+            $decodedData['payload'] = substr($data, $payloadOffset);
         }
 
-        if ($this->config['show_included_files']) {
-            $trace[] = [
-                'type' => 'groupCollapsed',
-                'msg'  => '[ file ]',
-                'css'  => '',
-            ];
-            $trace[] = [
-                'type' => 'log',
-                'msg'  => implode("\n", get_included_files()),
-                'css'  => '',
-            ];
-            $trace[] = [
-                'type' => 'groupEnd',
-                'msg'  => '',
-                'css'  => '',
-            ];
+        return $decodedData;
+        //$buffer = $this->_hybi10_decode($buffer, $type, $masked);
+        return $buffer;
+    }
+
+    public function send_data($data, $type = 'text', $masked = true)
+    {
+        if($this->_connected === false)
+        {
+            trigger_error("Not connected", E_USER_WARNING);
+            return false;
         }
 
-        $trace[] = [
-            'type' => 'groupEnd',
-            'msg'  => '',
-            'css'  => '',
-        ];
-
-        $tabid = $this->getClientArg('tabid');
-        if (!$client_id = $this->getClientArg('client_id')) {
-            $client_id = '';
+        if( !is_string($data))
+        {
+            trigger_error("Not a string data was given.", E_USER_WARNING);
+            return false;
         }
 
-        if (!empty($this->allowForceClientIds)) {
-            //强制推送到多个client_id
-            foreach ($this->allowForceClientIds as $force_client_id) {
-                $client_id = $force_client_id;
-                $this->sendToClient($tabid, $client_id, $trace, $force_client_id);
-            }
-        } else {
-            $this->sendToClient($tabid, $client_id, $trace, '');
+        if (strlen($data) == 0)
+        {
+            return false;
         }
+
+        $res = @fwrite($this->_socket, $this->_hybi10_encode($data, $type, $masked));
+
+        if($res === 0 || $res === false)
+        {
+            return false;
+        }
+
+        //$buffer = ' ';
+        //while($buffer !== '')
+        //{
+        //$buffer = fread($this->_socket, 512);
+        //}
+
+        //$buffer = '';
+        //while(!feof($this->_socket))
+        //{
+        //$buffer .= fread($this->_socket, 512);
+        //}
+
+        //$buffer = fread($this->_socket, 512);
+        //$buffer = $this->_hybi10_decode($buffer, $type, $masked);
+        //var_dump($buffer);
         return true;
     }
 
-    /**
-     * 发送给指定客户端
-     * @author Zjmainstay
-     * @param $tabid
-     * @param $client_id
-     * @param $logs
-     * @param $force_client_id
-     */
-    protected function sendToClient($tabid, $client_id, $logs, $force_client_id)
+    public function connect($host, $port, $path, $origin = false)
     {
-        $logs = [
-            'tabid'           => $tabid,
-            'client_id'       => $client_id,
-            'logs'            => $logs,
-            'force_client_id' => $force_client_id,
-        ];
-        $msg     = @json_encode($logs);
-        $address = '/' . $client_id; //将client_id作为地址， server端通过地址判断将日志发布给谁
-        $this->send($this->config['host'], $msg, $address);
+        $this->_host = $host;
+        $this->_port = $port;
+        $this->_path = $path;
+        $this->_origin = $origin;
+
+        //$path = "ws://127.0.0.1:9527/json";
+        $key = base64_encode($this->_generate_random_string(16, false, true));
+        $header = "GET " . $path . " HTTP/1.1\r\n";
+        $header.= "Host: ".$host.":".$port. "\r\n";
+        $header.= "Upgrade: websocket\r\n";
+        $header.= "Connection: Upgrade\r\n";
+        $header.= "Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits\r\n";
+        $header.= "Sec-WebSocket-Key: " . $key . "\r\n";
+
+        if($origin !== false)
+        {
+            // golang的websocket会验证Origin，Sec-WebSocket-Origin这个不行，要用Origin
+            // $header.= "Sec-WebSocket-Origin: " . $origin . "\r\n";
+            $header.= "Origin: " . $origin . "\r\n";
+        }
+        $header.= "Sec-WebSocket-Version: 13\r\n\r\n";
+
+        $this->_socket = fsockopen($host, $port, $errno, $errstr, 2);
+        socket_set_timeout($this->_socket, 2, 10000);
+        //socket_write($this->_socket, $header);
+        $res = @fwrite($this->_socket, $header);
+        if( $res === false ){
+            echo "fwrite false \n";
+        }
+
+        $response = fread($this->_socket, 1500);
+        //$response = socket_read($this->_socket);
+        preg_match('#Sec-WebSocket-Accept:\s(.*)$#mU', $response, $matches);
+        if ($matches) {
+            $keyAccept = trim($matches[1]);
+            $expectedResonse = base64_encode(pack('H*', sha1($key . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
+            $this->_connected = ($keyAccept === $expectedResonse) ? true : false;
+        }
+        return $this->_connected;
     }
 
-    protected function check()
+    public function checkconnect()
     {
-        $tabid = $this->getClientArg('tabid');
-        //是否记录日志的检查
-        if (!$tabid && !$this->config['force_client_ids']) {
+        $this->_connected = false;
+
+        // send ping:
+        $data = 'ping?';
+        @fwrite($this->_socket, $this->_hybi10_encode($data, 'ping', true));
+        $response = @fread($this->_socket, 300);
+        if(empty($response))
+        {
             return false;
         }
-        //用户认证
-        $allow_client_ids = $this->config['allow_client_ids'];
-        if (!empty($allow_client_ids)) {
-            //通过数组交集得出授权强制推送的client_id
-            $this->allowForceClientIds = array_intersect($allow_client_ids, $this->config['force_client_ids']);
-            if (!$tabid && count($this->allowForceClientIds)) {
-                return true;
-            }
+        $response = $this->_hybi10_decode($response);
+        if(!is_array($response))
+        {
+            return false;
+        }
+        if(!isset($response['type']) || $response['type'] !== 'pong')
+        {
+            return false;
+        }
+        $this->_connected = true;
+        return true;
+    }
 
-            $client_id = $this->getClientArg('client_id');
-            if (!in_array($client_id, $allow_client_ids)) {
+
+    public function disconnect()
+    {
+        $this->_connected = false;
+        is_resource($this->_socket) and fclose($this->_socket);
+    }
+
+    public function reconnect()
+    {
+        sleep(10);
+        $this->_connected = false;
+        fclose($this->_socket);
+        $this->connect($this->_host, $this->_port, $this->_path, $this->_origin);
+    }
+
+    private function _generate_random_string($length = 10, $addSpaces = true, $addNumbers = true)
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"ยง$%&/()=[]{}';
+        $useChars = array();
+        // select some random chars:
+        for($i = 0; $i < $length; $i++)
+        {
+            $useChars[] = $characters[mt_rand(0, strlen($characters)-1)];
+        }
+        // add spaces and numbers:
+        if($addSpaces === true)
+        {
+            array_push($useChars, ' ', ' ', ' ', ' ', ' ', ' ');
+        }
+        if($addNumbers === true)
+        {
+            array_push($useChars, rand(0,9), rand(0,9), rand(0,9));
+        }
+        shuffle($useChars);
+        $randomString = trim(implode('', $useChars));
+        $randomString = substr($randomString, 0, $length);
+        return $randomString;
+    }
+
+    private function _hybi10_encode($payload, $type = 'text', $masked = true)
+    {
+        $frameHead = array();
+        $frame = '';
+        $payloadLength = strlen($payload);
+
+        switch($type)
+        {
+            case 'text':
+                // first byte indicates FIN, Text-Frame (10000001):
+                $frameHead[0] = 129;
+                break;
+
+            case 'close':
+                // first byte indicates FIN, Close Frame(10001000):
+                $frameHead[0] = 136;
+                break;
+
+            case 'ping':
+                // first byte indicates FIN, Ping frame (10001001):
+                $frameHead[0] = 137;
+                break;
+
+            case 'pong':
+                // first byte indicates FIN, Pong frame (10001010):
+                $frameHead[0] = 138;
+                break;
+        }
+
+        // set mask and payload length (using 1, 3 or 9 bytes)
+        if($payloadLength > 65535)
+        {
+            $payloadLengthBin = str_split(sprintf('%064b', $payloadLength), 8);
+            $frameHead[1] = ($masked === true) ? 255 : 127;
+            for($i = 0; $i < 8; $i++)
+            {
+                $frameHead[$i+2] = bindec($payloadLengthBin[$i]);
+            }
+            // most significant bit MUST be 0 (close connection if frame too big)
+            if($frameHead[2] > 127)
+            {
+                $this->close(1004);
                 return false;
             }
-        } else {
-            $this->allowForceClientIds = $this->config['force_client_ids'];
         }
-        return true;
-    }
-
-    protected function getClientArg($name)
-    {
-        static $args = [];
-
-        $key = 'HTTP_USER_AGENT';
-
-        if (isset($_SERVER['HTTP_SOCKETLOG'])) {
-            $key = 'HTTP_SOCKETLOG';
+        elseif($payloadLength > 125)
+        {
+            $payloadLengthBin = str_split(sprintf('%016b', $payloadLength), 8);
+            $frameHead[1] = ($masked === true) ? 254 : 126;
+            $frameHead[2] = bindec($payloadLengthBin[0]);
+            $frameHead[3] = bindec($payloadLengthBin[1]);
+        }
+        else
+        {
+            $frameHead[1] = ($masked === true) ? $payloadLength + 128 : $payloadLength;
         }
 
-        if (!isset($_SERVER[$key])) {
-            return;
+        // convert frame-head to string:
+        foreach(array_keys($frameHead) as $i)
+        {
+            $frameHead[$i] = chr($frameHead[$i]);
         }
-        if (empty($args)) {
-            if (!preg_match('/SocketLog\((.*?)\)/', $_SERVER[$key], $match)) {
-                $args = ['tabid' => null];
-                return;
+        if($masked === true)
+        {
+            // generate a random mask:
+            $mask = array();
+            for($i = 0; $i < 4; $i++)
+            {
+                $mask[$i] = chr(rand(0, 255));
             }
-            parse_str($match[1], $args);
+
+            $frameHead = array_merge($frameHead, $mask);
         }
-        if (isset($args[$name])) {
-            return $args[$name];
+        $frame = implode('', $frameHead);
+
+        // append payload to frame:
+        $framePayload = array();
+        for($i = 0; $i < $payloadLength; $i++)
+        {
+            $frame .= ($masked === true) ? $payload[$i] ^ $mask[$i % 4] : $payload[$i];
         }
-        return;
+
+        return $frame;
     }
 
-    /**
-     * @param string $host - $host of socket server
-     * @param string $message - 发送的消息
-     * @param string $address - 地址
-     * @return bool
-     */
-    protected function send($host, $message = '', $address = '/')
+    private function _hybi10_decode($data)
     {
-        $url = 'http://' . $host . ':' . $this->port . $address;
-        $ch  = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $headers = ["Content-Type: application/json;charset=UTF-8"];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); //设置header
-        return curl_exec($ch);
-    }
+        $payloadLength = '';
+        $mask = '';
+        $unmaskedPayload = '';
+        $decodedData = array();
 
+        // estimate frame type:
+        $firstByteBinary = sprintf('%08b', ord($data[0]));
+        $secondByteBinary = sprintf('%08b', ord($data[1]));
+        $opcode = bindec(substr($firstByteBinary, 4, 4));
+        $isMasked = ($secondByteBinary[0] == '1') ? true : false;
+        $payloadLength = ord($data[1]) & 127;
+
+        switch($opcode)
+        {
+            // text frame:
+            case 1:
+                $decodedData['type'] = 'text';
+                break;
+
+            case 2:
+                $decodedData['type'] = 'binary';
+                break;
+
+            // connection close frame:
+            case 8:
+                $decodedData['type'] = 'close';
+                break;
+
+            // ping frame:
+            case 9:
+                $decodedData['type'] = 'ping';
+                break;
+
+            // pong frame:
+            case 10:
+                $decodedData['type'] = 'pong';
+                break;
+
+            default:
+                return false;
+                break;
+        }
+
+        if($payloadLength === 126)
+        {
+            $mask = substr($data, 4, 4);
+            $payloadOffset = 8;
+            $dataLength = bindec(sprintf('%08b', ord($data[2])) . sprintf('%08b', ord($data[3]))) + $payloadOffset;
+        }
+        elseif($payloadLength === 127)
+        {
+            $mask = substr($data, 10, 4);
+            $payloadOffset = 14;
+            $tmp = '';
+            for($i = 0; $i < 8; $i++)
+            {
+                $tmp .= sprintf('%08b', ord($data[$i+2]));
+            }
+            $dataLength = bindec($tmp) + $payloadOffset;
+            unset($tmp);
+        }
+        else
+        {
+            $mask = substr($data, 2, 4);
+            $payloadOffset = 6;
+            $dataLength = $payloadLength + $payloadOffset;
+        }
+
+        if($isMasked === true)
+        {
+            for($i = $payloadOffset; $i < $dataLength; $i++)
+            {
+                $j = $i - $payloadOffset;
+                if(isset($data[$i]))
+                {
+                    $unmaskedPayload .= $data[$i] ^ $mask[$j % 4];
+                }
+            }
+            $decodedData['payload'] = $unmaskedPayload;
+        }
+        else
+        {
+            $payloadOffset = $payloadOffset - 4;
+            $decodedData['payload'] = substr($data, $payloadOffset);
+        }
+
+        return $decodedData;
+    }
 }
