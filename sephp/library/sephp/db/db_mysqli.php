@@ -118,15 +118,19 @@ class db_mysqli
         {
             $db_config = $GLOBALS['config']['db'];
             try {
+
                 self::$links = mysqli_connect($db_config['host'], $db_config['root'], $db_config['pass'], $db_config['dbname'], $db_config['port']);
+
                 // 让int、float 返回正确的类型，而不是返回string
                 mysqli_options(self::$links, MYSQLI_OPT_INT_AND_FLOAT_NATIVE, true);
                 // 查询编码
                 $charset = isset($db_config['charset'])? str_replace('-', '', strtolower($db_config['charset'])) : 'uft8';
+
                 mysqli_query(self::$links, " SET character_set_connection=" . $charset . ", character_set_results=" . $charset . ", character_set_client=binary, sql_mode='' ");
 
             } catch (Exception $e) {
-                throw new Exception(mysqli_error(self::$links));
+
+                new Exception(mysqli_error(self::$links));
             }
 
 

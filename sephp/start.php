@@ -2,9 +2,10 @@
 if (!defined('APP_NAME')) {
 	exit('APP_NAME is not defind!');
 }
-
+define('SE_TIME', time());
 if (!defined('APP_DEBUG') || !APP_DEBUG) {
-	error_reporting(0);//设置为0会完全关闭错误报告
+    //禁用错误报告
+    error_reporting(0);
 	ini_set('display_errors', 0);
 } else {
 	//可以抛出任何非注意的错误报告 E_ERROR | E_PARSE | E_CORE_ERROR | E_NOTICE

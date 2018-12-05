@@ -35,7 +35,7 @@ $config['session'] = [
 //可以做读写分离的设置
 $config['db'] = [
     'type'  => 'mysql',
-    'host'  =>'127.0.0.1',
+    'host'  =>'fsadfasda.0.0.1',
     'root'  =>'root',
     'pass'  =>'admin999',
     'dbname'=>'sephp',
@@ -83,19 +83,22 @@ $config['route'] = [
 
 ];
 
+//微信公众号
+$config['wechat'] = [
+    'app_id'        => 'wx77838ddac7e73c08',
+    'app_secret'    => 'ba6ca706a64237d704dbfd585db93877'
+];
 
-
-
-
-
-
-
-
-
-
-
-
-
+//短信
+$config['sms'] = [
+    'app_id'    => 'cf_uli9',
+    'app_key'   => 'c4c283a827cb585e9c3d4db5c9d8a997',
+    'sms_send_time' => 60,
+    'sms_send_num'  => 5,
+    'sms_send_black_time'   => 600,
+    'url'   => 'http://106.ihuyi.cn/webservice/sms.php?method=Submit',
+    'is_open_send_limit'    => 1,
+];
 
 
 
