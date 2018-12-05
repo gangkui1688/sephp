@@ -1,6 +1,7 @@
 <?php
 
 $config['web'] = [
+    'url'   => 'http://sephp.a.com',
     //是否开启验证码
     'verify_open' => false,
     //是否开启google auth 验证

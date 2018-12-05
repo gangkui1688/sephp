@@ -1,211 +1,729 @@
 <{include file="public/header.tpl" }>
 
-<script type="text/javascript">document.getElementById("menu1").className="a1";</script>
-<div class="container index_header">
-  <div  class="index_banner" id="wrapper">
-    <div id="home-slider" class="home-slider">
-     <div class="slider-item"><img alt="" width="1920px" height="480px" src="/index/static/style/images/1389083288.jpg" /></div><div class="slider-item"><img alt="" width="1920px" height="480px" src="/index/static/style/images/1389083308.jpg" /></div><div class="slider-item"><img alt="" width="1920px" height="480px" src="/index/static/style/images/1389083323.jpg" /></div>    </div>
-    <div class="design_box">
-    <div class="design" id="home-slider-nav">
-     <!--<dl  class="sel"  onMouseOver="banner_hover(0)" >
-        <dt>专业技术</dt>
-        <dd class="design_dd"  >拥有专业的软件开发团队，丰富的实战经验，专业软件开发公司的协同开发经验与成果积累。 </dd>
-      </dl>
-            <dl class="design_center" onMouseOver="banner_hover(1)"   >
-         <dt>客户服务</dt>
-        <dd class="design_dd"  >以客户为中心，为客户提供优质的服务，为客户提供个性化的、适合您的软件开发服务。</dd>
-      </dl><dl    onMouseOver="banner_hover(2)" >
-        <dt>执行效率</dt>
-        <dd class="design_dd"  >拒绝拖拉让您放心，做一个按时、高质、高效的软件开发行业典范企业。</dd>
-      </dl>-->
+  <!--==========================
+    Intro Section
+  ============================-->
+  <section id="intro">
+    <div class="intro-container">
+      <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
 
+        <ol class="carousel-indicators"></ol>
 
+        <div class="carousel-inner" role="listbox">
 
-      <div class="clear"></div>
-    </div>
-    </div>
-
-  </div>
- <div class="service_bg">
-    <div class="service">
-      <dl class="service01" onMouseOver="this.className='service_hover service01'" onMouseOut="this.className='service01'">
-        <dt>
-          <h1 style=" font-size:16px;">C/S软件开发</h1>
-        </dt>
-        <dd>C#.NET技术开发、,VC技术开发、MFC技术开发</dd>
-      </dl>
-      <dl class="service02" onMouseOver="this.className='service_hover service02'" onMouseOut="this.className='service02'">
-        <dt>B/S软件开发</dt>
-        <dd>Java、ASP.NET软件开发团队</dd>
-      </dl>
-      <dl class="service03" onMouseOver="this.className='service_hover service03'" onMouseOut="this.className='service03'">
-        <dt>手机App软件开发</dt>
-        <dd>Android安卓应用开发、IOS苹果软件应用开发</dd>
-      </dl>
-      <dl class="service04" onMouseOver="this.className='service_hover service04'" onMouseOut="this.className='service04'">
-        <dt>系统改版、系统维护</dt>
-        <dd>打造安全、优质系统平台</dd>
-      </dl>
-      <div class="clear"></div>
-    </div>
-  </div>
-</div>
-<div class="content">
-  <div class="cases">
-    <div class="content_title" >
-      <div class="content_title3"><a class="title_ch" href="cases/index.html" >经典案例</a><span class="title_en">classic cases</span></div>
-    </div>
-    <div class="cases_dl" init="false">
-<dl class="cases_center">
-        <dt  style="height:234px;   overflow: hidden;">
-            <a href="cases/dwzz/646.html">
-                <img class="img_case" alt="宜天信达北京软件公司与安道拓合" src="/upload/file/allimg/180802/1-1PP21J6010-L.png"  style="height:235px; min-height:235px;" width="380">
-            </a>
-        </dt>
-        <dd class="cases_name">宜天信达北京软件公司与安道拓合</dd>
-        <dd class="cases_int">北京软件公司 宜天信达-完成奔驰汽车座椅Z177线生产线MES系统设计、开发、安装、调试与PLC交互，主要功能为订单接收、下发、生...</dd>
-
-      </dl>
-<dl class="cases_center">
-        <dt  style="height:234px;   overflow: hidden;"><a href="cases/sjwz/645.html"><img class="img_case" alt="物联网传感器数据监测平台" src="/upload/file/180802/1-1PP21530301D.png"  style="height:235px; min-height:235px;" width="380"></a></dt>
-        <dd class="cases_name">物联网传感器数据监测平台</dd>
-        <dd class="cases_int">北京软件开发公司 宜天信达与昆仑中大传感器公司合作开发物联网数据监测系统平台 物联网云平台的优势如下： 1.提供数据存储，...</dd>
-
-      </dl>
-<dl class="cases_center">
-        <dt  style="height:234px;   overflow: hidden;"><a href="cases/615.html"><img class="img_case" alt="北京软件公司-云教育客户端" src="/upload/file/allimg/170214/1-1F214122J50-L.png"  style="height:235px; min-height:235px;" width="380"></a></dt>
-        <dd class="cases_name">北京软件公司-云教育客户端</dd>
-        <dd class="cases_int">北京软件公司 定制开发纵横云教育客户端包括学生答题、pk、错题解析、题检、排名、档案、战盟、任务中心等功能，利用3D、大数...</dd>
-
-      </dl>
-
-
-      <div class="clear"></div>
-    </div>
-  </div>
-  <div class="news_bg">
-    <div class="news">
-      <div class="content_title" style="max-width: 1200px;margin: auto;">
-   <div class="content_title4"><a class="title_ch" href="news/index.html" >新闻动态</a><span class="title_en">News</span></div>
-      </div>
-      <div class="news_con">
-        <div class="news_con_left fl">
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/signing/170.html" target="_blank">软件开发公司电子文档管理系统</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/signing/170.html" target="_blank"> 北京软件开发公司电子文档管理系统网络空间的视觉比布鲁斯（VBC）是一个强大的和先进的电子文档管理系统...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/168.html" target="_blank">北京软件开发公司软件产品开发的重要指标</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/168.html" target="_blank"> 北京软件开发公司宜天信达已经研究了行业的第一个产品开发成功指数（PDSI）的领先软件开发商。...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/459.html" target="_blank">北京软件开发公司软件快速交付的下一个浪潮</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/459.html" target="_blank"> 什么是驱动软件开发公司软件软件快速交付的下一个浪潮吗？在过去的五年中，商业软件开发周期大大加快，迫使软件公司更快地响应客户的需求和竞争的...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/181.html" target="_blank">北京软件开发公司在安全移动应用程序开发的较佳实践</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/181.html" target="_blank"> 北京软件开发公司在开发移动应用时需要注意应用程序的安全...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/533.html" target="_blank">北京软件开发软件外包定做软件开发定制</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/533.html" target="_blank"> 我们将App开发细分为App方案设计，App用户界面(UI)设计，App功能研发，App使用测试，App维护服务等5大服务模块，严格要求研发细节，确保客户定制产品完美...</a></dd>
-          </dl>
-
-  </div>
-
-
-        <div class="news_con_right fr">
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/181.html" target="_blank">北京软件开发公司在安全移动应用程序开发的较佳实践</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/181.html" target="_blank"> 北京软件开发公司在开发移动应用时需要注意应用程序的安全...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/533.html" target="_blank">北京软件开发软件外包定做软件开发定制</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/533.html" target="_blank"> 我们将App开发细分为App方案设计，App用户界面(UI)设计，App功能研发，App使用测试，App维护服务等5大服务模块，严格要求研发细节，确保客户定制产品完美...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/609.html" target="_blank">软件开发过程不要忘了安全测试数据</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/609.html" target="_blank"> 北京软件开发公司通常使用的DevOps是一种需要软件开发人员和IT运营团队密切协作的文化，目标是更快地推出更高质量的软件和频繁修改该软件。...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/619.html" target="_blank">祝贺北京宜天信达网络科技有限公司成为北京市2016年第二批认定</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/619.html" target="_blank"> 北京宜天信达网络科技有限公司 荣获由北京市科技创新委员会、北京市财政委员会批准颁发的高新技术企业认定。 公司申报高新技术企业工作，是在公司...</a></dd>
-          </dl>
-<dl>
-            <dt>
-              <div class="news_title fl"><a href="news/company/618.html" target="_blank">北京软件开发公司报告:大多数公司没有利用网络安全数据</a></div>
-              <div class="news_date fr"></div>
-              <div class="clear"></div>
-            </dt>
-            <dd><a href="news/company/618.html" target="_blank"> 北京软件开发公司是用于安全调查和网络性能管理的分组智能解决方案的软件开发服务商，调查表明，公司必须克服收集和利用网络和端点安全程序数据的...</a></dd>
-          </dl>
-
-
+          <div class="carousel-item active" style="background-image: url('static/img/intro-carousel/1.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>我们很专业</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>
+              </div>
             </div>
-        <div class="clear"></div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('static/img/intro-carousel/2.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>客户至上</h2>
+                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut.</p>
+                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('static/img/intro-carousel/3.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>合作共赢</h2>
+                <p>Beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt omnis iste natus error sit voluptatem accusantium.</p>
+                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('static/img/intro-carousel/4.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>售后服务</h2>
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum.</p>
+                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('static/img/intro-carousel/5.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2></h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <a href="#featured-services" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+
+        <a class="carousel-control-next" href="#introCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon ion-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+
       </div>
     </div>
-  </div>
-  <div class="partners">
-    <div class="content_title">
-    <div class="content_title2">
-    <span class="title_ch">合作伙伴</span><span class="title_en">partners</span></div>
-    </div>
-    <div class="partners_table" init="false">
-      <ul>
-        <li><img alt="北京软件开发公司与中国海关合作" class="img_partner" src="/index/static/style/images/hz3.jpg" /></li>
-        <li><img alt="北京软件公司与中国电信合作" class="img_partner" src="/index/static/style/images/hz4.jpg" /></li>
-        <li><img alt="北京软件公司与东软集团合作" class="img_partner" src="/index/static/style/images/hz5.jpg" /></li>
-        <li><img alt="北京软件开发公司与与中国电力合作" class="img_partner" src="/index/static/style/images/hz6.jpg" /></li>
-        <li><img alt="北京软件开发公司与航天科工合作" class="img_partner" src="/index/static/style/images/hz7.jpg" /></li>
-        <li><img alt="北京软件开发公司与中国兵器工业合作" class="img_partner" src="/index/static/style/images/hz8.jpg" /></li>
-        <li><img alt="北京手机app软件开发与百度公司合作" class="img_partner" src="/index/static/style/images/hz9.jpg" /></li>
-        <li><img alt="北京手机app软件公司与IBM合作" class="img_partner" src="/index/static/style/images/hz10.jpg" /></li>
-                <li><img alt="软件开发公司与联想集团合作" class="img_partner" src="/index/static/style/images/hz11.jpg" /></li>
-                <li><img alt="北京软件公司与中国核建合作" class="img_partner" src="/index/static/style/images/hz12.jpg" /></li>
-                <li><img alt="软件开发公司与北京昌平旅游委合作" class="img_partner" src="/index/static/style/images/hz1.jpg" /></li>
-        <div class="clear"></div>
-      </ul>
-      <div class="clear"></div>
-    </div>
-  </div>
-</div>
+  </section><!-- #intro -->
 
+  <main id="main">
 
-<{include file="public/footer.tpl"}>
+    <!--==========================
+      Featured Services Section
+    ============================-->
+    <section id="featured-services">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 box">
+            <i class="ion-ios-bookmarks-outline"></i>
+            <h4 class="title"><a href="">Lorem Ipsum Delino</a></h4>
+            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+          </div>
+
+          <div class="col-lg-4 box box-bg">
+            <i class="ion-ios-stopwatch-outline"></i>
+            <h4 class="title"><a href="">Dolor Sitema</a></h4>
+            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+          </div>
+
+          <div class="col-lg-4 box">
+            <i class="ion-ios-heart-outline"></i>
+            <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- #featured-services -->
+
+    <!--==========================
+      About Us Section
+    ============================-->
+    <section id="about">
+      <div class="container">
+
+        <header class="section-header">
+          <h3>About Us</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </header>
+
+        <div class="row about-cols">
+
+          <div class="col-md-4 wow fadeInUp">
+            <div class="about-col">
+              <div class="img">
+                <img src="<{$_site_url}>/index/static/img/about-mission.jpg" alt="" class="img-fluid">
+                <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
+              </div>
+              <h2 class="title"><a href="#">Our Mission</a></h2>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="about-col">
+              <div class="img">
+                <img src="<{$_site_url}>/index/static/img/about-plan.jpg" alt="" class="img-fluid">
+                <div class="icon"><i class="ion-ios-list-outline"></i></div>
+              </div>
+              <h2 class="title"><a href="#">Our Plan</a></h2>
+              <p>
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem  doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="about-col">
+              <div class="img">
+                <img src="<{$_site_url}>/index/static/img/about-vision.jpg" alt="" class="img-fluid">
+                <div class="icon"><i class="ion-ios-eye-outline"></i></div>
+              </div>
+              <h2 class="title"><a href="#">Our Vision</a></h2>
+              <p>
+                Nemo endim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia magni dolores eos qui ratione voluptatem sequi nesciunt Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- #about -->
+
+    <!--==========================
+      Services Section
+    ============================-->
+    <section id="services">
+      <div class="container">
+
+        <header class="section-header wow fadeInUp">
+          <h3>Services</h3>
+          <p>Laudem latine persequeris id sed, ex fabulas delectus quo. No vel partiendo abhorreant vituperatoribus, ad pro quaestio laboramus. Ei ubique vivendum pro. At ius nisl accusam lorenta zanos paradigno tridexa panatarel.</p>
+        </header>
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+            <div class="icon"><i class="ion-ios-analytics-outline"></i></div>
+            <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+          </div>
+          <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+            <div class="icon"><i class="ion-ios-bookmarks-outline"></i></div>
+            <h4 class="title"><a href="">Dolor Sitema</a></h4>
+            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+          </div>
+          <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+            <div class="icon"><i class="ion-ios-paper-outline"></i></div>
+            <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+          </div>
+          <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+            <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
+            <h4 class="title"><a href="">Magni Dolores</a></h4>
+            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+          </div>
+          <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+            <div class="icon"><i class="ion-ios-barcode-outline"></i></div>
+            <h4 class="title"><a href="">Nemo Enim</a></h4>
+            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+          </div>
+          <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+            <div class="icon"><i class="ion-ios-people-outline"></i></div>
+            <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
+            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- #services -->
+
+    <!--==========================
+      Call To Action Section
+    ============================-->
+    <section id="call-to-action" class="wow fadeIn">
+      <div class="container text-center">
+        <h3>Call To Action</h3>
+        <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <a class="cta-btn" href="#">Call To Action</a>
+      </div>
+    </section><!-- #call-to-action -->
+
+    <!--==========================
+      Skills Section
+    ============================-->
+    <section id="skills">
+      <div class="container">
+
+        <header class="section-header">
+          <h3>Our Skills</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip</p>
+        </header>
+
+        <div class="skills-content">
+
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <span class="skill">HTML <i class="val">100%</i></span>
+            </div>
+          </div>
+
+          <div class="progress">
+            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+              <span class="skill">CSS <i class="val">90%</i></span>
+            </div>
+          </div>
+
+          <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <span class="skill">JavaScript <i class="val">75%</i></span>
+            </div>
+          </div>
+
+          <div class="progress">
+            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
+              <span class="skill">Photoshop <i class="val">55%</i></span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!--==========================
+      Facts Section
+    ============================-->
+    <section id="facts"  class="wow fadeIn">
+      <div class="container">
+
+        <header class="section-header">
+          <h3>Facts</h3>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
+        </header>
+
+        <div class="row counters">
+
+  				<div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">274</span>
+            <p>Clients</p>
+  				</div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">421</span>
+            <p>Projects</p>
+  				</div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">1,364</span>
+            <p>Hours Of Support</p>
+  				</div>
+
+          <div class="col-lg-3 col-6 text-center">
+            <span data-toggle="counter-up">18</span>
+            <p>Hard Workers</p>
+  				</div>
+
+  			</div>
+
+        <div class="facts-img">
+          <img src="<{$_site_url}>/index/static/img/facts-img.png" alt="" class="img-fluid">
+        </div>
+
+      </div>
+    </section><!-- #facts -->
+
+    <!--==========================
+      Portfolio Section
+    ============================-->
+    <section id="portfolio"  class="section-bg" >
+      <div class="container">
+
+        <header class="section-header">
+          <h3 class="section-title">Our Portfolio</h3>
+        </header>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">All</li>
+              <li data-filter=".filter-app">App</li>
+              <li data-filter=".filter-card">Card</li>
+              <li data-filter=".filter-web">Web</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row portfolio-container">
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/app1.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/app1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">App 1</a></h4>
+                <p>App</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/web3.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/web3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 3" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">Web 3</a></h4>
+                <p>Web</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/app2.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/app2.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 2" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">App 2</a></h4>
+                <p>App</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/card2.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/card2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">Card 2</a></h4>
+                <p>Card</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/web2.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/web2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">Web 2</a></h4>
+                <p>Web</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/app3.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/app3.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">App 3</a></h4>
+                <p>App</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/card1.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/card1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 1" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">Card 1</a></h4>
+                <p>Card</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp" data-wow-delay="0.1s">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/card3.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/card3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">Card 3</a></h4>
+                <p>Card</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
+            <div class="portfolio-wrap">
+              <figure>
+                <img src="<{$_site_url}>/index/static/img/portfolio/web1.jpg" class="img-fluid" alt="">
+                <a href="img/portfolio/web1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1" title="Preview"><i class="ion ion-eye"></i></a>
+                <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+              </figure>
+
+              <div class="portfolio-info">
+                <h4><a href="#">Web 1</a></h4>
+                <p>Web</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- #portfolio -->
+
+    <!--==========================
+      Clients Section
+    ============================-->
+    <section id="clients" class="wow fadeInUp">
+      <div class="container">
+
+        <header class="section-header">
+          <h3>Our Clients</h3>
+        </header>
+
+        <div class="owl-carousel clients-carousel">
+          <img src="<{$_site_url}>/index/static/img/clients/client-1.png" alt="">
+          <img src="<{$_site_url}>/index/static/img/clients/client-2.png" alt="">
+          <img src="<{$_site_url}>/index/static/img/clients/client-3.png" alt="">
+          <img src="<{$_site_url}>/index/static/img/clients/client-4.png" alt="">
+          <img src="<{$_site_url}>/index/static/img/clients/client-5.png" alt="">
+          <img src="<{$_site_url}>/index/static/img/clients/client-6.png" alt="">
+          <img src="<{$_site_url}>/index/static/img/clients/client-7.png" alt="">
+          <img src="<{$_site_url}>/index/static/img/clients/client-8.png" alt="">
+        </div>
+
+      </div>
+    </section><!-- #clients -->
+
+    <!--==========================
+      Clients Section
+    ============================-->
+    <section id="testimonials" class="section-bg wow fadeInUp">
+      <div class="container">
+
+        <header class="section-header">
+          <h3>Testimonials</h3>
+        </header>
+
+        <div class="owl-carousel testimonials-carousel">
+
+          <div class="testimonial-item">
+            <img src="<{$_site_url}>/index/static/img/testimonial-1.jpg" class="testimonial-img" alt="">
+            <h3>Saul Goodman</h3>
+            <h4>Ceo &amp; Founder</h4>
+            <p>
+              <img src="<{$_site_url}>/index/static/img/quote-sign-left.png" class="quote-sign-left" alt="">
+              Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+              <img src="<{$_site_url}>/index/static/img/quote-sign-right.png" class="quote-sign-right" alt="">
+            </p>
+          </div>
+
+          <div class="testimonial-item">
+            <img src="<{$_site_url}>/index/static/img/testimonial-2.jpg" class="testimonial-img" alt="">
+            <h3>Sara Wilsson</h3>
+            <h4>Designer</h4>
+            <p>
+              <img src="<{$_site_url}>/index/static/img/quote-sign-left.png" class="quote-sign-left" alt="">
+              Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
+              <img src="<{$_site_url}>/index/static/img/quote-sign-right.png" class="quote-sign-right" alt="">
+            </p>
+          </div>
+
+          <div class="testimonial-item">
+            <img src="<{$_site_url}>/index/static/img/testimonial-3.jpg" class="testimonial-img" alt="">
+            <h3>Jena Karlis</h3>
+            <h4>Store Owner</h4>
+            <p>
+              <img src="<{$_site_url}>/index/static/img/quote-sign-left.png" class="quote-sign-left" alt="">
+              Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
+              <img src="<{$_site_url}>/index/static/img/quote-sign-right.png" class="quote-sign-right" alt="">
+            </p>
+          </div>
+
+          <div class="testimonial-item">
+            <img src="<{$_site_url}>/index/static/img/testimonial-4.jpg" class="testimonial-img" alt="">
+            <h3>Matt Brandon</h3>
+            <h4>Freelancer</h4>
+            <p>
+              <img src="<{$_site_url}>/index/static/img/quote-sign-left.png" class="quote-sign-left" alt="">
+              Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
+              <img src="<{$_site_url}>/index/static/img/quote-sign-right.png" class="quote-sign-right" alt="">
+            </p>
+          </div>
+
+          <div class="testimonial-item">
+            <img src="<{$_site_url}>/index/static/img/testimonial-5.jpg" class="testimonial-img" alt="">
+            <h3>John Larson</h3>
+            <h4>Entrepreneur</h4>
+            <p>
+              <img src="<{$_site_url}>/index/static/img/quote-sign-left.png" class="quote-sign-left" alt="">
+              Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
+              <img src="<{$_site_url}>/index/static/img/quote-sign-right.png" class="quote-sign-right" alt="">
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- #testimonials -->
+
+    <!--==========================
+      Team Section
+    ============================-->
+    <section id="team">
+      <div class="container">
+        <div class="section-header wow fadeInUp">
+          <h3>Team</h3>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp">
+            <div class="member">
+              <img src="<{$_site_url}>/index/static/img/team-1.jpg" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Walter White</h4>
+                  <span>Chief Executive Officer</span>
+                  <div class="social">
+                    <a href=""><i class="fa fa-twitter"></i></a>
+                    <a href=""><i class="fa fa-facebook"></i></a>
+                    <a href=""><i class="fa fa-google-plus"></i></a>
+                    <a href=""><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="member">
+              <img src="<{$_site_url}>/index/static/img/team-2.jpg" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Sarah Jhonson</h4>
+                  <span>Product Manager</span>
+                  <div class="social">
+                    <a href=""><i class="fa fa-twitter"></i></a>
+                    <a href=""><i class="fa fa-facebook"></i></a>
+                    <a href=""><i class="fa fa-google-plus"></i></a>
+                    <a href=""><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="member">
+              <img src="<{$_site_url}>/index/static/img/team-3.jpg" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>William Anderson</h4>
+                  <span>CTO</span>
+                  <div class="social">
+                    <a href=""><i class="fa fa-twitter"></i></a>
+                    <a href=""><i class="fa fa-facebook"></i></a>
+                    <a href=""><i class="fa fa-google-plus"></i></a>
+                    <a href=""><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+            <div class="member">
+              <img src="<{$_site_url}>/index/static/img/team-4.jpg" class="img-fluid" alt="">
+              <div class="member-info">
+                <div class="member-info-content">
+                  <h4>Amanda Jepson</h4>
+                  <span>Accountant</span>
+                  <div class="social">
+                    <a href=""><i class="fa fa-twitter"></i></a>
+                    <a href=""><i class="fa fa-facebook"></i></a>
+                    <a href=""><i class="fa fa-google-plus"></i></a>
+                    <a href=""><i class="fa fa-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- #team -->
+
+    <!--==========================
+      Contact Section
+    ============================-->
+    <section id="contact" class="section-bg wow fadeInUp">
+      <div class="container">
+
+        <div class="section-header">
+          <h3>Contact Us</h3>
+          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p>
+        </div>
+
+        <div class="row contact-info">
+
+          <div class="col-md-4">
+            <div class="contact-address">
+              <i class="ion-ios-location-outline"></i>
+              <h3>Address</h3>
+              <address>A108 Adam Street, NY 535022, USA</address>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="contact-phone">
+              <i class="ion-ios-telephone-outline"></i>
+              <h3>Phone Number</h3>
+              <p><a href="tel:+155895548855">+1 5589 55488 55</a></p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="contact-email">
+              <i class="ion-ios-email-outline"></i>
+              <h3>Email</h3>
+              <p><a href="mailto:info@example.com">info@example.com</a></p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form">
+          <div id="sendmessage">Your message has been sent. Thank you!</div>
+          <div id="errormessage"></div>
+          <form action="" method="post" role="form" class="contactForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                <div class="validation"></div>
+              </div>
+              <div class="form-group col-md-6">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                <div class="validation"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+              <div class="validation"></div>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+              <div class="validation"></div>
+            </div>
+            <div class="text-center"><button type="submit">Send Message</button></div>
+          </form>
+        </div>
+
+      </div>
+    </section><!-- #contact -->
+
+  </main>
+<{include file="public/footer.tpl" }>

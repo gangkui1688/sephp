@@ -14,6 +14,8 @@ class view {
 	// 最终输出的数据
 	public static $final_output;
 
+	protected static $config = null;
+
 	/**
 	 * Smarty 初始化
 	 * @return resource
@@ -34,15 +36,18 @@ class view {
 			self::$_instance->setCompileCheck(true);
 			self::config();
 		}
+
 		return self::$_instance;
 	}
 
 	protected static function config() {
+		self::$config = $GLOBALS['config']['web'];
 		self::instance()->assign('_self_url', '?ct='.CT_NAME.'&ac='.AC_NAME);
 		self::instance()->assign('_ct_name', CT_NAME);
 		self::instance()->assign('_ac_name', AC_NAME);
 		self::instance()->assign('_forms', req::$forms);
 		self::instance()->assign('clear_cache', '?'.time());
+		self::instance()->assign('_site_url', self::$config['url']);
 	}
 
 	public static function fetch($tpl = '') {
@@ -51,6 +56,7 @@ class view {
 	}
 
 	public static function assign($tpl_var, $value) {
+
 		self::instance()->assign($tpl_var, $value);
 	}
 
