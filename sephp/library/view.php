@@ -51,8 +51,7 @@ class view {
 	}
 
 	public static function fetch($tpl = '') {
-		$tpl = empty($tpl)?CT_NAME.'.'.AC_NAME:$tpl;
-		return self::instance()->fetch($tpl.'.tpl');
+		return self::instance()->fetch(self::make_tpl($tpl));
 	}
 
 	public static function assign($tpl_var, $value) {
@@ -61,7 +60,6 @@ class view {
 	}
 
 	public static function display($tpl = '') {
-		$tpl = empty($tpl)?CT_NAME.'.'.AC_NAME:$tpl;
 
 		if (!empty($GLOBALS['config']['web']['static_page']) && in_array(APP_NAME, $GLOBALS['config']['web']['static_page'])) {
 			$file_path = PATH_RUNTIME.'cache/html/'.APP_NAME.'/';
@@ -81,7 +79,16 @@ class view {
 			}
 		}
 
-		self::instance()->display($tpl . '.tpl');
+		self::instance()->display(self::make_tpl($tpl));
 	}
+
+
+
+
+	private static function make_tpl()
+    {
+        $tpl = empty($tpl) ? CT_NAME . '.' . AC_NAME : $tpl;
+        return APP_NAME . '/' . $tpl . '.tpl';
+    }
 
 }
