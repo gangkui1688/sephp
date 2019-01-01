@@ -141,9 +141,9 @@ class sys_verifiy
 
         // 验证码使用随机字体
         if($this->config['useZh']){
-            $ttfPath = __DIR__ . '/../assets/zhttfs/1.ttf';
+            $ttfPath = PATH_LIB . 'assets/zhttfs/1.ttf';
         }else{
-            $ttfPath = __DIR__ . '/../assets/ttfs/' . mt_rand(1,6) .'.ttf';
+            $ttfPath = PATH_LIB . 'assets/ttfs/' . mt_rand(1,6) .'.ttf';
         }
 
         if ($this->config['useImgBg']) {

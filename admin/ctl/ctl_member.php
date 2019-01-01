@@ -67,7 +67,7 @@ class ctl_member
             ->order_by($this->_member_pk,'DESC')
             ->execute();
 
-        setcookie('member_back_url',NOW_URL);
+        setcookie('member_back_url',get_cururl());
         view::assign('list',$list);
         view::assign('pages',$pages->show());
         view::assign('add_url','?ct=member&ac=member_add');
@@ -191,7 +191,7 @@ class ctl_member
         view::assign('list',$list);
         view::assign('add_url','?ct=member&ac=grade_add');
         view::assign('edit_url','?ct=member&ac=grade_edit');
-        setcookie('member_back_url',NOW_URL);
+        setcookie('member_back_url',get_cururl());
         view::display();
     }
 
@@ -291,7 +291,7 @@ class ctl_member
             ->order_by($this->_member_pk,'DESC')
             ->execute();
 
-        setcookie('member_back_url',NOW_URL);
+        setcookie('member_back_url',get_cururl());
         view::assign('list',$list);
         view::assign('pages',$pages->show());
 

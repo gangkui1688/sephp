@@ -64,7 +64,7 @@ class ctl_system
                 $list[$k]['fileatime'] = date('Y-m-d',fileatime($f));//文件上次被访问的时间
                 $list[$k]['filemtime'] = date('Y-m-d',filemtime($f));//文件内容上次的修改时间
                 $list[$k]['name'] = $info['basename'];
-                $list[$k]['size'] = _file_size(filesize($f));
+                $list[$k]['size'] = size_format(filesize($f));
                 $list[$k]['type'] = filetype($f);
                 $list[$k]['fileperms'] = substr(sprintf("%o",fileperms($f)),-4); //文件权限
             }
@@ -198,15 +198,15 @@ class ctl_system
         if(empty($data))
         {
             config::set($key,'');
-            show_msg::success('',NOW_URL);
+            show_msg::success('',get_cururl());
         }
         array_multisort(array_column($data,'sort_id'),SORT_DESC,$data);
         //p($data);exit;
         if(config::set($key,$data))
         {
-            show_msg::success('',NOW_URL);
+            show_msg::success('',get_cururl());
         }
-        show_msg::error('',NOW_URL);
+        show_msg::error('',get_cururl());
     }
 
     /**
@@ -234,9 +234,9 @@ class ctl_system
      */
     public function menus()
     {
-        //p(session::get('admin_info'),pathinfo(NOW_URL));
+        //p(session::get('admin_info'),pathinfo(get_cururl()));
         $menus = req::item('menus','');
-        $file = PATH_SEPHP . '../config/menu.xml';
+        $file = PATH_SE . '../config/menu.xml';
         if(empty($menus))
         {
             view::assign('menus',file_get_contents($file));

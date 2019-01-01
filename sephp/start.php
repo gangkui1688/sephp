@@ -1,11 +1,23 @@
 <?php
-if (!defined('APP_NAME')) {
-	exit('APP_NAME is not defind!');
+if (!defined('APP_NAME') || !defined('PATH_APP')) {
+	exit('APP_NAME or PATH_APP is not defind!');
 }
-define('SE_TIME', time());
+
+//代码开始执行时间
+define('SE_START_TIME', microtime(true));
+
+define('PATH_SE', __DIR__ .'/');
+define('PATH_ROOT', __DIR__ .'/../');
+define('PATH_LIB', __DIR__ .'/library/');
+define('PATH_RUNTIME', PATH_ROOT.'runtime/');
+define('PATH_UPLOAD', PATH_ROOT.'upload/');
+define('PATH_VIEW', PATH_APP.'view/');
+
+define('URL_ROOT', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
+
 if (!defined('APP_DEBUG') || !APP_DEBUG) {
-    //禁用错误报告
-    error_reporting(0);
+	//禁用错误报告
+	error_reporting(0);
 	ini_set('display_errors', 0);
 } else {
 	//可以抛出任何非注意的错误报告 E_ERROR | E_PARSE | E_CORE_ERROR | E_NOTICE
@@ -13,18 +25,9 @@ if (!defined('APP_DEBUG') || !APP_DEBUG) {
 	//该指令开启如果有错误报告才能输出
 	ini_set('display_errors', 1);
 }
-$_start_time = microtime(true);
 
-define('SE_START_TIME', $_start_time);
-define('PATH_SEPHP', __DIR__ .'/');
-define('PATH_ROOT', __DIR__ .'/../');
-define('PATH_VIEW', __DIR__ .'/../view/');
-define('PATH_LIB', __DIR__ .'/library/');
-define('PATH_RUNTIME', __DIR__ .'/../runtime/');
-define('PATH_UPLOAD', __DIR__ .'/../upload/');
-
-include_once PATH_SEPHP.'function.php';
-include_once PATH_SEPHP.'autoloads.php';
+require_once PATH_SE.'function.php';
+require_once PATH_SE.'autoloads.php';
 
 class start {
 	public static $_instance = null;
@@ -39,7 +42,6 @@ class start {
 		self::$_config                   = $GLOBALS['config'];
 
 		self::$_now_url = $_SERVER['REQUEST_URI'];
-		define('NOW_URL', self::$_now_url);
 
 		//自动注册类库
 		spl_autoload_register("autoloads::autoload", true, true);
@@ -67,7 +69,7 @@ class start {
 	}
 
 	public function run() {
-		$ctl_file = APP_PATH.'ctl/ctl_'.self::$_ct.'.php';
+		$ctl_file = PATH_APP.'ctl/ctl_'.self::$_ct.'.php';
 
 		if (file_exists($ctl_file)) {
 			require $ctl_file;

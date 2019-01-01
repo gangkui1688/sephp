@@ -171,6 +171,29 @@ class req
         }
     }
 
+    public static function input_stream($index = null, $default = null)
+    {
+        $input_stream = file_get_contents('php://input');
+
+        if ( func_num_args() === 0 )
+        {
+            return $input_stream;
+        }
+
+        if ( !is_array($input_stream) )
+        {
+            parse_str($input_stream, $input_stream);
+            is_array($input_stream) || $input_stream = array();
+        }
+
+        // 安全过滤
+        $magic_quotes_gpc = ini_get('magic_quotes_gpc');
+        if( !$magic_quotes_gpc ) $input_stream = self::add_s( $input_stream );
+        if (self::$config['global_xss_filtering']) $input_stream = cls_security::xss_clean($input_stream);
+
+        return !isset($input_stream[$index]) ? $default : $input_stream[$index];
+    }
+
     public static function raw_input_stream()
     {
         isset(self::$_raw_input_stream) || self::$_raw_input_stream = file_get_contents('php://input');
@@ -178,30 +201,7 @@ class req
     }
 
     /**
-     * Fetch an item from the php://input stream
-     *
-     * Useful when you need to access PUT, DELETE or PATCH request data.
-     *
-     * @param	string	$index		Index for item to be fetched
-     * @param	bool	$xss_clean	Whether to apply XSS filtering
-     * @return	mixed
-     */
-    public function input_stream($index = '')
-    {
-        // Prior to PHP 5.6, the input stream can only be read once,
-        // so we'll need to check if we have already done that first.
-        if ( !is_array(self::$_input_stream) )
-        {
-            // self::_raw_input_stream will trigger __get().
-            parse_str(self::$_raw_input_stream, self::$_input_stream);
-            is_array(self::$_input_stream) || self::$_input_stream = array();
-        }
-        return self::$_input_stream[$index];
-    }
-
-    /**
      * 把指定数据转化为路由数据
-     *
      * @param  $dfarr   默认数据列表 array( array(key, dfvalue)... )
      * @param  $datas   数据列表
      * @param  $method  方法
@@ -233,35 +233,19 @@ class req
     }
 
     /**
-     * jquery 发出 ajax 请求时，会在请求头部添加一个名为X-Requested-With的信息，信息内容为 XMLHttpRequest
-     * js 需要如下处理
-     * var xmlhttp=new XMLHttpRequest();
-     * xmlhttp.open("GET","test.php",true);
-     * xmlhttp.setRequestHeader("X-Requested-With","XMLHttpRequest");
-     * xmlhttp.send();
+     * 获得SERVER值
      *
-     * @return void
-     * @author seatle <seatle@foxmail.com>
-     * @created time :2017-07-13 15:53
+     * @param   string  $index    索引
+     * @param   mixed   $default  默认值
+     * @return  string|array
      */
-    public static function is_ajax()
+    public static function server($index = null, $default = null)
     {
-        return isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) == "xmlhttprequest";
-    }
-
-    public static function is_html5()
-    {
-        $rs = true;
-        if(!empty($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], "MSIE"))
+        if ( func_num_args() === 0 )
         {
-            preg_match("#msie (\d+)#i", $_SERVER['HTTP_USER_AGENT'], $out);
-            $version = empty($out[1]) ? 10 : intval($out[1]);
-            if ($version < 9)
-            {
-                $rs = false;
-            }
+            return $_SERVER;
         }
-        return $rs;
+        return !isset($_SERVER[strtoupper($index)]) ? $default : $_SERVER[strtoupper($index)];
     }
 
     /**

@@ -55,7 +55,7 @@ class ctl_admin
             ->order_by($this->_admin_id,'desc')
             ->execute();
 
-        setcookie('userlist_url',NOW_URL);
+        setcookie('userlist_url',get_cururl());
 
         view::assign('edit_fields_url','?ct=admin&ac=edit_fields');
         view::assign('get_json_list','?ct=admin&ac=userlist_json');

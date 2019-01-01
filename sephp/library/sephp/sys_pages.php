@@ -63,7 +63,7 @@ class sys_pages{
      * @return string
      */
     private function url($page){
-        return str_replace(('[PAGE]'), $page, $this->url);
+        return str_replace(('_PAGE_NUM'), $page, $this->url);
     }
 
     /**
@@ -74,8 +74,8 @@ class sys_pages{
         if(0 == $this->totalRows) return '';
 
         /* 生成URL */
-        $this->parameter[$this->p] = '[PAGE]';
-        $this->url = WWW_URL.'/'.APP_NAME .'?'._make_url($this->parameter);
+        $this->parameter[$this->p] = '_PAGE_NUM';
+        $this->url =  '?' . http_build_query($this->parameter);
 
         /* 计算分页信息 */
         $this->totalPages = ceil($this->totalRows / $this->listRows); //总页数

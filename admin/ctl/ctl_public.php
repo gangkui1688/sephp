@@ -255,7 +255,7 @@ class ctl_public
     public function page_404()
     {
         //P($_SERVER);
-        view::assign('not_fount_url', 'http://' . $_SERVER['HTTP_HOST'] . NOW_URL);
+        view::assign('not_fount_url', 'http://' . $_SERVER['HTTP_HOST'] . get_cururl());
         view::display('system/404');
     }
 }

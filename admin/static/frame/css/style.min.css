@@ -3,3 +3,34 @@ h1,h2,h3,h4,h5,h6{font-weight:100}h1{font-size:30px}h2{font-size:24px}h3{font-si
 #pages #page-select{height: 33.8px;margin-right: 10px;}
 div.ibox-tools.back-url-class{float:left;margin-right: 10px;}
 @media (min-width:768px){.bs-glyphicons{margin-right:0;margin-left:0}.bs-glyphicons li{width:12.5%;font-size:12px}}
+
+.uploader-group-img .uploader-list{
+    float: left;
+}
+.uploader-group-img .uploader-picker{
+    width: 100px;
+    height: 100px;
+    background: url("../img/addimage.png") no-repeat left center !important;
+    background-size: 100% 100%;
+    border: 1px solid #ccc !important;
+    padding:0;
+}
+.uploader-group-img .uploader-picker:active,.uploader-group-img .uploader-picker:focus{
+    background: none;
+    border:none;
+    opacity: 1;
+}
+.uploader-group-img .webuploader-pick,.uploader-group-img .fa-upload,.uploader-group-img .uploader-picker div{
+    width: 100px !important;
+    height: 100px !important;
+    display: block ;
+}
+.uploader-group-img .webuploader-pick{
+    opacity: 0;
+}
+.uploader-group-img .webuploader-element-invisible{
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+

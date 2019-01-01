@@ -24,11 +24,11 @@ class view {
 
 		if (self::$_instance === null) {
 
-			require_once PATH_LIB.'sephp/smarty3/Smarty.class.php';
+			require_once PATH_LIB.'smarty3/Smarty.class.php';
 			self::$_instance = new Smarty();
-			self::$_instance->setTemplateDir(PATH_VIEW.APP_NAME.'/');
-			self::$_instance->setCompileDir(APP_PATH.'../runtime/compile/');
-			self::$_instance->setCacheDir(APP_PATH.'../runtime/cache/');
+			self::$_instance->setTemplateDir(PATH_VIEW);
+			self::$_instance->setCompileDir(PATH_RUNTIME.'compile/');
+			self::$_instance->setCacheDir(PATH_RUNTIME.'cache/');
 			//self::$_instance->addPluginsDir(PATH_LIB . 'smarty3/smarty_plugins');
 
 			self::$_instance->setLeftDelimiter('<{');
@@ -48,6 +48,7 @@ class view {
 		self::instance()->assign('_forms', req::$forms);
 		self::instance()->assign('clear_cache', '?'.time());
 		self::instance()->assign('_site_url', self::$config['url']);
+		self::instance()->assign('build', empty(self::$config['build'])?time():self::$config['build']);
 	}
 
 	public static function fetch($tpl = '') {
@@ -55,7 +56,6 @@ class view {
 	}
 
 	public static function assign($tpl_var, $value) {
-
 		self::instance()->assign($tpl_var, $value);
 	}
 
@@ -82,13 +82,9 @@ class view {
 		self::instance()->display(self::make_tpl($tpl));
 	}
 
-
-
-
-	private static function make_tpl()
-    {
-        $tpl = empty($tpl) ? CT_NAME . '.' . AC_NAME : $tpl;
-        return APP_NAME . '/' . $tpl . '.tpl';
-    }
+	private static function make_tpl($tpl = '') {
+		$tpl = empty($tpl)?CT_NAME.'.'.AC_NAME:$tpl;
+		return $tpl.'.tpl';
+	}
 
 }

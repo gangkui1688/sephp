@@ -104,7 +104,7 @@ class sys_sms
         }
 
         if ($_SESSION['sms_send_num'] > $this->config['sms_send_num']) {
-            session::set('sms_send_black', SE_TIME);
+            session::set('sms_send_black', SE_START_TIME);
             unset($_SESSION['sms_send_num']);
             unset($_SESSION['sms_send_time']);
             new Exception('发送次数超过限制');

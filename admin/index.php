@@ -1,6 +1,6 @@
 <?php
 
-define('APP_PATH',__DIR__.'/');
+define('PATH_APP',__DIR__.'/');
 define('APP_NAME','admin');
 define('APP_DEBUG',true);
 
@@ -11,7 +11,7 @@ $_authority = [
     'login_url'  => '?ct=public&ac=login',
 ];
 
-include_once  APP_PATH.'../sephp/start.php';
+include_once  PATH_APP.'../sephp/start.php';
 
 new start($_authority);
 

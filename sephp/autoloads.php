@@ -29,7 +29,7 @@ class autoloads
     public static function register_function()
     {
         // 注册自定义函数
-        $func_file = APP_PATH . 'function.php';
+        $func_file = PATH_APP . 'function.php';
         if(file_exists($func_file))
         {
             require_once $func_file;
@@ -53,10 +53,10 @@ class autoloads
                 self::$autoload_files = PATH_LIB . 'sephp/' . $name.'.php';
                 break;
             case 'lib_':
-                self::$autoload_files = APP_PATH . '/lib/' . $name . '.php';
+                self::$autoload_files = PATH_APP . '/lib/' . $name . '.php';
                 break;
             case 'mod_':
-                self::$autoload_files = APP_PATH . 'mod/' . $name . '.php';
+                self::$autoload_files = PATH_APP . 'mod/' . $name . '.php';
                 break;
             default:
                 self::$autoload_files = PATH_LIB . $name . '.php';

@@ -20,7 +20,7 @@ class ctl_coupons
     //卡劵列表
     public function coupons_list()
     {
-        setcookie('coupons_back_url',NOW_URL);
+        setcookie('coupons_back_url',get_cururl());
         $cpns_status = req::item('cpns_status','');
         view::assign('cpns_status',$cpns_status);
         if(!empty($cpns_status))

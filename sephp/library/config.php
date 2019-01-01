@@ -84,7 +84,7 @@ class config
      * 获取配置参数 为空则获取所有配置
      * @access public
      * @param  string $key 配置参数名（支持二级配置 . 号分割）
-     * @param  string $type
+     * @param  string $type mysql file
      * @return mixed
      */
     public static function get($key = null, $type = 'mysql')
@@ -119,6 +119,7 @@ class config
         {
             return $GLOBALS['config'];
         }
+
         return isset($GLOBALS['config'][$key]) ? $GLOBALS['config'][$key] : null;
     }
 
