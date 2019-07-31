@@ -12,6 +12,12 @@ class config
     private static $config = [];
 
     /**
+     * @var array 配置方式 file文件方式，db 数据库方式
+     */
+    private static $type = 'file';
+
+
+    /**
      * @var string 参数作用域
      */
     private static $range = '_sys_';
@@ -96,7 +102,7 @@ class config
             {
                 $data = db::select()
                     ->from(self::$table)
-                    ->execute();
+                    ->execute(true);
                 if(!empty($data)) {
                     foreach ($data as $k=>$v)
                     {
@@ -111,17 +117,29 @@ class config
                     ->from(self::$table)
                     ->where('key',$key)
                     ->as_row()
-                    ->execute();
+                    ->execute(true);
                 return empty($data['value']) ? null : json_decode($data['value'],true);
+            }
+        }
+        else
+        {
+            //加载默认配置
+            sephp::$_config = include_once(PATH_SEPHP . 'config/config.php');
+
+            if(file_exists(PATH_APP . 'config/config.php'))
+            {
+                //加载项目配置
+                $app_config = require_once(PATH_APP . 'config/config.php');
+                sephp::$_config = array_merge(sephp::$_config, $app_config);
             }
         }
 
         if(empty($key))
         {
-            return $GLOBALS['config'];
+            return sephp::$_config;
         }
 
-        return isset($GLOBALS['config'][$key]) ? $GLOBALS['config'][$key] : null;
+        return isset(sephp::$_config[$key]) ? sephp::$_config[$key] : null;
     }
 
     /**
@@ -153,7 +171,7 @@ class config
         }
         else
         {
-            $GLOBALS['config'][$key] = $value;
+            sephp::$_config[$key] = $value;
             return true;
         }
     }

@@ -2,6 +2,7 @@
 namespace sephp;
 
 use sephp\autoloads;
+use sephp\core\config;
 use sephp\core\session;
 use sephp\lib\power;
 use sephp\core\error;
@@ -62,19 +63,22 @@ class sephp
      */
 	public function __construct($_authority = [])
     {
+        sephp::$_config['_authority'] = $_authority;
+
         $this->check_environment();
 
-        $GLOBALS['config']               = include PATH_ROOT.'/config/config.php';
-		$GLOBALS['config']['_authority'] = $_authority;
-		self::$_config                   = $GLOBALS['config'];
+        //自动注册类库
+        spl_autoload_register("sephp\autoloads::autoload", true, true);
+
+        config::get(null, 'file');
+
 		self::$_now_url = $_SERVER['REQUEST_URI'];
 
         //register_shutdown_function(['kali\core\errorhandler', 'shutdown_handler']);
         //set_error_handler(['sephp\core\debug', 'exception'], E_ALL);
         //set_exception_handler(['\sephp\core\error', 'exception_handler']);
 
-		//自动注册类库
-		spl_autoload_register("sephp\autoloads::autoload", true, true);
+
 
 		//异常捕获
 		//set_exception_handler('sephp\core\debug::exception');
@@ -95,7 +99,7 @@ class sephp
 		$this->_get_ap_ct_ac();
 
 		//页面静态缓存
-		empty($GLOBALS['config']['web']['static_page']) ? :$this->_static_page();
+		empty(sephp::$_config['web']['static_page']) ? :$this->_static_page();
 
 
 		//p($_REQUEST,$_GET);
@@ -162,7 +166,7 @@ class sephp
      */
 	protected function _static_page()
     {
-		if (in_array(APP_NAME, $GLOBALS['config']['web']['static_page'])) {
+		if (in_array(APP_NAME, sephp::$_config['web']['static_page'])) {
 			$name = null;
 			foreach ($_REQUEST as $k => $v) {
 				$name .= $k.'-'.$v.'_';
@@ -197,8 +201,8 @@ class sephp
             ini_set('display_errors', 1);
         }
 
-        require_once PATH_SE . 'autoloads.php';
-        require_once PATH_SE . 'function.php';
+        require_once PATH_SEPHP . 'autoloads.php';
+        require_once PATH_SEPHP . 'function.php';
     }
 
 
@@ -208,15 +212,14 @@ class sephp
     protected function define()
     {
         //网站URL地址
-        define('URL_WWW', 'http://'.$_SERVER['HTTP_HOST']);
+        define('URL_ROOT', 'http://'.$_SERVER['HTTP_HOST']);
         //项目URL地址
         define('URL_APP', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
 
         //代码开始执行时间
         define('SE_START_TIME', microtime(true));
-
-        define('PATH_SE', __DIR__ .'/');
-        define('PATH_ROOT', __DIR__ .'/../');
+        define('PATH_SEPHP', __DIR__ .'/');        //框架目录
+        define('PATH_ROOT', __DIR__ .'/../');        //网站根目录
         define('PATH_LIB', __DIR__ .'/core/library/');
         define('PATH_RUNTIME', PATH_ROOT.'runtime/');
         define('PATH_UPLOAD', PATH_ROOT.'upload/');

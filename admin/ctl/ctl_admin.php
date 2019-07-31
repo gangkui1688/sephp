@@ -1,4 +1,5 @@
 <?php
+namespace admin;
 
 class ctl_admin {
 	private $_admin_table = '#PB#_admin_user',

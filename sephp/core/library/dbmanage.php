@@ -26,7 +26,7 @@ class sys_dbmanage {
         if(empty(self::$instance))
         {
             self::$instance = new self();
-            $this->config = $GLOBALS['config']['db'];
+            $this->config = sephp::$_config['db'];
         }
         return self::$instance;
     }

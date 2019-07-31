@@ -9,7 +9,7 @@ class redis
 
     public function __construct($options = [])
     {
-        self::$_config = $GLOBALS['config']['sysRedis'];
+        self::$_config = sephp::$_config['sysRedis'];
         if (!extension_loaded('sysRedis')) {
             throw new Exception('not support: redis');
         }

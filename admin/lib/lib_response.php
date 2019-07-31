@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 class lib_response
 {
 

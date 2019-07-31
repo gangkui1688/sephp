@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 class ctl_system
 {
     protected $_url = '?ct=system&ac=';
@@ -236,7 +236,7 @@ class ctl_system
     {
         //p(session::get('admin_info'),pathinfo(get_cururl()));
         $menus = req::item('menus','');
-        $file = PATH_SE . '../config/menu.xml';
+        $file = PATH_SEPHP . '../config/menu.xml';
         if(empty($menus))
         {
             view::assign('menus',file_get_contents($file));

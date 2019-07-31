@@ -39,9 +39,9 @@ class log
             self::$instance = new self();
         }
 
-        if(!empty($GLOBALS['config']['log']))
+        if(!empty(sephp::$_config['log']))
         {
-            self::$instance->config = array_merge(self::$instance->config,$GLOBALS['config']['log']);
+            self::$instance->config = array_merge(self::$instance->config,sephp::$_config['log']);
         }
 
         return self::$instance;

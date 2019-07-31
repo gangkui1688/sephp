@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 class ctl_wechat
 {
     protected $_url = '?ct=system&ac=';

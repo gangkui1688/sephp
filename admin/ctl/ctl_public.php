@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 class ctl_public
 {
     //上传方法

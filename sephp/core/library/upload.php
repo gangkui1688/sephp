@@ -142,7 +142,7 @@ class upload
         {
             $data['file_id'] = $id;
             $data['upload_dir'] = PATH_UPLOAD . 'file/';
-            $data['http'] = URL_WWW.'/upload/file/';
+            $data['http'] = URL_ROOT.'/upload/file/';
             return $data;
         }
         log::error('文件保存sql执行失败:'.db::get_last_sql());

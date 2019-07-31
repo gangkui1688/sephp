@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 class mod_system extends model {
 
 	/**
@@ -8,7 +8,7 @@ class mod_system extends model {
 	 * @return array
 	 */
 	public static function get_menus($type = 'left_menu') {
-		$file = PATH_SE.'../config/menu.xml';
+		$file = PATH_SEPHP.'../config/menu.xml';
 		//禁止引用外部xml实体
 		libxml_disable_entity_loader(true);
 		$xml   = file_get_contents($file);
@@ -98,7 +98,7 @@ class mod_system extends model {
 	}
 
 	public static function parseMenu_old() {
-		$file = PATH_SE.'../config/menu.xml';
+		$file = PATH_SEPHP.'../config/menu.xml';
 		//禁止引用外部xml实体
 		libxml_disable_entity_loader(true);
 		$xml   = file_get_contents($file);

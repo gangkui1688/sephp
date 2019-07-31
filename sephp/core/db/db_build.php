@@ -116,13 +116,13 @@ class db_build
         if (!self::$_instance instanceof self)
         {
             self::$_instance = new self();
-            if ( ! empty($GLOBALS['config']['db']['crypt_key']))
+            if ( ! empty(sephp::$_config['db']['crypt_key']))
             {
-                self::$_instance->_crypt_key = $GLOBALS['config']['db']['crypt_key'];
+                self::$_instance->_crypt_key = sephp::$_config['db']['crypt_key'];
             }
-            if ( ! empty($GLOBALS['config']['db']['crypt_fields']))
+            if ( ! empty(sephp::$_config['db']['crypt_fields']))
             {
-                self::$_instance->_crypt_fields = $GLOBALS['config']['db']['crypt_fields'];
+                self::$_instance->_crypt_fields = sephp::$_config['db']['crypt_fields'];
             }
         }
         return self::$_instance;
@@ -189,7 +189,7 @@ class db_build
             $table = '`'.$table.'`';
             return $table;
         }
-        return $GLOBALS['config']['db']['prefix'];
+        return sephp::$_config['db']['prefix'];
     }
 
     /**
@@ -1117,7 +1117,7 @@ class db_build
             // Replace the values in the SQL
             $sql = $this->tr($sql, $values);
         }
-        return str_replace('#PB#_', $GLOBALS['config']['db']['prefix'], trim($sql));
+        return str_replace('#PB#_', sephp::$_config['db']['prefix'], trim($sql));
     }
 
     public function get_compiled_sql()

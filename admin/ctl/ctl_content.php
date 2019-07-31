@@ -1,5 +1,5 @@
 <?php
-
+namespace admin;
 class ctl_content {
 	private $_cont_table = '#PB#_content';
 	private $_cont_pk    = 'id';

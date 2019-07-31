@@ -1,6 +1,7 @@
 <?php
 namespace sephp\lib;
 
+use sephp\sephp;
 use sephp\core\session;
 use sephp\core\show_msg;
 
@@ -50,7 +51,7 @@ class power
         $this->_info = empty($this->_info) ? session::get(self::$_mark) : $this->_info;
         $this->_uid = $this->_info['admin_id'];
 
-        $this->config = $GLOBALS['config']['_authority'];
+        $this->config = empty(sephp::$_config['_authority']) ? [] : sephp::$_config['_authority'];
         $this->is_login();
     }
 
