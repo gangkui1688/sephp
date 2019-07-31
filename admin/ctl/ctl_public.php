@@ -83,7 +83,7 @@ class ctl_public
     {
         if(!empty(req::$posts))
         {
-            if(start::$_config['web']['verify_open'] && !sysVerifiy_::instance()->check(req::$posts['verify']))
+            if(sephp::$_config['web']['verify_open'] && !sysVerifiy_::instance()->check(req::$posts['verify']))
             {
                 show_msg::error('验证码错误');
             }
@@ -97,7 +97,7 @@ class ctl_public
             ];
             if(sys_power::instance()->login_check($admin_user, $admin_pass))
             {
-                if(empty(start::$_config['web']['google_auth']))
+                if(empty(sephp::$_config['web']['google_auth']))
                 {
                     log::info('用户【ID:' . sys_power::instance()->_info['admin_id'] . '】登陆成功');
                     sys_power::instance()->login_log();
@@ -118,7 +118,7 @@ class ctl_public
 
         }
 
-        if(!empty(start::$_config['web']['google_auth']))
+        if(!empty(sephp::$_config['web']['google_auth']))
         {
             //把本次的"安全密匙SecretKey" 入库,和账户关系绑定,客户端也是绑定这同一个"安全密匙SecretKey"
             $secret = sys_google_auth::instance(6)->create_secret();
@@ -129,7 +129,7 @@ class ctl_public
         }
 
 
-        if(!empty(start::$_config['web']['verify_open']))
+        if(!empty(sephp::$_config['web']['verify_open']))
         {
             view::assign('verify_url','?ct=public&ac=verify&length=7');
         }

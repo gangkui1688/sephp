@@ -71,7 +71,7 @@ class error
         self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()) . '::' . get_cururl() . "<br />\n";
         self::$html .= "错误类型：" . $code_name . "<br />\n";
         self::$html .= "出错原因：<font color='#3F7640'>" . $msg . "</font><br />\n";
-        self::$html .= "提示位置：<a href='" .  str_replace(['%file%','%line%'], [$filename,$line], start::$_config['web']['edit_tool']) . "'>" . $filename . " 第 {$line} 行<br />\n";
+        self::$html .= "提示位置：<a href='" .  str_replace(['%file%','%line%'], [$filename,$line], sephp::$_config['web']['edit_tool']) . "'>" . $filename . " 第 {$line} 行<br />\n";
         self::$html .= "断点源码：<font color='#747267'>{$codes[$line-1]}</font><br />\n";
         self::$html .= "详细跟踪：<br />\n";
 
@@ -83,7 +83,7 @@ class error
                 if (!isset($l[$k])) $l[$k] = '';
             }
             self::$html .= "<font color='#747267'>[$i] In function {$l['class']}{$l['type']}{$l['function']} ";
-            empty($l['file']) ? '' : self::$html .= " In <a href='" . str_replace(['%file%','%line%'], [$l['file'],$l['line']], start::$_config['web']['edit_tool']) . "' >{$l['file']}</a>";
+            empty($l['file']) ? '' : self::$html .= " In <a href='" . str_replace(['%file%','%line%'], [$l['file'],$l['line']], sephp::$_config['web']['edit_tool']) . "' >{$l['file']}</a>";
             empty($l['line']) ? '' : self::$html .= " on line {$l['line']} ";
             self::$html .= "</font><br />\n";
         }

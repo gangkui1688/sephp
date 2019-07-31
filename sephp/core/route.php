@@ -1,6 +1,7 @@
 <?php
 namespace sephp\core;
 use sephp\sephp;
+
 /**
  * 路由操作类
  * @ClassName: sys_route
@@ -15,7 +16,7 @@ class route
 
     public static function instance()
     {
-        if(empty(start::$_config['route']['url_route_on']) || empty($_REQUEST['s']))
+        if(empty(sephp::$_config['route']['url_route_on']) || empty($_REQUEST['s']))
         {
             return false;
         }
@@ -23,7 +24,7 @@ class route
         {
             self::$instance = new self();
         }
-        self::$instance->config = start::$_config['route'];
+        self::$instance->config = sephp::$_config['route'];
         self::$instance->start();
     }
 
