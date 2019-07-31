@@ -1,8 +1,11 @@
 <?php
+namespace sephp;
+
 class autoloads
 {
 
     protected static $autoload_files = null;
+
     /**
      * 自动加载
      * @access public
