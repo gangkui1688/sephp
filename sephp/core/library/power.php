@@ -54,12 +54,12 @@ class power
     //判断是否登陆
     public function is_login()
     {
-        if(empty($this->config['need_login']) || in_array(CT_NAME,$this->config['not_login']))
+        if(empty($this->config['need_login']) || in_array(CONTROLLER_NAME,$this->config['not_login']))
         {
             return true;
         }
 
-        if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CT_NAME.'&ac='.AC_NAME)
+        if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME)
         {
             show_msg::error('您已经登陆','?ct=index&ac=index');
         }
@@ -75,7 +75,7 @@ class power
     public function check_in()
     {
 
-        if(!is_array($this->_info['powerlist']) || !in_array('?ct='.CT_NAME.'&ac='.AC_NAME,$this->_info['powerlist']))
+        if(!is_array($this->_info['powerlist']) || !in_array('?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME,$this->_info['powerlist']))
         {
             //show_msg::error('抱歉！您无权限查看该页面','0');
         }

@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Smarty Internal Plugin Compile Include PHP
  * Compiles the {include_php} tag
  *

@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Class log
  * 日志类型 type => info sql error
  */

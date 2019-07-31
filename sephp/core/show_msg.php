@@ -13,7 +13,7 @@ class show_msg
      */
     public static function redirect($url = '')
     {
-        $url = empty($url) ? WWW_URL.'/'.APP_NAME : $url;
+        $url = empty($url) ? URL_ROOT : $url;
         header('Location: '.$url);
     }
 

@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\lib;
 
 /**
  * debug 截获 重组
@@ -7,13 +7,39 @@ namespace sephp\core;
  * @Author: Gangkui
  * @Date: 2018-11-05 19:54:47
  */
-class debug
+class error
 {
+
+    /**
+     * 错误接管函数
+     * trigger_error 直接到这里来
+     * throw new Exception 先到handle_exception，再到这里来
+     * trigger_error 不会中断程序，只是警告，excetion会中断程序
+     */
+    public static function error_handler($code, $message, $file, $line, $vars)
+    {
+        $log_type = 'debug';
+
+        //ajax和api接口直接输出json
+        if ( kali::$is_ajax )
+        {
+            $log_type = 'ajax';
+        }
+        $err = self::format_errmsg($log_type, $code, $message, $file, $line, $vars);
+        if( $err != '@' )
+        {
+            self::$_debug_error_msg .= $err;
+        }
+
+        // 记录日志到php_error
+        error_log($err, 3, dirname(__DIR__) . '/data/php_error.log');
+    }
+
     /**
      * 异常重定义
      * @param $e
      */
-    public static function exception($e)
+    public static function exception_handler($e)
     {
         $code     = $e->getCode();
         $msg    = $e->getMessage();

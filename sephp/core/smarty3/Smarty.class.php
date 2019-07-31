@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Project:     Smarty: the PHP compiling template engine
  * File:        Smarty.class.php
  *

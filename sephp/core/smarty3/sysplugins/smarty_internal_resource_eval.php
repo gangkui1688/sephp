@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Smarty Internal Plugin Resource Eval
  *
  * @package    Smarty

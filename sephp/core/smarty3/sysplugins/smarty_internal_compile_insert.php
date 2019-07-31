@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Smarty Internal Plugin Compile Insert
  * Compiles the {insert} tag
  *

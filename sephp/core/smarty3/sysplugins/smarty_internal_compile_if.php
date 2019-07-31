@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Smarty Internal Plugin Compile If
  * Compiles the {if} {else} {elseif} {/if} tags
  *

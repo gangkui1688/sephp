@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Smarty Internal Plugin Compile Block Plugin
  * Compiles code for the execution of block plugin
  *

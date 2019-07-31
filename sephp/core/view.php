@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * 模板引擎实现类
  *
  * @author seatle<seatle@foxmail.com>
@@ -42,9 +43,9 @@ class view {
 
 	protected static function config() {
 		self::$config = $GLOBALS['config']['web'];
-		self::instance()->assign('_self_url', '?ct='.CT_NAME.'&ac='.AC_NAME);
-		self::instance()->assign('_ct_name', CT_NAME);
-		self::instance()->assign('_ac_name', AC_NAME);
+		self::instance()->assign('_self_url', '?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME);
+		self::instance()->assign('_ct_name', CONTROLLER_NAME);
+		self::instance()->assign('_ac_name', ACTION_NAME);
 		self::instance()->assign('_forms', req::$forms);
 		self::instance()->assign('clear_cache', '?'.time());
 		self::instance()->assign('_site_url', self::$config['url']);
@@ -83,7 +84,7 @@ class view {
 	}
 
 	private static function make_tpl($tpl = '') {
-		$tpl = empty($tpl)?CT_NAME.'.'.AC_NAME:$tpl;
+		$tpl = empty($tpl)?CONTROLLER_NAME.'.'.ACTION_NAME:$tpl;
 		return $tpl.'.tpl';
 	}
 

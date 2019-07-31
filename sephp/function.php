@@ -187,7 +187,7 @@
          */
         public static function is_cli()
         {
-            return (PHP_SAPI === 'cli' OR defined('STDIN'));
+            return preg_match("/cli/i", PHP_SAPI) ? true : false;
         }
 
         /**

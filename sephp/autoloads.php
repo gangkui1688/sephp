@@ -1,6 +1,12 @@
 <?php
 namespace sephp;
 
+/**
+ * 自动注册
+ * @ClassName: autoloads
+ * @Author: Gangkui
+ * @Date: 2019-07-31 15:34:37
+ */
 class autoloads
 {
 

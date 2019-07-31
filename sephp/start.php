@@ -1,42 +1,88 @@
 <?php
 namespace sephp;
-use \sephp\core\session;
-use \sephp\lib\power;
-use \sephp\lib\debug;
+
+use sephp\autoloads;
+use sephp\core\session;
+use sephp\lib\power;
+use sephp\lib\error;
+use sephp\core\log;
+use sephp\core\req;
 
 class start {
 
+    /**
+     * 当前对象
+     * @var null
+     */
 	public static $_instance = null;
+
+    /**
+     * 当前rul地址
+     * @var null
+     */
 	public static $_now_url  = null;
-	public static $_ct       = '';
-	public static $_ac       = '';
+
+    /**
+     * 当前控制器名称
+     * @var string
+     */
+	public static $_ct       = 'index';
+
+    /**
+     * 当前控制器方法名称
+     * @var string
+     */
+	public static $_ac       = 'index';
+
+    /**
+     * 是否是ajax 请求
+     * @var bool
+     */
+	public static $is_ajax   = false;
+
+    /**
+     * 是否是命令行模式
+     * @var bool
+     */
+	public static $is_cli =  false;
+
+    /**
+     * 当前读取的配置
+     * @var array|mixed
+     */
 	public static $_config   = [];
+
 
     /**
      * 初始化框架
      * start constructor.
      * @param array $_authority
      */
-	public function __construct($_authority = []){
-
+	public function __construct($_authority = [])
+    {
         $this->check_environment();
 
         $GLOBALS['config']               = include PATH_ROOT.'/config/config.php';
 		$GLOBALS['config']['_authority'] = $_authority;
 		self::$_config                   = $GLOBALS['config'];
-
 		self::$_now_url = $_SERVER['REQUEST_URI'];
+
+        //register_shutdown_function(['kali\core\errorhandler', 'shutdown_handler']);
+        //set_error_handler(['sephp\core\debug', 'exception'], E_ALL);
+        set_exception_handler(['sephp\core\error', 'exception_handler']);
 
 		//自动注册类库
 		//spl_autoload_register("autoloads::autoload", true, true);
 
 		//异常捕获
-		//set_exception_handler('\sephp\sys\sys_debug::exception');
-		//引入所有自定义函数
-		autoloads::register_function();
+		//set_exception_handler('sephp\core\debug::exception');
+
+        //引入所有自定义函数
+		//autoloads::register_function();
 
 		//初始化session
 		session::start();
+
 		//注册一个会在php中止时执行的函数
 		register_shutdown_function('_shutdown_function', ['_start_time' => SE_START_TIME]);
 		//路由解析
@@ -93,10 +139,13 @@ class start {
     {
 		self::$_ct = empty($_GET['ct'])?'index':$_GET['ct'];
 		self::$_ac = empty($_GET['ac'])?'index':$_GET['ac'];
-		define('AC_NAME', self::$_ac);
-		define('CT_NAME', self::$_ct);
 
-		define('WWW_URL', 'http://'.$_SERVER['SERVER_NAME']);
+		define('ACTION_NAME', self::$_ac);
+		define('CONTROLLER_NAME', self::$_ct);
+
+        self::$is_ajax = func::is_ajax();
+        self::$is_cli = func::is_cli();
+
 	}
 
     /**
@@ -126,17 +175,7 @@ class start {
             exit('APP_NAME or PATH_APP is not defind!');
         }
 
-        //代码开始执行时间
-        define('SE_START_TIME', microtime(true));
-
-        define('PATH_SE', __DIR__ .'/');
-        define('PATH_ROOT', __DIR__ .'/../');
-        define('PATH_LIB', __DIR__ .'/library/');
-        define('PATH_RUNTIME', PATH_ROOT.'runtime/');
-        define('PATH_UPLOAD', PATH_ROOT.'upload/');
-        define('PATH_VIEW', PATH_APP.'view/');
-
-        define('URL_ROOT', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
+        $this->define();
 
         if (!defined('APP_DEBUG') || !APP_DEBUG) {
             //禁用错误报告
@@ -148,6 +187,31 @@ class start {
             //该指令开启如果有错误报告才能输出
             ini_set('display_errors', 1);
         }
+
+        require_once PATH_SE . 'autoloads.php';
+        require_once PATH_SE . 'function.php';
+    }
+
+
+    /**
+     * 定义常量
+     */
+    protected function define()
+    {
+        //网站URL地址
+        define('URL_WWW', 'http://'.$_SERVER['HTTP_HOST']);
+        //项目URL地址
+        define('URL_ROOT', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
+
+        //代码开始执行时间
+        define('SE_START_TIME', microtime(true));
+
+        define('PATH_SE', __DIR__ .'/');
+        define('PATH_ROOT', __DIR__ .'/../');
+        define('PATH_LIB', __DIR__ .'/library/');
+        define('PATH_RUNTIME', PATH_ROOT.'runtime/');
+        define('PATH_UPLOAD', PATH_ROOT.'upload/');
+        define('PATH_VIEW', PATH_APP.'view/');
     }
 
 }

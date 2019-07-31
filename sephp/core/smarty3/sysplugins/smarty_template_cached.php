@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\core;
+/**
  * Created by PhpStorm.
  * User: Uwe Tews
  * Date: 04.12.2014
