@@ -41,7 +41,7 @@ class ctl_system
         switch ($type)
         {
             case 'log':
-                $path_file = PATH_ROOT.'runtime/log/';
+                $path_file = PATH_RUNTIME.'log/';
                 break;
             case 'cache':
                 $path_file = PATH_ROOT.'runtime/cache/';

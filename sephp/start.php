@@ -201,7 +201,7 @@ class start {
         //网站URL地址
         define('URL_WWW', 'http://'.$_SERVER['HTTP_HOST']);
         //项目URL地址
-        define('URL_ROOT', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
+        define('URL_APP', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
 
         //代码开始执行时间
         define('SE_START_TIME', microtime(true));
