@@ -1,8 +1,10 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\sys;
+
+/**
  * 本地化调试输出到文件
  */
-class File
+class file
 {
     protected $config = [
         'time_format' => ' c ',

@@ -1,5 +1,5 @@
 <?php
-namespace sephp\sys;
+namespace sephp\sys\db_mysqli;
 
 class db_mysqli
 {
