@@ -1,6 +1,6 @@
 <?php
-namespace sephp\core;
-use sephp\sephp;
+
+
 /**
  * Smarty Internal Plugin Resource PHP
  * Implements the file system as resource for PHP templates

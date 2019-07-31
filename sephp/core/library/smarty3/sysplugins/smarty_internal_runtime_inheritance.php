@@ -1,6 +1,6 @@
 <?php
-namespace sephp\core;
-use sephp\sephp;
+
+
 /**
  * Inheritance Runtime Methods processBlock, endChild, init
  *

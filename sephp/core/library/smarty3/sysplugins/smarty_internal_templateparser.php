@@ -1,6 +1,6 @@
 <?php
-namespace sephp\core;
-use sephp\sephp;
+
+
 class TP_yyStackEntry
 {
     public $stateno;       /* The state-number */

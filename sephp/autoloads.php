@@ -123,7 +123,7 @@ class autoloads
         }
 
         // include the file if needed
-        if (is_file($class_file))
+        if (is_file($class_file) && file_exists($class_file))
         {
             require_once($class_file);
         }
@@ -140,20 +140,6 @@ class autoloads
         }
 
         return false;
-    }
-
-
-    /**
-     * 定义命名空间 的地址
-     * @param array $map
-     * @return array
-     */
-    private static function namespace_map($map = [])
-    {
-        return [
-            'sephp/core/' => __DIR__ . '/',
-            'sephp/lib/'  => __DIR__ . '/library/',
-        ];
     }
 
 

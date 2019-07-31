@@ -1,6 +1,6 @@
 <?php
-namespace sephp\core;
-use sephp\sephp;
+
+
 /**
  * {make_nocache} Runtime Methods save(), store()
  *

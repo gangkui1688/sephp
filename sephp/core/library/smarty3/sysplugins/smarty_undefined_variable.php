@@ -1,6 +1,6 @@
 <?php
-namespace sephp\core;
-use sephp\sephp;
+
+
 /**
  * class for undefined variable object
  * This class defines an object for undefined variable handling

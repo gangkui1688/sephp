@@ -28,7 +28,8 @@ class view {
 		if (self::$_instance === null) {
 
 			require_once PATH_LIB.'smarty3/Smarty.class.php';
-			self::$_instance = new Smarty();
+			self::$_instance = new \Smarty();
+
 			self::$_instance->setTemplateDir(PATH_VIEW);
 			self::$_instance->setCompileDir(PATH_RUNTIME.'compile/');
 			self::$_instance->setCacheDir(PATH_RUNTIME.'cache/');

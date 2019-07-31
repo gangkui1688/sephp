@@ -1,5 +1,5 @@
 <?php
-namespace sephp\sys;/*
+/*
  * This file is part of the Smarty package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
@@ -14,4 +14,5 @@ namespace sephp\sys;/*
 if (!class_exists('Smarty_Autoloader',false)) {
     require dirname(__FILE__) . '/Autoloader.php';
 }
+
 Smarty_Autoloader::register(true);

@@ -1,6 +1,5 @@
 <?php
-namespace sephp\core;
-use sephp\sephp;
+
 /**
  * Smarty Extension handler
  *
