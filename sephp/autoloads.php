@@ -104,11 +104,11 @@ class autoloads
 
     public static function load_by_namespace($class)
     {
-
         $class_path = str_replace('\\', DIRECTORY_SEPARATOR, $class);
-        if(false !== strpos('sephp/lib/', $class_path))
+
+        if(false !== strrpos($class_path, 'sephp/lib/'))
         {
-            $class_path = str_replace('sephp/lib/', 'sephp/core/library', $class_path);
+            $class_path = str_replace('sephp/lib/', 'sephp/core/library/', $class_path);
         }
 
         if (self::$autoload_files)
@@ -135,6 +135,7 @@ class autoloads
             {
                 call_user_func($class.'::_init');
             }
+
             return true;
         }
 

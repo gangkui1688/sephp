@@ -1,6 +1,9 @@
 <?php
 namespace sephp\lib;
 
+use sephp\core\session;
+use sephp\core\show_msg;
+
 /**
  *
  * @ClassName: sys_power

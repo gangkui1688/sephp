@@ -217,7 +217,7 @@ class sephp
 
         define('PATH_SE', __DIR__ .'/');
         define('PATH_ROOT', __DIR__ .'/../');
-        define('PATH_LIB', __DIR__ .'/library/');
+        define('PATH_LIB', __DIR__ .'/core/library/');
         define('PATH_RUNTIME', PATH_ROOT.'runtime/');
         define('PATH_UPLOAD', PATH_ROOT.'upload/');
         define('PATH_VIEW', PATH_APP.'view/');
