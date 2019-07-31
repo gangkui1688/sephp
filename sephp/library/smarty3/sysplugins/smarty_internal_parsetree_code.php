@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * Smarty Internal Plugin Templateparser Parse Tree
  * These are classes to build parse trees in the template parser
  *

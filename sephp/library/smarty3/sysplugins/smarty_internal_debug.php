@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * Smarty Internal Plugin Debug
  * Class to collect data for the Smarty Debugging Console
  *

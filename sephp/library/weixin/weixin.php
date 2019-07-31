@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\sys;
 
 /**
  * 微信开发类

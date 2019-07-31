@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * Smarty Internal Plugin Compile Print Expression
  * Compiles any tag which will output an expression or variable
  *

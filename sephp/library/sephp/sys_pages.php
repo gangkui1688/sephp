@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\sys;
 
 class sys_pages{
     public $firstRow; // 起始行数

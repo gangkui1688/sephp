@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * 模板引擎实现类
  *
  * @author seatle<seatle@foxmail.com>

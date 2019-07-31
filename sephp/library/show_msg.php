@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\sys;
 
 /**
  * 页面跳转和重定向

@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * Smarty Internal Plugin Configfilelexer
  *
  * This is the lexer to break the config file source into tokens

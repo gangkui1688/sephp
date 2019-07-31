@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * Smarty Internal Plugin Compile ForeachSection
  * Shared methods for {foreach} {section} tags
  *

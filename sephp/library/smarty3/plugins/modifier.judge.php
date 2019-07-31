@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\sys;
 
 function smarty_modifier_judge($string, $default_val = '')
 {

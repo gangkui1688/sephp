@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/*
+namespace sephp\sys;/*
  * This file is part of the Smarty package.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>

@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * 图片处理类
  *
  * 对指定图片生成缩略图、水印等

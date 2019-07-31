@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;/**
+namespace sephp\sys;/**
  * Smarty Internal Plugin Compile Shared Inheritance
  * Shared methods for {extends} and {block} tags
  *
