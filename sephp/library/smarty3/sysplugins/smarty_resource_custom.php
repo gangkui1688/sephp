@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Resource Plugin
  *
  * @package    Smarty

@@ -1,5 +1,5 @@
 <?php
-/***
+namespace sephp\lib;/***
  * Author：阿远
  * Class SnowflakeIdWorker
  */

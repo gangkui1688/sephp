@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Internal Plugin Compile Include
  * Compiles the {include} tag
  *

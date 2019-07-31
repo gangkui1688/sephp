@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Internal Plugin Compile Special Smarty Variable
  * Compiles the special $smarty variables
  *

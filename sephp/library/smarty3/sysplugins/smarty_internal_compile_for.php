@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Internal Plugin Compile For
  * Compiles the {for} {forelse} {/for} tags
  *

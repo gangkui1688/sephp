@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * TplFunction Runtime Methods callTemplateFunction

@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Internal Plugin Template
  * This file contains the Smarty template engine
  *

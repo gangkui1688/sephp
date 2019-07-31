@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Method CompileAllTemplates
  *
  * Smarty::compileAllTemplates() method

@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty read include path plugin
  *
  * @package    Smarty

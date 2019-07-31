@@ -1,4 +1,6 @@
 <?php
+namespace sephp\lib;
+
 
 class db
 {

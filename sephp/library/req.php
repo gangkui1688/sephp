@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * 处理外部请求变量的类
  *
  * 禁止此文件以外的文件出现 $_POST、$_GET、$_FILES变量及eval函数(用 req::myeval )

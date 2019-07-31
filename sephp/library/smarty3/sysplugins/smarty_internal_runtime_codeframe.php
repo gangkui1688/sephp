@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Internal Extension
  * This file contains the Smarty template extension to create a code frame
  *

@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * 微信开发类

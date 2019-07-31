@@ -1,5 +1,5 @@
 <?php
-if( !defined('PHPCALL') ) exit('Request Error!');
+namespace sephp\lib;if( !defined('PHPCALL') ) exit('Request Error!');
 
 /**
  * 使用异或（XOR）加密/解密文件

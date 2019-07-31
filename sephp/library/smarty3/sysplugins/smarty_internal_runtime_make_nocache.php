@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * {make_nocache} Runtime Methods save(), store()

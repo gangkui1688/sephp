@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * Foreach Runtime Methods count(), init(), restore()

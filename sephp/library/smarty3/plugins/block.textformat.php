@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty plugin to format text blocks
  *
  * @package    Smarty

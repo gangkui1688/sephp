@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * Double quoted string inside a tag.

@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 class sys_xml {
 

@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Internal Plugin Smarty Template  Base
  * This file contains the basic shared methods for template handling
  *

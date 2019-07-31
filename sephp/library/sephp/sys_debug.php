@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * debug 截获 重组

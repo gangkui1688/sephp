@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * 文件上传管理

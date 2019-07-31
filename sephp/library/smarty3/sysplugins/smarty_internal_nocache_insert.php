@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty Internal Plugin Nocache Insert
  * Compiles the {insert} tag into the cache file
  *

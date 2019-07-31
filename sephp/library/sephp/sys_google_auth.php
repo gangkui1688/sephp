@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * Google的登陆二步验证

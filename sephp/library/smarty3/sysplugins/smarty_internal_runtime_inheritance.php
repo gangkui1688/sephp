@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * Inheritance Runtime Methods processBlock, endChild, init

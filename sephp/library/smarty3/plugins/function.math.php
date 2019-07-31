@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty plugin
  * This plugin is only for Smarty2 BC
  *

@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * 路由操作类

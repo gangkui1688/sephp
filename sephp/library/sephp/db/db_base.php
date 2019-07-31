@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 
 abstract class db_base

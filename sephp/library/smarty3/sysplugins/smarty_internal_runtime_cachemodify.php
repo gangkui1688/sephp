@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * Inline Runtime Methods render, setSourceByUid, setupSubTemplate

@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Smarty cache resource file clear method
  *
  * @package    Smarty

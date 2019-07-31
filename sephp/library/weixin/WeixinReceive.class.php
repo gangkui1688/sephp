@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * 微信API 接收接口
  *
  * PHP version 5

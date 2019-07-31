@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * Smarty Template Resource Base Object

@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 function smarty_modifier_judge($string, $default_val = '')
 {

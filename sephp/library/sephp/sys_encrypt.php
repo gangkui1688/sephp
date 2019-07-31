@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 /**
  * 加密 解密 方法

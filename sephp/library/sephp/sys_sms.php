@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 //接口类型：互亿无线触发短信接口，支持发送验证码短信、订单通知短信等。
 // 账户注册：请通过该地址开通账户http://sms.ihuyi.com/register.html

@@ -1,4 +1,8 @@
 <?php
+namespace sephp;
+use \sephp\sys;
+use \sephp\lib;
+
 if (!defined('APP_NAME') || !defined('PATH_APP')) {
 	exit('APP_NAME or PATH_APP is not defind!');
 }

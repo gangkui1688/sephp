@@ -1,4 +1,5 @@
 <?php
+namespace sephp\lib;
 
 //// 使用 WebSocket 通知客户端
 //$client = new cls_websocket();

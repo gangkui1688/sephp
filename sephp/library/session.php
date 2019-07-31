@@ -1,4 +1,7 @@
 <?php
+namespace sephp\lib;
+
+
 /**
  * session 管理
  * @ClassName: session

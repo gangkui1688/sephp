@@ -1,5 +1,5 @@
 <?php
-/**
+namespace sephp\lib;/**
  * Project:     Smarty: the PHP compiling template engine
  * File:        SmartyBC.class.php
  * SVN:         $Id: $
