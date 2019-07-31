@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty cache resource file clear method
  *
  * @package    Smarty

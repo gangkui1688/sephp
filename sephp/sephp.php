@@ -4,11 +4,13 @@ namespace sephp;
 use sephp\autoloads;
 use sephp\core\session;
 use sephp\lib\power;
-use sephp\lib\error;
+use sephp\core\error;
 use sephp\core\log;
 use sephp\core\req;
+use sephp\core\route;
 
-class start {
+class sephp
+{
 
     /**
      * 当前对象
@@ -69,10 +71,10 @@ class start {
 
         //register_shutdown_function(['kali\core\errorhandler', 'shutdown_handler']);
         //set_error_handler(['sephp\core\debug', 'exception'], E_ALL);
-        set_exception_handler(['sephp\core\error', 'exception_handler']);
+        //set_exception_handler(['\sephp\core\error', 'exception_handler']);
 
 		//自动注册类库
-		//spl_autoload_register("autoloads::autoload", true, true);
+		spl_autoload_register("sephp\autoloads::autoload", true, true);
 
 		//异常捕获
 		//set_exception_handler('sephp\core\debug::exception');
@@ -84,18 +86,25 @@ class start {
 		session::start();
 
 		//注册一个会在php中止时执行的函数
-		register_shutdown_function('_shutdown_function', ['_start_time' => SE_START_TIME]);
-		//路由解析
-		empty(self::$_config['route']['url_route_on'])?null:sys_route::instance();
+		//register_shutdown_function('_shutdown_function', ['_start_time' => SE_START_TIME]);
+
+
+        //路由解析
+		empty(self::$_config['route']['url_route_on']) ? : route::instance();
 
 		$this->_get_ap_ct_ac();
+
 		//页面静态缓存
-		empty($GLOBALS['config']['web']['static_page'])?'':$this->_static_page();
+		empty($GLOBALS['config']['web']['static_page']) ? :$this->_static_page();
+
+
 		//p($_REQUEST,$_GET);
 		//GET.POST.COOKIE 参数过滤
 		req::init();
+
 		//权限控制
-		sys_power::instance()->check_in();
+		power::instance()->check_in();
+
 		//执行方法
 		$this->run();
 

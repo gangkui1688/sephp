@@ -1,6 +1,6 @@
 <?php
-namespace sephp\lib;
-
+namespace sephp\core;
+use sephpsephp;
 /**
  * debug 截获 重组
  * @ClassName: sys_debug

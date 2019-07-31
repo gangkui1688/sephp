@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Internal Plugin Compile Include
  * Compiles the {include} tag
  *

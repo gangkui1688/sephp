@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Internal Plugin Compile Registered Block
  * Compiles code for the execution of a registered block function
  *

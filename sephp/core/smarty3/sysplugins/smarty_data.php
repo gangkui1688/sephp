@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Plugin Data
  * This file contains the data object
  *

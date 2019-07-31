@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 /**
  * 文件上传管理
  * Class sys_upload

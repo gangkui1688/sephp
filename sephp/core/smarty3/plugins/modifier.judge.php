@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 function smarty_modifier_judge($string, $default_val = '')
 {
     if(isset($string))

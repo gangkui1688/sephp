@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 class TPC_yyStackEntry
 {
     public $stateno;       /* The state-number */

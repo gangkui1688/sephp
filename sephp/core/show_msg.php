@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 /**
  * 页面跳转和重定向
  */

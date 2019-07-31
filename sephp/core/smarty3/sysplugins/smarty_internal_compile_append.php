@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Internal Plugin Compile Append
  * Compiles the {append} tag
  *

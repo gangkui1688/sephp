@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty plugin
  * This plugin is only for Smarty2 BC
  *

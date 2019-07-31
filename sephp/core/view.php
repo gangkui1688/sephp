@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * 模板引擎实现类
  *
  * @author seatle<seatle@foxmail.com>

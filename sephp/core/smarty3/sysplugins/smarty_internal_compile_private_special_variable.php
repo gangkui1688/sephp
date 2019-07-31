@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Internal Plugin Compile Special Smarty Variable
  * Compiles the special $smarty variables
  *

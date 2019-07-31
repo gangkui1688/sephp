@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Internal Plugin Smarty Template Compiler Base
  * This file contains the basic classes and methods for compiling Smarty templates with lexer/parser
  *

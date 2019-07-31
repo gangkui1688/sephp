@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 /**
  * Google的登陆二步验证
  * @ClassName: sys_google_auth

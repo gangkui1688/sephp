@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 class verifiy
 {
     protected $seKey = '';

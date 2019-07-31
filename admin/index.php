@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 
-require_once __DIR__.'/../sephp/start.php';
+require_once __DIR__ . '/../sephp/sephp.php';
 
 define('PATH_APP',__DIR__.'/');
 define('APP_NAME','admin');
@@ -18,7 +18,7 @@ $_authority = [
 ];
 
 
-new \sephp\start($_authority);
+new \sephp\sephp($_authority);
 
 
 

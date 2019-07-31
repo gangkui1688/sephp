@@ -11,6 +11,6 @@ $_authority = [
     'login_url'  => '?ct=public&ac=login',
 ];
 
-include_once  PATH_APP.'../sephp/start.php';
+include_once PATH_APP . '../sephp/sephp.php';
 
 new start($_authority);

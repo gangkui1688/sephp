@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Project:     Smarty: the PHP compiling template engine
  * File:        SmartyBC.class.php
  * SVN:         $Id: $

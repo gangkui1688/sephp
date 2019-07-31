@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Created by PhpStorm.
  * User: Uwe Tews
  * Date: 04.12.2014

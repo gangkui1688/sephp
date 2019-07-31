@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * 微信API 响应接口
  *
  * PHP version 5

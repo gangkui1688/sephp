@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 class sys_xml {
 
     private static $xml = null;

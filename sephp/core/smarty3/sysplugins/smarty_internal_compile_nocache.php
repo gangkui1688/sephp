@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Internal Plugin Compile Nocache
  * Compiles the {nocache} {/nocache} tags.
  *

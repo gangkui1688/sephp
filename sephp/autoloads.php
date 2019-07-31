@@ -10,7 +10,9 @@ namespace sephp;
 class autoloads
 {
 
-    protected static $autoload_files = null;
+
+    protected static
+        $autoload_files = null;
 
     /**
      * 自动加载
@@ -24,7 +26,10 @@ class autoloads
         {
             return true;
         }
-        self::load_class($class);
+
+        self::load_by_namespace($class);
+
+        //self::load_class($class);
     }
 
 
@@ -83,6 +88,74 @@ class autoloads
 
 
     }
+
+
+    /**
+     * Set autoload root path.
+     *
+     * @param string $root_path
+     * @return void
+     */
+    public static function set_root_path($root_path)
+    {
+        self::$autoload_files = $root_path;
+    }
+
+
+    public static function load_by_namespace($class)
+    {
+
+        $class_path = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+        if(false !== strpos('sephp/lib/', $class_path))
+        {
+            $class_path = str_replace('sephp/lib/', 'sephp/core/library', $class_path);
+        }
+
+        if (self::$autoload_files)
+        {
+            $class_file = self::$_autoload_root_path . DIRECTORY_SEPARATOR . $class_path . '.php';
+        }
+
+
+        if (empty($class_file) || !is_file($class_file))
+        {
+            $class_file = __DIR__ . DIRECTORY_SEPARATOR .'..'. DIRECTORY_SEPARATOR . "$class_path.php";
+        }
+
+        // include the file if needed
+        if (is_file($class_file))
+        {
+            require_once($class_file);
+        }
+
+        // if the loaded file contains a class...
+        if (class_exists($class, false))
+        {
+            if (method_exists($class, '_init') and is_callable($class.'::_init'))
+            {
+                call_user_func($class.'::_init');
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 定义命名空间 的地址
+     * @param array $map
+     * @return array
+     */
+    private static function namespace_map($map = [])
+    {
+        return [
+            'sephp/core/' => __DIR__ . '/',
+            'sephp/lib/'  => __DIR__ . '/library/',
+        ];
+    }
+
+
 
 
 }

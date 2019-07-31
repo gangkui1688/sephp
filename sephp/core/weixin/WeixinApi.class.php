@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * 微信API 公用方法
  *
  * PHP version 5

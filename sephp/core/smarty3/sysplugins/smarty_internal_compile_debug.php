@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-/**
+use sephpsephp;/**
  * Smarty Internal Plugin Compile Debug
  * Compiles the {debug} tag.
  * It opens a window the the Smarty Debugging Console.

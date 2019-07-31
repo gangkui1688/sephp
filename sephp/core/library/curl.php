@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-
+use sephpsephp;
 /**
  * http 操作类 访问，推送
  * Class sys_curl
