@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\db;
 
 class db_build
 {

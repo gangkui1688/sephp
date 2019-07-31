@@ -2,6 +2,7 @@
 namespace sephp\core;
 
 
+
 class db
 {
     // Query types

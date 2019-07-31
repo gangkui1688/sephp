@@ -1,8 +1,6 @@
 <?php
 namespace sephp\core;
 
-
-
 class validate
 {
     // 实例

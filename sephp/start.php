@@ -1,7 +1,7 @@
 <?php
 namespace sephp;
-use \sephp\sys\session;
-use \sephp\sys\sys_power;
+use \sephp\core\session;
+use \sephp\lib\power;
 use \sephp\sys\sys_debug;
 
 class start {
@@ -33,7 +33,7 @@ class start {
 		//异常捕获
 		//set_exception_handler('\sephp\sys\sys_debug::exception');
 		//引入所有自定义函数
-		//autoloads::register_function();
+		autoloads::register_function();
 
 		//初始化session
 		session::start();

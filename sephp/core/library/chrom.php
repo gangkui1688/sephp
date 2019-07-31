@@ -1,5 +1,6 @@
 <?php
-namespace sephp\sys;/**
+namespace sephp\lib;
+/**
  * Copyright 2010-2013 Craig Campbell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +22,7 @@ namespace sephp\sys;/**
  * @package ChromePhp
  * @author Craig Campbell <iamcraigcampbell@gmail.com>
  */
-class sys_chrom
+class chrom
 {
     /**
      * @var string

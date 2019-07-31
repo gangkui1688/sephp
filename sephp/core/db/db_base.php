@@ -1,5 +1,5 @@
 <?php
-namespace sephp\sys\db_base;
+namespace sephp\db;
 
 
 abstract class db_base

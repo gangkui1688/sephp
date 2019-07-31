@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\lib;
 
 /**
  *
@@ -8,7 +8,7 @@ namespace sephp\core;
  * @Date: 2018-11-05 21:36:29
  *  * 用户权限检测 以及 登陆检测
  */
-class sys_power
+class power
 {
     public static 
         $_table_admin = '#PB#_admin_user',

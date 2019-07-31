@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\log;
 
 /**
  * 本地化调试输出到文件
