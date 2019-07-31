@@ -2,7 +2,7 @@
 namespace sephp;
 use \sephp\core\session;
 use \sephp\lib\power;
-use \sephp\sys\sys_debug;
+use \sephp\lib\debug;
 
 class start {
 
