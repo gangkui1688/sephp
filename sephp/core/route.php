@@ -1,6 +1,5 @@
 <?php
 namespace sephp\core;
-use sephpsephp;
 use sephp\sephp;
 /**
  * 路由操作类

@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-use sephpsephp;
+use sephp\sephp;
 /**
  * 微信开发类
  */

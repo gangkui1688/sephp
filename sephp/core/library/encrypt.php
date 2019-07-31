@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-use sephpsephp;
+use sephp\sephp;
 /**
  * 加密 解密 方法
  * @ClassName: sys_encrypt

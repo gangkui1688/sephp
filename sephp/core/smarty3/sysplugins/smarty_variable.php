@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-use sephpsephp;
+use sephp\sephp;
 /**
  * class for the Smarty variable object
  * This class defines the Smarty variable object

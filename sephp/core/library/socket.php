@@ -1,6 +1,6 @@
 <?php
 namespace sephp\core;
-use sephpsephp;
+use sephp\sephp;
 //// 使用 WebSocket 通知客户端
 //$client = new cls_websocket();
 ////$client->connect($_SERVER['HTTP_HOST'], 9527, '/');
