@@ -126,6 +126,13 @@ class config
             //加载默认配置
             sephp::$_config = include_once(PATH_SEPHP . 'config/config.php');
 
+            if(file_exists(PATH_ROOT . 'config/config.php'))
+            {
+                //加载公共配置
+                $common_config = require_once(PATH_ROOT . 'config/config.php');
+                sephp::$_config = array_merge(sephp::$_config, $common_config);
+            }
+
             if(file_exists(PATH_APP . 'config/config.php'))
             {
                 //加载项目配置

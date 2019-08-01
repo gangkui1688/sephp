@@ -48,6 +48,7 @@ class autoloads
         {
             require_once $func_file;
         }
+
         return true;
     }
 

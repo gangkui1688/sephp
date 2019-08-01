@@ -81,15 +81,14 @@ class sephp
         //异常捕获
         set_exception_handler(['sephp\core\error', 'exception_handler']);
 
+        //设置一个结束执行函数，执行写入日志操作
+        func::set_shutdown_func('sephp\core\log', 'save');
+
         //引入所有自定义函数
-		//autoloads::register_function();
+		autoloads::register_function();
 
 		//初始化session
 		session::start();
-
-		//注册一个会在php中止时执行的函数
-		//register_shutdown_function('_shutdown_function', ['_start_time' => SE_START_TIME]);
-
 
         //路由解析
 		empty(self::$_config['route']['url_route_on']) ? : route::instance();

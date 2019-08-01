@@ -10,11 +10,14 @@ class ctl_test
 
     public function index()
     {
-        //func::set_shutdown_func('sephp\core\log', 'save');
 
         log::info(var_export(req::server(), 1));
+        log::error(var_export(req::$forms, 1));
+        log::error(var_export(req::$forms, 1));
+        log::error(var_export(req::$forms, 1));
 
-        var_dump(log::save());
+
+        //var_dump(log::save());
 
         var_dump(111111);
     }

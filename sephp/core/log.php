@@ -2,6 +2,7 @@
 namespace sephp\core;
 use sephp\sephp;
 use sephp\func;
+use sephp\core\config;
 
 /**
  * Class log
@@ -20,12 +21,12 @@ class log
      * @var array 配置参数
      */
     protected static $config = [
-        'open'        => [],
+        'open'        => true,
         'single'      => false,//单个日志文件
         'file_size'   => 2097152,
-        'path'        => PATH_ROOT.'runtime/log/',
-        'apart_level' => ['info','error','sql'], //独立记录的类型
-        'detail_info' => false, //运行的详细信息
+        'path'        => PATH_RUNTIME . 'log/',
+        'apart_level' => ['info','error','sql', 'debug'], //独立记录的类型
+        'detail_info' => true, //运行的详细信息
     ];
 
 
@@ -49,18 +50,43 @@ class log
      */
     public static function info($msg = '')
     {
-        self::$log['info'][] = $msg;
-
+        self::add_msg($msg, 'info');
     }
 
     public static function error($msg = '')
     {
-        self::$log['error'][] = $msg;
+        self::add_msg($msg, 'error');
+    }
+
+    public static function sql($msg = '')
+    {
+        self::add_msg($msg, 'sql');
+    }
+
+    public static function debug($msg = '')
+    {
+        self::add_msg($msg, 'debug');
     }
 
     /**
-     * 保存日志
+     * 记录日志信息
+     * @param string $msg
+     * @param $type
+     */
+    public static function add_msg($msg = '', $type)
+    {
+        if(!empty($msg))
+        {
+            $msg = is_string($msg) ? $msg : var_export($msg, true);
+            self::$log[$type] = empty(self::$log[$type]) ? [] : self::$log[$type];
+            array_push(self::$log[$type], [$msg]);
+        }
+    }
+
+    /**
+     * 保存日志信息
      * @return bool
+     * @throws \Exception
      */
     public static function save()
     {
@@ -71,42 +97,36 @@ class log
             return true;
         }
 
-        if (self::$config['single'])
+        if(!is_dir(self::$config['path']))
         {
-            $destination = self::$config['path'] . 'single.log';
-        } else {
-            $destination = self::$config['path'] . date('Ymd') . '.log';
+            throw new \Exception('Please check log config[path] , The path is wrong paht');
         }
 
-        $path = dirname($destination);
-        !is_dir($path) && mkdir($path, 0755, true);
+        !file_exists(self::$config['path']) && mkdir(self::$config['path'], 0755, true);
 
-        $info = '';
         foreach (self::$log as $type => $val) {
-            $level = '';
-            foreach ($val as $msg) {
-                if (!is_string($msg)) {
-                    $msg = var_export($msg, true);
-                }
-                $level .= '[ ' . $type . ' ] ' . $msg . "\r\n";
+            $message = '';
+            foreach ($val as $msg)
+            {
+                $msg = is_string($msg) ? $msg : var_export($msg, true);
+                $message .= '[ ' . $type . ' ] ' . $msg . "\r\n";
             }
 
-            if (in_array($type, self::$config['apart_level'])) {
+            if (in_array($type, self::$config['apart_level']))
+            {
                 // 独立记录的日志级别
-                if (self::$config['single']) {
-                    $filename = $path .'/'. $type . '.log';
+                if (self::$config['single'])
+                {
+                    $filename = self::$config['path'] .'/'. $type . '.log';
                 } else {
-                    $filename = $path .'/'. date('ymd') . '_' . $type  . '.log';
+                    $filename = self::$config['path'] .'/'. date('ymd') . '_' . $type  . '.log';
                 }
-                self::write($level, $filename, true);
-            } else {
-                $info .= $level;
-            }
-        }
 
-        if ($info)
-        {
-            return self::write($info, $destination);
+            } else {
+                throw new \Exception('The log type ['.$type.'] is wrong type');
+            }
+
+            self::write($message, $filename);
         }
 
         return true;
@@ -132,7 +152,7 @@ class log
             $runtime    = round(microtime(true) - SE_START_TIME, 10);
             $reqs       = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
             $time_str   = ' [运行时间：' . number_format($runtime, 6) . 's][吞吐率：' . $reqs . 'req/s]';
-            $memory_use = size_format(memory_get_usage());
+            $memory_use = func::size_format(memory_get_usage());
             $memory_str = ' [内存消耗：' . $memory_use . 'kb]';
             $file_load  = ' [文件加载：' . count(get_included_files()) . ']';
 
@@ -143,14 +163,13 @@ class log
             $method  = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'CLI';
             $uri     = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
             $message = "---------------------------------------------------------------\r\n[{$now}] {$ip} {$method} {$uri} " . $message;
-
         }
 
         $handle = fopen($destination,'a+');
         if (fwrite($handle, $message) === FALSE) {
             throw new \Exception('Log writing failed, please check log file write permission');
         }
+
         return (fclose($handle));
-        //return error_log($message, 3, $destination);
     }
 }
