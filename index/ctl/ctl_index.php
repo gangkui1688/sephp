@@ -1,6 +1,21 @@
 <?php
+namespace admin\ctl;
+use sephp\sephp;
+use sephp\core\req;
+use sephp\core\log;
+use sephp\core\view;
+use sephp\lib\power;
+use sephp\lib\pages;
+use sephp\core\db;
+use sephp\core\upload;
+use sephp\core\show_msg;
+use sephp\core\session;
+use sephp\core\config;
+use admin\mod\mod_system;
+
 
 class ctl_index {
+
 	protected $page_title       = null;
 	protected $page_description = null;
 	protected $page_keywords    = null;

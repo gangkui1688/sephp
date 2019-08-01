@@ -68,7 +68,7 @@ class error
         $codes = file($filename);
                 
         self::$html .= '<div style=\'font-size:14px;line-height:160%;border-bottom:1px dashed #ccc;margin-top:8px;\'>';
-        self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()) . '::' . get_cururl() . "<br />\n";
+        self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()) . '::' . func::get_cururl() . "<br />\n";
         self::$html .= "错误类型：" . $code_name . "<br />\n";
         self::$html .= "出错原因：<font color='#3F7640'>" . $msg . "</font><br />\n";
         self::$html .= "提示位置：<a href='" .  str_replace(['%file%','%line%'], [$filename,$line], sephp::$_config['web']['edit_tool']) . "'>" . $filename . " 第 {$line} 行<br />\n";

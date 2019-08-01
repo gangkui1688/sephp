@@ -5,7 +5,7 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
 use sephp\lib\power;
-use sephp\core\pages;
+use sephp\lib\pages;
 use sephp\core\db;
 use sephp\core\upload;
 use sephp\core\show_msg;
@@ -210,15 +210,15 @@ class ctl_system
         if(empty($data))
         {
             config::set($key,'');
-            show_msg::success('',get_cururl());
+            show_msg::success('',func::get_cururl());
         }
         array_multisort(array_column($data,'sort_id'),SORT_DESC,$data);
         //p($data);exit;
         if(config::set($key,$data))
         {
-            show_msg::success('',get_cururl());
+            show_msg::success('',func::get_cururl());
         }
-        show_msg::error('',get_cururl());
+        show_msg::error('',func::get_cururl());
     }
 
     /**
@@ -246,7 +246,7 @@ class ctl_system
      */
     public function menus()
     {
-        //p(session::get('admin_info'),pathinfo(get_cururl()));
+        //p(session::get('admin_info'),pathinfo(func::get_cururl()));
         $menus = req::item('menus','');
         $file = PATH_SEPHP . '../config/menu.xml';
         if(empty($menus))

@@ -5,7 +5,7 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
 use sephp\lib\power;
-use sephp\core\pages;
+use sephp\lib\pages;
 use sephp\core\db;
 use sephp\core\upload;
 use sephp\core\show_msg;
@@ -33,7 +33,7 @@ class ctl_coupons
     //卡劵列表
     public function coupons_list()
     {
-        setcookie('coupons_back_url',get_cururl());
+        setcookie('coupons_back_url',func::get_cururl());
         $cpns_status = req::item('cpns_status','');
         view::assign('cpns_status',$cpns_status);
         if(!empty($cpns_status))

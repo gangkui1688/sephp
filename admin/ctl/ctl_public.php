@@ -5,7 +5,7 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
 use sephp\lib\power;
-use sephp\core\pages;
+use sephp\lib\pages;
 use sephp\core\db;
 use sephp\core\upload;
 use sephp\core\show_msg;
@@ -267,7 +267,7 @@ class ctl_public
     public function page_404()
     {
         //P($_SERVER);
-        view::assign('not_fount_url', 'http://' . $_SERVER['HTTP_HOST'] . get_cururl());
+        view::assign('not_fount_url', 'http://' . $_SERVER['HTTP_HOST'] . func::get_cururl());
         view::display('system/404');
     }
 }

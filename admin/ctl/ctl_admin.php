@@ -5,7 +5,7 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
 use sephp\lib\power;
-use sephp\core\pages;
+use sephp\lib\pages;
 use sephp\core\db;
 use sephp\core\upload;
 use sephp\core\show_msg;
@@ -60,7 +60,7 @@ class ctl_admin {
 			->order_by($this->_admin_id, 'desc')
 			->execute();
 
-		setcookie('userlist_url', get_cururl());
+		setcookie('userlist_url', func::get_cururl());
 
 		view::assign('edit_fields_url', '?ct=admin&ac=edit_fields');
 		view::assign('get_json_list', '?ct=admin&ac=userlist_json');

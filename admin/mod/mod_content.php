@@ -1,4 +1,6 @@
 <?php
+namespace admin\mod;
+use sephp\core\model;
 
 /**
  * summary

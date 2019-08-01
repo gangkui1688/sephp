@@ -1,5 +1,10 @@
 <?php
-namespace admin;
+namespace admin\mod;
+
+use sephp\core\model;
+
+
+
 class mod_system extends model {
 
 	/**

@@ -5,7 +5,7 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
 use sephp\lib\power;
-use sephp\core\pages;
+use sephp\lib\pages;
 use sephp\core\db;
 use sephp\core\upload;
 use sephp\core\show_msg;
@@ -59,7 +59,7 @@ class ctl_content {
 			->order_by($this->_cont_pk, 'DESC')
 			->execute();
 
-		setcookie('content_back_url', get_cururl());
+		setcookie('content_back_url', func::get_cururl());
 		view::assign('list', $list);
 		view::assign('pages', $pages->show());
 		view::assign('add_url', '?ct=content&ac=content_add');
@@ -122,13 +122,13 @@ class ctl_content {
 			log::info(db::get_last_sql());
 			show_msg::error();
 		}
-		show_msg::success('', get_cururl().'&id='.$data[$this->_cont_pk]);
+		show_msg::success('', func::get_cururl().'&id='.$data[$this->_cont_pk]);
 
 	}
 
 	//分类列表
 	public function cate_index() {
-		setcookie('content_back_url', get_cururl());
+		setcookie('content_back_url', func::get_cururl());
 
 		view::assign('list', $this->get_cates());
 		view::assign('add_url', '?ct=content&ac=cate_add');
@@ -191,7 +191,7 @@ class ctl_content {
 		exit;
 		list($res, $id) = db::insert($this->_cate_table)->set($data)->execute();
 		if ($res) {
-			show_msg::success('', get_cururl());
+			show_msg::success('', func::get_cururl());
 		}
 		show_msg::error();
 	}
@@ -223,7 +223,7 @@ class ctl_content {
 				config::set($key, $value);
 			}
 
-			show_msg::success('保存成功', get_cururl());
+			show_msg::success('保存成功', func::get_cururl());
 		}
 		//公司概况
 		view::assign('company_profile', config::get('company_profile'));

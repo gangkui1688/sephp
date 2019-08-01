@@ -1,7 +1,12 @@
 <?php
 namespace sephp\lib;
 
-class sys_pages{
+use sephp\sephp;
+use sephp\core\req;
+use sephp\core\log;
+
+class pages
+{
     public $firstRow; // 起始行数
     public $listRows; // 列表每页显示行数
     public $parameter; // 分页跳转时要带的参数

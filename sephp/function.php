@@ -28,7 +28,7 @@
         /**
          * 获得当前的Url
          */
-        public static function get_cururl()
+        public static function func::get_cururl()
         {
             if(!empty($_SERVER["REQUEST_URI"]))
             {
