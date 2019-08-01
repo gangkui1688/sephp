@@ -16,11 +16,11 @@ class func
     public static function set_shutdown_func($class_name, $method_name,$param = [])
     {
         $array = [
-            'func' => [$class_name,$method_name],
-            'params' => $param,
+                'func' => [$class_name,$method_name],
+                'params' => $param,
         ];
 
-        array_merge(error::$shutdown_func, $array);
+        array_push(error::$shutdown_func, $array);
     }
 
     /**

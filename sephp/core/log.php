@@ -1,6 +1,8 @@
 <?php
 namespace sephp\core;
 use sephp\sephp;
+use sephp\func;
+
 /**
  * Class log
  * 日志类型 type => info sql error
@@ -17,8 +19,8 @@ class log
     /**
      * @var array 配置参数
      */
-    protected $config = [
-        'open'        => true,
+    protected static $config = [
+        'open'        => [],
         'single'      => false,//单个日志文件
         'file_size'   => 2097152,
         'path'        => PATH_ROOT.'runtime/log/',
@@ -33,19 +35,9 @@ class log
      * @param  array $config 配置参数
      * @return void
      */
-    public static function init($config = [])
+    public static function _init()
     {
-        if(is_null(self::$instance))
-        {
-            self::$instance = new self();
-        }
-
-        if(!empty(sephp::$_config['log']))
-        {
-            self::$instance->config = array_merge(self::$instance->config,sephp::$_config['log']);
-        }
-
-        return self::$instance;
+        self::$config = array_merge(self::$config,sephp::$_config['log']);
     }
 
 
@@ -58,6 +50,7 @@ class log
     public static function info($msg = '')
     {
         self::$log['info'][] = $msg;
+
     }
 
     public static function error($msg = '')
@@ -65,20 +58,24 @@ class log
         self::$log['error'][] = $msg;
     }
 
-    //保存日志
-    public function save()
+    /**
+     * 保存日志
+     * @return bool
+     */
+    public static function save()
     {
-        var_dump(12312);exit;
-        if(!$this->config['open'])
+        //是否开启日志
+        if(empty(self::$config['open']))
         {
-            $this->log = [];
+            self::$log = [];
             return true;
         }
 
-        if ($this->config['single']) {
-            $destination = $this->config['path'] . 'single.log';
+        if (self::$config['single'])
+        {
+            $destination = self::$config['path'] . 'single.log';
         } else {
-            $destination = $this->config['path'] . date('Ymd') . '.log';
+            $destination = self::$config['path'] . date('Ymd') . '.log';
         }
 
         $path = dirname($destination);
@@ -94,27 +91,37 @@ class log
                 $level .= '[ ' . $type . ' ] ' . $msg . "\r\n";
             }
 
-            if (in_array($type, $this->config['apart_level'])) {
+            if (in_array($type, self::$config['apart_level'])) {
                 // 独立记录的日志级别
-                if ($this->config['single']) {
+                if (self::$config['single']) {
                     $filename = $path .'/'. $type . '.log';
                 } else {
                     $filename = $path .'/'. date('ymd') . '_' . $type  . '.log';
                 }
-                $this->write($level, $filename, true);
+                self::write($level, $filename, true);
             } else {
                 $info .= $level;
             }
         }
-        if ($info) {
-            return $this->write($info, $destination);
+
+        if ($info)
+        {
+            return self::write($info, $destination);
         }
+
         return true;
     }
 
-    protected function write($message, $destination)
+    /**
+     * 写入日志
+     * @param $message 写入信息
+     * @param $destination 写入目标
+     * @return bool
+     * @throws \Exception
+     */
+    public static function write($message, $destination)
     {
-        if ($this->config['detail_info']) {
+        if (self::$config['detail_info']) {
             // 获取基本信息
             if (isset($_SERVER['HTTP_HOST'])) {
                 $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -138,10 +145,10 @@ class log
             $message = "---------------------------------------------------------------\r\n[{$now}] {$ip} {$method} {$uri} " . $message;
 
         }
+
         $handle = fopen($destination,'a+');
         if (fwrite($handle, $message) === FALSE) {
-            throw new \Exception('日志写入失败,请检查日志文件写入权限');
-            return false;
+            throw new \Exception('Log writing failed, please check log file write permission');
         }
         return (fclose($handle));
         //return error_log($message, 3, $destination);

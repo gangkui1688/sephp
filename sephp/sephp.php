@@ -81,8 +81,6 @@ class sephp
         //异常捕获
         set_exception_handler(['sephp\core\error', 'exception_handler']);
 
-
-        func::set_shutdown_func('sephp\core\log', 'save');
         //引入所有自定义函数
 		//autoloads::register_function();
 
