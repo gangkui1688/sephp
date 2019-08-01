@@ -59,7 +59,7 @@ class sys_create{
 
         //判断参数合法性
         if($workerId < 0 || $workerId > self::maxWorkerId){
-            throw new Exception('支持的最大机器1023，$workerId：'.$workerId);
+            throw new \Exception('支持的最大机器1023，$workerId：'.$workerId);
         }
 
         //设置当前机器id
@@ -75,7 +75,7 @@ class sys_create{
 
         //如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过这个时候应当抛出异常
         if($timestamp < $lastTimestamp){
-            throw new Exception('如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过');
+            throw new \Exception('如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过');
         }
 
         //如果是同一毫秒内生成的，则进行毫秒序列化

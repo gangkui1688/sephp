@@ -1346,7 +1346,7 @@ class db_build
 
         if(mysqli_errno(db::$links) > 0)
         {
-            throw new Exception(mysqli_error(db::$links).' | '.$sql);
+            throw new \Exception(mysqli_error(db::$links).' | '.$sql);
         }
         if ($this->_type === db::SELECT)
         {
@@ -1453,7 +1453,7 @@ class db_build
     {
         if ( ! is_array($this->_values))
         {
-            throw new Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
+            throw new \Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
         }
 
         // Get all of the passed values

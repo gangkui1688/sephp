@@ -235,7 +235,7 @@ class Smarty_Internal_Configfilelexer
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state START');
@@ -263,7 +263,7 @@ class Smarty_Internal_Configfilelexer
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -333,7 +333,7 @@ class Smarty_Internal_Configfilelexer
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state VALUE');
@@ -361,7 +361,7 @@ class Smarty_Internal_Configfilelexer
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -448,7 +448,7 @@ class Smarty_Internal_Configfilelexer
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state NAKED_STRING_VALUE');
@@ -476,7 +476,7 @@ class Smarty_Internal_Configfilelexer
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -508,7 +508,7 @@ class Smarty_Internal_Configfilelexer
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state COMMENT');
@@ -536,7 +536,7 @@ class Smarty_Internal_Configfilelexer
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -578,7 +578,7 @@ class Smarty_Internal_Configfilelexer
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state SECTION');
@@ -606,7 +606,7 @@ class Smarty_Internal_Configfilelexer
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -643,7 +643,7 @@ class Smarty_Internal_Configfilelexer
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state TRIPPLE');
@@ -671,7 +671,7 @@ class Smarty_Internal_Configfilelexer
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;

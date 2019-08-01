@@ -1,4 +1,5 @@
 <?php
+namespace admin/ctl;
 
 /**
  * 会员管理

@@ -1,5 +1,8 @@
 <?php
-namespace admin;
+namespace admin\ctl;
+use sephp\sephp;
+use sephp\core\req;
+
 
 class ctl_admin {
 	private $_admin_table = '#PB#_admin_user',

@@ -174,7 +174,7 @@ class filter
      */
     private static function _throw_errmsg($msg)
     {
-        throw new Exception( $msg );
+        throw new \Exception( $msg );
     }
 
 

@@ -326,7 +326,7 @@ public function yylex1()
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state TEXT');
@@ -354,7 +354,7 @@ public function yylex1()
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -440,7 +440,7 @@ public function yylex2()
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state TAG');
@@ -468,7 +468,7 @@ public function yylex2()
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -579,7 +579,7 @@ public function yylex3()
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state TAGBODY');
@@ -607,7 +607,7 @@ public function yylex3()
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -867,7 +867,7 @@ public function yylex4()
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state LITERAL');
@@ -895,7 +895,7 @@ public function yylex4()
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;
@@ -944,7 +944,7 @@ public function yylex5()
                     $yymatches = array_filter($yymatches);
                 }
                 if (empty($yymatches)) {
-                    throw new Exception('Error: lexing failed because a rule matched' .
+                    throw new \Exception('Error: lexing failed because a rule matched' .
                                         ' an empty string.  Input "' . substr($this->data,
                                                                               $this->counter,
                                                                               5) . '... state DOUBLEQUOTEDSTRING');
@@ -972,7 +972,7 @@ public function yylex5()
                     continue;
                 }
             } else {
-                throw new Exception('Unexpected input at line' . $this->line .
+                throw new \Exception('Unexpected input at line' . $this->line .
                                     ': ' . $this->data[ $this->counter ]);
             }
             break;

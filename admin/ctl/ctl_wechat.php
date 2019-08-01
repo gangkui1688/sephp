@@ -1,5 +1,8 @@
 <?php
-namespace admin;
+namespace admin\ctl;
+use sephp\sephp;
+use sephp\core\req;
+
 class ctl_wechat
 {
     protected $_url = '?ct=system&ac=';

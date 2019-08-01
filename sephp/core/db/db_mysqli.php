@@ -1382,7 +1382,7 @@ class db_mysqli
 
         if(mysqli_errno(self::$links) > 0)
         {
-            throw new Exception(mysqli_error(self::$links) . ' | '. $sql);
+            throw new \Exception(mysqli_error(self::$links) . ' | '. $sql);
         }
         if ($this->_type === db::SELECT)
         {
@@ -1489,7 +1489,7 @@ class db_mysqli
     {
         if ( ! is_array($this->_values))
         {
-           throw new Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
+           throw new \Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
         }
 
         // Get all of the passed values

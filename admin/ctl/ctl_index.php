@@ -1,4 +1,5 @@
 <?php
+namespace admin/ctl;
 
 /**
  * Class ctl_index

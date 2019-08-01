@@ -1,4 +1,5 @@
 <?php
+namespace admin/ctl;
 /**
  * 会员 卡劵管理  充值卡和优惠卷
  * Class ctl_coupons

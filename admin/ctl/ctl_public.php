@@ -1,5 +1,8 @@
 <?php
-namespace admin;
+namespace admin\ctl;
+use sephp\sephp;
+use sephp\core\req;
+
 class ctl_public
 {
     //上传方法

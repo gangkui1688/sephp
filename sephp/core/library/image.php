@@ -153,7 +153,7 @@ class image
         }
         else
         {
-            throw new Exception("必须支持 imagecreatetruecolor/imagecopyresampled 函数");
+            throw new \Exception("必须支持 imagecreatetruecolor/imagecopyresampled 函数");
             return false;
         }
     }

@@ -11,7 +11,7 @@ class redis
     {
         self::$_config = sephp::$_config['sysRedis'];
         if (!extension_loaded('sysRedis')) {
-            throw new Exception('not support: redis');
+            throw new \Exception('not support: redis');
         }
         if (!empty($options)) {
             self::$_config = array_merge($options, self::$_config);

@@ -13,7 +13,7 @@ class error
     /**
      * 错误接管函数
      * trigger_error 直接到这里来
-     * throw new Exception 先到handle_exception，再到这里来
+     * throw new \Exception 先到handle_exception，再到这里来
      * trigger_error 不会中断程序，只是警告，excetion会中断程序
      */
     public static function error_handler($code, $message, $file, $line, $vars)

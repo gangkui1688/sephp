@@ -1,5 +1,8 @@
 <?php
-namespace admin;
+namespace admin\ctl;
+use sephp\sephp;
+use sephp\core\req;
+
 class ctl_content {
 	private $_cont_table = '#PB#_content';
 	private $_cont_pk    = 'id';
