@@ -3,6 +3,7 @@ namespace admin\ctl;
 use sephp\sephp;
 use sephp\core\req;
 use sephp\core\log;
+use sephp\func;
 use sephp\core\view;
 use sephp\lib\power;
 use sephp\lib\pages;
@@ -84,7 +85,7 @@ class ctl_admin {
 			}
 			$groups = db::select()->from($this->_group_table)->where('status', '1')->execute();
 			view::assign('groups', $groups);
-			view::assign('add_save_url', '?ct='.CT_NAME.'&ac=saveuser');
+			view::assign('add_save_url', '?ct='.CONTROLLER_NAME.'&ac=saveuser');
 			view::display('admin.adduser');
 			exit;
 		}
@@ -112,7 +113,7 @@ class ctl_admin {
 		$data['password']    = power::make_password(req::$posts['password']);
 		$data['create_time'] = time();
 		if (db::insert($this->_admin_table)->set($data)->execute() > 0) {
-			show_msg::success('新增成功', '?ct='.CT_NAME.'&ac=userlist');
+			show_msg::success('新增成功', '?ct='.CONTROLLER_NAME.'&ac=userlist');
 		}
 		show_msg::error();
 	}
