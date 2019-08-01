@@ -130,7 +130,7 @@ class log
             $message =  $time_str . $memory_str . $file_load . "\r\n" . $message;
 
             $now     = date('Y-m-d H:i:s');
-            $ip      = get_client_ip();
+            $ip      = func::get_client_ip();
             $method  = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'CLI';
             $uri     = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
             $message = "---------------------------------------------------------------\r\n[{$now}] {$ip} {$method} {$uri} " . $message;

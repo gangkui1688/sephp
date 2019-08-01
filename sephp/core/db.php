@@ -1,7 +1,12 @@
 <?php
 namespace sephp\core;
 use sephp\sephp;
-
+use sephp\core\req;
+use sephp\core\filter;
+use sephp\lib\db\mysqli;
+use sephp\lib\db\mysql;
+use sephp\lib\db\base;
+use sephp\lib\db\sqlsrv;
 
 class db
 {
@@ -28,19 +33,13 @@ class db
      */
     public static function connect($config = [], $name = false)
     {
-        $path = PATH_LIB . 'sephp/db/';
-        $files = glob($path . '*.php');
-        foreach ($files as $file)
-        {
-            include_once $file;
-        }
         if(function_exists('mysqli_connect'))
         {
-            return db_mysqli::instance();
+            return mysqli::instance();
         }
         elseif (function_exists('mysql_connect'))
         {
-            return db_mysql::instance();
+            return mysql::instance();
         }
     }
 

@@ -2,6 +2,15 @@
 namespace admin\ctl;
 use sephp\sephp;
 use sephp\core\req;
+use sephp\core\log;
+use sephp\core\view;
+use sephp\lib\power;
+use sephp\core\pages;
+use sephp\core\db;
+use sephp\core\upload;
+use sephp\core\show_msg;
+use sephp\core\session;
+use sephp\core\config;
 
 class ctl_system
 {
@@ -96,7 +105,7 @@ class ctl_system
             ->as_row()
             ->execute();
         //分页
-        $pages = sys_pages::instance($count['count'],req::item('page_num','10'));
+        $pages = pages::instance($count['count'],req::item('page_num','10'));
 
         $list = db::select()->from('#PB#_file')
             ->where($where)
@@ -123,7 +132,7 @@ class ctl_system
         {
             show_msg::redirect();
         }
-        if(sys_upload::del_file($file_id))
+        if(upload::del_file($file_id))
         {
             is_ajax() ? show_msg::ajax('删除成功','200') : show_msg::success();
         }
@@ -162,7 +171,7 @@ class ctl_system
         switch (req::$posts['type'])
         {
             case 'all':
-                sys_dbmanage::instance()->backup();
+                dbmanage::instance()->backup();
 
                 break;
             case 'structure':

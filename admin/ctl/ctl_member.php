@@ -48,7 +48,7 @@ class ctl_member
             ->as_row()
             ->execute();
 
-        $pages = sys_pages::instance($count['count'],req::item('page_num',10));
+        $pages = pages::instance($count['count'],req::item('page_num',10));
 
         $fields = [
             $this->_member_table.'.'.$this->_member_pk,$this->_member_table.'.create_time',$this->_member_table.'.create_user',
@@ -87,7 +87,7 @@ class ctl_member
             exit();
         }
 
-        if(empty(sys_power::check_member(req::$posts['login_account'])))
+        if(empty(power::check_member(req::$posts['login_account'])))
         {
             show_msg::error('该用户登陆名称【'.req::$posts['login_account'].'】已经存在');
         }
@@ -98,7 +98,7 @@ class ctl_member
         $data['remark'] = req::$posts['remark'];
         $data['member_lv_id'] = req::$posts['member_lv_id'];
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instance()->_uid;
+        $data['create_user'] = power::instance()->_uid;
 
         db::autocommit(false);
         list($member_id , $rows) = db::insert($this->_member_table)->set($data)->execute();
@@ -110,7 +110,7 @@ class ctl_member
         $pam['member_id'] = $member_id;
         $pam['password_account'] = rand_str(8);   //随机字符串
         $pam['login_account'] = req::$posts['login_account']; //登陆名称
-        $pam['login_password'] = sys_power::make_password(req::$posts['password'],$pam['password_account']);
+        $pam['login_password'] = power::make_password(req::$posts['password'],$pam['password_account']);
         list($id,$rows) = db::insert($this->_pam_table)->set($pam)->execute();
         if($rows)
         {
@@ -151,7 +151,7 @@ class ctl_member
         $data['remark'] = req::$posts['remark'];
         $data['member_lv_id'] = req::$posts['member_lv_id'];
         $data['update_time'] = time();
-        $data['update_user'] = sys_power::instance()->_uid;
+        $data['update_user'] = power::instance()->_uid;
 
         db::autocommit();
         if(db::update($this->_member_table)
@@ -169,7 +169,7 @@ class ctl_member
         }
 
         $pam['password_account'] = rand_str(8);   //随机字符串
-        $pam['login_password'] = sys_power::make_password(req::$posts['password'],$pam['password_account']);
+        $pam['login_password'] = power::make_password(req::$posts['password'],$pam['password_account']);
 
         if(db::update($this->_pam_table)
             ->set($pam)
@@ -272,7 +272,7 @@ class ctl_member
             ->as_row()
             ->execute();
 
-        $pages = sys_pages::instance($count['count'],req::item('page_num',10));
+        $pages = pages::instance($count['count'],req::item('page_num',10));
 
         $fields = [
             $this->_member_table.'.'.$this->_member_pk,$this->_member_table.'.create_time',$this->_member_table.'.create_user',

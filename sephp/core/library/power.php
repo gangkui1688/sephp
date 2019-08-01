@@ -1,9 +1,11 @@
 <?php
 namespace sephp\lib;
 
+use sephp\func;
 use sephp\sephp;
 use sephp\core\session;
 use sephp\core\show_msg;
+use sephp\core\db;
 
 /**
  *
@@ -104,7 +106,7 @@ class power
             $data = [
                 'session_id' => session_id(),
                 'status' => 2,
-                'login_ip' => get_client_ip(),
+                'login_ip' => func::get_client_ip(),
                 'username' => $name,
                 'login_time' => time(),
                 'login_id' => 0,
@@ -140,7 +142,7 @@ class power
         $data = [
             'session_id' => session_id(),
             'status' => 1,
-            'login_ip' => get_client_ip(),
+            'login_ip' => func::get_client_ip(),
             'username' => $this->_info['username'],
             'login_time' => time(),
             'login_id' => $this->_info['admin_id'],

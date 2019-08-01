@@ -1,14 +1,15 @@
 <?php
-namespace sephp\sys\db_mysqli;
+namespace sephp\lib\db;
+use sephp\sephp;
+use sephp\core\req;
 
-class db_mysqli
+
+class build
 {
     /**
      * @var  string  Instance name
      */
     protected static $_instance;
-
-    protected static $links;
 
     protected $_crypt_key = null;
 
@@ -115,24 +116,8 @@ class db_mysqli
 
     public static function instance()
     {
-        if (empty(self::$_instance))
+        if (!self::$_instance instanceof self)
         {
-            $db_config = sephp::$_config['db'];
-            try {
-                self::$links = mysqli_connect($db_config['host'], $db_config['root'], $db_config['pass'], $db_config['dbname'], $db_config['port']);
-                // 让int、float 返回正确的类型，而不是返回string MYSQLI_OPT_INT_AND_FLOAT_NATIVE=201
-                mysqli_options(self::$links, 201, true);
-                // 查询编码
-                $charset = isset($db_config['charset']) ? str_replace('-', '', strtolower($db_config['charset'])) : 'uft8';
-                mysqli_query(self::$links, " SET character_set_connection=" . $charset . ", character_set_results=" . $charset . ",
-                 character_set_client=binary, sql_mode='' ");
-
-            } catch (Exception $e) {
-
-                new Exception(mysqli_error(self::$links));
-
-            }
-
             self::$_instance = new self();
             if ( ! empty(sephp::$_config['db']['crypt_key']))
             {
@@ -142,29 +127,10 @@ class db_mysqli
             {
                 self::$_instance->_crypt_fields = sephp::$_config['db']['crypt_fields'];
             }
-
-
         }
         return self::$_instance;
     }
 
-    public function start_trans()
-    {
-        mysqli::autocommit(self::$links,false);
-    }
-
-    public function commit()
-    {
-        mysqli::commit();
-        mysqli::autocommit(self::$links,true);
-
-    }
-
-    public function rollback()
-    {
-        mysqli::rollback();
-        mysqli::autocommit(self::$links,true);
-    }
     /**
      * Enables or disables selecting only unique columns using "SELECT DISTINCT"
      *
@@ -1377,12 +1343,13 @@ class db_mysqli
                 $sql = preg_replace("/[,;]$/i", '', trim($sql)) . " LIMIT 1 ";
             }
         }
+        db::_init();
         db::$query_sql[] = $sql;
-        $rsid = mysqli_query(self::$links,$sql);
+        $rsid = mysqli_query(db::$links,$sql);
 
-        if(mysqli_errno(self::$links) > 0)
+        if(mysqli_errno(db::$links) > 0)
         {
-            throw new \Exception(mysqli_error(self::$links) . ' | '. $sql);
+            throw new \Exception(mysqli_error(db::$links).' | '.$sql);
         }
         if ($this->_type === db::SELECT)
         {
@@ -1417,15 +1384,15 @@ class db_mysqli
             $this->reset();
             // Return a list of insert id and rows created
             return array(
-                mysqli_insert_id(self::$links),
-                mysqli_affected_rows(self::$links)
+                mysqli_insert_id(db::$links),
+                mysqli_affected_rows(db::$links)
             );
         }
         elseif ($this->_type === db::UPDATE or $this->_type === db::DELETE)
         {
             $this->reset();
             // Return the number of rows affected
-            return mysqli_affected_rows(self::$links);//db::affected_rows();
+            return mysqli_affected_rows(db::$links);//db::affected_rows();
         }
 
         return $this;
@@ -1435,7 +1402,7 @@ class db_mysqli
     public function get_fields($table)
     {
         // $sql = "SHOW COLUMNS FROM $table"; //和下面的语句效果一样
-        $rows = self::query("Desc `{$table}`");
+        $rows = db::get_all("Desc `{$table}`");
         $fields = array();
         foreach ($rows as $k => $v)
         {
@@ -1489,7 +1456,7 @@ class db_mysqli
     {
         if ( ! is_array($this->_values))
         {
-           throw new \Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
+            throw new \Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
         }
 
         // Get all of the passed values
@@ -1943,21 +1910,5 @@ class db_mysqli
             $str = stripslashes($str);
         }
         return $str;
-    }
-
-
-    public function get_error()
-    {
-        return mysqli_error(self::$links);
-    }
-
-    public function get_version()
-    {
-        return mysqli_get_server_version(self::$links);
-    }
-
-    public function get_info()
-    {
-        return mysqli_get_server_info(self::$links);
     }
 }

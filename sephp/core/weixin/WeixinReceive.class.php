@@ -168,7 +168,7 @@ class WeixinReceive extends WeixinApi{
      */
     public function run($responseObj=NULL){
         $request_url = WeixinApi_Kit::get_request_url();
-        $client_ip = WeixinApi_Kit::get_client_ip();
+        $client_ip = WeixinApi_Kit::func::get_client_ip();
 
         $this->_log("--------------------------------------------------------");
         $this->_log("Received new request from {$client_ip}", WXAPI_LOG_INFO);

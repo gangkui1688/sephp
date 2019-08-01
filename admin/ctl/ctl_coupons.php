@@ -1,5 +1,17 @@
 <?php
-namespace admin/ctl;
+namespace admin\ctl;
+use sephp\sephp;
+use sephp\core\req;
+use sephp\core\log;
+use sephp\core\view;
+use sephp\lib\power;
+use sephp\core\pages;
+use sephp\core\db;
+use sephp\core\upload;
+use sephp\core\show_msg;
+use sephp\core\session;
+use sephp\core\config;
+
 /**
  * 会员 卡劵管理  充值卡和优惠卷
  * Class ctl_coupons
@@ -44,7 +56,7 @@ class ctl_coupons
             ->as_row()
             ->execute();
 
-        $pages = sys_pages::instance($count['count'],req::item('page_num',20));
+        $pages = pages::instance($count['count'],req::item('page_num',20));
 
         $list = db::select($this->_field)
             ->from($this->_table)
@@ -79,7 +91,7 @@ class ctl_coupons
         $data['cpns_status'] = 1;//,1未使用，2已使用
         $data['cpns_limit'] = $data['cpns_status'] == 1 ? req::$posts['cpns_limit'] : 0;//卡券额度
         $data['create_time'] = time();
-        $data['create_user'] = sys_power::instance()->_uid;
+        $data['create_user'] = power::instance()->_uid;
         $data['expire_time'] = req::$posts['expire_time'];
         $fail_num = 0;
         for($i = 0 ; $i < $number; $i++)

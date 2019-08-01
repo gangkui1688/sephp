@@ -1,8 +1,12 @@
 <?php
-namespace sephp\db;
+namespace sephp\lib\db;
+use sephp\sephp;
+use sephp\core\req;
 
 
-abstract class db_base
+
+
+abstract class base
 {
     // Query types
     const SELECT =  1;

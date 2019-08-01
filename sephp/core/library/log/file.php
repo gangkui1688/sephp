@@ -1,5 +1,5 @@
 <?php
-namespace sephp\log;
+namespace sephp\lib\log;
 
 /**
  * 本地化调试输出到文件
@@ -94,7 +94,7 @@ class file
                 $message = '[ info ] ' . $current_uri . $time_str . $memory_str . $file_load . "\r\n" . $message;
             }
             $now     = date($this->config['time_format']);
-            $ip      = get_client_ip();
+            $ip      = func::get_client_ip();
             $method  = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'CLI';
             $uri     = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
             $message = "---------------------------------------------------------------\r\n[{$now}] {$ip} {$method} {$uri}\r\n" . $message;

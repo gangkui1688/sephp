@@ -2,6 +2,15 @@
 namespace admin\ctl;
 use sephp\sephp;
 use sephp\core\req;
+use sephp\core\log;
+use sephp\core\view;
+use sephp\lib\power;
+use sephp\core\pages;
+use sephp\core\db;
+use sephp\core\upload;
+use sephp\core\show_msg;
+use sephp\core\session;
+use sephp\core\config;
 
 class ctl_content {
 	private $_cont_table = '#PB#_content';
@@ -34,7 +43,7 @@ class ctl_content {
 			->as_row()
 			->execute();
 
-		$pages = sys_pages::instance($count['count'], req::item('page_num', 10));
+		$pages = pages::instance($count['count'], req::item('page_num', 10));
 
 		$fields = [
 			$this->_cont_table.'.'.$this->_cont_pk, $this->_cont_table.'.cate_id', $this->_cont_table.'.create_time', 'title',
@@ -71,7 +80,7 @@ class ctl_content {
 			show_msg::error('标题或分类不能为空');
 		}
 		$data['create_time'] = time();
-		$data['create_user'] = sys_power::instance()->_uid;
+		$data['create_user'] = power::instance()->_uid;
 
 		list($id, $rows) = db::insert($this->_cont_table)
 		                                   ->set($data)
@@ -104,7 +113,7 @@ class ctl_content {
 			show_msg::error('标题不能为空');
 		}
 		$data['create_time'] = time();
-		$data['create_user'] = sys_power::instance()->_uid;
+		$data['create_user'] = power::instance()->_uid;
 
 		if (db::update($this->_cont_table)
 			->set($data)
@@ -177,7 +186,7 @@ class ctl_content {
 			$data['level'] = 1;
 		}
 		$data['create_time'] = time();
-		$data['create_user'] = sys_power::instance()->_uid;
+		$data['create_user'] = power::instance()->_uid;
 		//p($data);
 		exit;
 		list($res, $id) = db::insert($this->_cate_table)->set($data)->execute();

@@ -11,7 +11,7 @@
         public static function get_country($ip = '')
         {
             // 如果是通过IP来获取城市地址的
-            $ip = empty($ip) ? get_client_ip() : $ip;
+            $ip = empty($ip) ? func::get_client_ip() : $ip;
 
             $ip_country_file = PATH_LIB . 'assets/IP-COUNTRY-ISP.BIN';
             if (!file_exists($ip_country_file))
@@ -134,7 +134,7 @@
          * 获取客户端当前IP地址
          * @return string
          */
-        public static function get_client_ip()
+        public static function func::get_client_ip()
         {
             if(!empty($_SERVER["HTTP_CLIENT_IP"]))
             {

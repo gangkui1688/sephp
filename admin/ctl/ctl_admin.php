@@ -2,6 +2,15 @@
 namespace admin\ctl;
 use sephp\sephp;
 use sephp\core\req;
+use sephp\core\log;
+use sephp\core\view;
+use sephp\lib\power;
+use sephp\core\pages;
+use sephp\core\db;
+use sephp\core\upload;
+use sephp\core\show_msg;
+use sephp\core\session;
+use sephp\core\config;
 
 
 class ctl_admin {
@@ -37,7 +46,7 @@ class ctl_admin {
 			->on($this->_group_table.'.group_id', '=', $this->_admin_table.'.group_id')
 		                                                 ->as_row()->execute();
 
-		$pages = sys_pages::instance($count['count'], req::item('page_num', 10));
+		$pages = pages::instance($count['count'], req::item('page_num', 10));
 
 		$query = db::select($this->_admin_table.'.*,'.$this->_group_table.'.*')
 			->from($this->_admin_table);
@@ -88,7 +97,7 @@ class ctl_admin {
 
 		if (req::$posts[$this->_admin_id]) {
 			if (!empty(req::$posts['password'])) {
-				$data['password'] = sys_power::make_password(req::$posts['password']);
+				$data['password'] = power::make_password(req::$posts['password']);
 			}
 			if (db::update($this->_admin_table)
 				->set($data)
@@ -100,7 +109,7 @@ class ctl_admin {
 			}
 		}
 
-		$data['password']    = sys_power::make_password(req::$posts['password']);
+		$data['password']    = power::make_password(req::$posts['password']);
 		$data['create_time'] = time();
 		if (db::insert($this->_admin_table)->set($data)->execute() > 0) {
 			show_msg::success('新增成功', '?ct='.CT_NAME.'&ac=userlist');
@@ -235,10 +244,10 @@ class ctl_admin {
 			->from($this->_admin_table)
 			->join($this->_group_table, 'left')
 			->on($this->_group_table.'.group_id', '=', $this->_admin_table.'.group_id')
-		                                                 ->where($this->_admin_id, sys_power::instance()->_uid)
+		                                                 ->where($this->_admin_id, power::instance()->_uid)
 		->as_row()->execute();
 
-		p(session::get(sys_power::$_mark));
+		p(session::get(power::$_mark));
 
 		view::assign('data', $info);
 		view::display('admin.user_info');
@@ -265,7 +274,7 @@ class ctl_admin {
 		}
 		$count = $query->as_field()->execute();
 
-		$pages = sys_pages::instance($count['count'], req::item('page_num', 1));
+		$pages = pages::instance($count['count'], req::item('page_num', 1));
 
 		$data = db::select()->from($this->_log_table);
 		if (!empty($where)) {
@@ -300,7 +309,7 @@ class ctl_admin {
 		}
 		$count = $query->as_field()->execute();
 
-		$pages = sys_pages::instance($count, req::item('page_num', 1));
+		$pages = pages::instance($count, req::item('page_num', 1));
 
 		$data = db::select()->from($this->_log_table);
 		if (!empty($where)) {
