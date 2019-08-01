@@ -134,7 +134,7 @@
          * 获取客户端当前IP地址
          * @return string
          */
-        public static function func::get_client_ip()
+        public static function get_client_ip()
         {
             if(!empty($_SERVER["HTTP_CLIENT_IP"]))
             {
