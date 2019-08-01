@@ -1,6 +1,7 @@
 <?php
 namespace sephp\core;
-use sephpsephp;/**
+use sephp\sephp;
+/**
  * Class log
  * 日志类型 type => info sql error
  */
@@ -67,6 +68,7 @@ class log
     //保存日志
     public function save()
     {
+        var_dump(12312);exit;
         if(!$this->config['open'])
         {
             $this->log = [];

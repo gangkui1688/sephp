@@ -117,34 +117,57 @@ class mysqli
 
     protected $_as_field = false;
 
-    public static function instance()
+    /**
+     * @param array $config
+     * [
+     *      host => 主机地址
+     *      root => 用户名
+     *      pass => 密码
+     *      dbname => 数据名称
+     *      port => 端口号
+     * ]
+     * @return mysqli|string
+     * @throws \Exception
+     */
+    public static function instance($config = [])
     {
         if (empty(self::$_instance))
         {
-            $db_config = sephp::$_config['db'];
+            $db_config = empty($config) ? sephp::$_config['db'] : $config;
+
             try {
-                self::$links = mysqli_connect($db_config['host'], $db_config['root'], $db_config['pass'], $db_config['dbname'], $db_config['port']);
+                self::$links = mysqli_connect(
+                    $db_config['host'],
+                    $db_config['root'],
+                    $db_config['pass'],
+                    $db_config['dbname'],
+                    $db_config['port']
+                );
+
                 // 让int、float 返回正确的类型，而不是返回string MYSQLI_OPT_INT_AND_FLOAT_NATIVE=201
                 mysqli_options(self::$links, 201, true);
+
                 // 查询编码
                 $charset = isset($db_config['charset']) ? str_replace('-', '', strtolower($db_config['charset'])) : 'uft8';
                 mysqli_query(self::$links, " SET character_set_connection=" . $charset . ", character_set_results=" . $charset . ",
                  character_set_client=binary, sql_mode='' ");
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
 
-                new Exception(mysqli_error(self::$links));
+                throw new \Exception(mysqli_error(self::$links), $e->getCode());
 
             }
 
             self::$_instance = new self();
-            if ( ! empty(sephp::$_config['db']['crypt_key']))
+
+            if ( ! empty($db_config['crypt_key']))
             {
-                self::$_instance->_crypt_key = sephp::$_config['db']['crypt_key'];
+                self::$_instance->_crypt_key = $db_config['crypt_key'];
             }
-            if ( ! empty(sephp::$_config['db']['crypt_fields']))
+
+            if ( ! empty($db_config['crypt_fields']))
             {
-                self::$_instance->_crypt_fields = sephp::$_config['db']['crypt_fields'];
+                self::$_instance->_crypt_fields = $db_config['crypt_fields'];
             }
 
 

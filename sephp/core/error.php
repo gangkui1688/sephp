@@ -1,6 +1,10 @@
 <?php
 namespace sephp\core;
 use sephp\sephp;
+use sephp\func;
+use sephp\core\log;
+
+
 /**
  * debug 截获 重组
  * @ClassName: sys_debug
@@ -11,6 +15,34 @@ class error
 {
 
     /**
+     * @var array php中止时执行的函数池
+     * [
+     *      func => ['sephp\core\error', 'shutdown_handler']
+     *      params => ['1231','1231231']
+     * ]
+     */
+    public static $shutdown_func = [];
+
+    /**
+     * php中止时执行的函数
+     * shutdown_handler
+     */
+    public static function shutdown_handler()
+    {
+        if(empty(self::$shutdown_func))
+        {
+            return true;
+        }
+
+        function_exists('fastcgi_finish_request') && fastcgi_finish_request();
+
+        foreach(self::$shutdown_func as $v)
+        {
+            call_user_func_array($v['func'], $v['params']);
+        }
+    }
+
+    /**
      * 错误接管函数
      * trigger_error 直接到这里来
      * throw new \Exception 先到handle_exception，再到这里来
@@ -18,21 +50,8 @@ class error
      */
     public static function error_handler($code, $message, $file, $line, $vars)
     {
-        $log_type = 'debug';
-
-        //ajax和api接口直接输出json
-        if ( kali::$is_ajax )
-        {
-            $log_type = 'ajax';
-        }
-        $err = self::format_errmsg($log_type, $code, $message, $file, $line, $vars);
-        if( $err != '@' )
-        {
-            self::$_debug_error_msg .= $err;
-        }
-
-        // 记录日志到php_error
-        error_log($err, 3, dirname(__DIR__) . '/data/php_error.log');
+        self::show($code, $message, $file, $line, $vars);
+        exit;
     }
 
     /**

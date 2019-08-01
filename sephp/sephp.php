@@ -74,15 +74,15 @@ class sephp
 
 		self::$_now_url = $_SERVER['REQUEST_URI'];
 
-        //register_shutdown_function(['kali\core\errorhandler', 'shutdown_handler']);
-        //set_error_handler(['sephp\core\debug', 'exception'], E_ALL);
-        //set_exception_handler(['\sephp\core\error', 'exception_handler']);
+		//注册一个会在php中止时执行的函数
+        register_shutdown_function(['sephp\core\error', 'shutdown_handler']);
+        //自定义错误处理
+        set_error_handler(['sephp\core\error', 'error_handler'], E_ALL);
+        //异常捕获
+        set_exception_handler(['sephp\core\error', 'exception_handler']);
 
 
-
-		//异常捕获
-		//set_exception_handler('sephp\core\debug::exception');
-
+        func::set_shutdown_func('sephp\core\log', 'save');
         //引入所有自定义函数
 		//autoloads::register_function();
 
@@ -139,7 +139,7 @@ class sephp
 			$acton_name = self::$_ac;
 			self::$_instance->$acton_name();
 		} else {
-			throw new \Exception("the action ctl_".self::$_ct."->".self::$_ac."() is not exists!", 100);
+			throw new \Exception("The class [ctl_".self::$_ct .'] has not found this method ['.self::$_ac."()]", 100);
 		}
 
 	}
@@ -183,10 +183,12 @@ class sephp
      */
 	protected function check_environment()
     {
-        if (!defined('APP_NAME') || !defined('PATH_APP')) {
+        if (!defined('APP_NAME') || !defined('PATH_APP'))
+        {
             exit('APP_NAME or PATH_APP is not defind!');
         }
 
+        //定义常量
         $this->define();
 
         if (!defined('APP_DEBUG') || !APP_DEBUG) {

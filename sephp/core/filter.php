@@ -1,6 +1,8 @@
 <?php
 namespace sephp\core;
-use sephpsephp;/**
+use sephp\sephp;
+
+/**
  * 数据过滤类(这个类只对不符合类型的字符进行过滤，数据验证使用cls_validate.php类)
  * @author seatle<seatle@foxmail.com>
  * @version 1.0
