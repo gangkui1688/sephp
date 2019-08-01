@@ -1,5 +1,5 @@
 <?php
-namespace sephp\sys;/*
+/*
  * This file is part of Smarty.
  *
  * (c) 2015 Uwe Tews
