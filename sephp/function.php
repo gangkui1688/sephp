@@ -252,11 +252,20 @@ class func
         return empty($result) ? $size : $result;
     }
 
-    public static function _shutdown_public($start_time = 0)
+    /**
+     * 压缩一个文件的内容
+     * @param $src_name 源文件
+     * @param $dst_name 目标文件
+     */
+    public static function compress($src_name, $dst_name)
     {
-        $end_time = microtime(true);
+        $fp = fopen($src_name, "r");
+        $data = fread ($fp, filesize($src_name));
+        fclose($fp);
 
-        log::init()->save();
+        $zp = gzopen($dst_name, "w9");
+        gzwrite($zp, $data);
+        gzclose($zp);
     }
 
 }

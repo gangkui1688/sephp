@@ -9,34 +9,33 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace sephp\lib\log;
+namespace sephp\lib\cache;
 
+use sephp\lib\cache\base;
 /**
  * 文件类型缓存类
  * @author    liu21st <liu21st@gmail.com>
  */
 class file extends base
 {
-    protected $options = [
-        'expire'        => 0,
+    protected $config = [
+        'expire_time'   => 0,
         'cache_subdir'  => true,
         'prefix'        => '',
-        'path'          => CACHE_PATH,
+        'file_path'          => PATH_RUNTIME . 'cache/data/',
         'data_compress' => false,
     ];
 
     /**
      * 构造函数
-     * @param array $options
+     * @param array $config
      */
-    public function __construct($options = [])
+    public function __construct($config = [])
     {
-        if (!empty($options)) {
-            $this->options = array_merge($this->options, $options);
+        if (!empty($config)) {
+            $this->config = array_merge($this->config, $config);
         }
-        if (substr($this->options['path'], -1) != DS) {
-            $this->options['path'] .= DS;
-        }
+
         $this->init();
     }
 
@@ -48,11 +47,12 @@ class file extends base
     private function init()
     {
         // 创建项目缓存目录
-        if (!is_dir($this->options['path'])) {
-            if (mkdir($this->options['path'], 0755, true)) {
+        if (!file_exists($this->config['file_path'])) {
+            if (mkdir($this->config['file_path'], 0755, true)) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -65,14 +65,15 @@ class file extends base
     protected function getCacheKey($name)
     {
         $name = md5($name);
-        if ($this->options['cache_subdir']) {
+        if ($this->config['cache_subdir']) {
             // 使用子目录
-            $name = substr($name, 0, 2) . DS . substr($name, 2);
+            $name = substr($name, 0, 2) . DIRECTORY_SEPARATOR . substr($name, 2);
         }
-        if ($this->options['prefix']) {
-            $name = $this->options['prefix'] . DS . $name;
+
+        if ($this->config['prefix']) {
+            $name = $this->config['prefix'] . DS . $name;
         }
-        $filename = $this->options['path'] . $name . '.php';
+        $filename = $this->config['file_path'] . $name . '.php';
         $dir      = dirname($filename);
         if (!is_dir($dir)) {
             mkdir($dir, 0755, true);
@@ -111,7 +112,7 @@ class file extends base
                 return $default;
             }
             $content = substr($content, 32);
-            if ($this->options['data_compress'] && function_exists('gzcompress')) {
+            if ($this->config['data_compress'] && function_exists('gzcompress')) {
                 //启用数据压缩
                 $content = gzuncompress($content);
             }
@@ -133,25 +134,28 @@ class file extends base
     public function set($name, $value, $expire = null)
     {
         if (is_null($expire)) {
-            $expire = $this->options['expire'];
+            $expire = $this->config['expire_time'];
         }
         if ($expire instanceof \DateTime) {
             $expire = $expire->getTimestamp() - time();
         }
         $filename = $this->getCacheKey($name);
+
         if ($this->tag && !is_file($filename)) {
             $first = true;
         }
+
         $data = serialize($value);
-        if ($this->options['data_compress'] && function_exists('gzcompress')) {
+        if ($this->config['data_compress'] && function_exists('gzcompress')) {
             //数据压缩
             $data = gzcompress($data, 3);
         }
         $data   = "<?php\n//" . sprintf('%012d', $expire) . "\n exit();?>\n" . $data;
+
         $result = file_put_contents($filename, $data);
         if ($result) {
             isset($first) && $this->setTagItem($filename);
-            clearstatcache();
+            clearstatcache();//清除文件状态缓存
             return true;
         } else {
             return false;
@@ -221,7 +225,7 @@ class file extends base
             $this->rm('tag_' . md5($tag));
             return true;
         }
-        $files = (array) glob($this->options['path'] . ($this->options['prefix'] ? $this->options['prefix'] . DS : '') . '*');
+        $files = (array) glob($this->config['file_path'] . ($this->config['prefix'] ? $this->config['prefix'] . DS : '') . '*');
         foreach ($files as $path) {
             if (is_dir($path)) {
                 $matches = glob($path . '/*.php');

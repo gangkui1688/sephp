@@ -67,7 +67,7 @@ class route
             }
             if(strpos($val, '$') !== false)
             {
-                log::info("路由配置错误，错误参数：url_route_rules['{$key}']");
+                throw new \Exception("SEPHP router config is error：url_route_rules['{$key}']");
             }
             $param = $this->convert_url($val);
             foreach ($param as $key=>$val)

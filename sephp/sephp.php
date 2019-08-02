@@ -90,9 +90,6 @@ class sephp
 		//初始化session
 		session::start();
 
-        //路由解析
-		empty(self::$_config['route']['url_route_on']) ? : route::instance();
-
 		$this->_get_ap_ct_ac();
 
 		//页面静态缓存
@@ -146,6 +143,9 @@ class sephp
      */
 	protected function _get_ap_ct_ac()
     {
+        //路由解析
+        empty(self::$_config['route']['url_route_on']) ? : route::instance();
+
 		self::$_ct = empty($_GET['ct'])?'index':$_GET['ct'];
 		self::$_ac = empty($_GET['ac'])?'index':$_GET['ac'];
 

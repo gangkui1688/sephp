@@ -42,10 +42,40 @@ $config['db'] = [
 	'pass'   => 'admin999',
 	'dbname' => 'sephp',
 	'port'   => '3306',
-	'prefix' => 'se_'
+	'prefix' => 'se_',
+    'master' => [],
+    'sleave'
 ];
 
-$config['sysRedis'] = [
+$config['cache'] = [
+    // 驱动方式
+    'type'   => 'File',
+    // 缓存保存目录
+    'path'   => '',
+    // 缓存前缀
+    'prefix' => '',
+    // 缓存有效期 0表示永久缓存
+    'expire' => 0,
+];
+
+$config['cookie'] = [
+    // cookie 名称前缀
+    'prefix'    => '',
+    // cookie 保存时间
+    'expire'    => 0,
+    // cookie 保存路径
+    'path'      => '/',
+    // cookie 有效域名
+    'domain'    => '',
+    //  cookie 启用安全传输
+    'secure'    => false,
+    // httponly设置
+    'httponly'  => '',
+    // 是否使用 setcookie
+    'setcookie' => true,
+];
+
+$config['redis'] = [
 	'host'       => '127.0.0.1',
 	'port'       => '6370',
 	'user'       => '',
