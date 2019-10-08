@@ -134,7 +134,8 @@ class model {
 	 * @param array $join
 	 * @return mixed
 	 */
-	public static function getdump($where, $field = [], $join = []) {
+	public static function getdump($where, $field = [], $join = [])
+    {
 		$fields = empty($field)?static::$_field:$field;
 		$query  = db::select($fields)->from(static::$_table);
 		static::_complate_sql($query, $where, $join);
@@ -209,7 +210,8 @@ class model {
      * @return bool
      */
     public static function save($data, $where = []) {
-        if (empty($data[static::$_pk])) {
+        if (empty($data[static::$_pk]))
+        {
             //新增
             if (in_array('create_time', static::$_field)) {
                 $data['create_time'] = time();
@@ -247,8 +249,9 @@ class model {
 	 * @param array $join
 	 * @return mixed
 	 */
-	public static function count($where = [], $join = []) {
-		$query = db::select('COUNT('.str_replace('#PB#', 'sp', static::$_table).'.'.static::$_pk.') AS total')
+	public static function count($where = [], $join = [])
+    {
+		$query = db::select('COUNT('.str_replace('#PB#', 'sp', static::$_table).'.*) AS total')
 			->from(static::$_table);
 
 		static::_complate_sql($query, $where, $join);
@@ -257,7 +260,8 @@ class model {
 	}
 
 	private static function _complate_sql(&$query, $where = [], $join = [], $order = []) {
-		if (!empty($where) || !empty($where['and'])) {
+		if (!empty($where) || !empty($where['and']))
+        {
 			$where = empty($where)?$where['and']:$where;
 			$query = $query->where($where);
 		} elseif (!empty($where['or'])) {
@@ -265,7 +269,8 @@ class model {
 
 		}
 
-		if (!empty($join) && empty($join[0])) {
+		if (!empty($join) && empty($join[0]))
+        {
 			$query = $query->join($join['table'], $join['type'])
 			               ->on($join['where'][0], $join['where'][1], $join['where'][2]);
 		} elseif (!empty($join) && is_array($join[0])) {
@@ -275,7 +280,8 @@ class model {
 			}
 		}
 
-		if (empty($order)) {
+		if (empty($order))
+        {
 			$query->order_by(static::$_table.'.'.static::$_pk, 'desc');
 		} elseif (is_string($order[0])) {
 			$query->order_by($order[0], $order[1]);
