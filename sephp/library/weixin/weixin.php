@@ -32,4 +32,4 @@ class weixin
 		http_get($url);
 
 	}
-}
+}q
