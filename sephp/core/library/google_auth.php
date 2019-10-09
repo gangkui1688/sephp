@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\core\lib;
 use sephp\sephp;
 /**
  * Google的登陆二步验证

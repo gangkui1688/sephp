@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\core\lib;
 use sephp\sephp;
 /**
  * 微信开发类

@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\core\lib;
 
 use sephp\sephp;
 use sephp\core\req;

@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\core\lib;
 use sephp\sephp;
 /**
  * 加密 解密 方法

@@ -11,9 +11,16 @@ use sephp\core\upload;
 use sephp\core\show_msg;
 use sephp\core\session;
 use sephp\core\config;
+use sephp\core\qrcode;
 
 class ctl_public
 {
+
+    public function test()
+    {
+
+    }
+
     //上传方法
     public function upload()
     {

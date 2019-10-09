@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\core\lib;
 
 use sephp\func;
 use sephp\sephp;

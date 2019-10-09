@@ -1,5 +1,5 @@
 <?php
-namespace sephp\core;
+namespace sephp\core\lib;
 use sephp\sephp;
 class hook
 {

@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\core\lib;
 /**
  * zip打包解压类
  *

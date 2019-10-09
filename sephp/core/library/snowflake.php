@@ -1,11 +1,11 @@
 <?php
-namespace sephp\lib;
+namespace sephp\core\lib;
 
 /***
  * Author：阿远
  * Class SnowflakeIdWorker
  */
-class sys_create{
+class snowflake{
 
     /** 开始时间截 (2018-01-01) */
     const twepoch = 1514736000000;

@@ -1,5 +1,6 @@
 <?php
-namespace sephp\core;
+namespace sephp\core\lib;
+
 use sephp\sephp;
 /**
  * http 操作类 访问，推送

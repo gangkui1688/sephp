@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib;
+namespace sephp\core\lib;
 /**
  * 图片处理类
  *
