@@ -4,20 +4,22 @@ use sephp\sephp;
 use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
-use sephp\lib\power;
-use sephp\lib\pages;
+use sephp\core\lib\power;
+use sephp\core\lib\pages;
 use sephp\core\db;
 use sephp\core\upload;
 use sephp\core\show_msg;
 use sephp\core\session;
 use sephp\core\config;
-use sephp\core\qrcode;
+use sephp\core\lib\qrcode;
+use sephp\core\lib\verifiy;
 
 class ctl_public
 {
 
     public function test()
     {
+        var_dump(qrcode::google_api(['widht' => 12312312]));
 
     }
 
@@ -102,7 +104,7 @@ class ctl_public
     {
         if(!empty(req::$posts))
         {
-            if(sephp::$_config['web']['verify_open'] && !sysVerifiy_::instance()->check(req::$posts['verify']))
+            if(sephp::$_config['web']['verify_open'] && !verifiy::instance()->check(req::$posts['verify']))
             {
                 show_msg::error('验证码错误');
             }

@@ -4,7 +4,7 @@ namespace sephp;
 use sephp\autoloads;
 use sephp\core\config;
 use sephp\core\session;
-use sephp\lib\power;
+use sephp\core\lib\power;
 use sephp\core\error;
 use sephp\core\log;
 use sephp\core\req;
@@ -101,7 +101,7 @@ class sephp
 		req::init();
 
 		//权限控制
-		power::instance()->check_in();
+        \sephp\core\lib\power::instance()->check_in();
 
 		//执行方法
 		$this->run();
@@ -123,9 +123,12 @@ class sephp
 		}
 
 		$class_name = '\\'.APP_NAME.'\ctl\ctl_'.self::$_ct;
-        if (class_exists($class_name, false)) {
+        if (class_exists($class_name, false))
+        {
 			self::$_instance = new $class_name();
-		} else {
+		}
+		else
+        {
 			throw new \Exception("class ".self::$_ct."() is not exists!", 100);
 		}
 
