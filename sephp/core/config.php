@@ -97,7 +97,8 @@ class config
      */
     public static function get($key = null, $type = 'mysql')
     {
-        if($type == 'mysql')
+
+        if($type === 'mysql')
         {
             if(empty($key))
             {
