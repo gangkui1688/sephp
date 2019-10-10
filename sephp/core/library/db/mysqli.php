@@ -5,6 +5,14 @@ use sephp\core\req;
 
 class mysqli
 {
+    // Query types
+    const SELECT =  1;
+    const INSERT =  2;
+    const UPDATE =  3;
+    const DELETE =  4;
+
+    public static $query_sql = [];
+
     /**
      * @var  string  Instance name
      */
@@ -524,7 +532,7 @@ class mysqli
      */
     public function select($select = '*')
     {
-        $this->_type = db::SELECT;
+        $this->_type = self::SELECT;
 
         if (is_string($select))
         {
@@ -1117,17 +1125,17 @@ class mysqli
                 case 'EXPLAIN':
                 case 'SELECT':
                 case 'SHOW':
-                    $type = db::SELECT;
+                    $type = self::SELECT;
                     break;
                 case 'INSERT':
                 case 'REPLACE':
-                    $type = db::INSERT;
+                    $type = self::INSERT;
                     break;
                 case 'UPDATE':
-                    $type = db::UPDATE;
+                    $type = self::UPDATE;
                     break;
                 case 'DELETE':
-                    $type = db::DELETE;
+                    $type = self::DELETE;
                     break;
                 default:
                     $type = 0;
@@ -1153,16 +1161,16 @@ class mysqli
         {
             switch ($this->_type)
             {
-                case db::SELECT:
+                case self::SELECT:
                     $sql = $this->get_compiled_select();
                     break;
-                case db::INSERT:
+                case self::INSERT:
                     $sql = $this->get_compiled_insert();
                     break;
-                case db::UPDATE:
+                case self::UPDATE:
                     $sql = $this->get_compiled_update();
                     break;
-                case db::DELETE:
+                case self::DELETE:
                     $sql = $this->get_compiled_delete();
                     break;
                 default:
@@ -1402,14 +1410,14 @@ class mysqli
                 $sql = preg_replace("/[,;]$/i", '', trim($sql)) . " LIMIT 1 ";
             }
         }
-        db::$query_sql[] = $sql;
+        self::$query_sql[] = $sql;
         $rsid = mysqli_query(self::$links,$sql);
 
         if(mysqli_errno(self::$links) > 0)
         {
             throw new \Exception(mysqli_error(self::$links) . ' | '. $sql);
         }
-        if ($this->_type === db::SELECT)
+        if ($this->_type === self::SELECT)
         {
             $rows = array();
             while ($row = mysqli_fetch_array($rsid,MYSQLI_ASSOC))
@@ -1437,7 +1445,7 @@ class mysqli
             $this->reset();
             return $result;
         }
-        elseif ($this->_type === db::INSERT)
+        elseif ($this->_type === self::INSERT)
         {
             $this->reset();
             // Return a list of insert id and rows created
@@ -1446,11 +1454,11 @@ class mysqli
                 mysqli_affected_rows(self::$links)
             );
         }
-        elseif ($this->_type === db::UPDATE or $this->_type === db::DELETE)
+        elseif ($this->_type === self::UPDATE or $this->_type === self::DELETE)
         {
             $this->reset();
             // Return the number of rows affected
-            return mysqli_affected_rows(self::$links);//db::affected_rows();
+            return mysqli_affected_rows(self::$links);//self::affected_rows();
         }
 
         return $this;
@@ -1479,7 +1487,7 @@ class mysqli
     //-------------------------------------------------------------
     public function insert($table = null)
     {
-        $this->_type = db::INSERT;
+        $this->_type = self::INSERT;
 
         if ($table)
         {
@@ -1545,14 +1553,14 @@ class mysqli
      */
     public function set(array $pairs)
     {
-        if ($this->_type == db::INSERT)
+        if ($this->_type == self::INSERT)
         {
             // 把key存到 _columns 里面
             $this->columns(array_keys($pairs));
             // 把值存到 _values 里面
             $this->values($pairs);
         }
-        elseif ($this->_type == db::UPDATE)
+        elseif ($this->_type == self::UPDATE)
         {
             foreach ($pairs as $column => $value)
             {
@@ -1567,7 +1575,7 @@ class mysqli
     //-------------------------------------------------------------
     public function update($table = null)
     {
-        $this->_type = db::UPDATE;
+        $this->_type = self::UPDATE;
 
         if ($table)
         {
@@ -1598,7 +1606,7 @@ class mysqli
     //-------------------------------------------------------------
     public function delete($table = null)
     {
-        $this->_type = db::DELETE;
+        $this->_type = self::DELETE;
 
         if ($table)
         {
@@ -1699,7 +1707,7 @@ class mysqli
                     // Split the condition
                     list($column, $op, $value) = $condition;
 
-                    // Support db::expr() as where clause
+                    // Support self::expr() as where clause
                     if ($column instanceOf db_expression and $op === null and $value === null)
                     {
                         $sql .= (string) $column;

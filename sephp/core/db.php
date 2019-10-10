@@ -10,13 +10,7 @@ use sephp\core\lib\db\sqlsrv;
 
 class db
 {
-    // Query types
-    const SELECT =  1;
-    const INSERT =  2;
-    const UPDATE =  3;
-    const DELETE =  4;
 
-    public static $query_sql = [];
 
     public static function get_last_sql()
     {
