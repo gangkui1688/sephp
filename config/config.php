@@ -132,4 +132,10 @@ $config['sms'] = [
 
 $config['ip_country_file'] = PATH_LIB.'assets/IPV6-COUNTRY-ISP.BIN';
 
+$config['weixin'] = [
+    'app_id'               => '1231231',
+    'appsecret'            => 'fasdfadsfa',
+];
+
+
 return $config;

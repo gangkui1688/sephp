@@ -3,7 +3,7 @@ namespace sephp\core;
 use sephp\sephp;
 use sephp\func;
 use sephp\core\config;
-use sephp\lib\cache\base;
+use sephp\core\lib\cache\base;
 
 /**
  * 缓存操作

@@ -3,10 +3,10 @@ namespace sephp\core;
 use sephp\sephp;
 use sephp\core\req;
 use sephp\core\filter;
-use sephp\lib\db\mysqli;
-use sephp\lib\db\mysql;
-use sephp\lib\db\base;
-use sephp\lib\db\sqlsrv;
+use sephp\core\lib\db\mysqli;
+use sephp\core\lib\db\mysql;
+use sephp\core\lib\db\base;
+use sephp\core\lib\db\sqlsrv;
 
 class db
 {

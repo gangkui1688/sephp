@@ -117,7 +117,6 @@ class autoloads
             $class_file = self::$_autoload_root_path . DIRECTORY_SEPARATOR . $class_path . '.php';
         }
 
-
         if (empty($class_file) || !is_file($class_file))
         {
             $class_file = __DIR__ . DIRECTORY_SEPARATOR .'..'. DIRECTORY_SEPARATOR . "{$class_path}.php";

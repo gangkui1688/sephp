@@ -9,9 +9,9 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace sephp\lib\cache;
+namespace sephp\core\lib\cache;
 
-use sephp\lib\cache\base;
+use sephp\core\lib\cache\base;
 
 class memcache extends base
 {

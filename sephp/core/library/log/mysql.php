@@ -1,5 +1,5 @@
 <?php
-namespace sephp\lib\log;
+namespace sephp\core\lib\log;
 use sephp\sephp;
 
 /**

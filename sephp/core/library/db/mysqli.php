@@ -1,9 +1,7 @@
 <?php
-namespace sephp\lib\db;
+namespace sephp\core\lib\db;
 use sephp\sephp;
 use sephp\core\req;
-use sephp\core\db;
-
 
 class mysqli
 {

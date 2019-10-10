@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace sephp\lib\cache;
+namespace sephp\core\lib\cache;
 
 /**
  * 缓存基础类

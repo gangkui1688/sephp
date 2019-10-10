@@ -1,11 +1,11 @@
-<?php
+w<?php
 namespace admin\ctl;
 use sephp\sephp;
 use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
-use sephp\lib\power;
-use sephp\lib\pages;
+use sephp\core\lib\power;
+use sephp\core\lib\pages;
 use sephp\core\db;
 use sephp\core\upload;
 use sephp\core\show_msg;

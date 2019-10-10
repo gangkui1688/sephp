@@ -14,12 +14,16 @@ use sephp\core\session;
 use sephp\core\config;
 use sephp\core\lib\make_code;
 use sephp\core\lib\verifiy;
+use sephp\core\lib\weixin\weixin;
 
 class ctl_public
 {
 
     public function test()
     {
+        weixin::instance()->get_access_token();
+
+        exit();
         var_dump(make_code::barcode([
             'frame' => '3434234123123123123',
             //'outfile' => PATH_UPLOAD . time() . '.png',

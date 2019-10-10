@@ -1,6 +1,7 @@
 <?php
 namespace sephp\core;
 use sephp\sephp;
+use sephp\core\db;
 
 class config
 {

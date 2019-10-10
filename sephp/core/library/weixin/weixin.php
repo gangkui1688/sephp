@@ -2,10 +2,13 @@
 namespace sephp\core\lib\weixin;
 use sephp\sephp;
 use sephp\core\lib\curl;
+use sephp\core\config;
+use sephp\func;
+
 /**
  * 微信开发类
  */
-class base
+class weixin
 {
 	public static $instance = null;
 	public $app_id = 'wxfe9ce66e58973b5c';
@@ -15,17 +18,19 @@ class base
 	{
 		if(empty(self::$instance))
 		{
-            $config =
-			self::$instance = new self();
+            self::$instance = new self();
 		}
 
 		return self::$instance;
 	}
 
 
-	public function __construct()
+	public function __construct($config = [])
 	{
-
+        $config = empty($config) ? config::get('weixin') : [];
+        var_dump($config);
+        $this->app_id = func::get_value($config, 'app_id', '');
+        $this->appsecret = func::get_value($config, 'appsecret', '');
 	}
 
     /**
@@ -36,10 +41,9 @@ class base
      */
 	public function get_access_token()
 	{
-		$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$this->app_id.'&secret=' . $this->appsecretl;
+		$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$this->app_id.'&secret=' . $this->appsecret;
+
+        var_dump($url);exit;
         $data = curl::get($url);
-
-
-
 	}
 }

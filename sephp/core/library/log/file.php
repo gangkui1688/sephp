@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace sephp\lib\log;
+namespace sephp\core\lib\log;
 
 /**
  * 文件类型缓存类
