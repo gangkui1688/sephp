@@ -1,6 +1,7 @@
 <?php
 namespace admin\ctl;
 use sephp\sephp;
+use sephp\func;
 use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
@@ -11,7 +12,7 @@ use sephp\core\upload;
 use sephp\core\show_msg;
 use sephp\core\session;
 use sephp\core\config;
-use sephp\core\lib\qrcode;
+use sephp\core\lib\make_code;
 use sephp\core\lib\verifiy;
 
 class ctl_public
@@ -19,8 +20,17 @@ class ctl_public
 
     public function test()
     {
-        var_dump(qrcode::google_api(['widht' => 12312312]));
-
+        var_dump(make_code::barcode([
+            'frame' => '3434234123123123123',
+            //'outfile' => PATH_UPLOAD . time() . '.png',
+        ]));
+            exit;
+        //var_dump(make_code::google_api(['frame' => 12312312]));
+        var_dump(make_code::qrcode([
+            'frame' => 12312312,
+            'size'  => 10,
+            'outfile' => PATH_UPLOAD . time() . '.png',
+        ]));
     }
 
     //上传方法
