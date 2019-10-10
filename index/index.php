@@ -1,8 +1,8 @@
 <?php
 
-define('APP_PATH',__DIR__.'/');
+define('PATH_APP',__DIR__.'/');
 define('APP_NAME','index');
 
-include_once  APP_PATH.'../sephp/start.php';
+include_once PATH_APP . '../sephp/sephp.php';
 
 new start();

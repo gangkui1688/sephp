@@ -1,0 +1,45 @@
+<menus>
+    <menu name='微信管理' icon='fa fa-book' id='whcatManagement'  >
+      <menu name='基础设置' ct='wechat' ac='base' icon='fa fa-list-ol' display='' />
+      <menu name='公众号' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+      <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+      <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+  </menu>
+
+    <menu name='会员管理' icon='fa fa-book' id='membersManagement'  >
+         <menu name='会员列表' ct='member' ac='member_list' icon='fa fa-list-ol' display='' />
+         <menu name='会员等级' ct='member' ac='grade_list' icon='fa fa-file-text-o' display='' />
+         <menu name='会员留言' ct='member' ac='message_list' icon='fa fa-file-text-o' display='' />
+         <menu name='充值记录' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
+         <menu name='充值和提现申请' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
+         <menu name='资金管理' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
+         <menu name='登陆日志' ct='member' ac='log_list' icon='fa fa-file-text-o' display='' />
+         <menu name="卡劵管理"  icon='fa fa-database' display='' >
+             <menu name='创建充值卡' ct='coupons' ac='coupons_add' icon='fa fa-cogs' display='' />
+             <menu name='卡劵列表' ct='coupons' ac='coupons_list' icon='fa fa-cogs' display='' />
+             <menu name='会员充值' ct='coupons' ac='coupons_use' icon='fa fa-cogs' display='' />
+         </menu>
+         <menu name="代理管理"  icon='fa fa-database' display='' >
+             <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+             <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+         </menu>
+     </menu>
+     <menu name='商户管理' icon='fa fa-user-secret' id='stroeCenter'  >
+         <menu name='商户列表' ct='stroe' ac='index' icon='fa fa-user' display='' />
+         <menu name='商户类型' ct='stroe' ac='catelist' icon='fa fa-users' display='' />
+     </menu>
+     <menu name='商品管理' icon='fa fa-user-secret' id='productManager'  >
+         <menu name='商品列表' ct='product' ac='index' icon='fa fa-user' display='' />
+         <menu name='添加新商品' ct='product' ac='catelist' icon='fa fa-users' display='' />
+         <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
+         <menu name='商品类型' ct='product' ac='labelist' icon='fa fa-users' display='' />
+         <menu name='标签管理' ct='product' ac='labelist' icon='fa fa-users' display='' />
+         <menu name='用户晒单' ct='product' ac='labelist' icon='fa fa-users' display='' />
+         <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
+         <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
+         <menu name='商品分类' ct='product' ac='labelist' icon='fa fa-users' display='' />
+     </menu>
+     <menu name='订单管理' icon='fa fa-user-secret' id='orderCenter' >
+         <menu name='订单列表' ct='order' ac='index' icon='fa fa-user' display='' />
+     </menu>
+</menus>

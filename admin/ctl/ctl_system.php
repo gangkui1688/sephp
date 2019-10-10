@@ -1,4 +1,16 @@
 <?php
+namespace admin\ctl;
+use sephp\sephp;
+use sephp\core\req;
+use sephp\core\log;
+use sephp\core\view;
+use sephp\core\lib\power;
+use sephp\core\lib\pages;
+use sephp\core\db;
+use sephp\core\upload;
+use sephp\core\show_msg;
+use sephp\core\session;
+use sephp\core\config;
 
 class ctl_system
 {
@@ -41,7 +53,7 @@ class ctl_system
         switch ($type)
         {
             case 'log':
-                $path_file = PATH_ROOT.'runtime/log/';
+                $path_file = PATH_RUNTIME.'log/';
                 break;
             case 'cache':
                 $path_file = PATH_ROOT.'runtime/cache/';
@@ -64,7 +76,7 @@ class ctl_system
                 $list[$k]['fileatime'] = date('Y-m-d',fileatime($f));//文件上次被访问的时间
                 $list[$k]['filemtime'] = date('Y-m-d',filemtime($f));//文件内容上次的修改时间
                 $list[$k]['name'] = $info['basename'];
-                $list[$k]['size'] = _file_size(filesize($f));
+                $list[$k]['size'] = size_format(filesize($f));
                 $list[$k]['type'] = filetype($f);
                 $list[$k]['fileperms'] = substr(sprintf("%o",fileperms($f)),-4); //文件权限
             }
@@ -93,7 +105,7 @@ class ctl_system
             ->as_row()
             ->execute();
         //分页
-        $pages = sys_pages::instance($count['count'],req::item('page_num','10'));
+        $pages = pages::instance($count['count'],req::item('page_num','10'));
 
         $list = db::select()->from('#PB#_file')
             ->where($where)
@@ -120,7 +132,7 @@ class ctl_system
         {
             show_msg::redirect();
         }
-        if(sys_upload::del_file($file_id))
+        if(upload::del_file($file_id))
         {
             is_ajax() ? show_msg::ajax('删除成功','200') : show_msg::success();
         }
@@ -159,7 +171,7 @@ class ctl_system
         switch (req::$posts['type'])
         {
             case 'all':
-                sys_dbmanage::instance()->backup();
+                dbmanage::instance()->backup();
 
                 break;
             case 'structure':
@@ -198,15 +210,15 @@ class ctl_system
         if(empty($data))
         {
             config::set($key,'');
-            show_msg::success('',NOW_URL);
+            show_msg::success('',func::get_cururl());
         }
         array_multisort(array_column($data,'sort_id'),SORT_DESC,$data);
         //p($data);exit;
         if(config::set($key,$data))
         {
-            show_msg::success('',NOW_URL);
+            show_msg::success('',func::get_cururl());
         }
-        show_msg::error('',NOW_URL);
+        show_msg::error('',func::get_cururl());
     }
 
     /**
@@ -234,7 +246,7 @@ class ctl_system
      */
     public function menus()
     {
-        //p(session::get('admin_info'),pathinfo(NOW_URL));
+        //p(session::get('admin_info'),pathinfo(func::get_cururl()));
         $menus = req::item('menus','');
         $file = PATH_SEPHP . '../config/menu.xml';
         if(empty($menus))
