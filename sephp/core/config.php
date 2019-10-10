@@ -95,7 +95,7 @@ class config
      * @param  string $type mysql file
      * @return mixed
      */
-    public static function get($key = null, $type = 'mysql')
+    public static function get($key = null, $type = 'config')
     {
 
         if($type === 'mysql')
@@ -123,7 +123,7 @@ class config
                 return empty($data['value']) ? null : json_decode($data['value'],true);
             }
         }
-        else
+        elseif(empty(sephp::$_config))
         {
             //加载默认配置
             sephp::$_config = include_once(PATH_SEPHP . 'config/config.php');

@@ -63,14 +63,14 @@ class sephp
      */
 	public function __construct($_authority = [])
     {
-        sephp::$_config['_authority'] = $_authority;
-
         $this->check_environment();
 
         //自动注册类库
         spl_autoload_register("sephp\autoloads::autoload", true, true);
 
-        config::get(null, 'file');
+        //初始化配置选项
+        config::get();
+        sephp::$_config['_authority'] = $_authority;
 
 		self::$_now_url = $_SERVER['REQUEST_URI'];
 

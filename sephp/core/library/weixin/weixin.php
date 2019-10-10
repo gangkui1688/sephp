@@ -27,9 +27,7 @@ class weixin
 
 	public function __construct($config = [])
 	{
-        var_dump('11111111111111');
         $config = empty($config) ? config::get('weixin') : [];
-        var_dump($config);exit;
         $this->app_id = func::get_value($config, 'app_id', '');
         $this->appsecret = func::get_value($config, 'appsecret', '');
 	}
@@ -44,7 +42,8 @@ class weixin
 	{
 		$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$this->app_id.'&secret=' . $this->appsecret;
 
-        var_dump($url);exit;
         $data = curl::get($url);
+
+        var_dump($data);
 	}
 }
