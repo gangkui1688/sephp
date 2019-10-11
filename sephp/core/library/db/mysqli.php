@@ -1978,6 +1978,56 @@ class mysqli
         return $str;
     }
 
+    protected $_dups = [];
+    /**
+     * This is a wrapper function for calling dup().
+     * 重复键时批量更新
+     * @param array $pairs column value pairs
+     *
+     * @return  $this
+     */
+    public function dup(array $pairs)
+    {
+        foreach ($pairs as $column => $value)
+        {
+            $this->_dups[] = array($column, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Compiles an array of set values into an SQL partial. Used for UPDATE.
+     *
+     * @param   object $db     Database instance
+     * @param   array  $values updated values
+     *
+     * @return  string
+     */
+    protected function _compile_dups(array $values) {
+        $dups = array();
+        foreach ($values as $group) {
+            // Split the dups
+            list($column, $value) = $group;
+            if (is_string($value) AND array_key_exists($value, $this->_parameters)) {
+                // Use the parameter value
+                $value = $this->_parameters[$value];
+            }
+
+            //兼容`xxx`和values(`xxx`)
+            if( !preg_match('#values\s*\([^\)]+\)#i', $value) )
+            {
+                $value = $this->quote_value(array($value, $column));
+            }
+
+            // Quote the column name
+            $column = $this->quote_identifier($column);
+            $dups[$column] = $column.' = '.$value;
+        }
+
+        return implode(', ', $dups);
+    }
+
 
     public function get_error()
     {

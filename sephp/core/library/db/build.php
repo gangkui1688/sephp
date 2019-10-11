@@ -1,19 +1,43 @@
 <?php
+/**
+ * Kali is a fast, lightweight, community driven PHP 5.4+ framework.
+ *
+ * @package    KALI
+ * @version    1.0.1
+ * @author     KALI Development Team
+ * @license    MIT License
+ * @copyright  2010 - 2018 Kali Development Team
+ * @link       http://kaliphp.com
+ */
+
 namespace sephp\core\lib\db;
-use sephp\sephp;
-use sephp\core\req;
 
+use Exception;
 
-class build
+/**
+ * 数据库类
+ *
+ * @author seatle<seatle@foxmail.com>
+ * @version 2.0
+ */
+class db_connection
 {
+    private static $_instance = [];
+
     /**
-     * @var  string  Instance name
+     * @var string instance name
      */
-    protected static $_instance;
+    private $_name = null;
 
-    protected $_crypt_key = null;
+    /**
+     * @var string instance of db name
+     */
+    private $_db_name = null;
 
-    protected $_crypt_fields = array();
+    /**
+     * @var array db config
+     */
+    private $_config = [];
 
     /**
      * @var  int  Query type
@@ -29,6 +53,13 @@ class build
      * @var string  $_table  table
      */
     protected $_table;
+
+    /**
+     * 从数据库状态 false 则只用主数据库
+     *
+     * @var bool  $_enable_slave  enable slave
+     */
+    protected $_enable_slave = true;
 
     /**
      * @var array $_columns insert columns
@@ -106,6 +137,11 @@ class build
     protected $_offset = null;
 
     /**
+     * @var  bool  其他属性
+     */
+    protected $_atts = [];
+
+    /**
      * @var  bool  Return results as associative arrays or objects
      */
     protected $_as_object = false;
@@ -114,21 +150,239 @@ class build
 
     protected $_as_field = false;
 
-    public static function instance()
+    protected $_as_result = false;
+
+    /**
+     * @var \mysqli
+     */
+    private $_handler;
+
+    /**
+     * @var  resource  $_result raw result resource
+     */
+    private $_result;
+
+    public static $config = [];
+
+    //当前实例名称，方便多库使用的时候自定义实例名称
+    private static $_instance_name = [];
+
+    //默认数据库名称
+    private static $_default_name = 'default';
+
+    public static $rps = array('/*', '--', 'union', 'sleep', 'benchmark', 'load_file', 'outfile');
+    public static $rpt = array('/×', '——', 'ｕｎｉｏｎ', 'ｓｌｅｅｐ', 'ｂｅｎｃｈｍａｒｋ', 'ｌｏａｄ_ｆｉｌｅ', 'ｏｕｔｆｉｌｅ');
+
+    /**
+     * 初始化
+     */
+    public static function _init()
     {
-        if (!self::$_instance instanceof self)
+        return static::init_db();
+    }
+
+    public static function close_all()
+    {
+        if(!empty(self::$_instance))
         {
-            self::$_instance = new self();
-            if ( ! empty(sephp::$_config['db']['crypt_key']))
+            foreach(self::$_instance as $instance)
             {
-                self::$_instance->_crypt_key = sephp::$_config['db']['crypt_key'];
-            }
-            if ( ! empty(sephp::$_config['db']['crypt_fields']))
-            {
-                self::$_instance->_crypt_fields = sephp::$_config['db']['crypt_fields'];
+                $instance->close();
             }
         }
-        return self::$_instance;
+    }
+    /**
+     * 初始化数据库
+     * @param string $name 实例名称
+     * @param string $name 数据库配置文件名
+     * @param bool $default_instance 是否设为默认数据库
+     */
+    public static function init_db($name = null, $config_file = null, $default_instance = false)
+    {
+        $name  = empty($name) ? self::$_default_name : $name;
+        $config_file = empty($config_file) ? 'database' : $config_file;
+        self::$config[$name] = config::instance('app_config')->get('config', $config_file);
+        if( isset(self::$config[$name]['host']['master']) )
+        {
+            $instance_name = self::get_instance_name($name);
+            //第一个为默认数据库
+            if( !self::$_instance_name || $default_instance )
+            {
+                self::$_instance_name = $instance_name;
+            }
+
+            //如果没有初始化
+            if( !isset(self::$_instance[$instance_name['master']]) )
+            {
+                // 链接主库
+                list($host, $port) = explode(":", self::$config[$name]['host']['master']);
+                $config = [
+                    'host' => $host,
+                    'port' => $port,
+                    'user' => self::$config[$name]['user'],
+                    'pass' => self::$config[$name]['pass'],
+                    'name' => self::$config[$name]['name'],
+                    'charset' => self::$config[$name]['charset'],
+                ];
+
+                self::instance($instance_name['master'], $config);
+                static::$_instance[$instance_name['master']]->_db_name = $name;
+                //var_dump(self::instance());
+                //exit;
+
+                // 如果配置了从库 链接从库
+                if( !empty(self::$config[$name]['host']['slave']) )
+                {
+                    $slaves = self::$config[$name]['host']['slave'][mt_rand(0, count(self::$config[$name]['host']['slave']) - 1)];
+                    list($host, $port) = explode(":", $slaves);
+                    $config = array_merge($config, array('host' => $host, 'port' => $port));
+                    self::instance($instance_name['slave'], $config);
+                }
+                //否则从库使用主库的链接
+                else
+                {
+                    static::$_instance[$instance_name['slave']] = static::$_instance[$instance_name['master']];
+                }
+
+                static::$_instance[$instance_name['slave']]->_db_name = $name;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 获取当前对象的数据库句柄
+     * @return object
+     */
+    private function _handler()
+    {
+        if( !isset($this->_handler) || !is_object($this->_handler) )
+        {
+            if (
+                !$this->_config || !isset($this->_config['host']) || !isset($this->_config['user']) ||
+                !isset($this->_config['pass']) || !isset($this->_config['name']) || !isset($this->_config['port'])
+            )
+            {
+                throw new Exception('unKnown', 3001);
+            }
+
+            if (isset($this->_config['keep-alive']) && $this->_config['keep-alive'])
+            {
+                $this->_config['host'] = 'p:'.$this->_config['host'];
+            }
+
+            // 让mysqli extension在用 try catch 可以抓到 query 的异常
+            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+            try
+            {
+                $this->_handler = mysqli_connect(
+                    $this->_config['host'],
+                    $this->_config['user'],
+                    $this->_config['pass'],
+                    $this->_config['name'],
+                    $this->_config['port']
+                );
+            }
+            catch (Exception $e)
+            {
+                throw new Exception($this->_config['host'].':'.$this->_config['port'], 3001);
+            }
+
+            // 设置等待超时时间，重现 MySQL server has gone away，方便调试
+            //mysqli_query($this->_handler, "SET WAIT_TIMEOUT = 1");
+
+            // 让int、float 返回正确的类型，而不是返回string
+            $this->_handler->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
+
+            mysqli_query($this->_handler, "SET NAMES ".$this->_config['charset']);
+        }
+
+        //标记最近的一次sql所使用的实例名称
+        self::$config[$this->_db_name]['current_instance'] = $this->_name;
+        return $this->_handler;
+    }
+
+    /**
+     * 全局切换数据库
+     * @param string $name 实例名称
+     */
+    public static function switch_db($name = null)
+    {
+        $result = false;
+        $instance_name = self::get_instance_name($name);
+        foreach($instance_name as $k => $v)
+        {
+            if( isset(self::$_instance[$v]) )
+            {
+                self::$_instance_name[$k] = $v;
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * 单例
+     * @param string $name
+     * @param bool $instance
+     * @return db
+     */
+    public static function instance($name = null, array $config = null)
+    {
+        if ($name === null)
+        {
+            // Use the default instance name
+            $name = !empty(self::$_instance_name['master']) ?
+                self::$_instance_name['master'] : self::get_instance_name(self::$_default_name, 'master');
+        }
+
+        if ( ! isset(static::$_instance[$name]))
+        {
+            static::$_instance[$name] = new static($name, $config);
+        }
+
+        return static::$_instance[$name];
+    }
+
+    public function close()
+    {
+        if(isset($this->_handler) && is_object($this->_handler))
+        {
+            @mysqli_close($this->_handler);
+        }
+        unset(static::$_instance[$this->_name]->_handler);
+    }
+
+    public function reconnect()
+    {
+        self::close();
+        self::instance($this->_name, $this->_config);
+        $this->_handler();
+    }
+
+    public function __construct($name, $config)
+    {
+        // 设置实例名
+        $this->_name = $name;
+        $this->_config = $config;
+
+        return $this;
+    }
+
+    /**
+     * 从数据库状态 false 则只用主数据库
+     *
+     * @param bool $enable_slave
+     * @return void
+     */
+    public function enable_slave($enable_slave = true)
+    {
+        $this->_enable_slave = $enable_slave;
     }
 
     /**
@@ -150,6 +404,7 @@ class build
         {
             $this->_crypt_key = $key;
         }
+
         return $this;
     }
 
@@ -176,290 +431,245 @@ class build
         return $this;
     }
 
+    public function query($sql)
+    {
+        // Change #PB# to db_prefix
+        $sql = $this->table_prefix($sql);
+
+        if (self::$config[$this->_db_name]['safe_test'])
+        {
+            $sql = $this->filter_sql($sql);
+        }
+
+        $this->_sql = $sql;
+        $this->_type = $this->get_type($this->_sql);
+        // Save the query for debugging
+
+        return $this;
+    }
+
     /**
-     * Return the table prefix defined in the current configuration.
-     *
-     *     $prefix = $db->table_prefix();
-     *
-     * @param string $table
+     * Compile the SQL query and return it.
      *
      * @return  string
      */
-    public function table_prefix($table = null)
+    public function compile()
     {
-        if ($table !== null)
+        // 如果不是通过query执行的SQL，下面执行拼凑
+        if ( empty($this->_sql))
         {
-            $table = '`'.$table.'`';
-            return $table;
+            switch ($this->_type)
+            {
+                case db::SELECT:
+                    $this->_sql = $this->get_compiled_select();
+                    break;
+                case db::INSERT:
+                    $this->_sql = $this->get_compiled_insert();
+                    break;
+                case db::UPDATE:
+                    $this->_sql = $this->get_compiled_update();
+                    break;
+                case db::DELETE:
+                    $this->_sql = $this->get_compiled_delete();
+                    break;
+                default:
+                    break;
+            }
         }
-        return sephp::$_config['db']['prefix'];
+
+        // function bind()、param()、parameters()
+        if ( ! empty($this->_parameters))
+        {
+            // Quote all of the values
+            $values = array_map(array($this, 'quote'), $this->_parameters);
+
+            // Replace the values in the SQL
+            $this->_sql = $this->tr($this->_sql, $values);
+        }
+
+        if ( $this->_as_row || $this->_as_field )
+        {
+            if (!preg_match("/limit/i", $this->_sql))
+            {
+                $this->_sql = preg_replace("/[,;]$/i", '', trim($this->_sql)) . " LIMIT 1 ";
+            }
+
+            if( !empty($this->_atts['lock']) )
+            {
+                $this->_atts['lock'] = false;//用过一次后释放
+                $this->_sql .= " FOR UPDATE";
+            }
+            else if( !empty($this->_atts['share']) )
+            {
+                $this->_atts['share'] = false;//用过一次后释放
+                $this->_sql .= " LOCK IN SHARE MODE";
+            }
+        }
+
+        //兼容字段中有复杂计算不替换#PB#的情况
+        $this->_sql = $this->table_prefix($this->_sql);
+        PHP_SAPI != 'cli' && db::$queries[] = $this->_sql;
+
+        return $this->_sql;
     }
 
     /**
-     * Quote a value for an SQL query.
+     * Execute the current query on the given database.
      *
-     *     $this->quote(null);   // 'null'
-     *     $this->quote(10);     // 10
-     *     $this->quote('fred'); // 'fred'
+     * @param   mixed   $is_master Database master or slave
+     * @param   array   $params index
+     * @param   mixed   $sql 如果传了，就直接执行这个sql，用于Mysql等待超时重新执行使用
      *
-     * @param   mixed $value
-     *
-     * @return  string
-     *
-     * @uses    string
+     * @return  object  SELECT queries
      */
-    public function quote($value)
+    public function execute($is_master = false, $params = [], $sql = null)
     {
-        if ($value === null)
+        // Compile the SQL query
+        $sql = $sql ? $sql : $this->compile();
+
+        //获取当前实例组
+        $instance_name = isset($this->_atts['instance_name']) ?
+            $this->_atts['instance_name'] : self::get_instance_name();
+
+        // 用户手动指定使用主数据库 或 从数据库状态不可用
+        if (
+            $is_master === true ||
+            (isset($is_master) && $this->_enable_slave === false) ||
+            !empty($this->_atts['lock'])
+        )
         {
-            return 'null';
+            $db_name = $instance_name['master'];
         }
-        elseif ($value === true)
+        else
         {
-            return "'1'";
-        }
-        elseif ($value === false)
-        {
-            return "'0'";
-        }
-        elseif (is_object($value))
-        {
-            // 未使用，因为query并没有分开到db_query类去
-            if ($value instanceof db_build)
+            if ($this->_type === db::SELECT)
             {
-                // Create a sub-query
-                return '('.$value->compile($this).')';
-            }
-            elseif ($value instanceof db_expression)
-            {
-                // Use a raw expression
-                return $value->value();
+                $db_name = $instance_name['slave'];
             }
             else
             {
-                // Convert the object to a string
-                return $this->quote((string) $value);
-            }
-        }
-        elseif (is_array($value))
-        {
-            return '('.implode(', ', array_map(array($this, __FUNCTION__), $value)).')';
-        }
-        elseif (is_int($value))
-        {
-            return "'{$value}'";
-        }
-        elseif (is_float($value))
-        {
-            // Convert to non-locale aware float to prevent possible commas
-            return sprintf('%F', $value);
-        }
-
-        return $this->escape($value);
-    }
-
-    /**
-     * Escape query for sql
-     *
-     * @param   mixed   $value  value of string castable
-     * @return  string  escaped sql string
-     */
-    public function escape($value)
-    {
-        // SQL standard is to use single-quotes for all values
-        return "'$value'";
-    }
-
-    /**
-     * Quote a field value for an SQL query.
-     * for method select、where、order by fields
-     *
-     * @param mixed $value
-     * @param string $select    是否SELECT子句里面的参数，是才能带AS匿名
-     * @param string $inside    是否从SUM、MIX、MIN等函数里面提取出来的字段名
-     * @return void
-     * @author seatle <seatle@foxmail.com>
-     * @created time :2018-03-16 14:02
-     */
-    public function quote_field($value, $select = true, $inside = false)
-    {
-        if ($value === '*')
-        {
-            return $value;
-        }
-
-        // 使用sum、max、min函数的不处理
-        if (strcspn($value, "()'") !== strlen($value))
-        {
-            // 匹配空格、tab符号、`符号
-            if (preg_match("#\(([ \t\w\`]+)\)#i", $value, $matchs))
-            {
-                $match_value = $matchs[1];
-                $quote_value = $this->quote_field($match_value, $select, true);
-                $value = str_replace("(".$match_value.")", "(".$quote_value.")", $value);
-            }
-            return $value;
-        }
-
-        // 使用AS的匿名
-        if ($offset = strripos($value, ' AS '))
-        {
-            $alias = substr($value, $offset);
-            $value = substr($value, 0, $offset);
-        }
-        // 使用空格的匿名
-        elseif ($offset = strrpos($value, ' '))
-        {
-            $alias = substr($value, $offset);
-            $value = substr($value, 0, $offset);
-        }
-        else
-        {
-            $alias = '';
-        }
-
-        $parts = explode('.', $value);
-        // 没有带表前缀
-        if (count($parts) === 1)
-        {
-            $table = $this->_table;
-            $field = $parts[0];
-        }
-        else
-        {
-            $table = $parts[0];
-            $field = $parts[1];
-        }
-
-        // 因为字段都是用quote_identifier函数处理过的，所以这里需要去掉 `` 符号
-        $table = str_replace("`", "", $table);
-        $field = str_replace("`", "", $field);
-        $table = $this->table_prefix($table);
-
-        // 当前字段属于加密字段
-        if (!empty($this->_crypt_fields[$table]) && in_array($field, $this->_crypt_fields[$table]))
-        {
-            $value = "AES_DECRYPT({$value}, '{$this->_crypt_key}')";
-            // 只处理SELECT子句中的字段，排除函数提取出来的字段
-            if ($select && !$inside && empty($alias))
-            {
-                $alias = " AS `{$field}`";
+                $db_name = $instance_name['master'];
             }
         }
 
-        return $value.$alias;
-    }
+        // echo $db_name;echo "{$sql}<br>";
+        $db_conn = self::$_instance[$db_name];
+        event::trigger(onSql, [$sql, $db_name]);
 
-    // 字段值是否加密
-    public function quote_value($field, $value)
-    {
-        $table = $this->_table;
-
-        $field = str_replace("`", "", $field);
-
-        // 当前字段属于加密字段
-        if (!empty($this->_crypt_fields[$table]) && in_array($field, $this->_crypt_fields[$table]))
+        try
         {
-            $value = "AES_ENCRYPT('{$value}', '{$this->_crypt_key}')";
-        }
+            // Start the Query Timer
+            $time_start = microtime(true);
 
-        return $value;
-    }
+            // 加 @ 去掉下面两个警告
+            // mysqli_query(): MySQL server has gone away
+            // mysqli_query(): Error reading result set's header
+            $this->_result = @mysqli_query($db_conn->_handler(), $sql);
 
-    /**
-     * Quotes an identifier so it is ready to use in a query.
-     *
-     * @param	string	$string	the string to quote
-     * @return	string	the quoted identifier
-     */
-    public function quote_identifier($value)
-    {
-        if ($value === '*')
-        {
-            return $value;
-        }
-        elseif (is_object($value))
-        {
-            // 暂未使用
-            if ($value instanceof db_build)
+            // Stop and aggregate the query time results
+            $query_time = microtime(true) - $time_start;
+            PHP_SAPI != 'cli' && db::$query_times[] = $query_time;
+
+            // 记录慢查询
+            if ( self::$config[$this->_db_name]['slow_query'] && ($query_time > self::$config[$this->_db_name]['slow_query']) )
             {
-                // Create a sub-query
-                return '('.$value->compile($this).')';
+                log::warning(sprintf('Slow Query: %s [%ss]', $sql, $query_time));
             }
-            elseif ($value instanceof db_expression)
+        }
+        catch (Exception $e)
+        {
+            $errno = $e->getCode();
+            $errmsg = $e->getMessage();
+            log::error($sql.$errmsg . '|| trace:##' . $e->getTraceAsString(), 'SQL Error');
+
+            // Mysql 等待超时,如果是开启了事务，不应该重试，因为重连可能导致事务id发生变化
+            if ( empty($this->_atts['start']) && in_array($errno, [2013, 2006]) )
             {
-                // Use a raw expression
-                return $value->value();
+                log::error(sprintf("%s:%s [%s] %s", $errno, $errmsg, $sql, $e->getTraceAsString()), 'SQL Error');
+                // 重新链接，$this 默认是default_w 的
+                //$this->reconnect();
+                $db_conn->reconnect();
+                // 再次执行当前方法
+                return $this->execute($is_master, $params, $sql);
+            }
+
+            //如果发生错误，应该重置，否则会发生不可预见的问题
+            $this->reset();
+
+            // 没有设置忽略错误
+            if ( empty($this->_atts['ignore']) )
+            {
+                log::error(sprintf("%s [%s] %s", $errmsg, $sql, $e->getTraceAsString()), 'SQL Error');
+                $tracemsg = $this->get_exception_trace($e);
+                throw new Exception($tracemsg);
+            }
+
+            return null;
+        }
+
+        $result = null;
+        if ($this->_type === db::SELECT)
+        {
+            if ( $this->_as_result )
+            {
+                $result = $this->_result;
             }
             else
             {
-                // Convert the object to a string
-                return $this->quote_identifier((string) $value);
+                $rows = array();
+                while ($row = mysqli_fetch_array($this->_result, MYSQLI_ASSOC))
+                {
+                    if( empty($params['index']) )
+                    {
+                        $rows[] = $row;
+                    }
+                    else
+                    {
+                        $rows[$row[$params['index']]] = $row;
+                    }
+                }
+
+                mysqli_free_result($this->_result);
+                if ( empty($rows[0]) && empty($params['index']) )
+                {
+                    $result = null;
+                }
+                elseif ( $this->_as_field )
+                {
+                    $result = reset($rows[0]);
+                }
+                elseif ( $this->_as_row )
+                {
+                    $result = $rows[0];
+                }
+                else
+                {
+                    $result = $rows;
+                }
             }
         }
-
-        // 如果传进来的SQL片段带有转义字符，直接返回，不进行下面的转义
-        if (preg_match('/^(["\']).*\1$/m', $value))
+        elseif ($this->_type === db::INSERT)
         {
-            return $value;
+            // Return a list of insert id and rows created
+            $result = array(
+                mysqli_insert_id($db_conn->_handler()),
+                mysqli_affected_rows($db_conn->_handler()),
+            );
+        }
+        elseif ($this->_type === db::UPDATE or $this->_type === db::DELETE)
+        {
+            // Return the number of rows affected
+            $result = mysqli_affected_rows($db_conn->_handler());
         }
 
-        // 使用sum、max、min函数的处理
-        if (strcspn($value, "()'") !== strlen($value))
-        {
-            if (preg_match("#\(([ \t\w\`]+)\)#i", $value, $matchs))
-            {
-                $match_value = $matchs[1];
-                $quote_value = $this->quote_identifier($match_value);
-                $value = str_replace("(".$match_value.")", "(".$quote_value.")", $value);
-            }
-            return $value;
-        }
-
-        // 去掉多余的空格
-        $value = preg_replace('/\s+/', ' ', trim($value));
-        $value = str_replace('`', '', $value);
-
-
-        // 使用AS的匿名
-        if ($offset = strripos($value, ' AS '))
-        {
-            $alias = substr($value, $offset);
-            $value = substr($value, 0, $offset);
-            $alias = " AS ".$this->quote_identifier( trim(str_ireplace("AS ", "", $alias)) );
-        }
-        // 使用空格的匿名
-        elseif ($offset = strrpos($value, ' '))
-        {
-            $alias = substr($value, $offset);
-            $value = substr($value, 0, $offset);
-            $alias = " ".$this->quote_identifier( $alias );
-        }
-        else
-        {
-            $alias = '';
-        }
-
-        // 如果字段带表名
-        if (strpos($value, '.') !== false)
-        {
-            $parts = explode('.', $value);
-            $parts[0] = $this->quote_identifier($parts[0]);
-            $parts[1] = $this->quote_identifier($parts[1]);
-            $value = implode('.', $parts);
-        }
-        else
-        {
-            $value = "`{$value}`";
-        }
-
-        return $value.$alias;
+        $this->reset();
+        return $result;
     }
 
     /**
      * Choose the columns to select from.
      *
-     * @param	mixed	$select	can be a string or array
+     * @param   mixed   $select can be a string or array
      *
      * @return  $this
      */
@@ -486,35 +696,25 @@ class build
     /**
      * Generates the FROM portion of the query
      *
-     * @param	mixed	$from	can be a string or array
+     * @param   mixed   $from   can be a string or array
      * @return  $this
      */
-    public function from($from)
+    public function from($tables)
     {
-        foreach ((array) $from as $val)
+        if (is_string($tables))
         {
-            if (strpos($val, ',') !== FALSE)
+            $tables = explode(',', $tables);
+        }
+
+        foreach ($tables as $val)
+        {
+            if ($val !== '')
             {
-                foreach (explode(',', $val) as $v)
-                {
-                    $v = trim($v);
-                    $v = $this->table_prefix($v);
-                    $v = $this->quote_identifier($v);
-                    $this->_from[] = $v;
-                }
-            }
-            else
-            {
-                $val = trim($val);
-                $val = $this->table_prefix($val);
-                $val = $this->quote_identifier($val);
-                $this->_from[] = $val;
+                $this->_from[] = $this->table_prefix($val);
             }
         }
 
-        $this->_from = array_unique($this->_from);
-        $this->_table = $this->table_prefix($this->_from[0]);
-
+        $this->_table = $this->_from[0];
         return $this;
     }
 
@@ -534,13 +734,21 @@ class build
         {
             return $this;
         }
-        elseif (is_array($column))
+
+        if (is_array($column))
         {
             foreach ($column as $key => $val)
             {
                 if (is_array($val))
                 {
-                    $this->and_where($val[0], $val[1], $val[2]);
+                    if ( isset($val[3]) && strtoupper($val[3]) == 'OR')
+                    {
+                        $this->or_where($val[0], $val[1], $val[2]);
+                    }
+                    else
+                    {
+                        $this->and_where($val[0], $val[1], $val[2]);
+                    }
                 }
                 else
                 {
@@ -595,6 +803,7 @@ class build
             }
             $this->_where[] = array('OR' => array($column, $op, $value));
         }
+
         return $this;
     }
 
@@ -616,7 +825,6 @@ class build
     public function and_where_open()
     {
         $this->_where[] = array('AND' => '(');
-
         return $this;
     }
 
@@ -650,7 +858,6 @@ class build
     public function and_where_close()
     {
         $this->_where[] = array('AND' => ')');
-
         return $this;
     }
 
@@ -662,7 +869,6 @@ class build
     public function or_where_close()
     {
         $this->_where[] = array('OR' => ')');
-
         return $this;
     }
 
@@ -676,7 +882,24 @@ class build
      */
     public function order_by($column, $direction = null)
     {
-        $this->_order_by[] = array($column, $direction);
+        if (empty($column))
+        {
+            return $this;
+        }
+
+        if (is_array($column))
+        {
+            foreach ($column as $key => $val)
+            {
+                $value = $val[0];
+                $op = empty($val[1]) ? '' : $val[1];
+                $this->_order_by[] = array($value, $op);
+            }
+        }
+        else
+        {
+            $this->_order_by[] = array($column, $direction);
+        }
 
         return $this;
     }
@@ -691,7 +914,6 @@ class build
     public function limit($number)
     {
         $this->_limit = (int) $number;
-
         return $this;
     }
 
@@ -745,7 +967,6 @@ class build
         $key = key($joins);
 
         $this->_on[$key][] = array($c1, $op, $c2, 'AND');
-
         return $this;
     }
 
@@ -782,7 +1003,6 @@ class build
         $key = key($joins);
 
         $this->_on[$key][] = array($c1, $op, $c2, 'OR');
-
         return $this;
     }
 
@@ -813,7 +1033,6 @@ class build
         }
 
         $this->_group_by = array_merge($this->_group_by, $columns);
-
         return $this;
     }
 
@@ -849,7 +1068,6 @@ class build
         }
 
         $this->_having[] = array('AND' => array($column, $op, $value));
-
         return $this;
     }
 
@@ -871,7 +1089,6 @@ class build
         }
 
         $this->_having[] = array('OR' => array($column, $op, $value));
-
         return $this;
     }
 
@@ -893,7 +1110,6 @@ class build
     public function and_having_open()
     {
         $this->_having[] = array('AND' => '(');
-
         return $this;
     }
 
@@ -905,7 +1121,6 @@ class build
     public function or_having_open()
     {
         $this->_having[] = array('OR' => '(');
-
         return $this;
     }
 
@@ -927,7 +1142,6 @@ class build
     public function and_having_close()
     {
         $this->_having[] = array('AND' => ')');
-
         return $this;
     }
 
@@ -939,61 +1153,6 @@ class build
     public function or_having_close()
     {
         $this->_having[] = array('OR' => ')');
-
-        return $this;
-    }
-
-    /**
-     * Start returning results after "OFFSET ..."
-     *
-     * @param   integer  $number  starting result number
-     *
-     * @return  $this
-     */
-    public function offset($number)
-    {
-        $this->_offset = (int) $number;
-
-        return $this;
-    }
-
-    /**
-     * Returns results as associative arrays
-     *
-     * @return  $this
-     */
-    public function as_assoc()
-    {
-        $this->_as_object = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns results as objects
-     *
-     * @param   mixed $class classname or true for stdClass
-     *
-     * @return  $this
-     */
-    public function as_object($class = true)
-    {
-        $this->_as_object = $class;
-
-        return $this;
-    }
-
-    public function as_row()
-    {
-        $this->_as_row = true;
-
-        return $this;
-    }
-
-    public function as_field()
-    {
-        $this->_as_field = true;
-
         return $this;
     }
 
@@ -1009,7 +1168,6 @@ class build
     {
         // Add or overload a new parameter
         $this->_parameters[$param] = $value;
-
         return $this;
     }
 
@@ -1025,111 +1183,28 @@ class build
     {
         // Bind a value to a variable
         $this->_parameters[$param] =& $var;
-
         return $this;
     }
 
-    /**
-     * Add multiple parameters to the query.
-     *
-     * @param array $params list of parameters
-     *
-     * @return  $this
-     */
-    public function parameters(array $params)
+     public function get_compiled_sql()
     {
-        // Merge the new parameters in
-        $this->_parameters = $params + $this->_parameters;
-
-        return $this;
-    }
-
-    public function query($sql, $type = null)
-    {
-        // make sure we have a SQL type to work with
-        if (is_null($type))
-        {
-            // get the SQL statement type without having to duplicate the entire statement
-            $stmt = preg_split("/[\s]+/", substr($sql, 0, 10), 2);
-            switch(strtoupper(reset($stmt)))
-            {
-                case 'DESCRIBE':
-                case 'EXECUTE':
-                case 'EXPLAIN':
-                case 'SELECT':
-                case 'SHOW':
-                    $type = db::SELECT;
-                    break;
-                case 'INSERT':
-                case 'REPLACE':
-                    $type = db::INSERT;
-                    break;
-                case 'UPDATE':
-                    $type = db::UPDATE;
-                    break;
-                case 'DELETE':
-                    $type = db::DELETE;
-                    break;
-                default:
-                    $type = 0;
-            }
-        }
-
-        $this->_sql = $sql;
-        $this->_type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Compile the SQL query and return it.
-     *
-     * @return  string
-     */
-    public function compile()
-    {
-        $sql = $this->_sql;
-
-        if ( empty($sql))
-        {
-            switch ($this->_type)
-            {
-                case db::SELECT:
-                    $sql = $this->get_compiled_select();
-                    break;
-                case db::INSERT:
-                    $sql = $this->get_compiled_insert();
-                    break;
-                case db::UPDATE:
-                    $sql = $this->get_compiled_update();
-                    break;
-                case db::DELETE:
-                    $sql = $this->get_compiled_delete();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        // function bind()、param()、parameters()
-        if ( ! empty($this->_parameters))
-        {
-            // Quote all of the values
-            $values = array_map(array($this, 'quote'), $this->_parameters);
-
-            // Replace the values in the SQL
-            $sql = $this->tr($sql, $values);
-        }
-        return str_replace('#PB#_', sephp::$_config['db']['prefix'], trim($sql));
-    }
-
-    public function get_compiled_sql()
-    {
-        return $this->compile();
+        // Compile the SQL query
+        $sql = $this->compile();
+        $this->reset();
+        return $sql;
     }
 
     public function get_compiled_select($reset = TRUE)
     {
+        // Callback to quote identifiers
+        $quote_ident = array($this, 'quote_identifier');
+
+        // Callback to quote tables
+        $quote_table = array($this, 'quote_table');
+
+        // Callback to quote tables
+        $quote_field = array($this, 'quote_field');
+
         // Start a selection query
         $sql = 'SELECT ';
 
@@ -1146,26 +1221,23 @@ class build
         }
         else
         {
-            foreach ($this->_select as $key => $val)
-            {
-                $val = $this->quote_identifier($val);
-                $val = $this->quote_field($val);
-                $this->_select[$key] = $val;
-            }
-
-            // Select all columns
-            $sql .= implode(', ', array_unique($this->_select));
+            $sql .= implode(', ', array_unique(array_map($quote_field, $this->_select)));
         }
 
         if ( ! empty($this->_from))
         {
             // Set tables to select from
-            $sql .= ' FROM '.implode(', ', array_unique($this->_from));
+            $sql .= ' FROM '.implode(', ', array_unique(array_map($quote_table, $this->_from)));
+        }
+
+        if( !empty($this->_atts['index_name']) )
+        {
+            $sql .= ' FORCE INDEX('.$this->_atts['index_name'].')';
+            $this->_atts['index_name'] = '';
         }
 
         if ( ! empty($this->_join))
         {
-            //$sql .= "\n".implode("\n", $this->qb_join);
             // Add tables to join[$table]
             $sql .= ' '.$this->_compile_join($this->_join);
         }
@@ -1179,7 +1251,7 @@ class build
         if ( ! empty($this->_group_by))
         {
             // Add sorting
-            $sql .= ' GROUP BY '.implode(', ', array_map(array($this, 'quote_identifier'), $this->_group_by));
+            $sql .= ' GROUP BY '.implode(', ', array_map($quote_ident, $this->_group_by));
         }
 
         if ( ! empty($this->_having))
@@ -1194,6 +1266,11 @@ class build
             $sql .= ' '.$this->_compile_order_by($this->_order_by);
         }
 
+        if ( $this->_as_row || $this->_as_field )
+        {
+            $this->_limit = 1;
+        }
+
         if ($this->_limit !== NULL)
         {
             // Add limiting
@@ -1206,22 +1283,36 @@ class build
             $sql .= ' OFFSET '.$this->_offset;
         }
 
+        if(  !empty($this->_atts['lock']) && empty($this->_as_row) )
+        {
+            $this->_atts['lock'] = false;//用过一次后释放
+            $sql .= ' FOR UPDATE';
+        }
+        else if(  !empty($this->_atts['share']) && empty($this->_as_row) )
+        {
+            $this->_atts['share'] = false;//用过一次后释放
+            $sql .= ' LOCK IN SHARE MODE';
+        }
+
         return $sql;
     }
 
     public function get_compiled_insert($reset = TRUE)
     {
         // Start an insertion query
-        $sql = 'INSERT INTO '.($this->_table);
+        $sql = 'INSERT '.(isset($this->_atts['ignore']) && $this->_atts['ignore'] ? ' IGNORE ' : '').'INTO '.
+            $this->table_prefix($this->_table);
 
         // Add the column names
         $sql .= ' ('.implode(', ', array_map(array($this, 'quote_identifier'), $this->_columns)).') ';
         if (is_array($this->_values))
         {
             // Callback for quoting values
-            $quote = array($this, 'quote');
+            //$quote = array($this, 'quote');
+            $quote = array($this, 'quote_value');
 
             $groups = array();
+            //print_r($this->_values);
             foreach ($this->_values as $group)
             {
                 foreach ($group as $i => $value)
@@ -1241,15 +1332,15 @@ class build
                         $field = $this->_columns[$i];
                     }
 
-                    $value = $this->quote_value($field, $value);
-                    $group[$i] = $value;
+                    $group[$i] = array($value, $field);
+                    //$group[$i] = $value;
                 }
 
-                $val = '('.implode(', ', array_map($quote, $group)).')';
-                $val = str_replace("'AES_ENCRYPT", "AES_ENCRYPT", $val);
-                $val = str_replace("')'", "')", $val);
-                $groups[] = $val;
-                //$groups[] = '('.implode(', ', array_map($quote, $group)).')';
+                //$val = '('.implode(', ', array_map($quote, $group)).')';
+                //$val = str_replace("'AES_ENCRYPT", "AES_ENCRYPT", $val);
+                //$val = str_replace("')'", "')", $val);
+                //$groups[] = $val;
+                $groups[] = '('.implode(', ', array_map($quote, $group)).')';
             }
 
             // Add the values
@@ -1260,14 +1351,21 @@ class build
             // Add the sub-query
             $sql .= (string) $this->_values;
         }
+
+        if ( !empty($this->_dups) )
+        {
+            $sql .= ' ON DUPLICATE KEY  UPDATE '.$this->_compile_dups($this->_dups);
+            $this->_dups = [];
+        }
+
         return $sql;
     }
 
     public function get_compiled_update($reset = TRUE)
     {
         // Start an update query
-        $sql = 'UPDATE '.$this->_table;
-
+        $sql = 'UPDATE '.(isset($this->_atts['ignore']) && $this->_atts['ignore'] ? ' IGNORE ' : ' ').
+            $this->table_prefix($this->_table);
         if ( ! empty($this->_join))
         {
             // Add tables to join
@@ -1301,7 +1399,7 @@ class build
     public function get_compiled_delete($reset = TRUE)
     {
         // Start a deletion query
-        $sql = 'DELETE FROM '.$this->_table;
+        $sql = 'DELETE FROM '.$this->table_prefix($this->_table);
 
         if ( ! empty($this->_where))
         {
@@ -1324,80 +1422,6 @@ class build
         return $sql;
     }
 
-    /**
-     * Execute the current query on the given database.
-     *
-     * @param   mixed   $is_master Database master or slave
-     *
-     * @return  object  SELECT queries
-     */
-    public function execute($is_master = false)
-    {
-        // Compile the SQL query
-        $sql = $this->compile();
-
-        if ( $this->_as_row || $this->_as_field )
-        {
-            if (!preg_match("/limit/i", $sql))
-            {
-                $sql = preg_replace("/[,;]$/i", '', trim($sql)) . " LIMIT 1 ";
-            }
-        }
-        db::_init();
-        db::$query_sql[] = $sql;
-        $rsid = mysqli_query(db::$links,$sql);
-
-        if(mysqli_errno(db::$links) > 0)
-        {
-            throw new \Exception(mysqli_error(db::$links).' | '.$sql);
-        }
-        if ($this->_type === db::SELECT)
-        {
-            $rows = array();
-            while ($row = mysqli_fetch_array($rsid,MYSQLI_ASSOC))
-            {
-                $rows[] = $row;
-            }
-            mysqli_free_result($rsid);//释放结果集
-            $result = null;
-            if ( empty($rows[0]) )
-            {
-                $result = null;
-            }
-            elseif ( $this->_as_field )
-            {
-                $result = reset($rows[0]);
-            }
-            elseif ( $this->_as_row )
-            {
-                $result = $rows[0];
-            }
-            else
-            {
-                $result = $rows;
-            }
-            $this->reset();
-            return $result;
-        }
-        elseif ($this->_type === db::INSERT)
-        {
-            $this->reset();
-            // Return a list of insert id and rows created
-            return array(
-                mysqli_insert_id(db::$links),
-                mysqli_affected_rows(db::$links)
-            );
-        }
-        elseif ($this->_type === db::UPDATE or $this->_type === db::DELETE)
-        {
-            $this->reset();
-            // Return the number of rows affected
-            return mysqli_affected_rows(db::$links);//db::affected_rows();
-        }
-
-        return $this;
-    }
-
     // 暂时没用
     public function get_fields($table)
     {
@@ -1413,13 +1437,14 @@ class build
                 $fields[] = $v['Field'];
             }
         }
+
         return $fields;
     }
 
     //-------------------------------------------------------------
     // INSERT
     //-------------------------------------------------------------
-    public function insert($table = null)
+    public function insert($table = null, array $columns = null)
     {
         $this->_type = db::INSERT;
 
@@ -1429,8 +1454,15 @@ class build
             $this->_table = $this->table_prefix($table);
         }
 
+        if ($columns)
+        {
+            // Set the column names
+            $this->_columns = $columns;
+        }
+
         return $this;
     }
+
 
     /**
      * Set the columns that will be inserted.
@@ -1448,7 +1480,7 @@ class build
     /**
      * Adds values. Multiple value sets can be added.
      *
-     * @throws \FuelException
+     * @throws Exception
      * @param array $values
      * @return $this
      */
@@ -1456,7 +1488,7 @@ class build
     {
         if ( ! is_array($this->_values))
         {
-            throw new \Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
+            throw new Exception('INSERT INTO ... SELECT statements cannot be combined with INSERT INTO ... VALUES');
         }
 
         // Get all of the passed values
@@ -1483,7 +1515,7 @@ class build
      *
      * @param array $pairs column value pairs
      *
-     * @return	$this
+     * @return  $this
      */
     public function set(array $pairs)
     {
@@ -1501,6 +1533,7 @@ class build
                 $this->_set[] = array($column, $value);
             }
         }
+
         return $this;
     }
 
@@ -1531,7 +1564,6 @@ class build
     public function value($column, $value)
     {
         $this->_set[] = array($column, $value);
-
         return $this;
     }
 
@@ -1701,7 +1733,6 @@ class build
                         }
 
                         // Append the statement to the query
-                        $column = $this->quote_identifier($column);
                         $column = $this->quote_field($column, false);
                         if ($op === 'FIND_IN_SET')
                         {
@@ -1732,14 +1763,14 @@ class build
      */
     protected function _compile_set(array $values)
     {
+        //print_r($values);
+        $quote = array($this, 'quote_value');
+
         $set = array();
         foreach ($values as $group)
         {
             // Split the set
             list($column, $value) = $group;
-
-            // Quote the column name
-            $column = $this->quote_identifier($column);
 
             if (is_string($value) AND array_key_exists($value, $this->_parameters))
             {
@@ -1747,14 +1778,46 @@ class build
                 $value = $this->_parameters[$value];
             }
 
-            $value = $this->quote_value($column, $value);
-            $value = $this->quote($value);
-            $value = str_replace("'AES_ENCRYPT", "AES_ENCRYPT", $value);
-            $value = str_replace("')'", "')", $value);
+            $value = $this->quote_value(array($value, $column));
+            $column = $this->quote_identifier($column);
+
+            // Quote the column name
             $set[$column] = $column.' = '.$value;
         }
 
         return implode(', ', $set);
+    }
+
+    /**
+     * Compiles an array of set values into an SQL partial. Used for UPDATE.
+     *
+     * @param   object $db     Database instance
+     * @param   array  $values updated values
+     *
+     * @return  string
+     */
+    protected function _compile_dups(array $values) {
+        $dups = array();
+        foreach ($values as $group) {
+            // Split the dups
+            list($column, $value) = $group;
+            if (is_string($value) AND array_key_exists($value, $this->_parameters)) {
+                // Use the parameter value
+                $value = $this->_parameters[$value];
+            }
+
+            //兼容`xxx`和values(`xxx`)
+            if( !preg_match('#values\s*\([^\)]+\)#i', $value) )
+            {
+                $value = $this->quote_value(array($value, $column));
+            }
+
+            // Quote the column name
+            $column = $this->quote_identifier($column);
+            $dups[$column] = $column.' = '.$value;
+        }
+
+        return implode(', ', $dups);
     }
 
     /**
@@ -1816,6 +1879,676 @@ class build
     }
 
     /**
+     * Add multiple parameters to the query.
+     *
+     * @param array $params list of parameters
+     *
+     * @return  $this
+     */
+    public function parameters(array $params)
+    {
+        // Merge the new parameters in
+        $this->_parameters = $params + $this->_parameters;
+        return $this;
+    }
+
+    //innodb排他行锁，其他事物不能读和改
+    public function lock($value = true)
+    {
+        $this->_atts['lock'] = (bool) $value;
+        return $this;
+    }
+
+    //innodb共享锁，多个事物可以同时获取共享锁，但是大于1个事务同时获取共享锁后，没法更新
+    public function share($value = true)
+    {
+        $this->_atts['share'] = (bool) $value;
+        return $this;
+    }
+
+    //忽略错误
+    public function ignore($value = true)
+    {
+        $this->_atts['ignore'] =(bool) $value;
+        return $this;
+    }
+
+    //强制使用索引，非主键索引，行数占比太多，优化器不会跑索引，而是全表扫描
+    //一些行级锁的操作，使用的是非主键的索引的必须带上，否则会死锁
+    public function force_index($index_name)
+    {
+        if( !empty($index_name) )
+        {
+            $this->_atts['index_name'] = $index_name;
+        }
+
+        return $this;
+    }
+
+    /**
+     * 当前查询指定库
+     * @param string $name 实例名称
+     * @param string $config_file 实例配置文件名称，如果指定了会尝试初始化
+     * @param string $default_db 是否为默认库
+     * @return  $this
+     */
+    public function from_db($name = null, $config_file = null, $default_db = null)
+    {
+        if( $name )
+        {
+            !empty($config_file) && self::init_db($name, $config_file, $default_db);
+            $instance_name = self::get_instance_name($name);
+
+            if( !isset(self::$_instance[$instance_name['master']]) )
+            {
+                throw new Exception("instance:{$name} is not exit", 3001);
+            }
+
+            $this->_atts['instance_name'] = $instance_name;
+        }
+
+        return $this;
+    }
+
+    /**
+     * This is a wrapper function for calling dup().
+     * 重复键时批量更新
+     * @param array $pairs column value pairs
+     *
+     * @return  $this
+     */
+    public function dup(array $pairs)
+    {
+        foreach ($pairs as $column => $value)
+        {
+            $this->_dups[] = array($column, $value);
+        }
+
+        return $this;
+    }
+
+    //主要用于更新或者删除是是否有条件
+    public function has_where()
+    {
+        foreach(self::$_instance as $instance)
+        {
+            if( $instance->_where )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 返回修正后的sql
+     * #PB# 替代db_prefix，如果数据库本身需插入这个字符串，使用#!PB#替代
+     *
+     *     $table = $db->table_prefix('#PB#_user');
+     *     $table = $db->table_prefix('SELECT * FROM #PB#_user');
+     *
+     * @param string $table
+     *
+     * @return  string
+     */
+    public function table_prefix($table = null)
+    {
+        if ($table !== null)
+        {
+            $table = str_replace('#PB#', self::$config[$this->_db_name]['prefix'], trim($table));
+            $table = str_replace('#!PB#', '#PB#', $table);
+            return $table;
+        }
+
+        return self::$config[$this->_db_name]['prefix'];
+    }
+
+    public function errno()
+    {
+        $instance_name = self::$config[$this->_db_name]['current_instance'];
+        return mysqli_errno(self::$_instance[$instance_name]->_handler());
+    }
+
+    public function error()
+    {
+        $instance_name = self::$config[$this->_db_name]['current_instance'];
+        return mysqli_error(self::$_instance[$instance_name]->_handler());
+    }
+
+    /**
+     * Quote a value for an SQL query.
+     *
+     *     $this->quote(null);   // 'null'
+     *     $this->quote(10);     // 10
+     *     $this->quote('fred'); // 'fred'
+     *
+     * @param   mixed $value
+     *
+     * @return  string
+     *
+     * @uses    string
+     */
+    public function quote($value)
+    {
+        if ($value === null)
+        {
+            return 'null';
+        }
+        elseif ($value === true)
+        {
+            return "'1'";
+        }
+        elseif ($value === false)
+        {
+            return "'0'";
+        }
+        elseif (is_object($value))
+        {
+            // 未使用，因为query并没有分开到db_query类去
+            //if ($value instanceof db_query)
+            //{
+                //// Create a sub-query
+                //return '('.$value->compile($this).')';
+            //}
+            if ($value instanceof db_expression)
+            {
+                // Use a raw expression
+                return $value->value();
+            }
+            else
+            {
+                // Convert the object to a string
+                return $this->quote((string) $value);
+            }
+        }
+        elseif (is_array($value))
+        {
+            return '('.implode(', ', array_map(array($this, __FUNCTION__), $value)).')';
+        }
+        elseif (is_int($value))
+        {
+            return "'{$value}'";
+        }
+        elseif (is_float($value))
+        {
+            // Convert to non-locale aware float to prevent possible commas
+            return sprintf('%F', $value);
+        }
+
+        return $this->escape($value);
+    }
+
+    /**
+     * Quote a database table name and adds the table prefix if needed.
+     *
+     *     $table = $db->quote_table($table);
+     *
+     * @param   mixed $value table name or array(table, alias)
+     *
+     * @return  string
+     *
+     * @uses    static::quote_identifier
+     * @uses    static::table_prefix
+     */
+    public function quote_table($value)
+    {
+        // Assign the table by reference from the value
+        if (is_array($value))
+        {
+            $table =& $value[0];
+
+            // Attach table prefix to alias
+            $value[1] = $this->table_prefix($value[1]);
+        }
+        else
+        {
+            $table =& $value;
+        }
+
+        // deal with the sub-query objects first
+        //if ($table instanceof Database_Query)
+        //{
+            //// Create a sub-query
+            //$table = '('.$table->compile($this).')';
+        //}
+        if (is_string($table))
+        {
+            if (strpos($table, '.') === false)
+            {
+                // Add the table prefix for tables
+                $table = $this->quote_identifier($this->table_prefix($table));
+            }
+            else
+            {
+                // Split the identifier into the individual parts
+                $parts = explode('.', $table);
+
+                if ($prefix = $this->table_prefix())
+                {
+                    // Get the offset of the table name, 2nd-to-last part
+                    // This works for databases that can have 3 identifiers (Postgre)
+                    if (($offset = count($parts)) == 2)
+                    {
+                        $offset = 1;
+                    }
+                    else
+                    {
+                        $offset = $offset - 2;
+                    }
+
+                    // Add the table prefix to the table name
+                    $parts[$offset] = $this->table_prefix($parts[$offset]);
+                }
+
+                // Quote each of the parts
+                $table = implode('.', array_map(array($this, 'quote_identifier'), $parts));
+            }
+        }
+
+        // process the alias if present
+        if (is_array($value))
+        {
+            // Separate the column and alias
+            list($value, $alias) = $value;
+
+            return $value.' AS '.$this->quote_identifier($alias);
+        }
+        else
+        {
+            // return the value
+            return $value;
+        }
+    }
+
+    /**
+     * Quote a field value for an SQL query.
+     * for method select、where、order by fields
+     *
+     * @param mixed $value
+     * @param string $select    是否SELECT子句里面的参数，是才能带AS匿名
+     * @param string $inside    是否从SUM、MIX、MIN等函数里面提取出来的字段名
+     * @return void
+     * @author seatle <seatle@foxmail.com>
+     * @created time :2018-03-16 14:02
+     */
+    public function quote_field($value, $select = true, $inside = false)
+    {
+        if ($value === '*')
+        {
+            return $value;
+        }
+        elseif (is_object($value))
+        {
+            // 暂未使用
+            //if ($value instanceof db_query)
+            //{
+                //// Create a sub-query
+                //return '('.$value->compile($this).')';
+            //}
+            if ($value instanceof db_expression)
+            {
+                // Use a raw expression
+                return $value->value();
+            }
+            else
+            {
+                // Convert the object to a string
+                return $this->quote_identifier((string) $value);
+            }
+        }
+
+        // 使用sum、max、min函数的不处理
+        if (strcspn($value, "()'") !== strlen($value))
+        {
+            // 匹配CONCAT()
+            if ( preg_match("#^concat\((.*?)\)#i", $value, $matchs) )
+            {
+                $match_value = $matchs[1];
+                $match_value_arr = explode(",", $match_value);
+                $tmp_value_arr = array();
+                foreach ($match_value_arr as $v)
+                {
+                    $v = trim(str_replace('`', '', $v));
+                    $v = $this->quote_identifier($v);
+                    $v = $this->quote_field($v);
+                    $tmp_value_arr[] = $v;
+                }
+
+                $quote_value = implode(", ", $tmp_value_arr);
+                $quote_value = preg_replace('#as\s+`[^`]+`#i', '', $quote_value);
+                $value = str_ireplace("concat(".$match_value.")", "CONCAT(".$quote_value.")", $value);
+            }
+            // 匹配空格、tab符号、`符号
+            elseif (preg_match("#\(([ \t\w\`]+)\)#i", $value, $matchs))
+            {
+                $match_value = $matchs[1];
+                $quote_value = $this->quote_field($match_value, $select, true);
+                $value = str_replace("(".$match_value.")", "(".$quote_value.")", $value);
+            }
+
+            return $value;
+        }
+
+        //去掉左右空格,防止字段前有多余空格
+        $value = trim($value);
+
+        // 使用AS的匿名
+        if ($offset = strripos($value, ' AS '))
+        {
+            $alias = substr($value, $offset);
+            $value = substr($value, 0, $offset);
+
+            $alias = trim(str_ireplace(' AS ', '', $alias));
+            //var_dump($alias, $value);
+            //return $this->quote_field($value) . ' AS ' . $this->quote_identifier($alias);
+        }
+        // 使用空格的匿名
+        elseif ($offset = strrpos($value, ' '))
+        {
+            $alias = substr($value, $offset);
+            $value = substr($value, 0, $offset);
+            $alias = trim($alias);
+            //return $this->quote_field($value) . ' AS ' . $this->quote_identifier($alias);
+        }
+
+        $parts = explode('.', $value);
+        // 没有带表前缀
+        if (count($parts) === 1)
+        {
+            $table = $this->_table;
+            $field = $parts[0];
+        }
+        else
+        {
+            $table = $parts[0];
+            $field = $parts[1];
+        }
+        $field = trim($field);
+
+        $table = $this->table_prefix($table);
+        $value = $this->quote_identifier($value);
+
+        // 当前字段属于加密字段
+        if (
+            !empty(self::$config[$this->_db_name]['crypt_fields'][$table]) &&
+            in_array($field, self::$config[$this->_db_name]['crypt_fields'][$table])
+        )
+        {
+            $value = "AES_DECRYPT({$value}, '".self::$config[$this->_db_name]['crypt_key']."')";
+            // 只处理SELECT子句中的字段
+            if ($select && !$inside)
+            {
+                // 为空直接用字段名
+                if ( empty($alias) )
+                {
+                    $alias = $field;
+                }
+                $value = $value . " AS `{$alias}`";
+            }
+        }
+        else
+        {
+            if ( !empty($alias))
+            {
+                $value = $value . " AS `{$alias}`";
+            }
+        }
+
+        return $value;
+    }
+
+    // 字段值是否加密
+    public function quote_value($fields)
+    {
+        $table = $this->_table;
+
+        $value = $fields[0];
+        $field = $fields[1];
+
+        if (is_object($value))
+        {
+            // 暂未使用
+            //if ($value instanceof db_query)
+            //{
+                //// Create a sub-query
+                //return '('.$value->compile($this).')';
+            //}
+            if ($value instanceof db_expression)
+            {
+                // Use a raw expression
+                return $value->value();
+            }
+            else
+            {
+                // Convert the object to a string
+                return $this->quote_identifier((string) $value);
+            }
+        }
+
+        // 当前字段属于加密字段
+        if (
+            !empty(self::$config[$this->_db_name]['crypt_fields'][$table]) &&
+            in_array($field, self::$config[$this->_db_name]['crypt_fields'][$table])
+        )
+        {
+            $value = "AES_ENCRYPT('{$value}', '".self::$config[$this->_db_name]['crypt_key']."')";
+        }
+        else
+        {
+            $value = "'{$value}'";
+        }
+
+        return $value;
+    }
+
+    /**
+     * Quotes an identifier so it is ready to use in a query.
+     *
+     * @param   string  $string the string to quote
+     * @return  string  the quoted identifier
+     */
+    public function quote_identifier($value)
+    {
+        if ($value === '*')
+        {
+            return $value;
+        }
+        elseif (is_object($value))
+        {
+            // 暂未使用
+            //if ($value instanceof db_query)
+            //{
+                //// Create a sub-query
+                //return '('.$value->compile($this).')';
+            //}
+            if ($value instanceof db_expression)
+            {
+                // Use a raw expression
+                return $value->value();
+            }
+            else
+            {
+                // Convert the object to a string
+                return $this->quote_identifier((string) $value);
+            }
+        }
+        elseif (is_array($value))
+        {
+            // Separate the column and alias
+            list($value, $alias) = $value;
+
+            return $this->quote_identifier($value).' AS '.$this->quote_identifier($alias);
+        }
+
+        // 如果传进来的SQL片段带有转义字符，直接返回，不进行下面的转义
+        if (preg_match('/^(["\']).*\1$/m', $value))
+        {
+            return $value;
+        }
+
+        // 使用sum、max、min函数的处理
+        if (strcspn($value, "()'") !== strlen($value))
+        {
+            if (preg_match("#\(([ \t\w\`]+)\)#i", $value, $matchs))
+            {
+                $match_value = $matchs[1];
+                $quote_value = $this->quote_identifier($match_value);
+                $value = str_replace("(".$match_value.")", "(".$quote_value.")", $value);
+            }
+
+            return $value;
+        }
+
+        // 去掉多余的空格
+        $value = preg_replace('/\s+/', ' ', trim($value));
+        $value = str_replace('`', '', $value);
+
+        // 使用AS的匿名
+        if ($offset = strripos($value, ' AS '))
+        {
+            $alias = substr($value, $offset);
+            $value = substr($value, 0, $offset);
+
+            return $this->quote_identifier([$value, trim(str_ireplace(' AS ', '', $alias))]);
+            //$alias = " AS ".$this->quote_identifier( trim(str_ireplace("AS ", "", $alias)) );
+        }
+        // 使用空格的匿名
+        elseif ($offset = strrpos($value, ' '))
+        {
+            $alias = substr($value, $offset);
+            $value = substr($value, 0, $offset);
+            return $this->quote_identifier([$value, trim($alias)]);
+            //$alias = " ".$this->quote_identifier( $alias );
+        }
+
+        // 如果字段带表名
+        if (strpos($value, '.') !== false)
+        {
+            $parts = explode('.', $value);
+
+            if ($prefix = $this->table_prefix())
+            {
+                // Get the offset of the table name, 2nd-to-last part
+                // This works for databases that can have 3 identifiers (Postgre)
+                $offset = count($parts) - 2;
+
+                // Add the table prefix to the table name
+                $parts[$offset] = $this->table_prefix($parts[$offset]);
+            }
+
+            // Quote each of the parts
+            return implode('.', array_map(array($this, __FUNCTION__), $parts));
+        }
+
+        return "`{$value}`";
+    }
+
+    /**
+     * Escape query for sql
+     *
+     * @param   mixed   $value  value of string castable
+     * @return  string  escaped sql string
+     */
+    public function escape($value)
+    {
+        // SQL standard is to use single-quotes for all values
+        return "'$value'";
+    }
+
+    /**
+     * Start returning results after "OFFSET ..."
+     *
+     * @param   integer  $number  starting result number
+     *
+     * @return  $this
+     */
+    public function offset($number)
+    {
+        $this->_offset = (int) $number;
+        return $this;
+    }
+
+    /**
+     * Returns results as associative arrays
+     *
+     * @return  $this
+     */
+    public function as_assoc()
+    {
+        $this->_as_object = false;
+        return $this;
+    }
+
+    /**
+     * Returns results as objects
+     *
+     * @param   mixed $class classname or true for stdClass
+     *
+     * @return  $this
+     */
+    public function as_object($class = true)
+    {
+        $this->_as_object = $class;
+        return $this;
+    }
+
+    public function as_row()
+    {
+        $this->_as_row = true;
+        return $this;
+    }
+
+    public function as_field()
+    {
+        $this->_as_field = true;
+        return $this;
+    }
+
+    /**
+     * Returns results as objects
+     *
+     * @param   mixed $class classname or true for stdClass
+     *
+     * @return  $this
+     */
+    public function as_result($class = true)
+    {
+        $this->_as_result = $class;
+        return $this;
+    }
+
+    public function get_type($sql)
+    {
+        $type = 0;
+        $stmt = preg_split('/[\s]+/', ltrim(substr($sql, 0, 11), '('), 2);
+        switch(strtoupper(reset($stmt)))
+        {
+            case 'DESCRIBE':
+            case 'EXECUTE':
+            case 'EXPLAIN':
+            case 'SELECT':
+            case 'SHOW':
+                $type = db::SELECT;
+                break;
+            case 'INSERT':
+            case 'REPLACE':
+                $type = db::INSERT;
+                break;
+            case 'UPDATE':
+                $type = db::UPDATE;
+                break;
+            case 'DELETE':
+                $type = db::DELETE;
+                break;
+            default:
+                $type = 0;
+        }
+
+        return $type;
+    }
+
+    /**
      * Reset the query parameters
      * @return $this
      */
@@ -1840,75 +2573,183 @@ class build
         $this->_values     = array();
         // update
         $this->_set        = array();
+        $this->_atts       = array();
 
         $this->_as_object  = false;
         $this->_as_row     = false;
         $this->_as_field   = false;
+        $this->_as_result  = false;
 
         $this->_parameters = array();
-
         return $this;
     }
 
-    //入库数据处理，安全数据
-    public function strsafe($array)
+
+    public function autocommit($mode = true)
     {
-        $arrays = array();
-        if(is_array($array)===true)
-        {
-            foreach ($array as $key => $val)
-            {
-                if(is_array($val)===true)
-                {
-                    $arrays[$key] = $this->strsafe($val);
-                }
-                else
-                {
-                    //先去掉转义，避免下面重复转义了
-                    $val = stripslashes($val);
-                    //进行转义
-                    $val = addslashes($val);
-                    //处理addslashes没法处理的 _ % 字符
-                    //$val = strtr($val, array('_'=>'\_', '%'=>'\%'));
-                    $arrays[$key] = $val;
-                }
-            }
-            return $arrays;
-        }
-        else
-        {
-            $array = stripslashes($array);
-            $array = addslashes($array);
-            //$array = strtr($array, array('_'=>'\_', '%'=>'\%'));
-            return $array;
-        }
+        return mysqli_autocommit(
+            static::$_instance[self::get_instance_name($this->_db_name, 'master')]->_handler(),
+            $mode
+        );
     }
 
-    //出库数据整理
-    public function strclear($str)
+    public function start()
     {
-        if(is_array($str)===true)
-        {
-            foreach ($str as $key => $val)
-            {
-                if(is_array($val)===true)
-                {
-                    $str[$key] = $this->strclear($val);
-                }
-                else
-                {
-                    //处理stripslashes没法处理的 _ % 字符
-                    //$val = strtr($val, array('\_'=>'_', '\%'=>'%'));
-                    $val = stripslashes($val);
-                    $str[$key] = $val;
-                }
-            }
-        }
-        elseif (is_string($str))
-        {
-            //$str = strtr($str, array('\_'=>'_', '\%'=>'%'));
-            $str = stripslashes($str);
-        }
-        return $str;
+        PHP_SAPI != 'cli' && db::$queries[] = 'autocommit false';
+        $this->_atts['start'] = true; //数据库重连可能会导致事务丢失，标记开启了事务不重连
+
+        return $this->autocommit(false);
     }
+
+    public function commit()
+    {
+        PHP_SAPI != 'cli' && db::$queries[] = 'commit';
+        return mysqli_commit(static::$_instance[self::get_instance_name($this->_db_name, 'master')]->_handler());
+    }
+
+    public function rollback()
+    {
+        PHP_SAPI != 'cli' && db::$queries[] = 'rollback';
+        return mysqli_rollback(static::$_instance[self::get_instance_name($this->_db_name, 'master')]->_handler());
+    }
+
+    public function end()
+    {
+        PHP_SAPI != 'cli' && db::$queries[] = 'autocommit true';
+        return $this->autocommit(true);
+    }
+
+    public function get_exception_trace($e)
+    {
+        $ret = $e->getMessage();
+        foreach ($e->getTrace() as $k => $frame)
+        {
+            $num = $k+1;
+            if ( $num != 2 )
+            {
+                continue;
+            }
+            //$ret .= sprintf( "<br/>#%s %s(%s): %s()\n",
+            $ret .= sprintf( "<br/><font color=\"#000\">出错语句：</font>%s\n<br/><font color=\"#000\">出错位置：</font>%s <font color=\"#000\">第 %s 行</font>\n",
+                $this->_sql,
+                '<a href="'.str_replace(array('%file','%line'), array($frame['file'],$frame['line']), SYS_EDITOR).'">'. $frame['file'] . '</a>',
+                $frame['line']
+            );
+        }
+        return $ret;
+    }
+
+    /**
+    * SQL语句过滤程序（检查到有不安全的语句仅作替换和记录攻击日志而不中断）
+    * @parem string $sql 要过滤的SQL语句
+    */
+    public function filter_sql($sql)
+    {
+        $clean = $error = '';
+        $old_pos = 0;
+        $pos = -1;
+        // 完整的SQL检查，当数据量超过 1万 条的时候会出现性能瓶颈，特别是 10万 条的时候特别慢，最好就处理 1万 条
+        while (true)
+        {
+            $pos = strpos($sql, '\'', $pos + 1);
+            if ($pos === false)
+            {
+                break;
+            }
+            $clean .= substr($sql, $old_pos, $pos - $old_pos);
+            while (true)
+            {
+                $pos1 = strpos($sql, '\'', $pos + 1);
+                $pos2 = strpos($sql, '\\', $pos + 1);
+                if ($pos1 === false)
+                {
+                    break;
+                }
+                elseif ($pos2 == false || $pos2 > $pos1)
+                {
+                    $pos = $pos1;
+                    break;
+                }
+                $pos = $pos2 + 1;
+            }
+            $clean .= '$s$';
+            $old_pos = $pos + 1;
+        }
+        $clean .= substr($sql, $old_pos);
+        $clean = trim(strtolower(preg_replace(array('~\s+~s'), array(' '), $clean)));
+        $fail = false;
+        // sql语句中出现注解
+        if (strpos($clean, '/*') > 2 || strpos($clean, '--') !== false || strpos($clean, '#') !== false)
+        {
+            $fail = true;
+            $error = 'commet detect';
+        }
+        // 常用的程序里也不使用union，但是一些黑客使用它，所以检查它
+        else if (strpos($clean, 'union') !== false && preg_match('~(^|[^a-z])union($|[^[a-z])~s', $clean) != 0)
+        {
+            $fail = true;
+            $error = 'union detect';
+        }
+        // 这些函数不会被使用，但是黑客会用它来操作文件，down掉数据库
+        elseif (strpos($clean, 'sleep') !== false && preg_match('~(^|[^a-z])sleep($|[^[a-z])~s', $clean) != 0)
+        {
+            $fail = true;
+            $error = 'slown down detect';
+        }
+        elseif (strpos($clean, 'benchmark') !== false && preg_match('~(^|[^a-z])benchmark($|[^[a-z])~s', $clean) != 0)
+        {
+            $fail = true;
+            $error = "slown down detect";
+        }
+        elseif (strpos($clean, 'load_file') !== false && preg_match('~(^|[^a-z])load_file($|[^[a-z])~s', $clean) != 0)
+        {
+            $fail = true;
+            $error = "file fun detect";
+        }
+        elseif (strpos($clean, 'into outfile') !== false && preg_match('~(^|[^a-z])into\s+outfile($|[^[a-z])~s', $clean) != 0)
+        {
+            $fail = true;
+            $error = "file fun detect";
+        }
+        // 检测到有错误后记录日志并对非法关键字进行替换
+        if ($fail === true)
+        {
+            $sql = str_ireplace(self::$rps, self::$rpt, $sql);
+
+            // 进行日志
+            $gurl = htmlspecialchars( req::cururl() );
+            $msg = "{$gurl}\n".htmlspecialchars( $sql )."\n";
+            log::warning($msg, 'filter_sql');
+        }
+
+        return $sql;
+    }
+
+    /**
+     * 获取实例名称数组
+     * @param string $name 实例名称
+     */
+    public static function get_instance_name($name = null, $type = null)
+    {
+        $name = !$name ? self::$_default_name : $name;
+        $instance_name = [
+            'master' => $name .'_w',
+            'slave'  => $name .'_r'
+        ];
+
+        return !empty($type) ? $instance_name[$type] : $instance_name;
+    }
+
+    /**
+     * 返回数据库实例名
+     *
+     *     echo (string) $db;
+     *
+     * @return  string
+     */
+    final public function __toString()
+    {
+        return $this->_name;
+    }
+
 }

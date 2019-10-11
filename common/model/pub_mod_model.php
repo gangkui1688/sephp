@@ -8,12 +8,10 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\config;
 
-
-
 /**
  * model层基类，必须继承
  */
-class common_model
+class pub_mod_model
 {
     /**
      * @var null 表名
@@ -65,7 +63,8 @@ class common_model
             return true;
         }
 
-        foreach ($data as $key => $val) {
+        foreach ($data as $key => $val)
+        {
             if (empty(static::$_rule_field[$key])) {
                 continue;
             }
@@ -170,89 +169,74 @@ class common_model
     }
 
 
-
     /**
-     * 数据保存
-     * @param $data
-     * @param array $where
-     * @return bool
+     * @param array. 添加的数组
+     * @param 表名
+     * @return int
      */
-    public static function inset($data, $where = []) {
+    public static function insert(array $data, $table = '', $ignore = false)
+    {
+        if( empty($data) )
+        {
+            return false;
+        }
 
+        $extr  = []; //扩展属性
 
+        //如果table为数组有可能带有其他参数
+        if( is_array($table) )
+        {
+            $extr   = $table;
+            $table  = isset($table['table']) ? $table['table'] : '';
+            $ignore = isset($table['ignore']) ? $table['ignore'] : $ignore;
+        }
 
-        $query = db::insert(static::$_table)->set($data);
+        //判断是否为批量插入
+        $mutipule = is_array(reset($data)) ? true : false;
+        $table = empty($table) ? static::$table : $table;
+        if( empty($table) ) return false;
 
-        static::_complate_sql($query, $where);
+        $query =  db::insert($table)->ignore($ignore);
+        if( !empty($mutipule) ) //批量插入
+        {
+            $query->values($data)->columns(array_keys(current($data)));
+        }
+        else //单条插入
+        {
+            $query->set($data);
+        }
 
-        list($id, $rows) = $query->execute(static::$_is_master);
+        //批量更新（遇到重复主键更新，否则插入）
+        if( !empty($extr['dups']) )
+        {
+            $query->dup($extr['dups']);
+        }
 
-        return $id;
+        return $query->execute();
     }
 
     /**
-     * 数据保存
-     * @param $data
-     * @param array $where
-     * @return bool
+     * @param array. 更新的数组
+     * @param array 更新条件
+     * @param 表名
+     * @param update ignore
+     * @return int
      */
-    public static function update($data, $where = [])
+    public static function update(array $data, array $where, $table = '', $ignore = false)
     {
-        //编辑
-        if (in_array('update_time', static::$_field)) {
-            $data['update_time'] = time();
-        }
-        if (in_array('update_user', static::$_field)) {
-            $data['update_user'] = kali::$auth->uid;
-        }
+        if( empty($data) || empty($where) ) return false;
+        $table = empty($table) ? static::$table : $table;
+        if( empty($table) ) return false;
 
-        $query = db::update(static::$_table)->set($data)->where(static::$_pk, $data[static::$_pk]);
+        $query = db::update($table)
+            ->set($data)
+            ->ignore($ignore);
 
-        static::_complate_sql($query, $where);
+        $result = false;
+        static::_complate_sql($query, $where, $join);
 
         return $query->execute();
 
-    }
-
-
-    /**
-     * 数据保存
-     * @param $data
-     * @param array $where
-     * @return bool
-     */
-    public static function save($data, $where = []) {
-        if (empty($data[static::$_pk]))
-        {
-            //新增
-            if (in_array('create_time', static::$_field)) {
-                $data['create_time'] = time();
-            }
-            if (in_array('create_user', static::$_field)) {
-                $data['create_user'] = kali::$auth->uid;
-            }
-            $query = db::insert(static::$_table)->set($data);
-
-            static::_complate_sql($query, $where);
-            list($id, $rows) = $query->execute();
-
-            return $id;
-        } elseif ($data[static::$_pk] > 0) {
-            //编辑
-            if (in_array('update_time', static::$_field)) {
-                $data['update_time'] = time();
-            }
-            if (in_array('update_user', static::$_field)) {
-                $data['update_user'] = kali::$auth->uid;
-            }
-
-            $query = db::update(static::$_table)->set($data)->where(static::$_pk, $data[static::$_pk]);
-            static::_complate_sql($query, $where);
-            if ($query->execute() === false) {
-                return false;
-            }
-            return true;
-        }
     }
 
     /**
