@@ -24,11 +24,15 @@ class pub_mod_goods extends pub_mod_model
     $error_msg           = null,
     $transaction         = true,
     $fields              = [
-        'order_id', 'order_sn', 'status', 'code', 'name', 'source', 'contact_name', 'contact_phone', 'service_charge', 'member_id'
-        , 'queue_id', 'shop_id', 'area_code', 'expire_time', 'refuse_txt', 'pid', 'total_money', 'refund_money'
-        , 'customer_remark', 'our_remark', 'follow_status','is_reservation'
-        , 'create_time', 'create_user', 'update_time', 'update_user', 'delete_time', 'delete_user'
-    ];
+            'goods_id'      => ['type' => 'text', 'required' => true, 'comment' => '商品ID'], //订单号
+            'goods_sn'      => ['type' => 'int', 'required' => true, 'comment' => '商品编号'], //服务id
+            'name'          => ['type' => 'text', 'default' => true, 'comment' => '商品名称'], //申请人
+            'price'         => ['type' => 'text', 'default' => 0, 'comment' => '销售价格'], //申请金额
+            'price'         => ['type' => 'text', 'default' => 0, 'comment' => '销售价格'], //申请金额
+            'price'         => ['type' => 'text', 'default' => 0, 'comment' => '销售价格'], //申请金额
+            'price'         => ['type' => 'text', 'default' => 0, 'comment' => '销售价格'], //申请金额
+            'price'         => ['type' => 'text', 'default' => 0, 'comment' => '销售价格'], //申请金额
+        ];
 
     const STATUS_READY          = 1;
     const STATUS_CANCEL         = 2;
