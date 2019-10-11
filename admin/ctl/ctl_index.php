@@ -38,7 +38,9 @@ class ctl_index {
 		view::assign('goup_name', empty($user_info['group_name'])?'---':$user_info['group_name']);
 
 		view::assign('default_page_url', '?ct=index&ac=home');
-		view::assign('logout_url', '?ct=public&ac=logout');
+        view::assign('url_edit_avator', '?ct=admin&ac=edit_avator');
+        view::assign('url_your_profile', '?ct=admin&ac=profile');
+        view::assign('logout_url', '?ct=public&ac=logout');
 		view::assign('login_url', $GLOBALS['_authority']['login_url']);
 		view::display('index');
 		//$content = view::fetch('index');

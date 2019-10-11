@@ -39,9 +39,9 @@
                                 </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="J_menuItem" href="">修改头像</a>
+                            <li><a class="J_menuItem" href="<{$url_edit_avator}>">修改头像</a>
                             </li>
-                            <li><a class="J_menuItem" href="?ct=admin&ac=user_info">个人资料</a>
+                            <li><a class="J_menuItem" href="<{$url_your_profile}>">个人资料</a>
                             </li>
                             <!--li><a class="J_menuItem" href="">联系我们</a></li>
                             <li><a class="J_menuItem" href="mailbox.html">信箱</a></li-->

@@ -25,6 +25,35 @@ class ctl_admin {
 		view::assign('back_url', req::cookie('back_url', 'javascript:history.go(-1);'));
 	}
 
+    /**
+     * 个人资料
+     * @Author   GangKui
+     * @DateTime 2019-10-11
+     * @return   [type]     [description]
+     */
+    public function profile()
+    {
+
+    }
+
+    /**
+     * 编辑头像
+     * @Author   GangKui
+     * @DateTime 2019-10-11
+     * @return   [type]     [description]
+     */
+    public function edit_avator()
+    {
+
+
+    }
+
+    /**
+     * 用户列表
+     * @Author   GangKui
+     * @DateTime 2019-10-11
+     * @return   [type]     [description]
+     */
 	public function userlist() {
 		$where    = [];
 		$keywords = req::item('keywords', '');
