@@ -1,17 +1,6 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-
 namespace sephp\core\lib\cache;
 
-use sephp\core\lib\cache\base;
 /**
  * 文件类型缓存类
  * @author    liu21st <liu21st@gmail.com>
@@ -22,7 +11,7 @@ class file extends base
         'expire_time'   => 0,
         'cache_subdir'  => true,
         'prefix'        => '',
-        'file_path'          => PATH_RUNTIME . 'cache/data/',
+        'file_path'     => PATH_RUNTIME . 'cache/data/',
         'data_compress' => false,
     ];
 
@@ -202,7 +191,7 @@ class file extends base
      * @param string $name 缓存变量名
      * @return boolean
      */
-    public function rm($name)
+    public function del($name)
     {
         $filename = $this->getCacheKey($name);
         return $this->unlink($filename);

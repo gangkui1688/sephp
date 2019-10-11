@@ -14,15 +14,58 @@ use sephp\core\session;
 use sephp\core\config;
 use sephp\core\lib\make_code;
 use sephp\core\lib\verifiy;
-use sephp\core\lib\weixin\weixin;
+use sephp\core\cache;
+use sephp\core\lib\weixin\wechat;
 
 class ctl_public
 {
 
     public function test()
     {
-        weixin::instance()->get_access_token();
+        $result = wechat::instance()->getServerIp();
+        $result = wechat::instance()->getMenu();
+        // $result = wechat::instance()->createMenu([
+        //     'button' => array (
+        //           0 => array (
+        //             'name' => '扫码',
+        //             'sub_button' => array (
+        //                 0 => array (
+        //                   'type' => 'scancode_waitmsg',
+        //                   'name' => '扫码带提示',
+        //                   'key' => 'rselfmenu_0_0',
+        //                 ),
+        //                 1 => array (
+        //                   'type' => 'scancode_push',
+        //                   'name' => '扫码推事件',
+        //                   'key' => 'rselfmenu_0_1',
+        //                 ),
+        //             ),
+        //           ),
+        //           1 => array (
+        //             'name' => '发图',
+        //             'sub_button' => array (
+        //                 0 => array (
+        //                   'type' => 'pic_sysphoto',
+        //                   'name' => '系统拍照发图',
+        //                   'key' => 'rselfmenu_1_0',
+        //                 ),
+        //                 1 => array (
+        //                   'type' => 'pic_photo_or_album',
+        //                   'name' => '拍照或者相册发图',
+        //                   'key' => 'rselfmenu_1_1',
+        //                 )
+        //             ),
+        //           ),
+        //           2 => array (
+        //             'type' => 'location_select',
+        //             'name' => '发送位置',
+        //             'key' => 'rselfmenu_2_0'
+        //           ),
+        //     )
+        // ]);
 
+
+        var_dump($result);
         exit();
         var_dump(make_code::barcode([
             'frame' => '3434234123123123123',

@@ -59,8 +59,9 @@
 
     <menu name='微信管理' icon='fa fa-book' id='whcatManagement'  >
         <menu name='基础设置' ct='wechat' ac='base' icon='fa fa-list-ol' display='' />
-        <menu name='公众号' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
-        <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+        <menu name='菜单管理' ct='wechat' ac='menu_index' icon='fa fa-file-text-o' display='' />
+        <menu name='素材管理' ct='wechat' ac='media_index' icon='fa fa-file-text-o' display='' />
+        <menu name='消息管理' ct='wechat' ac='messsage_index' icon='fa fa-file-text-o' display='' />
         <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
     </menu>
 

@@ -51,7 +51,7 @@ class cache
 
             self::$type = self::$config['type'];
             self::$expire_time = self::$config['expire_time'];
-            $class_name =  '\sephp\lib\cache\\' .  self::$type;
+            $class_name =  '\sephp\core\lib\cache\\' .  self::$type;
 
             self::$instance = new $class_name(self::$config);
         }
@@ -92,6 +92,22 @@ class cache
      */
     public static function del($key = null)
     {
-
+        return self::$instance->del($key);
     }
+
+    /**
+     * 调用其他方法
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if (!self::$instance)
+        {
+            self::_init();
+        }
+        return call_user_func_array([self::$instance, $method], $arguments);
+    }
+
 }

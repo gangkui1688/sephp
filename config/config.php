@@ -49,7 +49,7 @@ $config['db'] = [
 
 $config['cache'] = [
     // 驱动方式
-    'type'   => 'File',
+    'type'   => 'file',
     // 缓存保存目录
     'path'   => '',
     // 缓存前缀
@@ -132,9 +132,9 @@ $config['sms'] = [
 
 $config['ip_country_file'] = PATH_LIB.'assets/IPV6-COUNTRY-ISP.BIN';
 
-$config['weixin'] = [
-    'app_id'               => '1231231',
-    'appsecret'            => 'fasdfadsfa',
+$config['wechat'] = [
+    'appid'               => 'wxba5d1dd8974adb97',
+    'appsecret'            => '3cd9d0c0fb49afe353c99a5c488b9974',
 ];
 
 

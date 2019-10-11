@@ -85,8 +85,8 @@ $config['route'] = [
 
 //微信公众号
 $config['wechat'] = [
-    'app_id'     => 'wx77838ddac7e73c08',
-    'app_secret' => 'ba6ca706a64237d704dbfd585db93877'
+    'appid'     => 'wx77838ddac7e73c08',
+    'appsecret' => 'ba6ca706a64237d704dbfd585db93877'
 ];
 
 //短信

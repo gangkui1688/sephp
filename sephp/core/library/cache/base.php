@@ -71,7 +71,7 @@ abstract class base
      * @param string $name 缓存变量名
      * @return boolean
      */
-    abstract public function rm($name);
+    abstract public function del($name);
 
     /**
      * 清除缓存

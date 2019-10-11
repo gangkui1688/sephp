@@ -147,30 +147,63 @@ class curl
      * @param int $timeout
      * @return mixed
      */
-    public static function post($url,$post_data = [],$timeout = 30)
+    public static function post($url,$post_data = [], $post_file = null,$timeout = 10)
     {
-        //初始化
-        $curl = curl_init();
-        //设置抓取的url
-        curl_setopt($curl, CURLOPT_URL, $url);
-        //设置头文件的信息作为数据流输出
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        //设置获取的信息以文件流的形式返回，而不是直接输出。
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        //设置post方式提交
-        curl_setopt($curl, CURLOPT_POST, 1);
-        //设置post数据
-        if(!empty($post_data)){
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+        $oCurl = curl_init();
+        if (stripos($url, "https://") !== FALSE) {
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($oCurl, CURLOPT_SSLVERSION, 1); //CURL_SSLVERSION_TLSv1
         }
-        //设置 超时时间
-        curl_setopt ($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
-        //执行命令
-        $data = curl_exec($curl);
-        //关闭URL请求
-        curl_close($curl);
-        //显示获得的数据
-        return $data;
+        if (PHP_VERSION_ID >= 50500 && class_exists('\CURLFile'))
+        {
+            $is_curlFile = true;
+        }
+        else
+        {
+            $is_curlFile = false;
+            if (defined('CURLOPT_SAFE_UPLOAD')) {
+                curl_setopt($oCurl, CURLOPT_SAFE_UPLOAD, false);
+            }
+        }
+
+        if (is_string($post_data))
+        {
+            $strPOST = $post_data;
+        }
+        elseif ($post_file)
+        {
+            if ($is_curlFile) {
+                foreach ($param as $key => $val) {
+                    if (substr($val, 0, 1) == '@')
+                    {
+                        $param[$key] = new \CURLFile(realpath(substr($val, 1)));
+                    }
+                }
+            }
+            $strPOST = $param;
+        }
+        else
+        {
+            $aPOST = array();
+            foreach ($post_data as $key => $val)
+            {
+                $aPOST[] = $key . "=" . urlencode($val);
+            }
+            $strPOST = join("&", $aPOST);
+        }
+        curl_setopt($oCurl, CURLOPT_URL, $url);
+        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($oCurl, CURLOPT_POST, true);
+        curl_setopt($oCurl, CURLOPT_POSTFIELDS, $strPOST);
+        $sContent = curl_exec($oCurl);
+        $aStatus = curl_getinfo($oCurl);
+        curl_close($oCurl);
+        if (intval($aStatus["http_code"]) == 200) {
+            return $sContent;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -179,24 +212,271 @@ class curl
      * @param int $timeout
      * @return mixed
      */
-    public static function get($url,$timeout = 30)
+    public static function get($url,$timeout = 10)
     {
         //初始化
-        $curl = curl_init();
-        //设置抓取的url
-        curl_setopt($curl, CURLOPT_URL, $url);
-        //设置头文件的信息作为数据流输出
-        curl_setopt($curl, CURLOPT_HEADER, 1);
-        //设置获取的信息以文件流的形式返回，而不是直接输出。
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt ($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $oCurl = curl_init();
+        if (stripos($url, "https://") !== FALSE) {
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, FALSE);
+            curl_setopt($oCurl, CURLOPT_SSLVERSION, 1); //CURL_SSLVERSION_TLSv1
+        }
+        curl_setopt($oCurl, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($oCurl, CURLOPT_URL, $url);
+        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
+        $data = curl_exec($oCurl);
+        $aStatus  = curl_getinfo($oCurl);
+        if (intval($aStatus["http_code"]) == 200) {
 
-        //执行命令
-        $data = curl_exec($curl);
+        } else {
+
+        }
         //关闭URL请求
-        curl_close($curl);
+        curl_close($oCurl);
         //显示获得的数据
         return ($data);
+    }
+
+
+    /**
+     * curl 函数
+     * @Author han
+     * @param  [type]  $data  请求参数
+     * data支持下面参数（只有url是必须的，其他都是可选的）
+     * url     url地址
+     * post    有的话就是post,没有就是get post的数据，可以是数组或者http_build_query后的值
+     * timeout 超时时间
+     * ip      伪造ip
+     * referer 来源
+     * cookie  传递cookie
+     * cookie_file cookie路径
+     * save_cookie cookie保存路径
+     * proxy   代理信息
+     * header  http请求头
+     * debug   是否开启调试
+     * $tmp = pub_func::http_request(['url' => 'http://www.taobao.com']);
+     * $tmp['body']就是返回的内容
+     * @param  boolean $multi 是否并发模式
+    * $tmp = pub_func::http_request([
+    *     ['url' => 'http://www.taobao.com'],
+    *     ['url' => 'http://www.baidu.com', 'post' => ['a' => 1, 'b' => 2] ],
+    * ], true);
+    * $tmp['body']就是返回的内容
+     * @return array   curl执行结果
+     */
+    static public function http_request($data, $multi = false)
+    {
+        if(!isset($data['url']) && ($tmp = current($data)) && isset($tmp['url']))
+        {
+            static $curl_multi;
+
+            $curl_multi === null &&
+            $curl_multi = function_exists('curl_multi_init') &&
+            strpos(ini_get('disable_functions'), 'curl_multi_init') === false;
+
+            if($curl_multi && $multi)
+            {
+                //curl并发模式
+                $mch = curl_multi_init();
+
+                $ch = $ret = $error = array();
+                foreach($data as $k => $v)
+                {
+                    $v['return_curl'] = true;
+                    $ch[$k] = self::http_request($v);
+                    $ret[$k] = array('head' => '', 'body' => null);
+
+                    curl_multi_add_handle($mch, $ch[$k]);
+                }
+
+                $active = null;
+                //execute the handles
+                do
+                {
+                    $mrc = curl_multi_exec($mch, $active);
+                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+
+
+                while ($active && $mrc == CURLM_OK)
+                {
+                    while (curl_multi_exec($mch, $active) === CURLM_CALL_MULTI_PERFORM);
+                    if (curl_multi_select($mch) != -1)
+                    {
+                        do {
+                            $mrc = curl_multi_exec($mch, $active);
+                            $info = curl_multi_info_read($mch);
+                            if($info !== false && $info['result'])
+                            {
+                                foreach($ch as $k => $v)
+                                {
+                                    if($v === $info['handle'])
+                                    {
+                                        $tmp = curl_getinfo($info['handle']);
+                                        $error[$k] = array($info['result'], curl_error($info['handle']), $tmp['url']);
+                                        break;
+                                    }
+                                }
+                            }
+                        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+                    }
+                }
+
+                /*do{
+                    $mrc = curl_multi_exec($mch, $active);
+                    curl_multi_select($mch);
+                    $info = curl_multi_info_read($mch);
+                    if($info !== false && $info['result']){
+                        foreach($ch as $k => $v){
+                            if($v === $info['handle']){
+                                $tmp = curl_getinfo($info['handle']);
+                                $error[$k] = array($info['result'], curl_error($info['handle']), $tmp['url']);
+                                break;
+                            }
+                        }
+                    }
+                }while($active > 0);*/
+
+                $error_log = '';
+                foreach($ch as $k => $v)
+                {
+                    if(isset($error[$k]))
+                    {
+                        $ret[$k]['body'] = null;
+                        $ret[$k]['info']['status'] = 0;
+                        $ret[$k]['info']['errno'] = $error[$k][0];
+                        $error_log .= "{$error[$k][2]}|{$error[$k][0]}|{$error[$k][1]}\n";
+
+                        continue;
+                    }
+
+                    $ret[$k]['body'] = curl_multi_getcontent($v);
+
+                    $info = curl_getinfo($v);
+                    $ret[$k]['info']['status'] = $info['http_code'];
+                    curl_multi_remove_handle($mch, $ch[$k]);
+                }
+
+                if(!empty($error))
+                {
+                    log::error($error_log);
+                }
+
+                curl_multi_close($mch);
+
+                return $ret;
+
+            }
+            else
+            {
+                $ret = array();
+                foreach($data as $k => $v)
+                {
+                    $ret[$k] = self::http_request($v);
+                }
+                return $ret;
+            }
+        }
+
+        $data['post'] = isset($data['post']) ? (is_array($data['post']) ? http_build_query($data['post']) : $data['post']) : '';
+        $data['cookie'] = isset($data['cookie']) ? $data['cookie'] : '';
+        $data['ip'] = isset($data['ip']) ? $data['ip'] : '';
+        $data['timeout'] = isset($data['timeout']) ? $data['timeout'] : 15;
+        $data['block'] = isset($data['block']) ? $data['block'] : true;
+        $data['referer'] = isset($data['referer']) ? $data['referer'] : '';
+        $data['connection'] = isset($data['connection']) ? $data['connection'] : 'close';
+        $data['header'] = isset($data['header']) ? (array)$data['header'] : array();
+
+        if(function_exists('curl_init'))
+        {
+            $ch = curl_init($data['url']);
+
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, !empty($data['UA']) ? $data['UA'] : 'Mozilla/5.0');
+            if( !empty($data['ip']) )
+            {
+                $x_forwarded_for = $data['ip'];
+                $client = empty($data['client']) ? $x_forwarded_for : $data['client'];
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-FORWARDED-FOR:{$x_forwarded_for}", "CLIENT-IP:{$client}"));
+            }
+
+            if(!empty($data['debug']))
+            {
+                curl_setopt($ch, CURLOPT_VERBOSE, true);
+                $fp = fopen($data['debug'], 'a');
+                curl_setopt($ch, CURLOPT_STDERR, $fp);
+                //fclose($fp);
+            }
+            //curl_setopt($ch, CURLOPT_ENCODING, 'none');
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($data['header'], array(
+                'Connection: '. $data['connection']
+            )));
+
+            if(stripos($data['url'], 'https://') === 0)
+            {
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+                //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            }
+
+            if(!empty($data['referer'])) curl_setopt($ch, CURLOPT_REFERER, $data['referer']);
+            if(!empty($data['cookie'])) curl_setopt($ch, CURLOPT_COOKIE, $data['cookie']);
+            if(!empty($data['cookie_file'])) curl_setopt($ch, CURLOPT_COOKIEFILE, $data['cookie_file']);
+            if(!empty($data['save_cookie'])) curl_setopt($ch, CURLOPT_COOKIEJAR, $data['save_cookie']);
+            if(!empty($data['proxy'])) curl_setopt($ch, CURLOPT_PROXY, $data['proxy']);
+
+            if(!empty($data['post']))
+            {
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data['post']);
+            }
+
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $data['timeout']);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $data['timeout']);
+            if(!empty($data['option']))
+            {
+                curl_setopt_array($ch, $data['option']);
+            }
+
+            if(!empty($data['return_curl'])) return $ch;
+
+            $ret = curl_exec($ch);
+
+            $errno = curl_errno($ch);//var_dump($errno);
+
+            $header = curl_getinfo($ch);
+            if( !empty($data['return_head']) )
+            {
+                return $header;
+            }
+
+            if($errno)
+            {
+                $error = curl_error($ch);
+                curl_close($ch);
+
+                $s = "$data[url]|$errno|$error";
+                log::error($s);
+
+                return array('head' => $header, 'body' => null, 'info' => array(
+                    'errno' => $errno,
+                    'error' => $error
+                ));
+            }
+
+            //$tmp = explode("\r\n\r\n", $ret, 2);
+            //print_r($ret);
+            //unset($ret);
+
+            $info = curl_getinfo($ch);
+
+            curl_close($ch);
+
+            return array('head' => $header, 'body' => $ret, 'info' => array(
+                'status' => $info['http_code']
+            ));
+        }
     }
 
 

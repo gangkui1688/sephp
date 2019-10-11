@@ -81,11 +81,11 @@ class error
         $filename = empty(self::$error_file) ? $filename : self::$error_file;
         $line = empty(self::$error_line) ? $line : self::$error_line;
         $code = empty(self::$error_code) ? $code : self::$error_code;
-        $code_name = $code >= 100 ? '手动抛出' : '系统错误';  
-            
+        $code_name = $code >= 100 ? '手动抛出' : '系统错误';
+
         log::info($msg);
         $codes = file($filename);
-                
+
         self::$html .= '<div style=\'font-size:14px;line-height:160%;border-bottom:1px dashed #ccc;margin-top:8px;\'>';
         self::$html .= "发生环境：" . date("Y-m-d H:i:s", time()) . '::' . func::get_cururl() . "<br />\n";
         self::$html .= "错误类型：" . $code_name . "<br />\n";
@@ -98,8 +98,12 @@ class error
         //p($debug_backtrace);exit;
         $narr = array('class', 'type', 'function', 'file', 'line');
         foreach ($backtrace as $i => $l) {
-            foreach ($narr as $k) {
-                if (!isset($l[$k])) $l[$k] = '';
+            foreach ($narr as $k)
+            {
+                if (!isset($l[$k]))
+                {
+                   $l[$k] = '';
+                }
             }
             self::$html .= "<font color='#747267'>[$i] In function {$l['class']}{$l['type']}{$l['function']} ";
             empty($l['file']) ? '' : self::$html .= " In <a href='" . str_replace(['%file%','%line%'], [$l['file'],$l['line']], sephp::$_config['web']['edit_tool']) . "' >{$l['file']}</a>";

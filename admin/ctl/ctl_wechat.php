@@ -23,14 +23,17 @@ class ctl_wechat
         view::assign('back_url',$back_url);
     }
 
-    public function index()
+    /**
+     * 菜单管理
+     * @Author   GangKui
+     * @DateTime 2019-10-11
+     * @return   [type]     [description]
+     */
+    public function menu_index()
     {
-    }
-
-    public function base()
-    {
 
 
+        //view::assign('list',$list);
         view::display();
     }
 
