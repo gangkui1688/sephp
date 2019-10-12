@@ -12,12 +12,12 @@
 
     <menu name='商品管理'  icon='fa fa-gears' id='goodsManagement' >
         <menu name='商品列表' ct='goods' ac='index' icon='fa fa-dashboard'  />
-        <menu name='分类管理' ct='goods_cate' ac='index' icon='fa fa-dashboard'  />
-        <menu name='标签管理' ct='goods_labe' ac='index' icon='fa fa-dashboard'  />
-        <menu name='品牌管理' ct='goods_labe' ac='index' icon='fa fa-dashboard'  />
+        <menu name='分类管理' ct='goods' ac='cate_index' icon='fa fa-dashboard'  />
+        <menu name='标签管理' ct='goods' ac='labe_index' icon='fa fa-dashboard'  />
+        <menu name='品牌管理' ct='goods' ac='brand_index' icon='fa fa-dashboard'  />
     </menu>
 
-    <menu name='服务商管理'  icon='fa fa-gears' id='goodsManagement' >
+    <menu name='服务商管理'  icon='fa fa-gears' id='shopsManagement' >
         <menu name='会员列表' ct='goods' ac='index' icon='fa fa-dashboard'  />
     </menu>
 

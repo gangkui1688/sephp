@@ -9,8 +9,8 @@ use sephp\core\cache;
 use sephp\core\config;
 
 /**
- * 订单信息model
- * @ClassName: pub_mod_order_info
+ * 商品model
+ * @ClassName: pub_mod_goods
  * @Author: Gangkui
  * @Date: 2019-02-20 14:09:02
  */

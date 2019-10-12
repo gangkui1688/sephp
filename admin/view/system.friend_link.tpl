@@ -10,6 +10,7 @@
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
                         </a>
+
                     </div>
                 </div>
                 <div class="ibox-content">

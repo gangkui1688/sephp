@@ -15,7 +15,7 @@ use sephp\core\config;
  * @Date: 2019-02-20 14:09:02
  */
 
-class pub_mod_goods_type extends pub_mod_model
+class pub_mod_goods_brand extends pub_mod_model
 {
     public static $table = '#PB#_goods',
     $pk                  = 'goods_id',
