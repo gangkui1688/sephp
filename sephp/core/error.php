@@ -97,7 +97,8 @@ class error
         array_shift($backtrace);
         //p($debug_backtrace);exit;
         $narr = array('class', 'type', 'function', 'file', 'line');
-        foreach ($backtrace as $i => $l) {
+        foreach ($backtrace as $i => $l)
+        {
             foreach ($narr as $k)
             {
                 if (!isset($l[$k]))

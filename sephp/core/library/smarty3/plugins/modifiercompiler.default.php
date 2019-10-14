@@ -26,7 +26,6 @@ function smarty_modifiercompiler_default($params)
     if (!isset($params[ 1 ])) {
         $params[ 1 ] = "''";
     }
-
     array_shift($params);
     foreach ($params as $param) {
         $output = '(($tmp = @' . $output . ')===null||$tmp===\'\' ? ' . $param . ' : $tmp)';

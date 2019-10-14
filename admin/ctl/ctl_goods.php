@@ -12,7 +12,8 @@ use sephp\core\show_msg;
 use sephp\core\session;
 use sephp\core\config;
 
-use admin\mod\mod_content;
+use admin\model\mod_content;
+use common\model\pub_mod_goods_brand;
 
 /**
  * Class ctl_index
@@ -49,6 +50,9 @@ class ctl_goods
      */
     public function brand_add()
     {
+        $data = [
+            pub_mod_goods_brand::$pk => 0,
+        ];
         if(!empty(req::$posts))
         {
             $this->brand_save();
@@ -57,10 +61,14 @@ class ctl_goods
 
         if(0 < req::item('id', 0))
         {
-
+            $data = pub_mod_goods_brand::getdump([
+                'where' => [
+                    pub_mod_goods_brand::$pk => $id,
+                ]
+            ]);
         }
 
-
+        view::assign('data', $data);
         view::assign('back_url', '?ct=goods&ac=brand_index');
         view::display();
     }

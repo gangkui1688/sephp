@@ -11,12 +11,12 @@
                         </a>
                     </div>
 
-                    <h5>添加</h5>
+                    <h5>添加<{$data.brand_id|empty:'3333'}></h5>
 
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm">
-                        <input name="admin_id" type="hidden" value="<{if isset($data)}><{$data.admin_id}><{else}>0<{/if}>" />
+                        <input name="brand_id" type="hidden" value="<{$data.brand_id}>" />
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名 称：</label>
                             <div class="col-sm-4">

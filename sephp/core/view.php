@@ -31,8 +31,12 @@ class view {
 			self::$_instance = new \Smarty();
 
 			self::$_instance->setTemplateDir(PATH_VIEW);
-			self::$_instance->setCompileDir(PATH_RUNTIME.'compile/');
-			self::$_instance->setCacheDir(PATH_RUNTIME.'cache/');
+            //定义smarty编译目录
+			self::$_instance->setCompileDir(PATH_RUNTIME . 'compile/');
+            //定义smarty缓存目录
+			self::$_instance->setCacheDir(PATH_RUNTIME . 'cache/');
+            //smarty自定义插件
+            self::$_instance->addPluginsDir(PATH_LIB . 'smarty_plugins/');
 			//self::$_instance->addPluginsDir(PATH_LIB . 'smarty3/smarty_plugins');
 
 			self::$_instance->setLeftDelimiter('<{');
