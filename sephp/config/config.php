@@ -80,7 +80,11 @@ $config['route'] = [
         'contact'             => '?ct=index&ac=contact',
         'news-(\w+)-(\w+)'    => '?ct=index&ac=news&article_id=$1&p=$2',
     ],
+];
 
+$config['language'] = [
+    'type' => 'en',
+    'path' => '',
 ];
 
 //微信公众号

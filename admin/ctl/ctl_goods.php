@@ -50,9 +50,8 @@ class ctl_goods
      */
     public function brand_add()
     {
-        $data = [
-            pub_mod_goods_brand::$pk => 0,
-        ];
+        \sephp\core\lang::load('upload');
+        $data = [];
         if(!empty(req::$posts))
         {
             $this->brand_save();
