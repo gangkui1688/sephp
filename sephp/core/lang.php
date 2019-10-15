@@ -66,51 +66,21 @@ class lang
         {
             throw new \Exception('The language type has not definition !');
         }
-        $baselang = $commonlang = $corelang = [];
 
-        foreach (['config/lang/', '../common/config/lang/', '../config/lang/'] as $pf)
+        self::$is_loaded[$langfile] = $idiom;
+
+        foreach (['config/lang/', '../common/config/lang/', '../sephp/config/lang/'] as $pf)
         {
             $basepath = PATH_APP.$pf.$idiom.'/'.$langfile;
             if (file_exists($basepath))
             {
                 $lang = parse_ini_file($basepath);
+                self::$language = array_merge(self::$language, $lang);
+                self::$language = array_change_key_case(self::$language);
             }
         }
-        // Load the base file, so any others found can override it
 
-
-        //load the common lang file
-        $commonpath = PATH_ROOT . 'common/config/lang/'.$idiom.'/'.$langfile;
-        if (file_exists($basepath))
-        {
-            $commonpath = PATH_CONFIG.'/lang/'.$idiom.'/'.$langfile;
-            $commonlang = parse_ini_file($commonpath);
-        }
-
-        //load the core lang file
-        $basepath = PATH_SEPHP . 'config/lang/'.$idiom.'/'.$langfile;
-        if (file_exists($basepath))
-        {
-            $corepath = PATH_CONFIG.'/lang/'.$idiom.'/'.$langfile;
-            $corelang = parse_ini_file($corepath);
-        }
-
-
-
-
-        if (file_exists($basepath))
-        {
-            //include($basepath);
-            $lang = parse_ini_file($basepath);
-
-            self::$is_loaded[$langfile] = $idiom;
-            self::$language = array_merge(self::$language, $lang);
-            self::$language = array_change_key_case(self::$language);
-
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     public static function set($key, $value)
