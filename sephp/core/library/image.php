@@ -1,5 +1,8 @@
 <?php
 namespace sephp\core\lib;
+use sephp\sephp;
+use sephp\func;
+
 /**
  * 图片处理类
  *
@@ -10,44 +13,27 @@ namespace sephp\core\lib;
  */
 class image
 {
+    public $image_info = '';
+    public $target_file = '';
+    public $image_create_func = '';
+    public $image_func = '';
+    public $animated_gif = 0;
+    public $jpeg_quality = 85;
+    public $watermark_trans = 60;
+    public $watermark_text = '';
+    public $thumb_type = 2; // 1 为强制对缩略图用jpeg格式，2为与源图一致
+    public $watermark_pos = 9;
+    public static $instance = null;
 
-    /*
-     * 按默认参数制作缩略图(即时图片的自动适应模式)
-     *
-     * @param $srcfile  源文件
-     * @param $w        缩略图宽
-     * @param $h        缩略图高
-     * @param $tofile   目标文件
-     * return bool
-     */
-    public static function thumb_df( $srcfile, $w, $h, $tofile='' )
+    public static function instance($target_file = '')
     {
-        $im = new cls_image($srcfile);
-        return $im->thumb($w, $h, $tofile, 'auto', 0, true);
-    }
+        if(empty(self::$instance))
+        {
+            self::$instance = new self($target_file);
+        }
 
-    /*
-     * 根据系统默认配置对图片加水印(保留接口)
-     *
-     * @param $watermarkfile  待水印的文件
-     * return bool
-     */
-    public static function watermark_df( $watermarkfile )
-    {
-        $im = new cls_image($watermarkfile);
-        return true;
+        return self::$instance;
     }
-
-    var $image_info = '';
-    var $target_file = '';
-    var $image_create_func = '';
-    var $image_func = '';
-    var $animated_gif = 0;
-    var $jpeg_quality = 85;
-    var $watermark_trans = 60;
-    var $watermark_text = '';
-    var $thumb_type = 2; // 1 为强制对缩略图用jpeg格式，2为与源图一致
-    var $watermark_pos = 9;
 
     public function __construct($target_file)
     {
@@ -56,18 +42,18 @@ class image
         if( empty($this->image_info) ) return;
         switch($this->image_info['mime'])
         {
-            case 'image/jpeg':
-                $this->image_create_func = function_exists('imagecreatefromjpeg') ? 'imagecreatefromjpeg' : '';
-                $this->image_func = function_exists('imagejpeg') ? 'imagejpeg' : '';
-                break;
-            case 'image/gif':
-                $this->image_create_func = function_exists('imagecreatefromgif') ? 'imagecreatefromgif' : '';
-                $this->image_func = function_exists('imagegif') ? 'imagegif' : '';
-                break;
-            case 'image/png':
-                $this->image_create_func = function_exists('imagecreatefrompng') ? 'imagecreatefrompng' : '';
-                $this->image_func = function_exists('imagepng') ? 'imagepng' : '';
-                break;
+        case 'image/jpeg':
+            $this->image_create_func = function_exists('imagecreatefromjpeg') ? 'imagecreatefromjpeg' : '';
+            $this->image_func = function_exists('imagejpeg') ? 'imagejpeg' : '';
+            break;
+        case 'image/gif':
+            $this->image_create_func = function_exists('imagecreatefromgif') ? 'imagecreatefromgif' : '';
+            $this->image_func = function_exists('imagegif') ? 'imagegif' : '';
+            break;
+        case 'image/png':
+            $this->image_create_func = function_exists('imagecreatefrompng') ? 'imagecreatefrompng' : '';
+            $this->image_func = function_exists('imagepng') ? 'imagepng' : '';
+            break;
         }
         if($this->image_info['mime'] == 'image/gif')
         {
@@ -153,7 +139,7 @@ class image
         }
         else
         {
-            throw new \Exception("必须支持 imagecreatetruecolor/imagecopyresampled 函数");
+            throw new Exception("必须支持 imagecreatetruecolor/imagecopyresampled 函数");
             return false;
         }
     }
@@ -267,8 +253,8 @@ class image
      * $textinfo
      */
     public function watermark($watermarkfile, $watermarktype='png', $tofile='',
-                              $textinfo = array('text'=>'', 'size'=>6, 'fontfile'=>'', 'color'=>'0,0,0',
-                                  'angle'=>'0','shadowx'=>2, 'shadowy'=>2, 'shadowcolor'=>'0,0,0') )
+        $textinfo = array('text'=>'', 'size'=>6, 'fontfile'=>'', 'color'=>'0,0,0',
+        'angle'=>'0','shadowx'=>2, 'shadowy'=>2, 'shadowcolor'=>'0,0,0') )
     {
         if(function_exists('imagecopy') && function_exists('imagealphablending') && function_exists('imagecopymerge'))
         {
@@ -302,42 +288,42 @@ class image
             {
                 switch($this->watermark_pos)
                 {
-                    case 1:
-                        $x = +5;
-                        $y = +5;
-                        break;
-                    case 2:
-                        $x = ($imagewidth - $logowidth) / 2;
-                        $y = +5;
-                        break;
-                    case 3:
-                        $x = $imagewidth - $logowidth - 5;
-                        $y = +5;
-                        break;
-                    case 4:
-                        $x = +5;
-                        $y = ($imageheight - $logoheight) / 2;
-                        break;
-                    case 5:
-                        $x = ($imagewidth - $logowidth) / 2;
-                        $y = ($imageheight - $logoheight) / 2;
-                        break;
-                    case 6:
-                        $x = $imagewidth - $logowidth - 5;
-                        $y = ($imageheight - $logoheight) / 2;
-                        break;
-                    case 7:
-                        $x = +5;
-                        $y = $imageheight - $logoheight - 5;
-                        break;
-                    case 8:
-                        $x = ($imagewidth - $logowidth) / 2;
-                        $y = $imageheight - $logoheight - 5;
-                        break;
-                    case 9:
-                        $x = $imagewidth - $logowidth - 5;
-                        $y = $imageheight - $logoheight -5;
-                        break;
+                case 1:
+                    $x = +5;
+                    $y = +5;
+                    break;
+                case 2:
+                    $x = ($imagewidth - $logowidth) / 2;
+                    $y = +5;
+                    break;
+                case 3:
+                    $x = $imagewidth - $logowidth - 5;
+                    $y = +5;
+                    break;
+                case 4:
+                    $x = +5;
+                    $y = ($imageheight - $logoheight) / 2;
+                    break;
+                case 5:
+                    $x = ($imagewidth - $logowidth) / 2;
+                    $y = ($imageheight - $logoheight) / 2;
+                    break;
+                case 6:
+                    $x = $imagewidth - $logowidth - 5;
+                    $y = ($imageheight - $logoheight) / 2;
+                    break;
+                case 7:
+                    $x = +5;
+                    $y = $imageheight - $logoheight - 5;
+                    break;
+                case 8:
+                    $x = ($imagewidth - $logowidth) / 2;
+                    $y = $imageheight - $logoheight - 5;
+                    break;
+                case 9:
+                    $x = $imagewidth - $logowidth - 5;
+                    $y = $imageheight - $logoheight -5;
+                    break;
                 }
                 $dst_photo = imagecreatetruecolor($imagewidth, $imageheight);
                 $target_photo = $image_create_func($this->target_file);
@@ -382,6 +368,33 @@ class image
         {
             return false;
         }
+    }
+
+    /*
+     * 按默认参数制作缩略图(即时图片的自动适应模式)
+     *
+     * @param $srcfile  源文件
+     * @param $w        缩略图宽
+     * @param $h        缩略图高
+     * @param $tofile   目标文件
+     * return bool
+     */
+    public static function thumb_df( $srcfile, $w, $h, $tofile='' )
+    {
+        $im = new cls_image($srcfile);
+        return $im->thumb($w, $h, $tofile, 'auto', 0, true);
+    }
+
+    /*
+     * 根据系统默认配置对图片加水印(保留接口)
+     *
+     * @param $watermarkfile  待水印的文件
+     * return bool
+     */
+    public static function watermark_df( $watermarkfile )
+    {
+        $im = new cls_image($watermarkfile);
+        return true;
     }
 
 }

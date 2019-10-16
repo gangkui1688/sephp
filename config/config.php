@@ -87,12 +87,6 @@ $config['redis'] = [
 	'prefix'     => '',
 ];
 
-//百度的webupload 分片上传
-$config['upload'] = [
-	'type' => 'thml5',
-	'url'  => '?ctl=public&ac=uploads', //文件上传地址
-];
-
 //路由解析配置
 $config['route'] = [
 	'url_route_on'         => ['index'], //开启路由模式的项目

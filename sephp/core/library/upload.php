@@ -6,6 +6,7 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\config;
 use sephp\core\lang;
+use sephp\core\lib\image;
 
 
 /**
@@ -32,6 +33,24 @@ use sephp\core\lang;
 class upload
 {
     /**
+     * 上传类的配置参数
+     * @var null
+     */
+    public static $config = null;
+
+    /**
+     * 初始化配置参数
+     * @Author   GangKui
+     * @DateTime 2019-10-16
+     * @param    array      $config [description]
+     * @return   [type]             [description]
+     */
+    public static function _init($config = [])
+    {
+        self::$config = empty($config) ? config::get('upload') : $config;
+    }
+
+    /**
      * 普通上传
      *
      * @param string $formname
@@ -43,37 +62,37 @@ class upload
     public static function upload( $formname = 'file', $dir = 'image', $thumb_w = 0, $thumb_h = 0 )
     {
         // 导入语言包
-        lang::load("upload", LANG);
+        lang::load("upload");
         $dir = self::filter_path($dir);
 
         // 上传成功
         if ( req::is_upload_file($formname) )
         {
-            $upload_dir = $GLOBALS['config']['upload']['filepath']."/{$dir}";
+            $upload_dir = self::$config['filepath']."/{$dir}";
 
             // 目录不存在则生成
-            if ( !util::path_exists($upload_dir) )
+            if ( !func::path_exists($upload_dir) )
             {
-                throw new Exception(lang::get('upload_not_exist'));
+                throw new \Exception(lang::get('upload_not_exist'));
             }
 
-            $allowed_types = explode('|', $GLOBALS['config']['upload']['allowed_types']);
+            $allowed_types = explode('|', self::$config['allowed_types']);
             if ( !req::check_subfix($formname, $allowed_types) )
             {
-                throw new Exception(lang::get('upload_invalid_filetype'));
+                throw new \Exception(lang::get('upload_invalid_filetype'));
             }
 
             $filesize = req::get_file_info($formname, 'size');
             $realname = req::get_file_info($formname, 'name');
-            $file_ext = req::get_shortname($formname);
+            $file_ext = req::get_file_ext($formname);
 
             // 判断文件大小
-            if ( $GLOBALS['config']['upload']['max_size'] != 0 )
+            if ( self::$config['max_size'] != 0 )
             {
-                $max_size = $GLOBALS['config']['upload']['max_size'] * 1024;
+                $max_size = self::$config['max_size'] * 1024;
                 if ( $filesize > $max_size )
                 {
-                    throw new Exception(lang::get('upload_invalid_filesize'));
+                    throw new \Exception(lang::get('upload_invalid_filesize'));
                 }
             }
 
@@ -81,15 +100,15 @@ class upload
             //$filename = uniqid().'.'.$file_ext;
 
             // 如果需要分隔目录上传
-            if ( $GLOBALS['config']['upload']['dir_num'] > 0 )
+            if ( self::$config['dir_num'] > 0 )
             {
-                $dir_num = util::str2number($filename, $GLOBALS['config']['upload']['dir_num']);
-                util::path_exists($upload_dir.'/'.$dir_num);
+                $dir_num = func::str_to_number($filename, self::$config['dir_num']);
+                func::path_exists($upload_dir.'/'.$dir_num);
                 $filename = $dir_num.'/'.$filename;
             }
 
             //ftp上传
-            if( !empty($GLOBALS['config']['upload']['ftp']['enable_ftp']) )
+            if( !empty(self::$config['ftp']['enable_ftp']) )
             {
                 $realpath = req::$files[$formname]['tmp_name'];
                 if ( $thumb_w > 0 || $thumb_h > 0 )
@@ -107,7 +126,7 @@ class upload
                 }
                 else
                 {
-                    throw new Exception(cls_ftp::instanct()->error);
+                    throw new \Exception(cls_ftp::instanct()->error);
                 }
             }
             else if ( req::move_upload_file($formname, $upload_dir.'/'.$filename) )
@@ -119,7 +138,7 @@ class upload
                 }
             }
 
-            $filelink = $GLOBALS['config']['upload']['filelink'].'/'.$dir.'/'.$filename;
+            $filelink = self::$config['filelink'].'/'.$dir.'/'.$filename;
             return array(
                 'realname' => $realname,
                 'filename' => $filename,
@@ -128,9 +147,10 @@ class upload
         }
         else
         {
+            var_dump(req::$files);exit;
             if( req::$files[$formname]['error'] == UPLOAD_ERR_INI_SIZE || req::$files[$formname]['error'] == UPLOAD_ERR_FORM_SIZE )
             {
-                throw new Exception(lang::get('upload_invalid_filesize'));
+                throw new \Exception(lang::get('upload_invalid_filesize'));
             }
         }
     }
@@ -147,39 +167,39 @@ class upload
     public static function upload_html5( $filedata, $dir = 'image', $thumb_w = 0, $thumb_h = 0 )
     {
         // 导入语言包
-        lang::load("upload", LANG);
+        lang::load("upload");
         $dir = self::filter_path($dir);
 
         // 匹配出图片的格式
         if ( preg_match('/^(data:\s*image\/(\w+);base64,)/', $filedata, $result) )
         {
-            $upload_dir = $GLOBALS['config']['upload']['filepath']."/{$dir}";
+            $upload_dir = self::$config['filepath']."/{$dir}";
 
             // 目录不存在则生成
-            if ( !util::path_exists($upload_dir) )
+            if ( !func::path_exists($upload_dir) )
             {
-                throw new Exception(lang::get('upload_not_exist'));
+                throw new \Exception(lang::get('upload_not_exist'));
             }
 
             // 检查文件类型
             $file_ext = $result[2];
             $file_ext = $file_ext == 'jpeg' ? 'jpg' : $file_ext;
-            $allowed_types = explode('|', $GLOBALS['config']['upload']['allowed_types']);
+            $allowed_types = explode('|', self::$config['allowed_types']);
             if ( !in_array($file_ext, $allowed_types) )
             {
-                throw new Exception(lang::get('upload_invalid_filetype'));
+                throw new \Exception(lang::get('upload_invalid_filetype'));
             }
 
             // 把 data:image/jpeg;base64, 去掉
             $filedata = base64_decode(str_replace($result[1], '', $filedata));
 
             // 判断文件大小
-            if ( $GLOBALS['config']['upload']['max_size'] != 0 )
+            if ( self::$config['max_size'] != 0 )
             {
-                $max_size = $GLOBALS['config']['upload']['max_size'] * 1024;
+                $max_size = self::$config['max_size'] * 1024;
                 if ( strlen($filedata) > $max_size )
                 {
-                    throw new Exception(lang::get('upload_invalid_filesize'));
+                    throw new \Exception(lang::get('upload_invalid_filesize'));
                 }
             }
 
@@ -187,19 +207,19 @@ class upload
             $filename = md5($filedata).".".$file_ext;
 
             // 如果需要分隔目录上传
-            if ( $GLOBALS['config']['upload']['dir_num'] > 0 )
+            if ( self::$config['dir_num'] > 0 )
             {
-                $dir_num = util::str2number($filename, $GLOBALS['config']['upload']['dir_num']);
-                util::path_exists($upload_dir.'/'.$dir_num);
+                $dir_num = func::str_to_number($filename, self::$config['dir_num']);
+                func::path_exists($upload_dir.'/'.$dir_num);
                 $filename = $dir_num.'/'.$filename;
             }
 
-            if ( util::put_file($upload_dir.'/'.$filename, $filedata) )
+            if ( func::put_file($upload_dir.'/'.$filename, $filedata) )
             {
                 @chmod($upload_dir.'/'.$filename, 0777);
             }
 
-            $filelink = $GLOBALS['config']['upload']['filelink']."/".$dir."/".$filename;
+            $filelink = self::$config['filelink']."/".$dir."/".$filename;
 
             if ( $thumb_w > 0 || $thumb_h > 0 )
             {
@@ -207,7 +227,7 @@ class upload
             }
 
             //ftp上传
-            if( !empty($GLOBALS['config']['upload']['enable_ftp']) )
+            if( !empty(self::$config['enable_ftp']) )
             {
                 //上传目录一起返回，要不ftp不知道要上传到哪里
                 $filename = $dir.'/'.$filename;
@@ -217,7 +237,7 @@ class upload
                 }
                 else
                 {
-                    throw new Exception(cls_ftp::instance()->error);
+                    throw new \Exception(cls_ftp::instance()->error);
                 }
             }
 
@@ -239,29 +259,31 @@ class upload
      */
     public static function upload_chunked( $formname = 'file', $dir = 'file', $guid, $chunk = 0, $chunks = 1, $thumb_w = 0, $thumb_h = 0, $cleanup_target_dir = true, $max_file_age = 18000 )
     {
-        lang::load("upload", LANG);
+        lang::load("upload");
+
         $dir = self::filter_path($dir);
         // 生成上传分片的临时目录
         //$target_dir = ini_get("upload_tmp_dir")."/plupload";
-        $target_dir = $GLOBALS['config']['upload']['filepath']."/tmp/{$guid}";
-        $upload_dir = $GLOBALS['config']['upload']['filepath']."/{$dir}";
+        $target_dir = PATH_UPLOAD . "/tmp/{$guid}";
+        $upload_dir = PATH_UPLOAD . "/{$dir}";
         // 目录不存在则生成
-        if ( !util::path_exists($target_dir) )
+        if ( !func::path_exists($target_dir) )
         {
-            throw new Exception(lang::get('upload_not_exist'));
+            throw new \Exception(lang::get('upload_not_exist'));
         }
 
-        if ( !util::path_exists($upload_dir) )
+        if ( !func::path_exists($upload_dir) )
         {
-            throw new Exception(lang::get('upload_not_exist'));
+            throw new \Exception(lang::get('upload_not_exist'));
         }
 
         // 检查文件类型
-        $file_ext = req::get_shortname($formname);
-        $allowed_types = explode('|', $GLOBALS['config']['upload']['allowed_types']);
+        $file_ext = req::get_file_ext($formname);
+
+        $allowed_types = explode('|', self::$config['allowed_types']);
         if ( !in_array($file_ext, $allowed_types) )
         {
-            throw new Exception(lang::get('upload_invalid_filetype'));
+            throw new \Exception(lang::get('upload_invalid_filetype'));
         }
 
         $realname = req::get_file_info($formname, 'name');
@@ -273,7 +295,7 @@ class upload
         {
             if (!is_dir($target_dir) || !$cleanup_dir = opendir($target_dir))
             {
-                throw new Exception('Failed to open temp directory.');
+                throw new \Exception('Failed to open temp directory.');
             }
 
             while (($file = readdir($cleanup_dir)) !== false)
@@ -299,27 +321,27 @@ class upload
         // Open temp file
         if (!$out = @fopen("{$partpath}_{$chunk}.parttmp", "wb"))
         {
-            throw new Exception('Failed to open output stream.');
+            throw new \Exception('Failed to open output stream.');
         }
 
         if ( !empty(req::$files))
         {
             if ( !req::is_upload_file($formname) )
             {
-                throw new Exception('Failed to move uploaded file.');
+                throw new \Exception('Failed to move uploaded file.');
             }
 
             // Read binary input stream and append it to temp file
             if (!$in = @fopen(req::get_tmp_name($formname), "rb"))
             {
-                throw new Exception('Failed to open input stream.');
+                throw new \Exception('Failed to open input stream.');
             }
         }
         else
         {
             if (!$in = @fopen("php://input", "rb"))
             {
-                throw new Exception('Failed to open input stream.');
+                throw new \Exception('Failed to open input stream.');
             }
         }
 
@@ -348,7 +370,7 @@ class upload
         {
             if (!$out = @fopen($realpath, "wb"))
             {
-                throw new Exception('Failed to open output stream.');
+                throw new \Exception('Failed to open output stream.');
             }
 
             if ( flock($out, LOCK_EX) )
@@ -378,28 +400,28 @@ class upload
             $filename = md5_file($realpath).".".$file_ext;
             //$filename = uniqid().".".$file_ext;
             // 如果需要分隔目录上传
-            if ( $GLOBALS['config']['upload']['dir_num'] > 0 )
+            if ( self::$config['dir_num'] > 0 )
             {
-                $dir_num = util::str2number($filename, $GLOBALS['config']['upload']['dir_num']);
-                if ( !util::path_exists($upload_dir.'/'.$dir_num) )
+                $dir_num = func::str_to_number($filename, self::$config['dir_num']);
+                if ( !func::path_exists($upload_dir.'/'.$dir_num) )
                 {
-                    throw new Exception(lang::get('upload_not_exist'));
+                    throw new \Exception(lang::get('upload_not_exist'));
                 }
                 $filename = $dir_num.'/'.$filename;
             }
 
             // 判断文件大小
-            if ( $GLOBALS['config']['upload']['file_max_size'] != 0 )
+            if ( self::$config['file_max_size'] != 0 )
             {
-                $max_size = $GLOBALS['config']['upload']['file_max_size'] * 1024;
+                $max_size = self::$config['file_max_size'] * 1024;
                 if ( filesize($realpath) > $max_size )
                 {
-                    throw new Exception(lang::get('upload_invalid_filesize'));
+                    throw new \Exception(lang::get('upload_invalid_filesize'));
                 }
             }
 
             //ftp上传
-            if( !empty($GLOBALS['config']['upload']['enable_ftp']) )
+            if( !empty(self::$config['enable_ftp']) )
             {
                 if ( $thumb_w > 0 || $thumb_h > 0 )
                 {
@@ -417,7 +439,7 @@ class upload
                 }
                 else
                 {
-                    throw new Exception(cls_ftp::instance()->error);
+                    throw new \Exception(cls_ftp::instance()->error);
                 }
             }
             else
@@ -430,7 +452,7 @@ class upload
                 }
             }
 
-            $filelink = $GLOBALS['config']['upload']['filelink'].'/'.$dir.'/'.$filename;
+            $filelink = self::$config['filelink'].'/'.$dir.'/'.$filename;
             return array(
                 'realname' => $realname,
                 'filename' => $filename,
@@ -448,25 +470,23 @@ class upload
         $height = $pathinfo[1];
 
         // 缩略图的临时目录
-        $filepath_tmp = $GLOBALS['config']['upload']['filepath'].'/tmp';
+        $filepath_tmp = self::$config['filepath'].'/tmp';
         // 缩略图的临时文件名
         $filename_tmp = md5($filename).'.'.$file_ext;
 
-        $img = new cls_image( $upload_dir.'/'.$filename );
-
         if ( $thumb_w > 0 && $thumb_h > 0 )
         {
-            $img->thumb( $thumb_w, $thumb_h, $filepath_tmp.'/'.$filename_tmp, 'wh' );
+            image::instance( $upload_dir.'/'.$filename )->thumb( $thumb_w, $thumb_h, $filepath_tmp.'/'.$filename_tmp, 'wh' );
         }
         // 只设置了宽度，自动计算高度
         elseif ( $thumb_w > 0 && $thumb_h == 0 )
         {
-            $img->thumb( $thumb_w, $thumb_h, $filepath_tmp.'/'.$filename_tmp, 'w' );
+            image::instance( $upload_dir.'/'.$filename )->thumb( $thumb_w, $thumb_h, $filepath_tmp.'/'.$filename_tmp, 'w' );
         }
         // 只设置了高度，自动计算宽度
         elseif ( $thumb_h > 0 && $thumb_w == 0 )
         {
-            $img->thumb( $thumb_w, $thumb_h, $filepath_tmp.'/'.$filename_tmp, 'h' );
+            image::instance( $upload_dir.'/'.$filename )->thumb( $thumb_w, $thumb_h, $filepath_tmp.'/'.$filename_tmp, 'h' );
         }
 
         //@chmod($filepath_tmp.'/'.$filename_tmp, 0777);
@@ -475,19 +495,19 @@ class upload
         //$filename = uniqid().'.'.$file_ext;
 
         // 如果需要分隔目录上传
-        if ( $GLOBALS['config']['upload']['dir_num'] > 0 )
+        if ( self::$config['dir_num'] > 0 )
         {
-            $dir_num = util::str2number($filename, $GLOBALS['config']['upload']['dir_num']);
-            if ( !util::path_exists($upload_dir.'/'.$dir_num) )
+            $dir_num = func::str_to_number($filename, self::$config['dir_num']);
+            if ( !func::path_exists($upload_dir.'/'.$dir_num) )
             {
-                throw new Exception(lang::get('upload_not_exist'));
+                throw new \Exception(lang::get('upload_not_exist'));
             }
             $filename = $dir_num.'/'.$filename;
         }
 
         rename($filepath_tmp.'/'.$filename_tmp, "{$upload_dir}/{$filename}");
 
-        $filelink = $GLOBALS['config']['upload']['filelink'].'/image/'.$filename;
+        $filelink = self::$config['filelink'].'/image/'.$filename;
         return array($filename, $filelink);
     }
 
@@ -503,122 +523,6 @@ class upload
         }, explode('/', $dir));
 
         return implode('/', $dirs);
-    }
-
-    public static function file_manager()
-    {
-
-    }
-
-    public static function web_upload($type = '')
-    {
-        // Make sure file is not cached (as it happens for example on iOS devices)
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache");
-
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            header("HTTP/1.0 500 Method Type Error");
-            exit();
-        }
-        //PHP执行时间五分钟
-        @set_time_limit(300);
-
-        $maxFileAge = 5 * 3600; // Temp file age in seconds
-
-        $targetDir = PATH_ROOT . 'upload/temp';
-        $uploadDir = PATH_ROOT . 'upload/file';
-
-        if (!file_exists($targetDir)) {
-            @mkdir($targetDir, '0777', true);
-        }
-
-        if (!file_exists($uploadDir)) {
-            @mkdir($uploadDir, '0777', true);
-        }
-
-        $fileName = sys_create::instance()->id() .'.'. pathinfo(req::$forms['name'],PATHINFO_EXTENSION);
-
-        $filePath = $targetDir . '/' . $fileName;
-        $uploadPath = $uploadDir . '/' . $fileName;
-
-        $chunk = isset(req::$forms["chunk"]) ? intval(req::$forms["chunk"]) : 0;
-        $chunks = isset(req::$forms["chunks"]) ? intval(req::$forms["chunks"]) : 0;
-
-        if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
-            show_msg::ajax('Failed to open temp directory', '100');
-        }
-
-        while (($file = readdir($dir)) !== false)
-        {
-            $tmpfilePath = $targetDir . '/' . $file;
-
-            // If temp file is current file proceed to the next
-            if ($tmpfilePath == "{$filePath}.part") {
-                continue;
-            }
-
-            // Remove temp file if it is older than the max age and is not the current file
-            if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
-                @unlink($tmpfilePath);
-            }
-        }
-        closedir($dir);
-
-        if (!$out = fopen("{$filePath}.part", $chunks ? "ab" : "wb"))
-        {
-            show_msg::ajax('Failed to open output stream.', '102');
-        }
-
-        if (!empty($_FILES)) {
-            if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
-                show_msg::ajax('Failed to move uploaded file.', 103);
-            }
-
-            // Read binary input stream and append it to temp file
-            if (!$in = fopen($_FILES["file"]["tmp_name"], "rb")) {
-                show_msg::ajax('Failed to open input stream.', 101);
-            }
-        } else {
-            if (!$in = fopen("php://input", "rb")) {
-                show_msg::ajax('Failed to open input stream.', 101);
-            }
-        }
-
-        while ($buff = fread($in, 4096)) {
-            fwrite($out, $buff);
-        }
-        fclose($out);fclose($in);
-
-        $name = md5(req::$forms['name']);
-        session::push($name,"{$filePath}.part");
-
-        // Check if file has been uploaded
-        if (!$chunks || $chunk == $chunks - 1) {
-            $parts = session::get($name);
-            foreach ($parts as $fp)
-            {
-                $upload_handle = fopen($uploadPath,'ab');
-                if(fwrite($upload_handle,file_get_contents($fp)) === false)
-                {
-                    show_msg::ajax('Failed to merge file',105);
-                }
-                unlink($fp);
-            }
-        }
-        else
-        {
-            show_msg::ajax('part success', 200, ['chunks'=>req::$forms['chunks'],'chunk'=>req::$forms['chunk']]);
-        }
-        //上传完成
-        session::delete($name);
-        $result['realname'] = req::$forms['name'];
-        $result['name'] = $fileName;
-        $result['size'] = req::$forms['size'];
-        $result['type'] = req::$forms['type'];
-        return $result;
     }
 
     /**

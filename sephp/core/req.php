@@ -70,11 +70,11 @@ class req
         }
         //$magic_quotes_gpc = ini_get('magic_quotes_gpc');
 
-        self::$gets  = self::_to_param('get');
-        self::$posts = self::_to_param('post');
-        self::$cookies = self::_to_param('cookie');
-        self::_to_param('cookie');
-
+        foreach (['get', 'post', 'cookie', 'file'] as $type)
+        {
+            $types = $type . 's';
+            self::$$types = self::_to_param($type);
+        }
 
         //cls_security::init();
     }
@@ -251,15 +251,6 @@ class req
     }
 
     /**
-     * 过滤文件相关
-     */
-    public static function filter_files( &$files )
-    {
-        self::$files = $files;
-        unset($_FILES);
-    }
-
-    /**
      * 移动上传的文件
      * $item 是用于当文件表单名为数组，如 upfile[] 之类的情况, $item 表示数组的具体键值，下同
      * @return bool
@@ -310,7 +301,7 @@ class req
     /**
      * 获得文件的扩展名
      */
-    public static function get_shortname( $formname, $item = '' )
+    public static function get_file_ext( $formname, $item = '' )
     {
         if( $item === '' )
         {
@@ -427,7 +418,7 @@ class req
      */
     public static function check_subfix($formname, $subfix = array('csv'), $item= '')
     {
-        if( !in_array(self::get_shortname( $formname, $item ), $subfix) )
+        if( !in_array(self::get_file_ext( $formname, $item ), $subfix) )
         {
             return false;
         }
@@ -451,6 +442,13 @@ class req
                 self::$cookies = $_COOKIE;
                 //unset($_COOKIE);
                 return true;
+            case 'file':
+                //上传的文件处理
+                $_FILES = self::add_s( $_FILES );
+                $param = $_FILES;
+                unset($_FILES);
+
+                break;
         }
 
         return self::_for_param($param);
@@ -470,7 +468,7 @@ class req
             }
             else
             {
-                $data[$k] = self::$forms[$k] = empty($v) ? $v : htmlentities($v,ENT_QUOTES);
+                $data[$k] = self::$forms[$k] = empty($v) ? $v : htmlentities($v, ENT_QUOTES);
             }
         }
         return $data;

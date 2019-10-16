@@ -53,7 +53,16 @@
 
                          <div class="hr-line-dashed"></div>
 
-                        <div class="form-group uploader-group uploader-group-img" data-compress="true" data-thumb_w='100' data-auto="true" data-len="1" data-multiple="false" data-dir="image" data-extensions="gif,jpg,jpeg,bmp,png" data-chunked="true">
+                        <div class="form-group uploader-group uploader-group-img"
+                        data-compress="false"
+                        data-thumb_w='100'
+                        data-auto="true"
+                        data-len="1"
+                        data-size="50"
+                        data-multiple="false"
+                        data-dir="image"
+                        data-extensions="gif,jpg,jpeg,bmp,png"
+                        data-chunked="chunked">
                             <label class="col-sm-3 control-label"> 单图:</label>
                             <div class="col-sm-8">
                                 <!--用来存放文件信息-->

@@ -58,13 +58,13 @@ class lang
         $idiom = empty($idiom) ? self::$config['type'] : $idiom;
 
         $langfile = str_replace('.ini', '', $langfile);
-        $langfile .= '.ini';
+        $langfile .= '.lang.ini';
 
         $idiom = empty($idiom) ? self::$config['type'] : $idiom;
 
         if(empty($idiom))
         {
-            throw new \Exception('The language type has not definition !');
+            throw new  \Exception('The language type has not definition !');
         }
 
         self::$is_loaded[$langfile] = $idiom;
@@ -112,7 +112,7 @@ class lang
         {
             if ( $defaultvalue === null && $log_errors === true )
             {
-                throw new Exception("Could not find the language line {$key}", E_USER_WARNING);
+                throw new \Exception("Could not find the language line {$key} ", E_USER_WARNING);
             }
             else
             {

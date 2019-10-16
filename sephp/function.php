@@ -26,6 +26,61 @@ class func
         return $xml;
     }
 
+    /**
+     * 目录不存在就创建
+     * @Author   GangKui
+     * @DateTime 2019-10-16
+     * @return   [type]     [description]
+     */
+    public static function path_exists($path)
+    {
+        $pathinfo = pathinfo ( $path . '/tmp.txt' );
+        if ( !empty( $pathinfo ['dirname'] ) )
+        {
+            if (file_exists ( $pathinfo ['dirname'] ) === false)
+            {
+                if (@mkdir ( $pathinfo ['dirname'], 0777, true ) === false)
+                {
+                    return false;
+                }
+            }
+        }
+        return $path;
+    }
+
+    public static function return_json($data)
+    {
+        exit(json_encode($data, JSON_UNESCAPED_UNICODE));
+    }
+
+    /**
+     * 把字符串转换成数字
+     * @Author   GangKui
+     * @DateTime 2019-10-16
+     * @param    [type]     $str    [description]
+     * @param    integer    $maxnum [description]
+     * @return   [type]             [description]
+     */
+    public static function str_to_number($str, $maxnum = 128)
+    {
+        // 位数
+        $bitnum = 1;
+        if ($maxnum >= 100)
+        {
+            $bitnum = 3;
+        }
+        elseif ($maxnum >= 10)
+        {
+            $bitnum = 2;
+        }
+
+        // sha1:返回一个40字符长度的16进制数字
+        $str = sha1(strtolower($str));
+        // base_convert:进制建转换，下面是把16进制转成10进制，方便做除法运算
+        // str_pad:把字符串填充为指定的长度，下面是在左边加0，共 $bitnum 位
+        $str = str_pad(base_convert(substr($str, -2), 16, 10) % $maxnum, $bitnum, "0", STR_PAD_LEFT);
+        return $str;
+    }
 
     /**
      * 注册结束执行函数

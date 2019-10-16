@@ -70,8 +70,8 @@ $(function() {
 
             var filePicker = $(this).find('.uploader-picker'); //上传按钮实例
             var options = {
-                // resize: false,                          // 不压缩image
-                swf: 'static/webuploader/uploader.swf', // swf文件路径
+                resize: false,                          // 不压缩image
+                swf: 'static/frame/js/plugins/webuploader/Uploader.swf', // swf文件路径
                 server: server, // 文件接收服务端接口
                 //pick: '.btn-dark',
                 // 选择文件的按钮。可选
