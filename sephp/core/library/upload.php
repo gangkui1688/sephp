@@ -7,6 +7,7 @@ use sephp\core\log;
 use sephp\core\config;
 use sephp\core\lang;
 use sephp\core\lib\image;
+use sephp\core\lib\ftp;
 
 
 /**
@@ -108,7 +109,7 @@ class upload
             }
 
             //ftp上传
-            if( !empty(self::$config['ftp']['enable_ftp']) )
+            if( !empty(self::$config['enable_ftp']) )
             {
                 $realpath = req::$files[$formname]['tmp_name'];
                 if ( $thumb_w > 0 || $thumb_h > 0 )
@@ -120,13 +121,13 @@ class upload
 
                 //上传目录一起返回，要不ftp不知道要上传到哪里
                 $filename = $dir.'/'.$filename;
-                if( false != cls_ftp::instanct()->put($realpath, $filename) )
+                if( false != ftp::instanct()->put($realpath, $filename) )
                 {
-                    cls_ftp::instanct()->chmod($filename, 0644);
+                    ftp::instanct()->chmod($filename, 0644);
                 }
                 else
                 {
-                    throw new \Exception(cls_ftp::instanct()->error);
+                    throw new \Exception(ftp::instanct()->error);
                 }
             }
             else if ( req::move_upload_file($formname, $upload_dir.'/'.$filename) )
@@ -231,13 +232,13 @@ class upload
             {
                 //上传目录一起返回，要不ftp不知道要上传到哪里
                 $filename = $dir.'/'.$filename;
-                if( false != cls_ftp::instance()->put($upload_dir.'/'.$filename, $filename, true) )
+                if( false != ftp::instance()->put($upload_dir.'/'.$filename, $filename, true) )
                 {
-                    cls_ftp::instance()->chmod($filename, 0644);
+                    ftp::instance()->chmod($filename, 0644);
                 }
                 else
                 {
-                    throw new \Exception(cls_ftp::instance()->error);
+                    throw new \Exception(ftp::instance()->error);
                 }
             }
 
@@ -433,13 +434,13 @@ class upload
 
                 //上传目录一起返回，要不ftp不知道要上传到哪里
                 $filename = $dir.'/'.$filename;
-                if( false != cls_ftp::instance()->put($realpath, $filename, true) )
+                if( false != ftp::instance()->put($realpath, $filename, true) )
                 {
-                    cls_ftp::instance()->chmod($filename, 0644);
+                    ftp::instance()->chmod($filename, 0644);
                 }
                 else
                 {
-                    throw new \Exception(cls_ftp::instance()->error);
+                    throw new \Exception(ftp::instance()->error);
                 }
             }
             else
@@ -509,6 +510,36 @@ class upload
 
         $filelink = self::$config['filelink'].'/image/'.$filename;
         return array($filename, $filelink);
+    }
+
+    public static function remove_tmp_file()
+    {
+        if ( $cleanxxup_target_dir )
+        {
+            if (!is_dir($target_dir) || !$cleanup_dir = opendir($target_dir))
+            {
+                throw new \Exception('Failed to open temp directory.');
+            }
+
+            while (($file = readdir($cleanup_dir)) !== false)
+            {
+                $tmpfile_path = $target_dir . '/' . $file;
+
+                // If temp file is current file proceed to the next
+                if ($tmpfile_path == "{$partpath}_{$chunk}.part" || $tmpfile_path == "{$partpath}_{$chunk}.parttmp")
+                {
+                    continue;
+                }
+
+                if (preg_match('/\.(part|parttmp)$/', $file)
+                    && file_exists($tmpfile_path)
+                    && (@filemtime($tmpfile_path) < time() - $max_file_age))
+                {
+                    @unlink($tmpfile_path);
+                }
+            }
+            closedir($cleanup_dir);
+        }
     }
 
     //去掉前端传过来的路径

@@ -17,6 +17,8 @@ class log
      */
     protected static $log = [];
 
+    public static $dir = null;
+
     /**
      * @var array 配置参数
      */
@@ -38,9 +40,14 @@ class log
      */
     public static function _init()
     {
-        self::$config = array_merge(self::$config,sephp::$_config['log']);
-    }
+        self::$config = array_merge(self::$config, sephp::$_config['log']);
+        self::$dir = self::$config['path'];
+        if( !is_dir(self::$dir) && (file_exists(self::$dir) || mkdir(self::$dir, 0755, true)))
+        {
+            throw new \Exception('Please check log config[path] , The path is wrong paht', '-99');
+        }
 
+    }
 
     /**
      * 实时写入日志信息 并支持行为
@@ -97,13 +104,6 @@ class log
             return true;
         }
 
-        if(!is_dir(self::$config['path']))
-        {
-            throw new \Exception('Please check log config[path] , The path is wrong paht');
-        }
-
-        !file_exists(self::$config['path']) && mkdir(self::$config['path'], 0755, true);
-
         foreach (self::$log as $type => $val) {
             $message = '';
             foreach ($val as $msg)
@@ -117,9 +117,9 @@ class log
                 // 独立记录的日志级别
                 if (self::$config['single'])
                 {
-                    $filename = self::$config['path'] .'/'. $type . '.log';
+                    $filename = self::$dir .'/'. $type . '.log';
                 } else {
-                    $filename = self::$config['path'] .'/'. date('ymd') . '_' . $type  . '.log';
+                    $filename = self::$dir .'/'. date('ymd') . '_' . $type  . '.log';
                 }
 
             } else {
@@ -141,7 +141,8 @@ class log
      */
     public static function write($message, $destination)
     {
-        if (self::$config['detail_info']) {
+        if (self::$config['detail_info'])
+        {
             // 获取基本信息
             if (isset($_SERVER['HTTP_HOST'])) {
                 $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -166,10 +167,56 @@ class log
         }
 
         $handle = fopen($destination,'a+');
-        if (fwrite($handle, $message) === FALSE) {
+        if (fwrite($handle, $message) === FALSE)
+        {
             throw new \Exception('Log writing failed, please check log file write permission');
         }
 
         return (fclose($handle));
+    }
+
+    /**
+     * 记录出log 其他的一些数据
+     * @Author han
+     * @param  string  $name      文件名
+     * @param  mix     $data      数组
+     * @param  boolean $backtrace 回溯跟踪
+     * @return int 大于0表示写入成功
+     */
+    public static function add($filename , $data, $with_php = true, $backtrace = false){
+        static $_log_fp;
+        if(
+            empty($_log_fp[$name]) &&
+            !($_log_fp[$name] = fopen(self::$dir . $name, 'ab')) ||
+            !flock($_log_fp[$name], LOCK_EX)
+        )
+        {
+            return false;
+        }
+
+        if(is_array($data) || is_object($data))
+        {
+            $data = var_export($data, true);
+        }
+
+        if($backtrace)
+        {
+            $d = debug_backtrace();
+            foreach($d as $v)
+            {
+                $data .= "\n$v[file]: $v[line]";
+            }
+        }
+
+        $data = $with_php ?
+            "<?php exit;?>". date('Y-m-d H:i:s') ."\n". $data ."\n\n" : $data."\n";
+
+        $ret = fputs(
+            $_log_fp[$name],
+            $data
+        );
+
+        flock($_log_fp[$name], LOCK_UN);
+        return $ret;
     }
 }

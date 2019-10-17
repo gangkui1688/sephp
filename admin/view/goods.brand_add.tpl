@@ -55,7 +55,7 @@
 
                         <div class="form-group uploader-group uploader-group-img"
                         data-compress="false"
-                        data-thumb_w='100'
+                        data-thumb_w=''
                         data-auto="true"
                         data-len="1"
                         data-size="50"
@@ -67,7 +67,9 @@
                             <div class="col-sm-8">
                                 <!--用来存放文件信息-->
                                 <div class="uploader-list"></div>
-                                <a class="btn btn-dark uploader-picker" data-file="image" data-type="image"><i class="fa fa-upload"></i> </a>
+                                <a class="btn btn-dark uploader-picker" data-file="brand_logo" data-type="image">
+                                    <i class="fa fa-upload"></i>
+                                </a>
                             </div>
                             <div class="hidden-input col-sm-9 col-sm-offset-2">
                                 <input type="hidden" class="form-control file" datatype="file" nullmsg="请上传文件">
@@ -76,32 +78,6 @@
 
                         <div class="hr-line-dashed"></div>
 
-                        <div class="form-group uploader-group uploader-group-img"
-                        data-auto="true"
-                        data-dir="image"
-                        data-height="1026"
-                        data-width="1624"
-                        data-extensions="gif,jpg,jpeg,bmp,png">
-                            <label class="col-sm-3 control-label">多图:</label>
-                            <div class="col-sm-8">
-                                <div class="uploader-list"></div>
-                                <a class="btn btn-dark uploader-picker" data-file="images" data-type="image"><i class="fa fa-upload"></i> </a>
-                            </div>
-                            <div class="hidden-input col-sm-9 col-sm-offset-2">
-                                <input type="hidden" class="form-control file" datatype="file" nullmsg="请上传文件">
-                            </div>
-                        </div>
-
-                        <div class="hr-line-dashed"></div>
-
-                        <div class="form-group">
-
-
-                            <label class="col-sm-3 control-label">LOGO：</label>
-                            <div class="col-sm-8">
-                                <input id="input_logo" name="brand_logo" class="form-control" type="text" />
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">描述：</label>
                             <div class="col-sm-8">

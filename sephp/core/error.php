@@ -4,7 +4,6 @@ use sephp\sephp;
 use sephp\func;
 use sephp\core\log;
 
-
 /**
  * debug 截获 重组
  * @ClassName: sys_debug
@@ -60,12 +59,13 @@ class error
      */
     public static function exception_handler($e)
     {
-        $code     = $e->getCode();
-        $msg    = $e->getMessage();
-        $line   = $e->getLine();
-        $filename  = $e->getFile();
-        $backtrace = $e->getTrace();
-        self::show($code, $msg, $filename, $line, $backtrace);
+        self::show(
+            $e->getCode(),
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine(),
+            $e->getTrace
+        );
     }
 
     public static $html = '<script language=\'javascript\'>function debug_hidden_all() {document.getElementById(\'debug_errdiv\').style.display=\'none\';}function debug_close_all() {debug_hidden_all();document.getElementById(\'debug_ctl\').style.display=\'none\';}</script><div id="debug_ctl" style="background: #cc3a3a;width:100px;line-height:18px;position:absolute;top:2px;left:2px;border:1px solid #ccc; padding:1px;text-align:center">
@@ -83,7 +83,7 @@ class error
         $code = empty(self::$error_code) ? $code : self::$error_code;
         $code_name = $code >= 100 ? '手动抛出' : '系统错误';
 
-        log::info($msg);
+        log::error($msg);
         $codes = file($filename);
 
         self::$html .= '<div style=\'font-size:14px;line-height:160%;border-bottom:1px dashed #ccc;margin-top:8px;\'>';

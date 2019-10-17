@@ -8,6 +8,39 @@ use sephp\core\error;
 class func
 {
 
+    /**
+     * 递归的删除文件或者目录
+     * @Author   GangKui
+     * @DateTime 2019-10-17
+     * @param    [type]     $target_dir [description]
+     * @return   [type]                 [description]
+     */
+    public static function del_dir_file($target_dir)
+    {
+        if (is_dir($target_dir) && $handle = @opendir($target_dir))
+        {
+             while (($file = readdir($handle)) !== false)
+             {
+                 if (($file == ".") || ($file == ".."))
+                 {
+                   continue;
+                 }
+
+                 if (is_dir($target_dir . '/' . $file))
+                 {
+                   // 递归
+                   del_dir_file($target_dir . '/' . $file);
+                 }
+                 else
+                 {
+                   unlink($target_dir . '/' . $file); // 删除文件
+                 }
+             }
+             @closedir($handle);
+             rmdir($target_dir);
+        }
+    }
+
      /**
      * 数据XML编码
      * @param mixed $data 数据
@@ -285,46 +318,33 @@ class func
         return preg_match("/cli/i", PHP_SAPI) ? true : false;
     }
 
-    /**
-     * 格式化文件大小 单位
-     * @param null $filepath
-     * @return bool|float|int|string
+        /* 格式化文件显示大小
+     * @param int $bytes 字节
+     * @return string
+     * @author Meixi
      */
-    public static function size_format($size = 0)
+    public static function size_format($bytes)
     {
-        $arBytes = array(
-            0 => array(
-                "UNIT" => "TB",
-                "VALUE" => pow(1024, 4)
-            ),
-            1 => array(
-                "UNIT" => "GB",
-                "VALUE" => pow(1024, 3)
-            ),
-            2 => array(
-                "UNIT" => "MB",
-                "VALUE" => pow(1024, 2)
-            ),
-            3 => array(
-                "UNIT" => "KB",
-                "VALUE" => 1024
-            ),
-            4 => array(
-                "UNIT" => "B",
-                "VALUE" => 1
-            ),
-        );
-
-        foreach($arBytes as $arItem)
+        if ($bytes > 1024*1024*1024*1024)
         {
-            if($size >= $arItem["VALUE"])
-            {
-                $result = $size / $arItem["VALUE"];
-                $result = str_replace(".", "." , strval(round($result, 2)))." ".$arItem["UNIT"];
-                break;
-            }
+            return round($bytes/(1024*1024*1024*1024), 1)."TB";
         }
-        return empty($result) ? $size : $result;
+        elseif ($bytes > 1024*1024*1024)
+        {
+            return round($bytes/(1024*1024*1024), 1)."GB";
+        }
+        elseif ($bytes > 1024*1024)
+        {
+            return round($bytes/(1024*1024), 1)."MB";
+        }
+        elseif ($bytes > 1024)
+        {
+            return round($bytes/(1024), 1)."KB";
+        }
+        else
+        {
+            return $bytes."B";
+        }
     }
 
     /**
@@ -412,7 +432,7 @@ class func
             {
                 while( true )
                 {
-                    $id = util::random($type, $num);
+                    $id = self::random($type, $num);
                     if( !isset($ids[$id]) )
                     {
                         $ids[$id] = 1;
@@ -430,11 +450,11 @@ class func
         //抛出一个id,没有没有了就重新取max_num条出来
         else if( false == ($id = cls_redis::instance()->sPop($key)) )
         {
-            $id = util::random($type, $num);
+            $id = self::random($type, $num);
             //进程结束后批量创建ID
             if( false != cls_redis_lock::lock($lock_name, 0, 30) )
             {
-                util::shutdown_function(
+                self::shutdown_function(
                     ['common\func\pub_func', 'uniqid'],
                     [$type, $num, 'create']
                 );
@@ -445,9 +465,9 @@ class func
     }
 
 
-    public static function make_bill_id($num = 6, $type = 'numeric')
+    public static function create_unique_id($num = 6, $type = 'numeric')
     {
-        return date("ymdHis").self::uniqid($type, $num);
+        return date("ymdHis") . self::uniqid($type, $num);
     }
 
     public static function floatval($data)
@@ -1017,7 +1037,7 @@ class func
     public static function send_email_code($email, $subject, $body_tpl = "", $expire = 30 * 60)
     {
         // 生成随机验证码
-        $code = util::random('numeric', 6);
+        $code = self::random('numeric', 6);
         //todo 方便测试
         $code = 123123;
         $body = str_replace('[code]', $code, $body_tpl);
@@ -1073,6 +1093,81 @@ class func
     public static function url_decode($gourl = '')
     {
         return urldecode(htmlspecialchars_decode($gourl, ENT_QUOTES));
+    }
+
+    /**
+      * Creates a random string of characters
+      *
+      * @param   string  $type    the type of string
+      * @param   int     $length  the number of characters
+      * @return  string  the random string
+      */
+    public static function random($type = 'alnum', $length = 16)
+    {
+        switch($type)
+        {
+            case 'basic':
+                return mt_rand();
+                break;
+            case 'alpha':
+                $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+
+            case 'alnum':
+                $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                break;
+
+            case 'numeric':
+                $pool = '0123456789';
+                break;
+
+            case 'nozero':
+                $pool = '123456789';
+                break;
+
+            case 'distinct':
+                $pool = '2345679ACDEFHJKLMNPRSTUVWXYZ';
+                break;
+
+            case 'hexdec':
+                $pool = '0123456789abcdef';
+                break;
+
+            case 'unique':
+                return md5(uniqid(mt_rand()) . getmypid() . microtime());
+                break;
+
+            case 'sha1' :
+                return sha1(uniqid(mt_rand(), true));
+                break;
+
+            case 'uuid':
+                $pool = array('8', '9', 'a', 'b');
+                return sprintf('%s-%s-4%s-%s%s-%s',
+                    static::random('hexdec', 8),
+                    static::random('hexdec', 4),
+                    static::random('hexdec', 3),
+                    $pool[array_rand($pool)],
+                    static::random('hexdec', 3),
+                    static::random('hexdec', 12));
+                break;
+
+            case 'web':
+                // 即使同一个IP，同一款浏览器，要在微妙内生成一样的随机数，也是不可能的
+                // 进程ID保证了并发，微妙保证了一个进程每次生成都会不同，IP跟AGENT保证了一个网段
+                return md5(getmypid().microtime().$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
+                break;
+        }
+
+        $str = '';
+        if(!empty($pool))
+        {
+            for ($i=0; $i < $length; $i++)
+            {
+                $str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
+            }
+        }
+        return $str;
     }
 
     /**
@@ -1485,127 +1580,6 @@ class func
     }
 
     /**
-     * 记录出log 其他的一些数据
-     * @Author han
-     * @param  string  $name      文件名
-     * @param  mix     $data      数组
-     * @param  boolean $backtrace 回溯跟踪
-     * @return int 大于0表示写入成功
-     */
-    public static function logger($name, $data, $with_php = true, $backtrace = false){
-        static $_log_fp;
-
-        $path = kali::$log_root .'/'. dirname($name);
-        if( !is_dir($path) && !mkdir($path, 0755, true) )
-        {
-            return false;
-        }
-        else if( stripos($path, kali::$log_root) !== 0 )
-        {
-            return false;
-        }
-
-        if(
-            empty($_log_fp[$name]) &&
-            !($_log_fp[$name] = fopen(kali::$log_root .'/'. $name, 'ab')) ||
-            !flock($_log_fp[$name], LOCK_EX)
-        )
-        {
-            return false;
-        }
-
-        if(is_array($data) || is_object($data))
-        {
-            $data = var_export($data, true);
-        }
-
-        if($backtrace)
-        {
-            $d = debug_backtrace();
-            foreach($d as $v)
-            {
-                $data .= "\n$v[file]: $v[line]";
-            }
-        }
-
-        $data = $with_php ?
-            "<?php exit;?>". date('Y-m-d H:i:s') ."\n". $data ."\n\n" : $data."\n";
-
-        $ret = fputs(
-            $_log_fp[$name],
-            $data
-        );
-
-        flock($_log_fp[$name], LOCK_UN);
-        return $ret;
-    }
-
-    /**
-     * 根据名称获取头像url
-     * @param unknown $avatar
-     * @return unknown|string
-     *
-     * @author Alex
-     */
-    public static function get_avatar_url($avatar, $type = 'user')
-    {
-        $avatar_config = config::instance()->get('avatar');
-
-        if(empty($avatar))
-        {
-            return ($type == 'user') ? $avatar_config['default_url'] : $avatar_config['default_kefu_url'];
-        }
-        else
-        {
-            if (preg_match("/^http(s)?:\\/\\/.+/", $avatar))
-            {
-                return $avatar;
-            }
-            else
-            {
-                return $avatar_config['url_prefix'] . $avatar;
-            }
-        }
-    }
-
-    /**
-     * 获取聊天记录里面的文件url
-     * @author  Alex
-     *
-     * @param $file
-     * @return string
-     */
-    public static function get_chat_file_url($file, $folder)
-    {
-        $upload_config =  config::instance('app_config')->get('upload', 'upload');
-        $aws_config = config::instance('app_config')->get('aws_configs');
-
-        if(strpos($file, $aws_config['bucket']) !== false)
-        {
-            $length = strlen($aws_config['bucket']) + 1; // 把  / 也去掉
-            //aws 的文件
-            $file = substr($file, $length);
-            $url = $aws_config['cdn_domain'] .'/' . $file;
-            $url = cls_aws_upload::url_sign($url, 86400*30);
-        }
-        else if(strpos($file, 'http') !== false)
-        {
-            $url = $file;
-        }
-        else if(empty($folder) || strpos($file, $folder) !== false)
-        {
-            //
-            $url = $upload_config['filelink'] . '/' . $file;
-        }
-        else
-        {
-            $url = $upload_config['filelink'] . "/{$folder}/" . $file;
-        }
-
-        return $url;
-    }
-
-    /**
      * 签名
      * @param array $data 要签名的数据
      * @param string $app_key 参与签名的 key
@@ -1632,102 +1606,6 @@ class func
         return strtoupper(md5($sign_text));
     }
 
-    /* 格式化文件显示大小
-     * @param int $bytes 字节
-     * @return string
-     * @author Meixi
-     */
-    public static function format_filesize($bytes)
-    {
-        if ($bytes > 1024*1024*1024*1024) {
-            return round($bytes/(1024*1024*1024*1024), 1)."TB";
-        }
-        elseif ($bytes > 1024*1024*1024) {
-            return round($bytes/(1024*1024*1024), 1)."GB";
-        }
-        elseif ($bytes > 1024*1024) {
-            return round($bytes/(1024*1024), 1)."MB";
-        }
-        elseif ($bytes > 1024) {
-            return round($bytes/(1024), 1)."KB";
-        }
-        else {
-            return $bytes."B";
-        }
-    }
-
-    /**
-     * 生成二维码
-     * @param string $text 二维码内容
-     * @param string $logo LOGO文件的路径，最好是png
-     * @param array $config 配置
-     *      error_correction_level  容错级别, 从低到高：0~3
-     *      matrix_size             生成图片大小
-     *      saveandprint            二维码留边大小
-     *      logo_scale              logo 缩放比
-     *      use_temp_file           是否将二维码生成临时文件
-     *      temp_dir                二维码临时文件存放目录
-     *      auto_remove_temp_file   自动删除临时文件
-     */
-    static function gen_qrcode($text, $logo, array $config = [])
-    {
-        require_once __DIR__ . '/../lib/phpqrcode/phpqrcode.php';
-        $config = array_merge([
-            'error_correction_level' => 3, // 容错级别, 从低到高：0~3
-            'matrix_size' => 16, // 生成图片大小
-            'saveandprint' => 1, // 二维码留边大小
-            'logo_scale' => 0.2, // logo 缩放比
-            'use_temp_file' => false, // 是否将二维码生成临时文件
-            'temp_dir' => __DIR__ . '/../../uploads/temp', // 二维码临时文件存放目录
-            'auto_remove_temp_file' => true, // 自动删除临时文件
-        ], $config);
-
-        $temp_file_name = $config['temp_dir'] . '/' . md5($text) . '.png';
-
-        if ($config['use_temp_file'])
-        {
-            \QRcode::png($text, $temp_file_name, $config['error_correction_level'], $config['matrix_size'], $config['saveandprint']);
-            $qr_data = file_get_contents($temp_file_name);
-        }
-        else
-        {
-            ob_start();
-            \QRcode::png($text, false, $config['error_correction_level'], $config['matrix_size'], $config['saveandprint']);
-            $qr_data = ob_get_contents();
-            ob_end_clean();
-        }
-
-        $qr_img = imagecreatefromstring($qr_data);
-
-        if ($logo && file_exists($logo))
-        {
-            $logo_img = imagecreatefromstring(file_get_contents($logo));
-
-            // 二维码尺寸
-            $qr_width = imagesx($qr_img);
-
-            // logo 尺寸
-            $logo_width = imagesx($logo_img);
-            $logo_height = imagesy($logo_img);
-
-            $logo_qr_width = $qr_width * $config['logo_scale'];
-            $scale = $logo_width / $logo_qr_width;
-            $logo_qr_height = $logo_height / $scale;
-            $from_width = ($qr_width - $logo_qr_width) / 2;
-
-            // 组合图片并调整大小
-            imagecopyresampled($qr_img, $logo_img, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
-            imagedestroy($logo_img);
-        }
-
-        header('content-type:image/png');
-        imagepng($qr_img);
-        imagedestroy($qr_img);
-        if ($config['use_temp_file'] && $config['auto_remove_temp_file'] && file_exists($temp_file_name))
-        {
-            @unlink($temp_file_name);
-        }
-    }
 
     public static function get_os($platform = 'web')
     {

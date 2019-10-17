@@ -54,23 +54,28 @@ class pub_mod_model
     public static $_is_master = false;
 
     /**
-     * 数据验证方法
+     * insert数据验证方法
      * @param $data
      * @return bool
      */
     public static function _field_verify($data) {
-        if (empty(static::$_rule_field)) {
+        if (empty(static::$_rule_field))
+        {
             return true;
         }
 
+        if(empty($data) || !is_array($data))
+        {
+            return false;
+        }
+
+        $data = !is_array(reset($data)) ? [$data] : $data;
+
         foreach ($data as $key => $val)
         {
-            if (empty(static::$_rule_field[$key])) {
-                continue;
-            }
-
-            if (!call_user_func(static::$_rule_field[$key]['rule'], $val)) {
-                static::$_error_msg = static::$_rule_field[$key]['error_msg'];
+            $result = func::date_filter(static::$_rule_field, $val);
+            if(!is_array($result))
+            {
                 return false;
             }
         }
@@ -145,11 +150,19 @@ class pub_mod_model
      * @param array $join
      * @return mixed
      */
-    public static function getdump($where, $field = [], $join = [])
+    public static function getdump($conds = [])
     {
-        $fields = empty($field)?static::$_field:$field;
-        $query  = db::select($fields)->from(static::$_table);
+        foreach (['where', 'fields', 'join'] as $f)
+        {
+            $$f = empty($conds[$f]) ? [] $conds[$f];
+        }
+
+        $field = empty($field) ? static::$_field : $field;
+
+        $query  = db::select($field)->from(static::$_table);
+
         static::_complate_sql($query, $where, $join);
+
         return $query->as_row()->execute();
     }
 
