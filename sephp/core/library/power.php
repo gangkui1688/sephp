@@ -16,7 +16,7 @@ use sephp\core\db;
  */
 class power
 {
-    public static 
+    public static
         $_table_admin = '#PB#_admin_user',
         $_table_group = '#PB#_admin_group';
     //用户session标示
@@ -44,7 +44,7 @@ class power
         {
             self::$instance = new self();
         }
-        
+
         return self::$instance;
     }
 
@@ -80,11 +80,12 @@ class power
     //权限校验
     public function check_in()
     {
-
         if(!is_array($this->_info['powerlist']) || !in_array('?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME,$this->_info['powerlist']))
         {
             //show_msg::error('抱歉！您无权限查看该页面','0');
         }
+
+        sephp::$_uid = $this->_uid;
     }
 
     //登陆操作
@@ -164,7 +165,7 @@ class power
             log::error('用户登陆，当前会话session_id写入失败');
             return false;
         }
-        
+
         session::set(self::$_mark, $this->_info);
         $this->_uid = $this->_info['admin_id'];
         return true;
@@ -180,7 +181,7 @@ class power
     public static function make_password($password,$password_account = null)
     {
         //$pass = md5(substr(md5($password),8,10) . (empty($password_accout) ? '' : '_' . $password_account));
-        return password_hash($password, PASSWORD_BCRYPT); 
+        return password_hash($password, PASSWORD_BCRYPT);
     }
 
     /**

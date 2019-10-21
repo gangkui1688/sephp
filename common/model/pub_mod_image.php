@@ -51,7 +51,7 @@ class pub_mod_image extends pub_mod_model
     {
         if(self::$_cache_use)
         {
-            $cache_key  md5(__CLASS__ . __METHOD__ . $image_id . $type );
+            $cache_key = __CLASS__ . __METHOD__ . $image_id . $type ;
             $data = cache::get($cache_key);
             if(!empty($data))
             {

@@ -18,9 +18,9 @@ use sephp\core\config;
 class pub_mod_goods_brand extends pub_mod_model
 {
     public static
-        $table  = '#PB#_goods_brand',
-        $pk     = 'brand_id',
-        $fields = [
+        $_table  = '#PB#_goods_brand',
+        $_pk     = 'brand_id',
+        $_fields = [
             'brand_id'       => ['type' => 'int',  'required' => true, 'comment' => '品牌ID'], //订单号
             'brand_name'     => ['type' => 'text', 'required' => true, 'comment' => '品牌名称'], //服务id
             'brand_url'      => ['type' => 'text', 'default' => null, 'comment' => '品牌URL地址'], //申请人
@@ -30,8 +30,8 @@ class pub_mod_goods_brand extends pub_mod_model
             'brand_setting'  => ['type' => 'text', 'default' => null, 'comment' => '品牌设置'], //申请金额
             'disabled'       => ['type' => 'text', 'default' => 1, 'comment' => '开关'], //申请金额
             'ordernum'       => ['type' => 'text', 'default' => null, 'comment' => '排序'], //申请金额
-            'adduser'         => ['type' => 'text', 'required' => true, 'default' => null, 'comment' => '添加人'], //申请金额
-            'addtime'        => ['type' => 'text', 'required' => true, 'default' => null, 'comment' => '添加时间'], //申请金额
+            'adduser'        => ['type' => 'text', 'required' => false, 'default' => '', 'comment' => '添加人'], //申请金额
+            'addtime'        => ['type' => 'text', 'required' => false, 'default' => '', 'comment' => '添加时间'], //申请金额
             'upuser'         => ['type' => 'text', 'default' => 0, 'comment' => '更新人'], //申请金额
             'uptime'         => ['type' => 'text', 'default' => 0, 'comment' => '更新时间'], //申请金额
         ],
@@ -40,4 +40,8 @@ class pub_mod_goods_brand extends pub_mod_model
             '1' => '启用',
             '2' => '禁用',
         ];
+
+        public static function _init()
+        {
+        }
 }

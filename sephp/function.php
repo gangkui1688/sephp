@@ -8,6 +8,12 @@ use sephp\core\error;
 class func
 {
 
+    public static function dump_sql()
+    {
+        print_r(\sephp\core\db::$query_sql);
+        exit();
+    }
+
     /**
      * 递归的删除文件或者目录
      * @Author   GangKui
@@ -397,17 +403,7 @@ class func
         return array_pop($class);
     }
 
-    public static function pr($data)
-    {
-        echo '<pre>';
-        print_r($data);
-    }
 
-    public static function dump_sql()
-    {
-        self::pr(db::$queries);
-        exit;
-    }
 
     /**
      * 获取不重复的ID(只是保证当前字典中不重复，所以订单号加上当前的年月日时分秒就肯定不会重复)

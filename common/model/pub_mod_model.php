@@ -154,7 +154,7 @@ class pub_mod_model
     {
         foreach (['where', 'fields', 'join'] as $f)
         {
-            $$f = empty($conds[$f]) ? [] $conds[$f];
+            $$f = empty($conds[$f]) ? [] : $conds[$f];
         }
 
         $field = empty($field) ? static::$_field : $field;
@@ -206,7 +206,7 @@ class pub_mod_model
 
         //判断是否为批量插入
         $mutipule = is_array(reset($data)) ? true : false;
-        $table = empty($table) ? static::$table : $table;
+        $table = empty($table) ? static::$_table : $table;
         if( empty($table) ) return false;
 
         $query =  db::insert($table)->ignore($ignore);
@@ -238,7 +238,13 @@ class pub_mod_model
     public static function update(array $data, array $where, $table = '', $ignore = false)
     {
         if( empty($data) || empty($where) ) return false;
-        $table = empty($table) ? static::$table : $table;
+
+        if(empty($where) && !empty($data[static::$_pk]))
+        {
+            $where = [static::$_pk, '=', $data[static::$_pk]];
+        }
+
+        $table = empty($table) ? static::$_table : $table;
         if( empty($table) ) return false;
 
         $query = db::update($table)

@@ -10,6 +10,9 @@ use sephp\core\log;
 use sephp\core\req;
 use sephp\core\route;
 
+//代码开始执行时间
+define('SE_START_TIME', microtime(true));
+
 class sephp
 {
 
@@ -38,22 +41,23 @@ class sephp
 	public static $_ac       = 'index';
 
     /**
-     * 是否是ajax 请求
-     * @var bool
-     */
-	public static $is_ajax   = false;
-
-    /**
-     * 是否是命令行模式
-     * @var bool
-     */
-	public static $is_cli =  false;
-
-    /**
      * 当前读取的配置
      * @var array|mixed
      */
-	public static $_config   = [];
+    public static $_config   = [];
+
+     /**
+     * 当前用户信息
+     * @var array|mixed
+     */
+    public static $_user  = [];
+
+    /**
+     * 当前用户uid
+     *
+     * @var array|mixed
+     */
+    public static $_uid  = 0;
 
 
     /**
@@ -112,7 +116,8 @@ class sephp
     /**
      * 执行控制器文件代码
      */
-	public function run() {
+	public function run()
+    {
 
 		$ctl_file = PATH_APP.'ctl/ctl_'.self::$_ct.'.php';
 
@@ -132,7 +137,8 @@ class sephp
 			throw new \Exception("class ".self::$_ct."() is not exists!", 100);
 		}
 
-		if (method_exists(self::$_instance, self::$_ac) === true) {
+		if (method_exists(self::$_instance, self::$_ac) === true)
+        {
 			$acton_name = self::$_ac;
 			self::$_instance->$acton_name();
 		} else {
@@ -154,9 +160,6 @@ class sephp
 
 		define('ACTION_NAME', self::$_ac);
 		define('CONTROLLER_NAME', self::$_ct);
-
-        self::$is_ajax = func::is_ajax();
-        self::$is_cli = func::is_cli();
 
 	}
 
@@ -217,8 +220,7 @@ class sephp
         //项目URL地址
         define('URL_APP', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
 
-        //代码开始执行时间
-        define('SE_START_TIME', microtime(true));
+        define('TIME_SEPHP', microtime(true));
         define('PATH_SEPHP', __DIR__ .'/');        //框架目录
         define('PATH_ROOT', __DIR__ .'/../');        //网站根目录
         define('PATH_LIB', __DIR__ .'/core/library/');

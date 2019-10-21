@@ -35,14 +35,28 @@ $config['session'] = [
 ];
 
 //可以做读写分离的设置
-$config['db'] = [
-    'type'   => 'mysql',
-    'host'   => '127.0.0.1',
-    'root'   => 'root',
-    'pass'   => 'admin999',
-    'dbname' => 'sephp',
-    'port'   => '3306',
-    'prefix' => 'se_'
+$config['mysql'] = [
+    'enable'  => true,
+    'user'    => 'root',
+    'pass'    => 'admin999',
+    'name'    => 'sephp',
+    'charset' => 'utf8mb4',
+    'collation'  => 'utf8mb4_unicode_ci',
+    'prefix'  => 'se',
+    // 是否启用长链接，不要启用，mysqli的长链问题很多
+    'keep-alive' => false,
+    // 是否对SQL语句进行安全检查并处理，在插入十万条以上数据的时候会出现瓶颈
+    'safe_test'  => true,
+    // 慢查询阀值，秒
+    'slow_query' => 0.5,
+    'host' => [
+        'master' => '127.0.0.1:3306',
+        //'slave'  => ['127.0.0.1:3306'],
+    ],
+    'crypt_key' => 'tPVPnynVnsiqh',
+    'crypt_fields' => [
+        //'表名' => ['加密的字段名称'],
+    ],
 ];
 
 $config['sysRedis'] = [

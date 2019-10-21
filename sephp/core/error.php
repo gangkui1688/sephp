@@ -64,7 +64,7 @@ class error
             $e->getMessage(),
             $e->getFile(),
             $e->getLine(),
-            $e->getTrace
+            $e->getTrace()
         );
     }
 
@@ -96,16 +96,14 @@ class error
 
         array_shift($backtrace);
         //p($debug_backtrace);exit;
-        $narr = array('class', 'type', 'function', 'file', 'line');
+        $narr = ['class', 'type', 'function', 'file', 'line'];
         foreach ($backtrace as $i => $l)
         {
-            foreach ($narr as $k)
+            if(empty($l['class']))
             {
-                if (!isset($l[$k]))
-                {
-                   $l[$k] = '';
-                }
+               continue;
             }
+
             self::$html .= "<font color='#747267'>[$i] In function {$l['class']}{$l['type']}{$l['function']} ";
             empty($l['file']) ? '' : self::$html .= " In <a href='" . str_replace(['%file%','%line%'], [$l['file'],$l['line']], sephp::$_config['web']['edit_tool']) . "' >{$l['file']}</a>";
             empty($l['line']) ? '' : self::$html .= " on line {$l['line']} ";

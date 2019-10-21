@@ -1,6 +1,7 @@
 <?php
 namespace admin\ctl;
 use sephp\sephp;
+use sephp\func;
 use sephp\core\req;
 use sephp\core\log;
 use sephp\core\view;
@@ -50,7 +51,6 @@ class ctl_goods
      */
     public function brand_add()
     {
-        \sephp\core\lang::load('upload');
         $data = [];
         if(!empty(req::$posts))
         {
@@ -92,10 +92,34 @@ class ctl_goods
     private function brand_save()
     {
 
-        $filter_config = pub_mod_goods_brand::$fields;
-        $post = func::date_filter($filter_config, req::$posts);
 
-        print_r($posts);
+        $filter_config = pub_mod_goods_brand::$_fields;
+        $posts = func::data_filter($filter_config, req::$posts);
+        if(!is_array($posts))
+        {
+            show_msg::error("参数错误:{$post}");
+        }
+
+        $posts = func::get_value($posts, 'brand_logo/0', '');
+
+        if(empty(req::$posts[pub_mod_goods_brand::$_pk]))
+        {
+            $posts['adduser'] = sephp::$_uid;
+            $posts['addtime'] = TIME_SEPHP;
+
+            $result = pub_mod_goods_brand::insert($posts);
+        }
+        else
+        {
+            $posts['upuser'] = sephp::$_uid;
+            $posts['addtime'] = TIME_SEPHP;
+
+            $result = pub_mod_goods_brand::update($posts);
+        }
+
+        func::dump_sql();
+        var_dump($result);
+
     }
 
 }
