@@ -29,11 +29,11 @@ class pub_mod_goods_brand extends pub_mod_model
             'brand_keywords' => ['type' => 'text', 'default' => null, 'comment' => '品牌关键字'], //申请金额
             'brand_setting'  => ['type' => 'text', 'default' => null, 'comment' => '品牌设置'], //申请金额
             'disabled'       => ['type' => 'text', 'default' => 1, 'comment' => '开关'], //申请金额
-            'ordernum'       => ['type' => 'text', 'default' => null, 'comment' => '排序'], //申请金额
+            'ordernum'       => ['type' => 'int', 'default' => null, 'comment' => '排序'], //申请金额
             'adduser'        => ['type' => 'text', 'required' => false, 'default' => '', 'comment' => '添加人'], //申请金额
-            'addtime'        => ['type' => 'text', 'required' => false, 'default' => '', 'comment' => '添加时间'], //申请金额
+            'addtime'        => ['type' => 'int', 'required' => false, 'default' => '', 'comment' => '添加时间'], //申请金额
             'upuser'         => ['type' => 'text', 'default' => 0, 'comment' => '更新人'], //申请金额
-            'uptime'         => ['type' => 'text', 'default' => 0, 'comment' => '更新时间'], //申请金额
+            'uptime'         => ['type' => 'int', 'default' => 0, 'comment' => '更新时间'], //申请金额
         ],
 
         $disabled = [

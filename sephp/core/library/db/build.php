@@ -2632,7 +2632,7 @@ class db_connection
             //$ret .= sprintf( "<br/>#%s %s(%s): %s()\n",
             $ret .= sprintf( "<br/><font color=\"#000\">出错语句：</font>%s\n<br/><font color=\"#000\">出错位置：</font>%s <font color=\"#000\">第 %s 行</font>\n",
                 $this->_sql,
-                '<a href="'.str_replace(array('%file','%line'), array($frame['file'],$frame['line']), SYS_EDITOR).'">'. $frame['file'] . '</a>',
+                '<a href="'.str_replace(array('%file','%line'), array($frame['file'],$frame['line']), sephp::$_config['web']['edit_tool']).'">'. $frame['file'] . '</a>',
                 $frame['line']
             );
         }

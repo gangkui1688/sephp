@@ -15,7 +15,6 @@ define('SE_START_TIME', microtime(true));
 
 class sephp
 {
-
     /**
      * 当前对象
      * @var null
@@ -67,6 +66,9 @@ class sephp
      */
 	public function __construct($_authority = [])
     {
+        //定义常量
+        $this->define();
+        //环境检测
         $this->check_environment();
 
         //自动注册类库
@@ -74,7 +76,7 @@ class sephp
 
         //初始化配置选项
         config::get();
-        sephp::$_config['_authority'] = $_authority;
+        self::$_config['_authority'] = $_authority;
 
 		self::$_now_url = $_SERVER['REQUEST_URI'];
 
@@ -191,14 +193,14 @@ class sephp
             exit('APP_NAME or PATH_APP is not defind!');
         }
 
-        //定义常量
-        $this->define();
-
-        if (!defined('APP_DEBUG') || !APP_DEBUG) {
+        if (!defined('APP_DEBUG') || !APP_DEBUG)
+        {
             //禁用错误报告
             error_reporting(0);
             ini_set('display_errors', 0);
-        } else {
+        }
+        else
+        {
             //可以抛出任何非注意的错误报告 E_ERROR | E_PARSE | E_CORE_ERROR | E_NOTICE
             error_reporting(E_ALL);
             //该指令开启如果有错误报告才能输出

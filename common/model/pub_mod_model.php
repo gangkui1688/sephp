@@ -7,6 +7,7 @@ use sephp\func;
 use sephp\core\req;
 use sephp\core\log;
 use sephp\core\config;
+use sephp\core\lib\pages;
 
 /**
  * model层基类，必须继承
@@ -97,46 +98,53 @@ class pub_mod_model
      * ]
      * @return array|mixed
      */
-    public static function getlist($conds = []) {
+    public static function getlist($conds = [])
+    {
+        $data_filter = func::data_filter([
+            'where'     => ['type' => 'text', 'default' => []],
+            'field'     => ['type' => 'text', 'default' => []],
+            'joins'     => ['type' => 'text', 'default' => []],
+            'order_by'  => ['type' => 'text', 'default' => []],
+            'group_by'  => ['type' => 'text', 'default' => []],
+            'offset'    => ['type' => 'int', 'default' => 0],
+            'limit'     => ['type' => 'int', 'default' => 20],
+            'total'     => ['type' => 'text', 'default' => false],
+        ], $conds);
 
-        foreach (['where', 'field', 'join' , 'order', 'group', 'offset', 'limit', 'total'] as $key)
+        if(empty($data_filter['field']))
         {
-            $$key = empty($conds[$key]) ? [] : $conds[$key];
-
-            if($key == 'field' && empty($$key))
+            foreach (static::$_field as $f)
             {
-                foreach (static::$_field as $f)
-                {
-                    $field[] = static::$_table.'.'.$f;
-                }
+                $data_filter['field'][] = static::$_table.'.'.$f;
             }
         }
 
-        if ($total)
+        if ($data_filter['total'])
         {
-            $total  = static::count($where, $join);
-            $pages  = cls_page::make($total, req::item('page_size', 15), '', '');
-            $offset = $pages['offset'];
-            $limit  = $pages['page_size'];
+            $total_num  = static::count($data_filter['where'], $data_filter['joins']);
+            $pages = pages::instance($total_num, $data_filter['limit']);
         }
 
-        if (static::$_use_cache) {
-            $cache_key = md5(serialize($where).serialize($fields).serialize($order).serialize($join).$offset.$limit.$total);
+        if (static::$_cache_use)
+        {
+            $cache_key = md5(serialize($data_filter));
             $data      = cache::get($cache_key);
-            if (!empty($data)) {
+            if (!empty($data))
+            {
                 return json_decode($data);
             }
         }
 
-        $query = db::select($fields)->from(static::$_table);
+        $query = db::select($data_filter['field'])->from(static::$_table);
 
-        self::_complate_sql($query, $where, $join, $order);
+        self::_complate_sql($query, $data_filter['where'], $data_filter['joins'], $data_filter['order_by']);
 
-        $data = $query->offset($offset)->limit($limit)->execute();
+        $data = $query->offset($pages['offset'])->limit($data_filter['limit'])->execute();
 
-        $data = $total?['data' => $data, 'pages' => $pages['show']]:$data;
+        $data = $data_filter['total'] ? ['data' => $data, 'pages' => $pages['show']] : $data;
 
-        if (static::$_use_cache) {
+        if (static::$_cache_use)
+        {
             cache::set($cache_key, json_encode($data, JSON_UNESCAPED_UNICODE));
         }
 
@@ -266,7 +274,7 @@ class pub_mod_model
      */
     public static function count($where = [], $join = [])
     {
-        $query = db::select('COUNT('.str_replace('#PB#', 'sp', static::$_table).'.*) AS total')
+        $query = db::select('COUNT(*) AS total')
             ->from(static::$_table);
 
         static::_complate_sql($query, $where, $join);

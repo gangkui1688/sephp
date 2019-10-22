@@ -30,9 +30,20 @@ class pages
         'theme'  => '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%',
     );
 
+    public static $instance = null;
+
     public static function instance($totalRows, $listRows=20, $parameter = array())
     {
-        return new self($totalRows, $listRows, $parameter);
+        if(empty(self::$instance))
+        {
+            self::$instance = new self($totalRows, $listRows, $parameter);
+        }
+
+        return [
+            'offset' => self::$instance->firstRow,
+            'limit'  => self::$instance->listRows,
+            'show'   => self::$instance->show(),
+        ];
     }
 
     /**

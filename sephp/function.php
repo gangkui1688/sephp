@@ -8,9 +8,15 @@ use sephp\core\error;
 class func
 {
 
+    /**
+     * 打印s q l语句
+     * @Author   GangKui
+     * @DateTime 2019-10-22
+     * @return   [type]     [description]
+     */
     public static function dump_sql()
     {
-        print_r(\sephp\core\db::$query_sql);
+        print_r(\sephp\core\db::$queries);
         exit();
     }
 
@@ -87,6 +93,13 @@ class func
         return $path;
     }
 
+    /**
+     * 返回j son数据
+     * @Author   GangKui
+     * @DateTime 2019-10-22
+     * @param    [type]     $data [description]
+     * @return   [type]           [description]
+     */
     public static function return_json($data)
     {
         exit(json_encode($data, JSON_UNESCAPED_UNICODE));
@@ -230,20 +243,6 @@ class func
     {
         $gourl = empty($_SERVER['HTTP_REFERER']) ? $gourl : $_SERVER['HTTP_REFERER'];
         return $gourl;
-    }
-
-
-    /**
-     * 返回随机字符串,包括特殊字符
-     **/
-    public static function rand_str($length = 8)
-    {
-        $output = '';
-        for ($i=0 ; $i < $length ; $i++ )
-        {
-            $output .= chr(mt_rand(33,126));
-        }
-        return $output;
     }
 
     /**
@@ -458,12 +457,6 @@ class func
         }
 
         return $id;
-    }
-
-
-    public static function create_unique_id($num = 6, $type = 'numeric')
-    {
-        return date("ymdHis") . self::uniqid($type, $num);
     }
 
     public static function floatval($data)
@@ -1152,6 +1145,14 @@ class func
                 // 即使同一个IP，同一款浏览器，要在微妙内生成一样的随机数，也是不可能的
                 // 进程ID保证了并发，微妙保证了一个进程每次生成都会不同，IP跟AGENT保证了一个网段
                 return md5(getmypid().microtime().$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
+                break;
+            case 'allstr':
+                 $output = '';
+                for ($i=0 ; $i < $length ; $i++ )
+                {
+                    $output .= chr(mt_rand(33,126));
+                }
+                return $output;
                 break;
         }
 

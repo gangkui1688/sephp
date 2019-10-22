@@ -10,7 +10,8 @@ use sephp\core\lib\db\sqlsrv;
 
 class db
 {
-
+    public static $queries = [];
+    public static $query_times = [];
 
     public static function get_last_sql()
     {

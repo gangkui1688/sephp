@@ -119,7 +119,7 @@ class ctl_member
             db::rollback();
         }
         $pam['member_id'] = $member_id;
-        $pam['password_account'] = rand_str(8);   //随机字符串
+        $pam['password_account'] = func::random('allstr', 8);   //随机字符串
         $pam['login_account'] = req::$posts['login_account']; //登陆名称
         $pam['login_password'] = power::make_password(req::$posts['password'],$pam['password_account']);
         list($id,$rows) = db::insert($this->_pam_table)->set($pam)->execute();
@@ -179,7 +179,7 @@ class ctl_member
             show_msg::success();
         }
 
-        $pam['password_account'] = rand_str(8);   //随机字符串
+        $pam['password_account'] = func::random('allstr', 8);   //随机字符串
         $pam['login_password'] = power::make_password(req::$posts['password'],$pam['password_account']);
 
         if(db::update($this->_pam_table)

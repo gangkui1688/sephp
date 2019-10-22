@@ -4,6 +4,7 @@ use sephp\sephp;
 use sephp\func;
 use sephp\core\req;
 use sephp\core\config;
+use sephp\core\log;
 
 /**
  * 数据库类
@@ -19,7 +20,6 @@ class mysqli
     const UPDATE =  3;
     const DELETE =  4;
 
-    public static $query_sql = [];
     public static $queries = [];
     public static $query_times = [];
 //
@@ -504,7 +504,7 @@ class mysqli
 
         //兼容字段中有复杂计算不替换#PB#的情况
         $this->_sql = $this->table_prefix($this->_sql);
-        self::$queries[] = $this->_sql;
+        \sephp\core\db::$queries[] = $this->_sql;
 
         return $this->_sql;
     }
@@ -564,7 +564,7 @@ class mysqli
 
             // Stop and aggregate the query time results
             $query_time = microtime(true) - $time_start;
-            PHP_SAPI != 'cli' && self::$query_times[] = $query_time;
+            PHP_SAPI != 'cli' && \sephp\core\db::$query_times[] = $query_time;
 
             // 记录慢查询
             if ( self::$config[$this->_db_name]['slow_query'] && ($query_time > self::$config[$this->_db_name]['slow_query']) )
@@ -2595,7 +2595,7 @@ class mysqli
 
     public function start()
     {
-        PHP_SAPI != 'cli' && self::$queries[] = 'autocommit false';
+        PHP_SAPI != 'cli' && \sephp\core\db::$queries[] = 'autocommit false';
         $this->_atts['start'] = true; //数据库重连可能会导致事务丢失，标记开启了事务不重连
 
         return $this->autocommit(false);
@@ -2603,19 +2603,19 @@ class mysqli
 
     public function commit()
     {
-        PHP_SAPI != 'cli' && self::$queries[] = 'commit';
+        PHP_SAPI != 'cli' && \sephp\core\db::$queries[] = 'commit';
         return mysqli_commit(static::$_instance[self::get_instance_name($this->_db_name, 'master')]->_handler());
     }
 
     public function rollback()
     {
-        PHP_SAPI != 'cli' && self::$queries[] = 'rollback';
+        PHP_SAPI != 'cli' && \sephp\core\db::$queries[] = 'rollback';
         return mysqli_rollback(static::$_instance[self::get_instance_name($this->_db_name, 'master')]->_handler());
     }
 
     public function end()
     {
-        PHP_SAPI != 'cli' && self::$queries[] = 'autocommit true';
+        PHP_SAPI != 'cli' && \sephp\core\db::$queries[] = 'autocommit true';
         return $this->autocommit(true);
     }
 
@@ -2632,7 +2632,7 @@ class mysqli
             //$ret .= sprintf( "<br/>#%s %s(%s): %s()\n",
             $ret .= sprintf( "<br/><font color=\"#000\">出错语句：</font>%s\n<br/><font color=\"#000\">出错位置：</font>%s <font color=\"#000\">第 %s 行</font>\n",
                 $this->_sql,
-                '<a href="'.str_replace(array('%file','%line'), array($frame['file'],$frame['line']), SYS_EDITOR).'">'. $frame['file'] . '</a>',
+                '<a href="'.str_replace(array('%file','%line'), array($frame['file'],$frame['line']), sephp::$_config['web']['edit_tool']).'">'. $frame['file'] . '</a>',
                 $frame['line']
             );
         }

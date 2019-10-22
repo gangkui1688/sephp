@@ -16,17 +16,65 @@
                 </div>
                 <div class="ibox-content">
                     <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm">
-                        <input name="brand_id" type="hidden" value="<{request_em array=$data key='brand_id' }>" />
+                        <input name="goods_id" type="hidden" value="<{request_em array=$data key='goods_id' }>" />
                         <div class="form-group">
                             <label class="col-sm-3 control-label">名 称：</label>
                             <div class="col-sm-4">
-                                <input  name="brand_name" class="form-control" value="<{request_em array=$data key='brand_name'}>" required class="valid">
+                                <input  name="name" class="form-control" value="<{request_em array=$data key='name'}>" required class="valid">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">URL：</label>
+                            <label class="col-sm-3 control-label">上/下架：</label>
+                            <div class="col-sm-3">
+                                <select name="marketable" class="form-control">
+                                    <option value="1">上架</option>>
+                                    <option value="2">下架</option>>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">库 存：</label>
+                            <div class="col-sm-3">
+                                <input type="number" name="store" class="form-control" value="<{request_em array=$data key='store'}>" required class="valid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">无库存销售</label>
+                            <div class="col-sm-3">
+                                <select name="nostore_sell" class="form-control">
+                                    <option value="1">是</option>>
+                                    <option value="2">否</option>>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">库 存：</label>
+                            <div class="col-sm-3">
+                                <input type="number" name="store" class="form-control" value="<{request_em array=$data key='store'}>" required class="valid">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"> 成本价：</label>
+                            <div class="col-sm-3">
+                                <input  name="cost" class="form-control" value="<{request_em array=$data key='cost'}>" required class="valid">
+                            </div>
+                            <label class="col-sm-2 control-label">市场价：</label>
+                            <div class="col-sm-3">
+                                <input name="mktprice" class="form-control" value="<{request_em array=$data key='mktprice'}>" required class="valid">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"> 成本价：</label>
+                            <div class="col-sm-3">
+                                <input  name="cost" class="form-control" value="<{request_em array=$data key='cost'}>" required class="valid">
+                            </div>
+                            <label class="col-sm-2 control-label">市场价：</label>
+                            <div class="col-sm-3">
+                                <input name="mktprice" class="form-control" value="<{request_em array=$data key='mktprice'}>" required class="valid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">标题简介：</label>
                             <div class="col-sm-4">
-                                <input id="input_url" name="brand_url" class="form-control" value="<{request_em  array=$data key='brand_url' }>" required class="error">
+                                <input id="input_url" name="brief" class="form-control" value="<{request_em  array=$data key='brief' }>" required class="error">
                             </div>
                         </div>
                         <div class="form-group">
