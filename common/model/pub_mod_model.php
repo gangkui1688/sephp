@@ -141,6 +141,11 @@ class pub_mod_model
 
         $data = $query->offset($pages['offset'])->limit($data_filter['limit'])->execute();
 
+        if(!empty($data) && method_exists(new static() , 'data_format'))
+        {
+            array_walk($data, function(&$v){$v = static::data_format($v);});
+        }
+
         $data = $data_filter['total'] ? ['data' => $data, 'pages' => $pages['show']] : $data;
 
         if (static::$_cache_use)

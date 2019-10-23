@@ -83,7 +83,7 @@
                             <label class="col-sm-2 control-label"><code>*</code> 分类:</label>
                             <div class="col-sm-10">
                                 <select name="catid" class="form-control" datatype="*" nullmsg="请输入分类">
-                                    <{html_options options=$options selected=$catid}>       
+                                    <{html_options options=$options selected=$catid}>
                                 </select>
                             </div>
                         </div>
@@ -106,8 +106,8 @@
 
                         <!--data-height="1026"-->
                         <!--data-width="1624"-->
-                        <div class="form-group uploader-group uploader-group-img" 
-                        data-auto="true" 
+                        <div class="form-group uploader-group uploader-group-img"
+                        data-auto="true"
                         data-dir="image"
                         data-extensions="gif,jpg,jpeg,bmp,png">
                             <label class="col-sm-2 control-label">多图:</label>

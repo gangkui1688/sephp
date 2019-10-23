@@ -222,7 +222,7 @@ class sephp
         //项目URL地址
         define('URL_APP', 'http://'.$_SERVER['HTTP_HOST'].'/'.APP_NAME);
 
-        define('TIME_SEPHP', microtime(true));
+        define('TIME_SEPHP', time());
         define('PATH_SEPHP', __DIR__ .'/');        //框架目录
         define('PATH_ROOT', __DIR__ .'/../');        //网站根目录
         define('PATH_LIB', __DIR__ .'/core/library/');

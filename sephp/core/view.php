@@ -56,7 +56,9 @@ class view {
 		self::instance()->assign('_forms', req::$forms);
 		self::instance()->assign('clear_cache', '?'.time());
 		self::instance()->assign('_site_url', self::$config['url']);
-		self::instance()->assign('build', empty(self::$config['build'])?time():self::$config['build']);
+        //前端版本设置，方便清除 js css 的缓存
+		self::instance()->assign('build', empty(self::$config['build']) ? time() : self::$config['build']);
+        self::instance()->assign('url_upload', sephp::$_config['upload']['filelink'].'/image/');
 	}
 
 	public static function fetch($tpl = '') {

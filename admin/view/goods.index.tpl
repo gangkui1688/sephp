@@ -27,29 +27,31 @@
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <tr>
-                                <th>ID</th>
+                                <th>编号</th>
                                 <th>名称</th>
-                                <th>URL</th>
-                                <th>LOG</th>
-                                <th>描述</th>
-                                <th>关键字</th>
-                                <th>排序</th>
-                                <th>状态</th>
+                                <th>上/下架</th>
+                                <th>库存</th>
+                                <th>浏览数</th>
+                                <th>购买数</th>
+                                <th>成本价</th>
+                                <th>市场价</th>
+                                <th>添加时间</th>
                                 <th>操作</th>
                             </tr>
 
                             <{foreach from=$list item=data }>
                             <tr>
-                                <td> <{$data.brand_id}> </td>
-                                <td> <{$data.brand_name}> </td>
-                                <td> <{$data.brand_url}> </td>
-                                <td> <{$data.brand_logo}> </td>
-                                <td> <{$data.brand_desc}> </td>
-                                <td> <{$data.brand_keywords}> </td>
-                                <td> <{$data.ordernum}> </td>
-                                <td> <{$data.disabled}> </td>
+                                <td> <{$data.goods_sn}> </td>
+                                <td> <{$data.name}> </td>
+                                <td> <{$data.show_marketable}> </td>
+                                <td> <{$data.store}> </td>
+                                <td> <{$data.view_count}> </td>
+                                <td> <{$data.buy_count}> </td>
+                                <td> <{$data.cost}> </td>
+                                <td> <{$data.mktprice}> </td>
+                                <td> <{$data.addtime|date_format:'%Y-%m-%d'}> </td>
                                 <td>
-                                    <a class="btn btn-xs btn-danger" href="<{$edit_url}><{$data.brand_id}>">编辑</a>
+                                    <a class="btn btn-xs btn-danger" href="<{$edit_url}><{$data.goods_id}>">编辑</a>
                                 </td>
                             </tr>
                             <{foreachelse}>

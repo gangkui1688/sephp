@@ -22,6 +22,9 @@
     <!-- sweetalert -->
     <link href="static/frame/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
+    <link href="static/frame/js/plugins/redactor/css/redactor.css" rel="stylesheet" />
+
+
     <link href="static/frame/css/plugins/iCheck/custom.css" rel="stylesheet"  />
     <link href="static/frame/css/animate.min.css" rel="stylesheet">
 
@@ -33,6 +36,8 @@
     <link href="static/frame/css/plugins/bootstrap-table/src/bootstrap-table.css" rel="stylesheet"  />
 
 
+
+    <link href="static/css/main.css" rel="stylesheet"  />
 
 </head>
 <body class="gray-bg" >

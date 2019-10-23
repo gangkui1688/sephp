@@ -3,6 +3,9 @@
 <script src="static/frame/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="static/frame/js/bootstrap.min.js?v=3.3.5"></script>
 
+<!-- redactor -->
+<script src="static/frame/js/plugins/redactor/js/redactor.js"></script>
+
 <!-- jquery baidu webupload -->
 <script src="static/frame/js/plugins/webuploader/webuploader.min.js"></script>
 <script src="static/frame/js/plugins/webuploader/webuploadImage.js"></script>
