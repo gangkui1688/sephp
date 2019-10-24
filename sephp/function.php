@@ -71,6 +71,37 @@ class func
         return $xml;
     }
 
+
+    /**
+     * 将 xml数据转换为数组格式。
+     * @Author   GangKui
+     * @DateTime 2019-10-24
+     * @param    [type]     $xml [description]
+     * @return   [type]          [description]
+     */
+    public static function xml_to_array($xml)
+    {
+        $reg = "/<(\w+)[^>]*>([\\x00-\\xFF]*)<\\/\\1>/";
+        if(preg_match_all($reg, $xml, $matches))
+        {
+            $count = count($matches[0]);
+            for($i = 0; $i < $count; $i++)
+            {
+                $subxml= $matches[2][$i];
+                $key = $matches[1][$i];
+                if(preg_match( $reg, $subxml ))
+                {
+                    $arr[$key] = $this-> xml_to_array( $subxml );
+                }
+                else
+                {
+                    $arr[$key] = $subxml;
+                }
+            }
+        }
+        return $arr;
+    }
+
     /**
      * 目录不存在就创建
      * @Author   GangKui
@@ -402,7 +433,21 @@ class func
         return array_pop($class);
     }
 
-
+    /**
+     * 生产唯一ID
+     * @Author   GangKui
+     * @DateTime 2019-10-24
+     * @return   [type]     [description]
+     */
+    public static function make_uniqid($type = false)
+    {
+        list($usec, $sec) = explode(" ", microtime());
+        if($type)
+        {
+            return $sec . round($usec * 100000) . self::random('numeric', 4);
+        }
+        return date('ymdHis') . round($usec * 10000) . self::random('numeric', 3);
+    }
 
     /**
      * 获取不重复的ID(只是保证当前字典中不重复，所以订单号加上当前的年月日时分秒就肯定不会重复)

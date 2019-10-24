@@ -18,7 +18,8 @@ class power
 {
     public static
         $_table_admin = '#PB#_admin_user',
-        $_table_group = '#PB#_admin_group';
+        $_table_group = '#PB#_admin_group',
+        $_user_type   = 'admin';
     //用户session标示
     public static $_mark = 'admin_info';
 
@@ -38,26 +39,43 @@ class power
 
     public static $instance = null;
 
-    public static function instance()
+    public static function instance($authority = [])
     {
         if(empty(self::$instance))
         {
-            self::$instance = new self();
+            self::$instance = new self($authority);
         }
-
         return self::$instance;
     }
 
-    public function __construct()
+    /**
+     * 初始化验证信息
+     * @Author   GangKui
+     * @DateTime 2019-10-24
+     * @param    array      $authority [description]
+     */
+    public function __construct($authority = [])
     {
+        $this->config = empty($authority) ? sephp::$_config['_authority'] : $authority;
+        if(!empty($this->config['_user_type']))
+        {
+            self::$_user_type   = $this->config['user_type'];
+            self::$_mark        = '_member_';
+            self::$_table_admin = '#PB#_member_pam';
+            self::$_table_group = '';
+        }
         $this->_info = empty($this->_info) ? session::get(self::$_mark) : $this->_info;
-        $this->_uid = $this->_info['admin_id'];
+        $this->_uid = $this->_info[$this->config['user_type'] . '_id'];
 
-        $this->config = empty(sephp::$_config['_authority']) ? [] : sephp::$_config['_authority'];
         $this->is_login();
     }
 
-    //判断是否登陆
+    /**
+     * 判断是否登陆
+     * @Author   GangKui
+     * @DateTime 2019-10-24
+     * @return   boolean    [true z]
+     */
     public function is_login()
     {
         if(empty($this->config['need_login']) || in_array(CONTROLLER_NAME,$this->config['not_login']))
@@ -65,6 +83,7 @@ class power
             return true;
         }
 
+        //权限校验
         if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME)
         {
             show_msg::error('您已经登陆','?ct=index&ac=index');
@@ -74,10 +93,15 @@ class power
         {
             show_msg::error('您还没有登陆',$this->config['login_url']);
         }
-        return true;
+
     }
 
-    //权限校验
+    /**
+     * 权限检查
+     * @Author   GangKui
+     * @DateTime 2019-10-24
+     * @return   [type]     [description]
+     */
     public function check_in()
     {
         if(!is_array($this->_info['powerlist']) || !in_array('?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME,$this->_info['powerlist']))
@@ -88,50 +112,64 @@ class power
         sephp::$_uid = $this->_uid;
     }
 
-    //登陆操作
+    /**
+     * 校验登陆
+     * @Author   GangKui
+     * @DateTime 2019-10-24
+     * @param    [type]     $name [description]
+     * @param    [type]     $pass [description]
+     * @return   [type]           [description]
+     */
     public function login_check($name, $pass)
     {
-        if(empty($name) || empty($pass))
-        {
-            log::info('登陆失败，用户名或密码不能为空');
-            return false;
-        }
-        $info = db::select()
-            ->from(self::$_table_admin)
-            ->where('username', '=', $name)
-            ->as_row()
-            ->execute();
-        //p($info, self::make_password($pass));exit;
-        if(empty($info) || !password_verify($pass, $info['password']))
-        {
-            $data = [
-                'session_id' => session_id(),
-                'status' => 2,
-                'login_ip' => func::get_client_ip(),
-                'username' => $name,
-                'login_time' => time(),
-                'login_id' => 0,
-                'user_type' => 'admin',
-                'agent' => $_SERVER['HTTP_USER_AGENT'],
-                'remark' => '用户名或者密码错误',
-            ];
-            db::insert('#PB#_admin_login')->set($data)->execute();
-            log::info('登陆失败,用户名或者密码错误');
-            return false;
-        }
-        //获取用户权限
-        if($info['group_id'] > 0)
-        {
-            $power = db::select()
-                ->from(self::$_table_group)
-                ->where('group_id',$info['group_id'])
+        $result = false;
+        do{
+            $info = db::select()
+                ->from(self::$_table_admin)
+                ->where('username', '=', $name)
                 ->as_row()
                 ->execute();
-        }
-        $info['group_name'] = $power['name'];
-        $info['powerlist'] = empty($power) ? [] : json_decode($power['powerlist'], true);
-        $this->_info = $info;
-        return empty($info) ? false : true;
+            //p($info, self::make_password($pass));exit;
+            if(empty($info) || !password_verify($pass, $info['password']))
+            {
+                $data = [
+                    'session_id' => session_id(),
+                    'status'     => 2,
+                    'login_ip'   => func::get_client_ip(),
+                    'username'   => $name,
+                    'login_time' => TIME_SEPHP,
+                    'login_id'   => 0,
+                    'user_type'  => static::$_user_type,
+                    'agent'      => $_SERVER['HTTP_USER_AGENT'],
+                    'remark'     => '用户名或者密码错误',
+                ];
+                db::insert('#PB#_admin_login')->set($data)->execute();
+                log::info('登陆失败,用户名或者密码错误');
+                break;
+            }
+
+            //获取用户权限
+            if(!empty(self::$_table_group) && $info['group_id'] > 0)
+            {
+                $power = db::select()
+                    ->from(self::$_table_group)
+                    ->where('group_id',$info['group_id'])
+                    ->as_row()
+                    ->execute();
+
+                $info['group_name'] = $power['name'];
+                $info['powerlist'] = empty($power) ? [] : json_decode($power['powerlist'], true);
+            }
+
+            unset($info['password']);
+            $this->_info = $info;
+
+            $result = true;
+
+        }while(false);
+
+        return $result;
+
     }
 
     /**

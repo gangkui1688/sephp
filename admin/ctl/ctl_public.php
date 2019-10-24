@@ -80,14 +80,6 @@ class ctl_public
         ]));
     }
 
-    //上传方法
-    public function upload()
-    {
-        if(!empty(req::$forms['file'])){
-            upload::web_upload();
-        }
-        show_msg::redirect('?ct=index&ac=index');
-    }
 
     public function layer_add_file()
     {
@@ -107,24 +99,6 @@ class ctl_public
     }
 
 
-    /**
-     * 图片上传
-     */
-    public function editor_upload()
-    {
-        if(!empty($_FILES['file']) && is_ajax()) {
-            $result = upload::web_upload();
-
-                if(empty($result))
-                {
-                    show_msg::ajax('upload faild', '400');
-                }
-                $path_file =  '/upload/file/' . $result['name'];
-                exit($path_file);
-
-        }
-        show_msg::redirect('?ct=index&ac=index');
-    }
 
     public function index()
     {

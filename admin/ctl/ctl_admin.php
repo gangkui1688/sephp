@@ -84,9 +84,9 @@ class ctl_admin {
 			$query->where($where);
 		}
 		$data = $query->join($this->_group_table, 'left')
-			->on($this->_group_table.'.group_id', '=', $this->_admin_table.'.group_id')
-		                                                 ->offset($pages->firstRow)
-			->limit($pages->listRows)
+            ->on($this->_group_table.'.group_id', '=', $this->_admin_table.'.group_id')
+            ->offset($pages['offset'])
+			->limit($pages['limit'])
 			->order_by($this->_admin_id, 'desc')
 			->execute();
 
@@ -98,18 +98,20 @@ class ctl_admin {
 		view::assign('edit_url', '?ct=admin&ac=adduser');
 		view::assign('save_url', '?ct=admin&ac=saveuser');
 		view::assign('list', $data);
-		view::assign('pages', $pages->show());
+		view::assign('pages', $pages['show']);
 		view::display('admin.userlist');
 	}
 
-	public function adduser() {
+	public function adduser()
+    {
 		if (empty(req::$posts)) {
-			if (!empty(req::item('admin_id', ''))) {
+			if (!empty(req::item('admin_id', '')))
+            {
 				$data = db::select('*')
 					->from($this->_admin_table)
 					->where($this->_admin_id, req::$forms[$this->_admin_id])
-				                                            ->as_row()
-				                                            ->execute();
+				    ->as_row()
+				    ->execute();
 				view::assign('data', $data);
 			}
 			$groups = db::select()->from($this->_group_table)->where('status', '1')->execute();
@@ -125,7 +127,8 @@ class ctl_admin {
 		$data['group_id'] = req::$posts['group_id'];
 		$data['remark']   = req::$posts['remark'];
 
-		if (req::$posts[$this->_admin_id]) {
+		if (req::$posts[$this->_admin_id])
+        {
 			if (!empty(req::$posts['password'])) {
 				$data['password'] = power::make_password(req::$posts['password']);
 			}
@@ -310,10 +313,10 @@ class ctl_admin {
 		if (!empty($where)) {
 			$data = $data->where($where);
 		}
-		$data = $data->offset($pages->firstRow)
-			->limit($pages->listRows)
+		$data = $data->offset($pages['offset'])
+			->limit($pages['limit'])
 			->execute();
-		view::assign('pages', $pages->show());
+		view::assign('pages', $pages['show']);
 		view::assign('list', $data);
 		view::display('system/loginlog');
 	}
@@ -345,11 +348,11 @@ class ctl_admin {
 		if (!empty($where)) {
 			$data = $data->where($where);
 		}
-		$data = $data->offset($pages->firstRow)
-			->limit($pages->listRows)
+		$data = $data->offset($pages['offset'])
+			->limit($pages['limit'])
 			->execute();
 
-		view::assign('pages', $pages->show());
+		view::assign('pages', $pages['show']);
 		view::assign('list', $data);
 		view::display('system/online');
 	}

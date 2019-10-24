@@ -61,14 +61,14 @@ class ctl_coupons
         $list = db::select($this->_field)
             ->from($this->_table)
             ->where($where)
-            ->offset($pages->firstRow)
-            ->limit($pages->listRows)
+            ->offset($pages['offset'])
+            ->limit($pages['limit'])
             ->order_by($this->_pk,'DESC')
             ->execute();
 
 
         view::assign('list',$list);
-        view::assign('pages',$pages->show());
+        view::assign('pages',$pages['show']);
         view::display('coupons.coupons_list');
     }
 

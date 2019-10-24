@@ -109,13 +109,13 @@ class ctl_system
 
         $list = db::select()->from('#PB#_file')
             ->where($where)
-            ->offset($pages->firstRow)
-            ->limit($pages->listRows)
+            ->offset($pages['offset'])
+            ->limit($pages['limit'])
             ->order_by('file_id','desc')
             ->execute();
 
 
-        view::assign('pages',$pages->show());
+        view::assign('pages',$pages['show']);
         view::assign('list',$list);
         view::assign('del_url',$this->_url.'del_file');
         view::assign('add_url',$this->_url.'add_file');

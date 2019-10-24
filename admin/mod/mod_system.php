@@ -2,7 +2,10 @@
 namespace admin\mod;
 
 use sephp\core\model;
-
+use sephp\func;
+use sephp\sephp;
+use sephp\core\req;
+use sephp\core\db;
 
 
 class mod_system extends model {

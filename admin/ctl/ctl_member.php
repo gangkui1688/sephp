@@ -74,14 +74,14 @@ class ctl_member
             ->join($this->_pam_table,'left')
             ->on($this->_pam_table.'.member_id','=',$this->_member_table.'.member_id')
             ->where($where)
-            ->offset($pages->firstRow)
-            ->limit($pages->listRows)
+            ->offset($pages['offset'])
+            ->limit($pages['limit'])
             ->order_by($this->_member_pk,'DESC')
             ->execute();
 
         setcookie('member_back_url',func::get_cururl());
         view::assign('list',$list);
-        view::assign('pages',$pages->show());
+        view::assign('pages',$pages['show']);
         view::assign('add_url','?ct=member&ac=member_add');
         view::assign('edit_url','?ct=member&ac=member_edit');
         view::display();
@@ -298,14 +298,14 @@ class ctl_member
             ->join($this->_pam_table,'left')
             ->on($this->_pam_table.'.member_id','=',$this->_member_table.'.member_id')
             ->where($where)
-            ->offset($pages->firstRow)
-            ->limit($pages->listRows)
+            ->offset($pages['offset'])
+            ->limit($pages['limit'])
             ->order_by($this->_member_pk,'DESC')
             ->execute();
 
         setcookie('member_back_url',func::get_cururl());
         view::assign('list',$list);
-        view::assign('pages',$pages->show());
+        view::assign('pages',$pages['show']);
 
         view::display();
     }
