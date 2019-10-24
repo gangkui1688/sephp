@@ -141,6 +141,9 @@ class pub_mod_model
 
         $data = $query->offset($pages['offset'])->limit($data_filter['limit'])->execute();
 
+        /**
+         *  自动格式化查询数据
+         */
         if(!empty($data) && method_exists(new static() , 'data_format'))
         {
             array_walk($data, function(&$v){$v = static::data_format($v);});
@@ -176,7 +179,14 @@ class pub_mod_model
 
         static::_complate_sql($query, $where, $join);
 
-        return $query->as_row()->execute();
+        $data = $query->as_row()->execute();
+
+        if(!empty($data) && method_exists(new static() , 'data_format'))
+        {
+            array_walk($data, function(&$v){$v = static::data_format($v);});
+        }
+
+        return $data;
     }
 
     /**
@@ -186,7 +196,8 @@ class pub_mod_model
      * @param array $join
      * @return mixed
      */
-    public static function getfiled($where, $field, $join = []) {
+    public static function getfiled($where, $field, $join = [])
+    {
         $query = db::select($field)->from(static::$_table);
 
         static::_complate_sql($query, $where, $join);
@@ -319,6 +330,62 @@ class pub_mod_model
             }
 
         }
+    }
+
+    /**
+     * 开启事物
+     * @Author han
+     * @param  boolean $enable_slave 是否允许从库
+     * @return void
+     */
+    public static function db_start($enable_slave = false)
+    {
+        db::enable_slave($enable_slave);
+        empty($enable_slave) && self::$enable_slave = true;
+
+        return db::start(self::_get_instance_master_name());
+    }
+
+    /**
+     * 结束事务
+     * @Author han
+     * @return void
+     */
+    public static function db_end()
+    {
+        if( self::$enable_slave )
+        {
+            db::enable_slave(true);
+        }
+
+        return db::end(self::_get_instance_master_name());
+    }
+
+    /**
+     * 为了方便发送统计日志，封装一个commit的函数，在commit的时候自动发送
+     * 所以模型内如果涉及发送进程结束后发送日志的，commit需要用这个，否则不会发送
+     * @Author han
+     * @return void
+     */
+    public static function db_commit()
+    {
+        util::shutdown_function(
+            ['common\func\pub_func', 'dsrs'],
+            [null, null, true]
+        );
+
+        return db::commit(self::_get_instance_master_name());
+    }
+
+    /**
+     * 清空缓存中的统计数据
+     * @Author han
+     * @return [type] [description]
+     */
+    public static function db_rollback()
+    {
+        pub_func::dsrs(null, null, 'clear');
+        return db::rollback(self::_get_instance_master_name());
     }
 
 }

@@ -70,6 +70,13 @@ class pub_mod_goods extends pub_mod_model
     }
 
 
+    /**
+     * 根据id获取商品信息
+     * @Author   GangKui
+     * @DateTime 2019-10-24
+     * @param    [type]     $goods_id [description]
+     * @return   [type]               [description]
+     */
     public static function getdatabyid($goods_id)
     {
         $data = self::getdump([

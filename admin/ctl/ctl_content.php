@@ -54,14 +54,14 @@ class ctl_content {
 			->join($this->_cate_table, 'left')
 			->on($this->_cate_table.'.'.$this->_cate_pk, '=', $this->_cont_table.'.cate_id')
 			->where($where)
-			->offset($pages->firstRow)
-			->limit($pages->listRows)
+			->offset($pages['offset'])
+			->limit($pages['limit'])
 			->order_by($this->_cont_pk, 'DESC')
 			->execute();
 
 		setcookie('content_back_url', func::get_cururl());
 		view::assign('list', $list);
-		view::assign('pages', $pages->show());
+		view::assign('pages', $pages['show']);
 		view::assign('add_url', '?ct=content&ac=content_add');
 		view::assign('edit_url', '?ct=content&ac=content_edit');
 		view::display();

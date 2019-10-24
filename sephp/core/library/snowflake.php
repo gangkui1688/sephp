@@ -5,7 +5,8 @@ namespace sephp\core\lib;
  * Author：阿远
  * Class SnowflakeIdWorker
  */
-class snowflake{
+class snowflake
+{
 
     /** 开始时间截 (2018-01-01) */
     const twepoch = 1514736000000;
@@ -67,7 +68,8 @@ class snowflake{
     }
 
 
-    public function id(){
+    public function id()
+    {
         //获取当前毫秒时间戳
         $timestamp = $this->timeGen();
         //获取上一次生成id时的毫秒时间戳

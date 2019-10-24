@@ -15,6 +15,10 @@ $_authority = [
     'need_login' => true,
     'not_login'  => ['public'],
     'login_url'  => '?ct=public&ac=login',
+    'user_type'  => 'admin',
+    'mark'      => '',
+    'table'     => '',//会员信息表
+    'table'     => '',
 ];
 
 
