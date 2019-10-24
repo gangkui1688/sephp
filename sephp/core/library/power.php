@@ -6,6 +6,7 @@ use sephp\sephp;
 use sephp\core\session;
 use sephp\core\show_msg;
 use sephp\core\db;
+use sephp\core\log;
 
 /**
  *

@@ -1,170 +1,305 @@
-jQuery(document).ready(function( $ ) {
+/*
 
-  // Back to top button
-  $(window).scroll(function() {
-    if ($(this).scrollTop() > 100) {
-      $('.back-to-top').fadeIn('slow');
-    } else {
-      $('.back-to-top').fadeOut('slow');
-    }
-  });
-  $('.back-to-top').click(function(){
-    $('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
-    return false;
-  });
+Template:  clothing- Responsive Multi-purpose HTML5 Template
+Template URI: http://bootexperts.com
+Description: This is html5 template
+Author: BootExperts
+Author URI: http://bootexperts.com
+Version: 1.0
 
-  // Initiate the wowjs animation library
-  new WOW().init();
+*/
+/*================================================
+[  Table of contents  ]
+================================================
+	01. jQuery MeanMenu
+	02. wow js active
+	03. scrollUp jquery active
+	04. slick carousel 
 
-  // Initiate superfish on nav menu
-  $('.nav-menu').superfish({
-    animation: {
-      opacity: 'show'
-    },
-    speed: 400
-  });
+ 
+======================================
+[ End table content ]
+======================================*/
 
-  // Mobile Navigation
-  if ($('#nav-menu-container').length) {
-    var $mobile_nav = $('#nav-menu-container').clone().prop({
-      id: 'mobile-nav'
+
+(function($) {
+    "use strict";
+
+    /*-------------------------------------------
+    	01. jQuery MeanMenu
+    --------------------------------------------- */
+    jQuery('nav#dropdown').meanmenu();
+
+
+    /*-------------------------------------------
+    	02. wow js active
+    --------------------------------------------- */
+    new WOW().init();
+
+
+	/*--------------------------
+	 scrollUp
+	---------------------------- */	
+	$.scrollUp({
+        scrollText: "<i class='zmdi zmdi-arrow-merge'></i>",
+        easingType: 'linear',
+        scrollSpeed: 900,
+        animation: 'fade'
+    }); 
+
+	/*-------------------------------------------
+	04. slick carousel 
+	--------------------------------------------- */    
+	$('.new-arrival-slider-active').slick({
+	slidesToShow: 4,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: true,
+	prevArrow: '<div class="arrow-left"><i class="zmdi zmdi-chevron-left"></i></div>',
+	nextArrow: '<div class="arrow-right"><i class="zmdi zmdi-chevron-right"></i></div>',
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 4,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 3,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 2, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});  
+	
+	$('.ctg-slider-active').slick({
+	slidesToShow: 1,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: false,
+	prevArrow: '<div class="arrow-left"><i class="zmdi zmdi-chevron-left"></i></div>',
+	nextArrow: '<div class="arrow-right"><i class="zmdi zmdi-chevron-right"></i></div>',
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 1,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});
+	$('.total-rectnt-slider').slick({
+	slidesToShow: 1,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: false,
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 1,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});
+	
+	$('.active-slider').slick({
+	slidesToShow: 1,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: true,
+	arrows: false,
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 1,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});
+	
+	$('.total-brand').slick({
+	slidesToShow: 6,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: false,
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 6,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 5,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 4, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 3, }   },
+	]
+	});
+	
+	$('.team-carasoul').slick({
+	slidesToShow: 4,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: false,
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 3,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 3,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 2, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});
+    
+    $('.total-blog').slick({
+	slidesToShow: 3,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: false,
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 3,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 2,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});
+	
+	$('.total-blog-2').slick({
+	slidesToShow: 2,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: false,
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 2,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 2,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});
+	$('.total-blog-3').slick({
+	slidesToShow: 2,
+	slidesToScroll: 1,
+	autoplay: false,
+	autoplaySpeed: 5000,
+	dots: false,
+	arrows: false,
+	responsive: [
+	{  breakpoint: 1169,  settings: { slidesToShow: 2,  }  },
+	{  breakpoint: 969,   settings: { slidesToShow: 1,  }  },
+	{  breakpoint: 767,   settings: { slidesToShow: 1, }   },
+	{  breakpoint: 479,   settings: { slidesToShow: 1, }   },
+	]
+	});
+	
+    /*----------------------------
+     fancybox active
+    ------------------------------ */
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
     });
-    $mobile_nav.find('> ul').attr({
-      'class': '',
-      'id': ''
-    });
-    $('body').append($mobile_nav);
-    $('body').prepend('<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>');
-    $('body').append('<div id="mobile-body-overly"></div>');
-    $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down"></i>');
 
-    $(document).on('click', '.menu-has-children i', function(e) {
-      $(this).next().toggleClass('menu-item-active');
-      $(this).nextAll('ul').eq(0).slideToggle();
-      $(this).toggleClass("fa-chevron-up fa-chevron-down");
+    
+    /*************************
+      tooltip
+    *************************/
+	    $('[data-toggle="tooltip"]').tooltip({
+        animated: 'fade',
+        placement: 'top',
+        container: 'body'
     });
 
-    $(document).on('click', '#mobile-nav-toggle', function(e) {
-      $('body').toggleClass('mobile-nav-active');
-      $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-      $('#mobile-body-overly').toggle();
+	
+	/*----------------------------
+	 price-slider active
+	------------------------------ */  
+	  $( "#slider-range" ).slider({
+	   range: true,
+	   min: 40,
+	   max: 600,
+	   values: [ 40, 600 ],
+	   slide: function( event, ui ) {
+		$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+	   }
+	  });
+	  $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+	   " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+	   
+    /*----------------------------
+    Countdown active
+    ------------------------------ */
+    $('[data-countdown]').each(function () {
+        var $this = $(this),
+            finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function (event) {
+            $this.html(event.strftime('<span class="cdown days"><span class="time-count">%-D</span> <p>Days</p></span><span class="cdown hour"><span class="time-count">%-H</span> <p>Hour</p></span><span class="cdown minutes"><span class="time-count">%M</span> <p>Min</p></span> <span class="cdown second"><span class="time-count">%S</span> <p>Sec</p></span>'));
+        });
     });
-
-    $(document).click(function(e) {
-      var container = $("#mobile-nav, #mobile-nav-toggle");
-      if (!container.is(e.target) && container.has(e.target).length === 0) {
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-          $('#mobile-body-overly').fadeOut();
+	
+	
+    
+    /*----------------------------
+	 active match height
+	------------------------------ */ 
+    $(function () {
+        $('.item').matchHeight();
+    });
+    
+    /*----------------------------
+	 treeview active
+	------------------------------ */  
+	$("#cat-treeview ul").treeview({
+		animated: "normal",
+		persist: "location",
+		collapsed: true,
+		unique: true,
+	});
+	
+	/*----------------------------
+     cart-plus-minus-button
+    ------------------------------ */
+    $(".cart-plus-minus")
+    $(".qtybutton").on("click", function() {
+        var $button = $(this);
+        var oldValue = $button.parent().find("input").val();
+        if ($button.text() == "+") {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
         }
-      }
+        $button.parent().find("input").val(newVal);
     });
-  } else if ($("#mobile-nav, #mobile-nav-toggle").length) {
-    $("#mobile-nav, #mobile-nav-toggle").hide();
-  }
+	
+	
+	
+		$('.acc-toggle').on('click', function(){
+		if ($('.acc-toggle input').is(':checked')) {
+			$('.create-acc-body').slideDown();
+		}else{
+			$('.create-acc-body').slideUp();
+		}
+	});
+		
+	$('.ship-toggle').on('click', function(){
+		if ($('.ship-toggle input').is(':checked')) {
+			$('.ship-acc-body').slideDown();
+		}else{
+			$('.ship-acc-body').slideUp();
+		}
+	});
+		
+	
+	
 
-  // Smooth scroll for the menu and links with .scrollto classes
-  $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function() {
-    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      if (target.length) {
-        var top_space = 0;
+})(jQuery);
 
-        if ($('#header').length) {
-          top_space = $('#header').outerHeight();
-
-          if( ! $('#header').hasClass('header-fixed') ) {
-            top_space = top_space - 20;
-          }
-        }
-
-        $('html, body').animate({
-          scrollTop: target.offset().top - top_space
-        }, 1500, 'easeInOutExpo');
-
-        if ($(this).parents('.nav-menu').length) {
-          $('.nav-menu .menu-active').removeClass('menu-active');
-          $(this).closest('li').addClass('menu-active');
-        }
-
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-          $('#mobile-body-overly').fadeOut();
-        }
-        return false;
-      }
-    }
-  });
-
-  // Header scroll class
-  $(window).scroll(function() {
-    if ($(this).scrollTop() > 100) {
-      $('#header').addClass('header-scrolled');
-    } else {
-      $('#header').removeClass('header-scrolled');
-    }
-  });
-
-  // Intro carousel
-  var introCarousel = $(".carousel");
-  var introCarouselIndicators = $(".carousel-indicators");
-  introCarousel.find(".carousel-inner").children(".carousel-item").each(function(index) {
-    (index === 0) ?
-    introCarouselIndicators.append("<li data-target='#introCarousel' data-slide-to='" + index + "' class='active'></li>") :
-    introCarouselIndicators.append("<li data-target='#introCarousel' data-slide-to='" + index + "'></li>");
-  });
-
-  $(".carousel").swipe({
-    swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
-      if (direction == 'left') $(this).carousel('next');
-      if (direction == 'right') $(this).carousel('prev');
-    },
-    allowPageScroll:"vertical"
-  });
-
-  // Skills section
-  $('#skills').waypoint(function() {
-    $('.progress .progress-bar').each(function() {
-      $(this).css("width", $(this).attr("aria-valuenow") + '%');
-    });
-  }, { offset: '80%'} );
-
-  // jQuery counterUp (used in Facts section)
-  $('[data-toggle="counter-up"]').counterUp({
-    delay: 10,
-    time: 1000
-  });
-
-  // Porfolio isotope and filter
-  var portfolioIsotope = $('.portfolio-container').isotope({
-    itemSelector: '.portfolio-item',
-    layoutMode: 'fitRows'
-  });
-
-  $('#portfolio-flters li').on( 'click', function() {
-    $("#portfolio-flters li").removeClass('filter-active');
-    $(this).addClass('filter-active');
-
-    portfolioIsotope.isotope({ filter: $(this).data('filter') });
-  });
-
-  // Clients carousel (uses the Owl Carousel library)
-  $(".clients-carousel").owlCarousel({
-    autoplay: true,
-    dots: true,
-    loop: true,
-    responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
-    }
-  });
-
-  // Testimonials carousel (uses the Owl Carousel library)
-  $(".testimonials-carousel").owlCarousel({
-    autoplay: true,
-    dots: true,
-    loop: true,
-    items: 1
-  });
-
+	$(window).scroll(function() {
+	if ($(this).scrollTop() > 1){ 
+		$('#sticky-header').addClass("sticky");
+	  }
+	  else{
+		$('#sticky-header').removeClass("sticky");
+	  }
 });
+
+

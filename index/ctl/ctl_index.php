@@ -1,26 +1,21 @@
-w<?php
-namespace admin\ctl;
+<?php
+namespace index\ctl;
 use sephp\sephp;
 use sephp\core\req;
 use sephp\core\log;
-use sephp\core\view;
-use sephp\core\lib\power;
-use sephp\core\lib\pages;
-use sephp\core\db;
-use sephp\core\upload;
-use sephp\core\show_msg;
-use sephp\core\session;
 use sephp\core\config;
-use admin\mod\mod_system;
+use sephp\core\view;
 
 
-class ctl_index {
+class ctl_index
+{
 
 	protected $page_title       = null;
 	protected $page_description = null;
 	protected $page_keywords    = null;
 
-	public function __construct() {
+	public function __construct()
+  {
 		$site_info = config::get('base_config');
 		view::assign('site_info', $site_info);
 		$this->page_keywords    = $site_info['page_keywords'];
@@ -30,8 +25,6 @@ class ctl_index {
 
 		//friend link
 		$links = config::get('friend_link');
-		array_multisort(array_column($links,'sort_id'), SORT_ASC, $links);
-        view::assign('links', $links);
 
 
 		view::assign('page_title', $this->page_title);
@@ -41,9 +34,21 @@ class ctl_index {
 	}
 
 	//首页
-	public function index() {
-		view::display('index');
+	public function index()
+  {
+		view::display();
 	}
+
+  public function login()
+  {
+    view::display();
+  }
+
+  public function regist()
+  {
+    view::display();
+  }
+
 
 
     //关于我们
