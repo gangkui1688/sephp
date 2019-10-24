@@ -12,9 +12,10 @@ define('APP_DEBUG',true);
  * 配置载入
  */
 $_authority = [
-    'need_login' => true,
+    'need_login' => false,
     'not_login'  => ['index'],
     'login_url'  => '?ct=index&ac=login',
+    'user_type'  => 'member',
 ];
 
 

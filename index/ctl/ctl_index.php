@@ -16,17 +16,15 @@ class ctl_index
 
 	public function __construct()
   {
-		$site_info = config::get('base_config');
-		view::assign('site_info', $site_info);
+		$site_info = config::get('base_config','mysql');
 		$this->page_keywords    = $site_info['page_keywords'];
 		$this->page_description = $site_info['page_description'];
 		$this->page_title       = $site_info['page_title'];
 
-
 		//friend link
 		$links = config::get('friend_link');
 
-
+    view::assign('site_info', $site_info);
 		view::assign('page_title', $this->page_title);
 		view::assign('page_description', $this->page_description);
 		view::assign('page_keywords', $this->page_keywords);
