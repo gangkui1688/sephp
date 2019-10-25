@@ -7,7 +7,7 @@
 #
 # Host: 127.0.01 (MySQL 5.7.20-log)
 # Database: sephp
-# Generation Time: 2019-10-11 13:13:44 +0000
+# Generation Time: 2019-10-25 13:53:17 +0000
 # ************************************************************
 
 
@@ -41,7 +41,7 @@ LOCK TABLES `se_admin_group` WRITE;
 
 INSERT INTO `se_admin_group` (`group_id`, `name`, `remark`, `create_time`, `create_user`, `powerlist`, `status`)
 VALUES
-	(1,'超级管理员','权限不受控制',1535536245,1,'[\"systemManagement\",\"?ct=system&ac=menus\",\"后台用户管理\",\"?ct=admin&ac=userlist\",\"?ct=admin&ac=grouplist\",\"文件管理\",\"?ct=system&ac=file_manager\",\"?ct=system&ac=upload_file\",\"?ct=system&ac=file_label\",\"?ct=system&ac=baise_config\",\"?ct=system&ac=menus\",\"?ct=system&ac=friend_link\",\"数据库管理\",\"?ct=system&ac=data_backups\",\"?ct=system&ac=data_optimization\",\"?ct=system&ac=data_select\",\"whcatManagement\",\"?ct=wechat&ac=base\",\"?ct=wechat&ac=content_index\",\"?ct=wechat&ac=content_index\",\"?ct=wechat&ac=content_index\",\"contentManagement\",\"?ct=content&ac=cate_index\",\"?ct=content&ac=content_index\",\"membersManagement\",\"?ct=member&ac=member_list\",\"?ct=member&ac=grade_list\",\"?ct=member&ac=message_list\",\"?ct=member&ac=advance_list\",\"?ct=member&ac=advance_list\",\"?ct=member&ac=advance_list\",\"?ct=member&ac=log_list\",\"卡劵管理\",\"?ct=coupons&ac=coupons_add\",\"?ct=coupons&ac=coupons_list\",\"?ct=coupons&ac=coupons_use\",\"代理管理\",\"?ct=system&ac=data_backups\",\"?ct=system&ac=data_optimization\",\"stroeCenter\",\"?ct=stroe&ac=index\",\"?ct=stroe&ac=catelist\",\"productManager\",\"?ct=product&ac=index\",\"?ct=product&ac=catelist\",\"?ct=product&ac=labelist\",\"?ct=product&ac=labelist\",\"?ct=product&ac=labelist\",\"?ct=product&ac=labelist\",\"?ct=product&ac=labelist\",\"?ct=product&ac=labelist\",\"?ct=product&ac=labelist\",\"orderCenter\",\"?ct=order&ac=index\"]',1),
+	(1,'超级管理员','权限不受控制',1535536245,1,'*',1),
 	(2,'老师组','园区老师',1535536292,1,'null',1),
 	(3,'校长','校长',1536742381,1,NULL,1),
 	(4,'学生','',1536744469,1,NULL,1),
@@ -51,110 +51,149 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table se_admin_login
+# Dump of table se_login_log
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `se_admin_login`;
+DROP TABLE IF EXISTS `se_login_log`;
 
-CREATE TABLE `se_admin_login` (
+CREATE TABLE `se_login_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `session_id` varchar(60) DEFAULT '' COMMENT '用户登陆session_id ',
   `status` tinyint(1) unsigned NOT NULL COMMENT '1登陆成功2登录失败',
   `login_ip` varchar(20) DEFAULT NULL COMMENT '登陆IP地址',
   `username` varchar(100) DEFAULT NULL COMMENT '登陆用户名称',
   `login_time` int(10) unsigned NOT NULL COMMENT '登陆时间',
-  `login_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登陆用户id',
+  `login_uid` char(32) NOT NULL DEFAULT '0' COMMENT '登陆用户id',
   `agent` varchar(1000) DEFAULT NULL COMMENT '浏览器信息',
-  `user_type` varchar(30) NOT NULL DEFAULT 'admin' COMMENT 'admin后台用户',
+  `user_type` enum('admin','member') NOT NULL DEFAULT 'admin' COMMENT 'admin后台用户',
   `remark` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `se_admin_login` WRITE;
-/*!40000 ALTER TABLE `se_admin_login` DISABLE KEYS */;
+LOCK TABLES `se_login_log` WRITE;
+/*!40000 ALTER TABLE `se_login_log` DISABLE KEYS */;
 
-INSERT INTO `se_admin_login` (`id`, `session_id`, `status`, `login_ip`, `username`, `login_time`, `login_id`, `agent`, `user_type`, `remark`)
+INSERT INTO `se_login_log` (`id`, `session_id`, `status`, `login_ip`, `username`, `login_time`, `login_uid`, `agent`, `user_type`, `remark`)
 VALUES
-	(1,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541652488,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(2,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui003',1541652713,6,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(3,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui003',1541663249,6,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(4,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui003',1541663463,6,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(5,'ka4n0rp0es5tlsva5c290rc1o6',2,'127.0.0.1','gangkui002',1541663594,0,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin','用户名或者密码错误'),
-	(6,'ka4n0rp0es5tlsva5c290rc1o6',2,'127.0.0.1','gangkui002',1541663599,0,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin','用户名或者密码错误'),
-	(7,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541663626,11,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(8,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541666475,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(9,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541666669,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(10,'3es2dhof7u9qa27gko6384i9t7',2,'127.0.0.1','gangkui001',1541670999,0,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15','admin','用户名或者密码错误'),
-	(11,'3es2dhof7u9qa27gko6384i9t7',1,'127.0.0.1','gangkui001',1541671024,11,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15','admin',NULL),
-	(12,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541671184,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(13,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541671923,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(14,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541671952,11,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(15,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541672566,11,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(16,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541673499,11,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(17,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','gangkui001',1542114074,11,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
-	(18,'t6ju3io3uj97dbusfcrucgnb45',1,'127.0.0.1','admin',1542255720,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(19,'fs1lr2kerrlagmsmns1210e5j3',1,'127.0.0.1','admin',1542255731,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(20,'k3e6sb9n872ocrhbgas18svao0',1,'127.0.0.1','admin',1542255781,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(21,'gad4an9vbc5a7h619r4uc8bi12',1,'127.0.0.1','admin',1542256020,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(22,'3soob4n9q2igqup2lucb04mks3',1,'127.0.0.1','admin',1542256070,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(23,'fb8p8cmd39hiqc2nt30u21qpa1',1,'127.0.0.1','admin',1542256273,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(24,'i0f9dcgti8qk0pomone3222fq7',1,'127.0.0.1','admin',1542256281,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(25,'e3k56iobiveacg9hvlo79k3600',1,'127.0.0.1','admin',1542256356,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(26,'v2ba02m7e69cu1p299r45vqev2',1,'127.0.0.1','admin',1542256396,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(27,'1tti0a2lmlcu04cs3upk3cd8c2',1,'127.0.0.1','admin',1542256465,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(28,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542256558,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(29,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542256880,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(30,'9jp4p7vpt8f61q0m4lmu3ngk90',1,'127.0.0.1','admin',1542256959,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(31,'jepgibupjem1hc93n154vogvj2',1,'127.0.0.1','admin',1542256965,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(32,'uhtk8inecd8p2aciu0tg2k2e93',1,'127.0.0.1','admin',1542256993,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(33,'4ma9opvlqb9n3tupsiv3v9a3f5',1,'127.0.0.1','admin',1542257064,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(34,'tai3urqrlg2g12pn5cl17cb9l2',1,'127.0.0.1','admin',1542257100,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(35,'s04qkivuh4dk79h338sa2npgm6',1,'127.0.0.1','admin',1542257155,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(36,'psaq6a4p8n3276f0c9i83keku3',1,'127.0.0.1','admin',1542257181,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(37,'3ccvnrhhhqd8mng4mj9hs5i113',1,'127.0.0.1','admin',1542257258,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(38,'tmr1e4l9v91ersgeg82jqf5k10',1,'127.0.0.1','admin',1542257306,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(39,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542257397,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(40,'8dgblmo9tnpg28m5mk6pd07hc4',1,'127.0.0.1','admin',1542257418,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(41,'71pu3jiqh12bcf4lanmipq5dj5',1,'127.0.0.1','admin',1542257425,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(42,'b0ee2j87jodesemkcr6ldhknq4',1,'127.0.0.1','admin',1542257466,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(43,'s8c3gt8p1ioas0j32fi4pb4mg4',1,'127.0.0.1','admin',1542257548,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(44,'6perv7psdbs195mb8gg6pak5l0',1,'127.0.0.1','admin',1542257661,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(45,'cgj5da5tfsl9oe4ua20oarn587',1,'127.0.0.1','admin',1542257667,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(46,'lsqpd5rf50si39cmma0dvkdpi2',1,'127.0.0.1','admin',1542266764,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(47,'v0qqpe5l32ja5nvh503qmsmi61',1,'127.0.0.1','admin',1542266765,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(48,'cfb94rqasarkkmac9hh8in1i17',1,'127.0.0.1','admin',1542266803,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(49,'gqjfkrfroqmei6rr3mgdqegq30',1,'127.0.0.1','admin',1542266852,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(50,'tp7uvagdijosn6qpo1a3irfdt7',1,'127.0.0.1','admin',1542266999,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(51,'t2tsnr9lfst4oogqb860272id5',1,'127.0.0.1','admin',1542267276,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(52,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542267334,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(53,'kbc1op51k73dn7au7raffq4cr4',1,'127.0.0.1','admin',1542268392,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(54,'v9fhvisuumdf05u4vjelj94m21',1,'127.0.0.1','admin',1542360186,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(55,'53lkms8qpucb33a957oq172jf3',1,'127.0.0.1','admin',1542360275,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(56,'09r243kn1ltpbsms327igrjmn1',1,'127.0.0.1','admin',1542360281,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(57,'gt0befg5ng88s6ogp45r9skb87',1,'127.0.0.1','admin',1542360297,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(58,'796pf1ibif71kgkdjc5eqc3pm0',1,'127.0.0.1','admin',1542360348,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(59,'3b1q88neo8p7uld5fa4t58ie41',1,'127.0.0.1','admin',1542360359,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(60,'cmgv414fhdgg03ne2ac6alelp6',1,'127.0.0.1','admin',1542360406,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(61,'dl6p36j67o55lh9ol55pd0rtk1',1,'127.0.0.1','admin',1542360492,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(62,'245uah9gpr2r1ia0n0o284u7r0',1,'127.0.0.1','admin',1542369258,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(63,'q1a30ltml5nr7qfk2oeg380e83',1,'127.0.0.1','admin',1542425736,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(64,'8n2bj4ht9hv006g2vqk0mdvjo2',1,'127.0.0.1','admin',1542623928,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(65,'oceufq48junehgmvdgvr715292',1,'127.0.0.1','admin',1542806409,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
-	(66,'e5j04cr7lk7oufn7i5v21o8a54',1,'127.0.0.1','admin',1543549074,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36','admin',NULL),
-	(67,'b3rp4598u8r1e9mo5cp26q4t85',1,'127.0.0.1','admin',1545817751,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36','admin',NULL),
-	(68,'eg0h75o3ovobqgcfes2pcfbbl2',1,'127.0.0.1','admin',1545829619,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36','admin',NULL),
-	(69,'s74kf4mo9ts3ks0l6v5secchn0',2,'127.0.0.1','admin',1545898398,0,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0','admin','用户名或者密码错误'),
-	(70,'s74kf4mo9ts3ks0l6v5secchn0',1,'127.0.0.1','admin',1545898408,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0','admin',NULL),
-	(71,'6je5opa88ljsvv1n7n5rm7g953',1,'127.0.0.1','admin',1545900420,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36','admin',NULL),
-	(72,'1ln6fjjrbina5s5du131meuts4',1,'127.0.0.1','admin',1564542585,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36','admin',NULL),
-	(73,'in7pj989hkpdcpkbgpacqnu0l0',1,'127.0.0.1','admin',1564634313,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36','admin',NULL),
-	(74,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570765439,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
-	(75,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570765475,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
-	(76,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570765912,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
-	(77,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570766231,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
-	(78,'fl7cp105e12ldfjc3hpccb0lf2',1,'127.0.0.1','admin',1570787554,1,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL);
+	(1,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541652488,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(2,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui003',1541652713,'6','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(3,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui003',1541663249,'6','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(4,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui003',1541663463,'6','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(5,'ka4n0rp0es5tlsva5c290rc1o6',2,'127.0.0.1','gangkui002',1541663594,'0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin','用户名或者密码错误'),
+	(6,'ka4n0rp0es5tlsva5c290rc1o6',2,'127.0.0.1','gangkui002',1541663599,'0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin','用户名或者密码错误'),
+	(7,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541663626,'11','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(8,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541666475,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(9,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541666669,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(10,'3es2dhof7u9qa27gko6384i9t7',2,'127.0.0.1','gangkui001',1541670999,'0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15','admin','用户名或者密码错误'),
+	(11,'3es2dhof7u9qa27gko6384i9t7',1,'127.0.0.1','gangkui001',1541671024,'11','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15','admin',NULL),
+	(12,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541671184,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(13,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','admin',1541671923,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(14,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541671952,'11','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(15,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541672566,'11','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(16,'ka4n0rp0es5tlsva5c290rc1o6',1,'127.0.0.1','gangkui001',1541673499,'11','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(17,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','gangkui001',1542114074,'11','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36','admin',NULL),
+	(18,'t6ju3io3uj97dbusfcrucgnb45',1,'127.0.0.1','admin',1542255720,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(19,'fs1lr2kerrlagmsmns1210e5j3',1,'127.0.0.1','admin',1542255731,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(20,'k3e6sb9n872ocrhbgas18svao0',1,'127.0.0.1','admin',1542255781,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(21,'gad4an9vbc5a7h619r4uc8bi12',1,'127.0.0.1','admin',1542256020,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(22,'3soob4n9q2igqup2lucb04mks3',1,'127.0.0.1','admin',1542256070,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(23,'fb8p8cmd39hiqc2nt30u21qpa1',1,'127.0.0.1','admin',1542256273,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(24,'i0f9dcgti8qk0pomone3222fq7',1,'127.0.0.1','admin',1542256281,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(25,'e3k56iobiveacg9hvlo79k3600',1,'127.0.0.1','admin',1542256356,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(26,'v2ba02m7e69cu1p299r45vqev2',1,'127.0.0.1','admin',1542256396,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(27,'1tti0a2lmlcu04cs3upk3cd8c2',1,'127.0.0.1','admin',1542256465,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(28,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542256558,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(29,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542256880,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(30,'9jp4p7vpt8f61q0m4lmu3ngk90',1,'127.0.0.1','admin',1542256959,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(31,'jepgibupjem1hc93n154vogvj2',1,'127.0.0.1','admin',1542256965,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(32,'uhtk8inecd8p2aciu0tg2k2e93',1,'127.0.0.1','admin',1542256993,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(33,'4ma9opvlqb9n3tupsiv3v9a3f5',1,'127.0.0.1','admin',1542257064,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(34,'tai3urqrlg2g12pn5cl17cb9l2',1,'127.0.0.1','admin',1542257100,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(35,'s04qkivuh4dk79h338sa2npgm6',1,'127.0.0.1','admin',1542257155,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(36,'psaq6a4p8n3276f0c9i83keku3',1,'127.0.0.1','admin',1542257181,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(37,'3ccvnrhhhqd8mng4mj9hs5i113',1,'127.0.0.1','admin',1542257258,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(38,'tmr1e4l9v91ersgeg82jqf5k10',1,'127.0.0.1','admin',1542257306,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(39,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542257397,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(40,'8dgblmo9tnpg28m5mk6pd07hc4',1,'127.0.0.1','admin',1542257418,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(41,'71pu3jiqh12bcf4lanmipq5dj5',1,'127.0.0.1','admin',1542257425,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(42,'b0ee2j87jodesemkcr6ldhknq4',1,'127.0.0.1','admin',1542257466,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(43,'s8c3gt8p1ioas0j32fi4pb4mg4',1,'127.0.0.1','admin',1542257548,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(44,'6perv7psdbs195mb8gg6pak5l0',1,'127.0.0.1','admin',1542257661,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(45,'cgj5da5tfsl9oe4ua20oarn587',1,'127.0.0.1','admin',1542257667,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(46,'lsqpd5rf50si39cmma0dvkdpi2',1,'127.0.0.1','admin',1542266764,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(47,'v0qqpe5l32ja5nvh503qmsmi61',1,'127.0.0.1','admin',1542266765,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(48,'cfb94rqasarkkmac9hh8in1i17',1,'127.0.0.1','admin',1542266803,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(49,'gqjfkrfroqmei6rr3mgdqegq30',1,'127.0.0.1','admin',1542266852,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(50,'tp7uvagdijosn6qpo1a3irfdt7',1,'127.0.0.1','admin',1542266999,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(51,'t2tsnr9lfst4oogqb860272id5',1,'127.0.0.1','admin',1542267276,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(52,'myprefix-brcmrvlo54bapnm4hm8mqjact6',1,'127.0.0.1','admin',1542267334,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(53,'kbc1op51k73dn7au7raffq4cr4',1,'127.0.0.1','admin',1542268392,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(54,'v9fhvisuumdf05u4vjelj94m21',1,'127.0.0.1','admin',1542360186,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(55,'53lkms8qpucb33a957oq172jf3',1,'127.0.0.1','admin',1542360275,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(56,'09r243kn1ltpbsms327igrjmn1',1,'127.0.0.1','admin',1542360281,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(57,'gt0befg5ng88s6ogp45r9skb87',1,'127.0.0.1','admin',1542360297,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(58,'796pf1ibif71kgkdjc5eqc3pm0',1,'127.0.0.1','admin',1542360348,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(59,'3b1q88neo8p7uld5fa4t58ie41',1,'127.0.0.1','admin',1542360359,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(60,'cmgv414fhdgg03ne2ac6alelp6',1,'127.0.0.1','admin',1542360406,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(61,'dl6p36j67o55lh9ol55pd0rtk1',1,'127.0.0.1','admin',1542360492,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(62,'245uah9gpr2r1ia0n0o284u7r0',1,'127.0.0.1','admin',1542369258,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(63,'q1a30ltml5nr7qfk2oeg380e83',1,'127.0.0.1','admin',1542425736,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(64,'8n2bj4ht9hv006g2vqk0mdvjo2',1,'127.0.0.1','admin',1542623928,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(65,'oceufq48junehgmvdgvr715292',1,'127.0.0.1','admin',1542806409,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36','admin',NULL),
+	(66,'e5j04cr7lk7oufn7i5v21o8a54',1,'127.0.0.1','admin',1543549074,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36','admin',NULL),
+	(67,'b3rp4598u8r1e9mo5cp26q4t85',1,'127.0.0.1','admin',1545817751,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36','admin',NULL),
+	(68,'eg0h75o3ovobqgcfes2pcfbbl2',1,'127.0.0.1','admin',1545829619,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36','admin',NULL),
+	(69,'s74kf4mo9ts3ks0l6v5secchn0',2,'127.0.0.1','admin',1545898398,'0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0','admin','用户名或者密码错误'),
+	(70,'s74kf4mo9ts3ks0l6v5secchn0',1,'127.0.0.1','admin',1545898408,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0','admin',NULL),
+	(71,'6je5opa88ljsvv1n7n5rm7g953',1,'127.0.0.1','admin',1545900420,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36','admin',NULL),
+	(72,'1ln6fjjrbina5s5du131meuts4',1,'127.0.0.1','admin',1564542585,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36','admin',NULL),
+	(73,'in7pj989hkpdcpkbgpacqnu0l0',1,'127.0.0.1','admin',1564634313,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36','admin',NULL),
+	(74,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570765439,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(75,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570765475,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(76,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570765912,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(77,'pi98q3nt376ur0caultto706us',1,'127.0.0.1','admin',1570766231,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(78,'fl7cp105e12ldfjc3hpccb0lf2',1,'127.0.0.1','admin',1570787554,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(79,'as122ti9nuc8tlonrq0ml3ucn8',1,'127.0.0.1','admin',1570855937,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(80,'brplbb6pub9ck2iiqndkv2dt4t',1,'127.0.0.1','admin',1570872083,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(81,'s59f51fej7rfm505t91kok11ve',1,'127.0.0.1','admin',1571052232,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(82,'guh59igealt57qmtbhnh1ka8eq',1,'127.0.0.1','admin',1571111611,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(83,'61c40jq4jttgqilu7n9eqdkf32',1,'127.0.0.1','admin',1571126625,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(84,'qnsso83iskgd6bcj640lm725fp',1,'127.0.0.1','admin',1571142399,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(85,'77tbiadi2elupln0a8m62ptedt',1,'127.0.0.1','admin',1571197304,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(86,'vfasl6scaepmd66a42q03v4mjg',1,'127.0.0.1','admin',1571211730,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(87,'q6ptfqcnb15jfrd7nm8l4tef90',1,'127.0.0.1','admin',1571283678,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(88,'hobbbakattdgtiravfodg77e6b',1,'127.0.0.1','admin',1571303372,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(89,'hobbbakattdgtiravfodg77e6b',1,'127.0.0.1','admin',1571303379,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(90,'kdvovgtarfptarpbemenhohmsd',1,'127.0.0.1','admin',1571316227,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(91,'f7b7pqjgrtl0jtts2o5jf1oipc',1,'127.0.0.1','admin',1571650684,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(92,'dmpgmt7fgh7loal6mrq5p1r9p7',1,'127.0.0.1','admin',1571665539,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36','admin',NULL),
+	(93,'ciaq6htmg3h2ultjh54h5655a6',1,'127.0.0.1','admin',1571716893,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(94,'c9di87jf9b47b2o3d762ar6a9n',1,'127.0.0.1','admin',1571729216,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(95,'tn96efsrolmi32omps3nr35l66',1,'127.0.0.1','admin',1571748633,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(96,'0t88epl7faj46jav4unncpc3fh',1,'127.0.0.1','admin',1571800309,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(97,'vmcffcagbm6ttdjthdu0eg9en4',1,'127.0.0.1','admin',1571815514,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(98,'5nqn3k48cd8rmfuojhh18ela5r',1,'127.0.0.1','admin',1571834652,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(99,'dmhq0v7bmtpsiv5alv886tpg1v',1,'127.0.0.1','admin',1571905045,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(100,'j3pejpsj8skfa33bb9jothv12a',1,'127.0.0.1','admin',1571922544,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(101,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571972594,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(102,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571975639,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(103,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571975807,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(104,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571976483,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(105,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571976525,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(106,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571976864,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(107,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571976904,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(108,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571976920,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(109,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571976941,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(110,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571977131,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(111,'12in3ibqjv357o3tp0vivqo7a1',2,'127.0.0.1','admin1',1571978194,'0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin','用户名或者密码错误'),
+	(112,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571978308,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(113,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571978603,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(114,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571978907,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(115,'12in3ibqjv357o3tp0vivqo7a1',1,'127.0.0.1','admin',1571979036,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(116,'curc868u8msgpdg02gtsqrp1ai',1,'127.0.0.1','admin',1571987155,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(117,'73m6dqbbmlgv0abct25ocliloq',1,'127.0.0.1','admin',1572008316,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL);
 
-/*!40000 ALTER TABLE `se_admin_login` ENABLE KEYS */;
+/*!40000 ALTER TABLE `se_login_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -172,24 +211,26 @@ CREATE TABLE `se_admin_user` (
   `email` varchar(100) DEFAULT NULL,
   `status` tinyint(1) DEFAULT '1' COMMENT '1正常2禁用',
   `realname` varchar(100) DEFAULT NULL,
+  `nickname` varchar(200) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
   `remark` varchar(300) DEFAULT NULL,
   `create_time` int(11) DEFAULT NULL,
   `auth_secert` char(32) DEFAULT '' COMMENT 'google身份验证的密钥',
   `session_id` varchar(60) DEFAULT '',
+  `addtim` int(11) DEFAULT '0',
+  `uptime` int(11) DEFAULT '0',
+  `deltime` int(11) DEFAULT '0',
   PRIMARY KEY (`admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `se_admin_user` WRITE;
 /*!40000 ALTER TABLE `se_admin_user` DISABLE KEYS */;
 
-INSERT INTO `se_admin_user` (`admin_id`, `group_id`, `username`, `password`, `sex`, `email`, `status`, `realname`, `remark`, `create_time`, `auth_secert`, `session_id`)
+INSERT INTO `se_admin_user` (`admin_id`, `group_id`, `username`, `password`, `sex`, `email`, `status`, `realname`, `nickname`, `mobile`, `remark`, `create_time`, `auth_secert`, `session_id`, `addtim`, `uptime`, `deltime`)
 VALUES
-	(1,1,'admin','$2y$10$tra3DMOjyKhDpQD1qe82Oe6b3n7StDIkprH8UXtscUdYo46DnAsim',1,'admin@admin.com',1,'钢盔','so fuck beautiful',NULL,'EEOQBNTJ7CDGCWPDVSVVQGZ37FK7RBU7','fl7cp105e12ldfjc3hpccb0lf2'),
-	(2,0,'admi12312','88eefa138a5584a45b6790cf2c4fbd67',1,'admin@admin.com',2,NULL,'',NULL,NULL,'0'),
-	(3,0,'dasdfasfdasd','2236495fe9bf433cf70949790ef20841',1,'sdfasdfasdf',2,NULL,'',NULL,NULL,'0'),
-	(6,2,'gangkui003','$2y$10$rsRw/PKLQPfhpR.XwrD6m.ocMygl6gd4BEtuNAPJbokykX5e.AMG.',1,'asdfasd@123.com',1,'里相遇','',NULL,'DZWBRUUNUUJDAXXR44MVYMCUPOEMQIPS','0'),
-	(11,5,'gangkui001','$2y$10$pLKmTwiz./w.8hPja3qQjuBdIwvskB3gPEY/ljVCdau6P/hElYELq',NULL,'001@adm.com',1,'钢盔01','gangkui001',1535528791,'HOELO43EFXMWYYWKWCSZ3QEMWRPQLR33','myprefix-brcmrvlo54bapnm4hm8mqjact6'),
-	(13,2,'gangkui','7fef6171469e80d32c0559f88b377245',NULL,'admin@admin.com',2,'发送到发送','Smarty_Internal_Templatelexer Smarty_Internal_Templatelexer Smarty_Internal_Templatelexer Smarty_Internal_Templatelexer',1536739662,'','0');
+	(1,1,'admin','$2y$10$tra3DMOjyKhDpQD1qe82Oe6b3n7StDIkprH8UXtscUdYo46DnAsim',1,'admin@admin.com',1,'钢盔',NULL,NULL,'so fuck beautiful',NULL,'EEOQBNTJ7CDGCWPDVSVVQGZ37FK7RBU7','12in3ibqjv357o3tp0vivqo7a1',NULL,0,0),
+	(6,2,'gangkui003','$2y$10$rsRw/PKLQPfhpR.XwrD6m.ocMygl6gd4BEtuNAPJbokykX5e.AMG.',1,'asdfasd@123.com',1,'里相遇',NULL,NULL,'',NULL,'DZWBRUUNUUJDAXXR44MVYMCUPOEMQIPS','0',NULL,0,0),
+	(11,5,'gangkui001','$2y$10$pLKmTwiz./w.8hPja3qQjuBdIwvskB3gPEY/ljVCdau6P/hElYELq',NULL,'001@adm.com',1,'钢盔01',NULL,NULL,'gangkui001',1535528791,'HOELO43EFXMWYYWKWCSZ3QEMWRPQLR33','myprefix-brcmrvlo54bapnm4hm8mqjact6',NULL,0,0);
 
 /*!40000 ALTER TABLE `se_admin_user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -225,7 +266,7 @@ LOCK TABLES `se_config` WRITE;
 
 INSERT INTO `se_config` (`key`, `value`)
 VALUES
-	('base_config','{\"web_name\":\"宜昌章技网络科技有限公司\",\"page_title\":\"宜昌软件开发_软件开发公司_宜昌软件公司-宜昌章洪科技软件开发公司\",\"page_keywords\":\"宜昌软件开发公司,软件开发公司,武汉软件公司,武汉软件开发,武汉手机软件开发公司,武汉app开发公司\",\"page_description\":\"章洪科科技-为企业提供专业的软件开发外包解决方案，涵盖多种应用与技术平台，拥有成熟的信息系统和行业软件开发外包解决方案，我们的专业团队将作为您的IT部门来开展长期紧密的合作，立足于您的业务和信息化目标，开发符合您业务目标和商业价值的软件。\",\"count_code\":\"&lt;script&gt;console.log(12312312312)&lt;/script&gt;\",\"icp_name\":\"ICP-浙KSKJ6789YYUI234\",\"company_address\":\"你猜dfasdfasdfa\",\"contact_number\":\"18923423423423\",\"email\":\"admin@admin.com\",\"qq_number\":\"12312312312fsdfasdfasdfas\"}'),
+	('base_config','{\"web_name\":\"章洪科技\",\"page_title\":\"章洪科技\",\"page_keywords\":\"章洪科技，软件开发，系统维护，app开发\",\"page_description\":\"章洪科技专业的软件开发公司\",\"count_code\":\"\",\"icp_name\":\"粤icp-12322339783\",\"company_address\":\"湖北省宜昌市宜陵路687号1807号\",\"contact_number\":\"18502050396\",\"email\":\"wanggang5161@163.com\",\"qq_number\":\"549224868\"}'),
 	('company_aptitude','\"&lt;p&gt;dfasdfasdfa&lt;/p&gt;\"'),
 	('company_cultural','\"&lt;div class=&quot;general_con_c_ri_title&quot;&gt;&lt;h4&gt;&lt;b&gt;专业+经验+创意+服务&lt;/b&gt;&lt;/h4&gt;&lt;h6&gt;&lt;span style=&quot;font-family: Arial;&quot;&gt;专业的&amp;nbsp;技术&amp;nbsp;，丰富的成功经验，卓越的设计思维，为您创作符合您业务和商业价值的解决方案！&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-family: Arial;&quot;&gt;为客户服务而努力，是我们每一个人贡献自己才华的方向，我们不光要懂得软件开发技术，还需要与客户发展战略规划对接，给客户优质服务，公司将坚持以创新、求实、诚信作为经营理念，不断吸收先进团队管理经验，继续为各个行业提供更加优秀、更加完善的解决方案。&lt;/span&gt;&lt;/h6&gt;&lt;/div&gt;\"'),
 	('company_profile','\"&lt;p&gt;&lt;b&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;我们是谁？&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 北京宜天信达网络科技有限公司-软件开发公司是国内专业的软件外包、定制开发公司。自成立以来，秉承&quot;诚信、协作、奉献、超越&quot;的精神，着力打造集战略咨询、平台技术和专业服务为一体的软件企业。在金融、保险、银行、医疗、物流、制造、教育、核能、汽车等行业拥有丰富的软件开发经验。北京软件开发公司宜天信达涵盖多种应用与技术平台，拥有成熟的信息系统和软件开发外包解决方案，我们的专业团队将作为您的IT部门来开展长期紧密的合作，立足于您的业务和信息化目标，开发符合您业务目标和商业价值的软件。我们将抓住机遇，坚持以人为本，加大自主产品创新，提升重大工程实施能力，加快规范化进程，实现规模经济和跨越式发展，立志打造&ldquo;中国软件行业优秀企业&rdquo;。&lt;/p&gt;&lt;p&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;我们之所以存在，是因为我们帮助客户解决问题&lt;/p&gt;\"'),
@@ -490,61 +531,59 @@ DROP TABLE IF EXISTS `se_goods`;
 
 CREATE TABLE `se_goods` (
   `goods_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '商品ID',
-  `bn` varchar(200) DEFAULT NULL COMMENT '商品编号',
+  `goods_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '商品编号',
   `name` varchar(200) NOT NULL DEFAULT '' COMMENT '商品名称',
   `price` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '销售价',
-  `type_id` mediumint(8) unsigned DEFAULT NULL COMMENT '类型',
-  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
-  `brand_id` mediumint(8) unsigned DEFAULT NULL COMMENT '品牌',
-  `marketable` enum('true','false') NOT NULL DEFAULT 'true' COMMENT '上架',
-  `store` mediumint(8) unsigned DEFAULT '0' COMMENT '库存',
+  `type_id` int(8) unsigned DEFAULT '0' COMMENT '类型',
+  `cate_id` int(8) unsigned DEFAULT '0' COMMENT '分类',
+  `brand_id` int(8) unsigned DEFAULT '0' COMMENT '品牌',
+  `marketable` enum('1','2') NOT NULL DEFAULT '1' COMMENT '上架',
+  `store` int(8) unsigned DEFAULT '0' COMMENT '库存',
   `notify_num` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '缺货登记',
-  `uptime` int(10) unsigned DEFAULT NULL COMMENT '上架时间',
   `downtime` int(10) unsigned DEFAULT NULL COMMENT '下架时间',
   `last_modify` int(10) unsigned DEFAULT NULL COMMENT '更新时间',
   `p_order` mediumint(8) unsigned NOT NULL DEFAULT '30' COMMENT '排序',
   `d_order` mediumint(8) unsigned NOT NULL DEFAULT '30' COMMENT '动态排序',
   `score` mediumint(8) unsigned DEFAULT NULL COMMENT '积分',
   `cost` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '成本价',
-  `mktprice` decimal(20,3) DEFAULT NULL COMMENT '市场价',
+  `mktprice` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '市场价',
   `weight` decimal(20,3) DEFAULT NULL COMMENT '重量',
   `unit` varchar(20) DEFAULT NULL COMMENT '单位',
   `brief` varchar(255) DEFAULT NULL COMMENT '商品简介',
-  `goods_type` enum('normal','bind','gift') NOT NULL DEFAULT 'normal' COMMENT '销售类型',
-  `image_default_id` varchar(32) DEFAULT NULL COMMENT '默认图片',
-  `udfimg` enum('true','false') DEFAULT 'false' COMMENT '是否用户自定义图',
-  `thumbnail_pic` varchar(32) DEFAULT NULL COMMENT '缩略图',
+  `image_default_id` varchar(1000) DEFAULT '' COMMENT '默认图片',
   `small_pic` varchar(255) DEFAULT NULL COMMENT '小图',
   `big_pic` varchar(255) DEFAULT NULL COMMENT '大图',
   `intro` longtext COMMENT '详细介绍',
   `store_place` varchar(255) DEFAULT NULL COMMENT '库位',
   `min_buy` mediumint(8) unsigned DEFAULT NULL COMMENT '起定量',
-  `package_scale` decimal(20,2) DEFAULT NULL COMMENT '打包比例',
-  `package_unit` varchar(20) DEFAULT NULL COMMENT '打包单位',
-  `package_use` enum('0','1') DEFAULT NULL COMMENT '是否开启打包',
-  `score_setting` enum('percent','number') DEFAULT 'number',
-  `store_prompt` mediumint(8) unsigned DEFAULT NULL COMMENT '库存提示规则',
-  `nostore_sell` enum('0','1') DEFAULT '0' COMMENT '是否开启无库存销售',
+  `nostore_sell` enum('0','1') NOT NULL DEFAULT '0' COMMENT '是否开启无库存销售',
   `goods_setting` longtext COMMENT '商品设置',
-  `spec_desc` longtext COMMENT '货品规格序列化',
-  `params` longtext COMMENT '商品规格序列化',
-  `disabled` enum('true','false') NOT NULL DEFAULT 'false',
-  `rank_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'google page rank count',
   `comments_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '评论次数',
-  `view_w_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '周浏览次数',
   `view_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '浏览次数',
-  `count_stat` longtext COMMENT '统计数据序列化',
   `buy_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '购买次数',
-  `buy_w_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '购买次数',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '',
+  `uptime` int(10) unsigned DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
   PRIMARY KEY (`goods_id`),
-  UNIQUE KEY `uni_bn` (`bn`),
-  KEY `ind_frontend` (`disabled`,`goods_type`,`marketable`),
-  KEY `idx_goods_type` (`goods_type`),
+  UNIQUE KEY `uni_bn` (`goods_sn`),
+  KEY `ind_frontend` (`marketable`),
   KEY `idx_d_order` (`d_order`),
-  KEY `idx_goods_type_d_order` (`goods_type`,`d_order`),
+  KEY `idx_goods_type_d_order` (`d_order`),
   KEY `idx_marketable` (`marketable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `se_goods` WRITE;
+/*!40000 ALTER TABLE `se_goods` DISABLE KEYS */;
+
+INSERT INTO `se_goods` (`goods_id`, `goods_sn`, `name`, `price`, `type_id`, `cate_id`, `brand_id`, `marketable`, `store`, `notify_num`, `downtime`, `last_modify`, `p_order`, `d_order`, `score`, `cost`, `mktprice`, `weight`, `unit`, `brief`, `image_default_id`, `small_pic`, `big_pic`, `intro`, `store_place`, `min_buy`, `nostore_sell`, `goods_setting`, `comments_count`, `view_count`, `buy_count`, `addtime`, `adduser`, `uptime`, `upuser`)
+VALUES
+	(1,'191023094953','玉泉寺成人票',0.000,0,0,0,'1',6666777,0,NULL,NULL,1,30,2,111.000,222.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"58/7c10d0cab1e0922fd44ff1a131d4963f.jpg\",\"40/618e6d0cb2b6b1cf0225835f87928386.jpg\",\"27/e098e98cbca47ea7af9c125f20dbbb79.jpg\",\"45/4a083e9fed9721327f545b12d117b8f1.jpg\",\"05/f951b5275c198310bc06b71b62db2fe2.jpg\",\"63/8cc1bbde4dcbb6fd1aedcd899f6c4ac7.jpg\"]','','','&amp;lt;h1&amp;gt;&amp;lt;strong&amp;gt;金山岭长城秋色浓郁 层林尽染灿若图秀&amp;lt;/strong&amp;gt;&amp;lt;/h1&amp;gt;\r\n&amp;lt;p&amp;gt;2019-10-25 14:47&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736204.jpg&amp;quot; data-image=&amp;quot;oikfc2jg19ni&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;近日，位于京郊的金山岭长城秋景正浓，层林尽染，五色纷披，灿若图绣。文/张桂芹 图/郭中兴&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736765.jpg&amp;quot; data-image=&amp;quot;vfe3nfe8v2x6&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;&amp;lt;br&amp;gt;&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736182.jpg&amp;quot; data-image=&amp;quot;qixep3c4azg1&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736326.jpg&amp;quot; data-image=&amp;quot;1biesfmcb7dh&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;','0',0,'1','',1,1,1,1571824193,'1',0,'0'),
+	(2,'191023130251','玉泉寺儿童票',0.000,0,0,0,'1',999999,0,NULL,NULL,22,30,22,111.000,99.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"55/e8f37adc5a222fd8c3a954738ca5c468.jpg\",\"45/4a083e9fed9721327f545b12d117b8f1.jpg\",\"58/7c10d0cab1e0922fd44ff1a131d4963f.jpg\",\"40/618e6d0cb2b6b1cf0225835f87928386.jpg\"]','','','&amp;lt;p&amp;gt;做php开发中，如果遇到自己不能修改服务器的相关配置也不能知道服务器某些功能是否开启的情况下，直接使用某些特殊的函数会导致程序报错，比如curl_init这种系统函数。当服务器未开启curl相关服务的时候，直接使用curl系列函数会报Call to undefined function curl_init()......这样的错误。&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;那么对于出现这种情况该如何办呢？很多事情不只是有一种办法的，如果某些方法不行，我们还可以使用另外的方法。这里我们就需要涉及到判断某个方法是否存在的问题了，如果存在该方法则使用该方法，如果不存在该方法则使用另外的方法。&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;这里对于如何判断一个函数，类以及类中的方法是否存在做了一个整理：&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（1）php判断系统函数或自己写的函数是否存在&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool function_exists ( string $function_name ) 判断函数是否已经定义，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(function_exists(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;curl_init&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;    &amp;lt;code&amp;gt;curl_init();&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;else&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;{&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;4&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;lt;code&amp;gt;echo&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;&amp;#039;not function curl_init&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;5&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（2）php判断类是否存在&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool class_exists ( string $class_name [, bool $autoload = true ] ) 检查一个类是否已经定义，一定以返回true，否则返回false，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;class_exists&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;MySQL&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;lt;code&amp;gt;$myclass&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;new&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;MySQL();&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（3）php判断类里面的某个方法是否已经定义&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool method_exists ( mixed $object , string $method_name ) 检查类的方法是否存在，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;$directory&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;new&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;Directory;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(!method_exists(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;$directory&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;,&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;read&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;lt;code&amp;gt;echo&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;&amp;#039;未定义read方法！&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;4&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;','0',0,'1','',22,22,1,1571835771,'1',0,'0'),
+	(3,'191023130628U2VZW','玉泉寺特殊票',0.000,0,0,0,'1',555555,0,NULL,NULL,2,30,4,111.000,30.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\",\"32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\",\"32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\"]','','','&amp;lt;h1&amp;gt;&amp;lt;strong&amp;gt;江西旱情持续 赣江南昌段大片河床裸露&amp;lt;/strong&amp;gt;&amp;lt;/h1&amp;gt;\r\n&amp;lt;p&amp;gt;2019-10-23 14:45&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547367.jpg&amp;quot; data-image=&amp;quot;kjmg3bokm24n&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;　　央视网消息：2019年10月22日，无人机航拍长江主要支流之一、江西省最大河流赣江南昌段水域，河床大面积裸露，岸边不少河床甚至干涸龟裂。当日20时，赣江南昌站实时水位为11.61米。8月以来，江西气温创历史同期新高，降水异常偏少，平均降雨量较常年同期偏少近9成，山塘水库大面积干涸。图片来源：视觉中国&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547212.jpg&amp;quot; data-image=&amp;quot;8dalhbny09aq&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547326.jpg&amp;quot; data-image=&amp;quot;1puh0fa2yz4t&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024548746.jpg&amp;quot; data-image=&amp;quot;oriy9bjx99dv&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;','0',0,'1','',44,334,1,1571835988,'1',0,'0');
+
+/*!40000 ALTER TABLE `se_goods` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table se_goods_brand
@@ -560,14 +599,29 @@ CREATE TABLE `se_goods_brand` (
   `brand_logo` varchar(255) DEFAULT NULL COMMENT '品牌图片标识',
   `brand_keywords` longtext COMMENT '品牌别名',
   `brand_setting` longtext COMMENT '品牌设置',
-  `disabled` enum('true','false') DEFAULT 'false' COMMENT '失效',
-  `ordernum` mediumint(8) unsigned DEFAULT NULL COMMENT '排序',
-  `last_modify` int(10) unsigned DEFAULT NULL COMMENT '更新时间',
+  `disabled` tinyint(1) DEFAULT '1' COMMENT '失效',
+  `ordernum` int(3) unsigned DEFAULT '0' COMMENT '排序',
+  `adduser` char(32) NOT NULL DEFAULT '' COMMENT '32',
+  `addtime` int(11) NOT NULL,
+  `upuser` char(32) DEFAULT '0' COMMENT '32',
+  `uptime` int(10) unsigned DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`brand_id`),
   KEY `ind_disabled` (`disabled`),
   KEY `ind_ordernum` (`ordernum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `se_goods_brand` WRITE;
+/*!40000 ALTER TABLE `se_goods_brand` DISABLE KEYS */;
+
+INSERT INTO `se_goods_brand` (`brand_id`, `brand_name`, `brand_url`, `brand_desc`, `brand_logo`, `brand_keywords`, `brand_setting`, `disabled`, `ordernum`, `adduser`, `addtime`, `upuser`, `uptime`)
+VALUES
+	(1,'锤子','www.chuizi.com','锤子手机，罗永浩永远的痛','32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg','锤子','',1,4,'1',1571728519,'0',0),
+	(2,'华为','www.huawei.com','中国手机自主产权最高的手机制造商','32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg','huawei','',1,3,'1',1571728561,'0',0),
+	(3,'魅族','www.meizu.com','魅族科技是最让人惋惜的，错过了中国手机发展的红利','32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg','魅族','',1,2,'1',1571728823,'0',0),
+	(4,'小米','www.xiaomi.com','小米手机是发展最快的科技公司','32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg','小米','',1,1,'1',1571728911,'0',0);
+
+/*!40000 ALTER TABLE `se_goods_brand` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table se_goods_keywords
@@ -661,7 +715,7 @@ CREATE TABLE `se_goods_type` (
 DROP TABLE IF EXISTS `se_image`;
 
 CREATE TABLE `se_image` (
-  `image_id` char(32) NOT NULL COMMENT '图片ID',
+  `image_id` bigint(20) NOT NULL COMMENT '图片ID',
   `storage` varchar(50) NOT NULL DEFAULT 'filesystem' COMMENT '存储引擎',
   `image_name` varchar(50) DEFAULT NULL COMMENT '图片名称',
   `ident` varchar(200) NOT NULL,
@@ -675,7 +729,8 @@ CREATE TABLE `se_image` (
   `width` mediumint(8) unsigned DEFAULT NULL COMMENT '宽度',
   `height` mediumint(8) unsigned DEFAULT NULL COMMENT '高度',
   `watermark` enum('true','false') DEFAULT 'false' COMMENT '有水印',
-  `last_modified` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `uptime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `addtime` int(10) NOT NULL,
   PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -816,20 +871,22 @@ CREATE TABLE `se_member_msg` (
 DROP TABLE IF EXISTS `se_member_pam`;
 
 CREATE TABLE `se_member_pam` (
-  `member_id` mediumint(8) unsigned NOT NULL COMMENT '账户序号ID',
-  `login_account` varchar(100) NOT NULL COMMENT '登录名',
-  `login_password` varchar(32) NOT NULL COMMENT '登录密码',
-  `password_account` char(8) NOT NULL DEFAULT '' COMMENT '加密字符串',
+  `member_id` bigint(20) unsigned NOT NULL COMMENT '账户序号ID',
+  `username` varchar(100) NOT NULL DEFAULT '' COMMENT '登录名',
+  `password` varchar(225) NOT NULL DEFAULT '' COMMENT '登录密码',
+  `password_account` char(10) DEFAULT '' COMMENT '加密字符串',
+  `wechat_openid` varchar(225) DEFAULT NULL COMMENT '微信openid',
+  `uptime` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会员密码表';
 
 LOCK TABLES `se_member_pam` WRITE;
 /*!40000 ALTER TABLE `se_member_pam` DISABLE KEYS */;
 
-INSERT INTO `se_member_pam` (`member_id`, `login_account`, `login_password`, `password_account`)
+INSERT INTO `se_member_pam` (`member_id`, `username`, `password`, `password_account`, `wechat_openid`, `uptime`)
 VALUES
-	(26,'admin','52d2a3960720e5e0fbe1f20129a907bd','r[(I%!!e'),
-	(27,'admin','1b3791336ca7c9a4381eee3a57eadb86','*2EEz/|\"');
+	(26,'admin','52d2a3960720e5e0fbe1f20129a907bd','r[(I%!!e',NULL,0),
+	(27,'admin','1b3791336ca7c9a4381eee3a57eadb86','*2EEz/|\"',NULL,0);
 
 /*!40000 ALTER TABLE `se_member_pam` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -848,9 +905,7 @@ CREATE TABLE `se_members` (
   `point` int(10) NOT NULL DEFAULT '0' COMMENT '积分',
   `addr` varchar(255) DEFAULT NULL COMMENT '地址',
   `mobile` varchar(50) DEFAULT NULL COMMENT '手机',
-  `tel` varchar(50) DEFAULT NULL COMMENT '固定电话',
   `email` varchar(200) DEFAULT '' COMMENT 'EMAIL',
-  `zip` varchar(20) DEFAULT NULL COMMENT '邮编',
   `refer_id` varchar(50) DEFAULT NULL COMMENT '来源ID',
   `refer_url` varchar(200) DEFAULT NULL COMMENT '推广来源URL',
   `advance` decimal(20,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '会员账户余额',
@@ -861,14 +916,13 @@ CREATE TABLE `se_members` (
   `experience` int(10) DEFAULT '0' COMMENT '经验值',
   `resetpwd` varchar(255) DEFAULT NULL COMMENT '找回密码唯一标示',
   `resetpwdtime` int(10) unsigned DEFAULT NULL COMMENT '找回密码时间',
-  `member_refer` varchar(50) DEFAULT 'local' COMMENT '会员来源(弃用)',
   `source` enum('pc','wap','weixin','api') DEFAULT 'pc' COMMENT '平台来源',
-  `create_time` int(10) unsigned DEFAULT '0',
-  `create_user` int(10) unsigned DEFAULT '0',
-  `update_time` int(10) unsigned DEFAULT '0',
-  `update_user` int(10) unsigned DEFAULT '0',
-  `delete_user` int(10) unsigned DEFAULT '0',
-  `delete_time` int(10) unsigned DEFAULT '0',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
+  `adduser` char(32) DEFAULT '0',
+  `uptime` int(10) unsigned DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
+  `deluser` char(32) DEFAULT '0',
+  `deltime` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`member_id`),
   KEY `ind_email` (`email`),
   KEY `ind_disabled` (`status`)
@@ -877,13 +931,80 @@ CREATE TABLE `se_members` (
 LOCK TABLES `se_members` WRITE;
 /*!40000 ALTER TABLE `se_members` DISABLE KEYS */;
 
-INSERT INTO `se_members` (`member_id`, `member_lv_id`, `realname`, `nickname`, `point`, `addr`, `mobile`, `tel`, `email`, `zip`, `refer_id`, `refer_url`, `advance`, `reg_ip`, `state`, `status`, `remark`, `experience`, `resetpwd`, `resetpwdtime`, `member_refer`, `source`, `create_time`, `create_user`, `update_time`, `update_user`, `delete_user`, `delete_time`)
+INSERT INTO `se_members` (`member_id`, `member_lv_id`, `realname`, `nickname`, `point`, `addr`, `mobile`, `email`, `refer_id`, `refer_url`, `advance`, `reg_ip`, `state`, `status`, `remark`, `experience`, `resetpwd`, `resetpwdtime`, `source`, `addtime`, `adduser`, `uptime`, `upuser`, `deluser`, `deltime`)
 VALUES
-	(26,5,'fdasdfasdf',NULL,0,NULL,'123123123',NULL,'gangkui1688@icloud.com',NULL,NULL,NULL,0.000,NULL,0,1,'sdfasdfasdf',0,NULL,NULL,'local','pc',1537851903,1,0,0,0,0),
-	(27,5,'fdasdfasdf1231231                                 ',NULL,0,NULL,'123123123',NULL,'gangkui1688@icloud.com',NULL,NULL,NULL,0.000,NULL,0,1,'sdfasdfasdf',0,NULL,NULL,'local','pc',1537861550,1,0,0,0,0);
+	(26,5,'fdasdfasdf',NULL,0,NULL,'123123123','gangkui1688@icloud.com',NULL,NULL,0.000,NULL,0,1,'sdfasdfasdf',0,NULL,NULL,'pc',1537851903,'1',0,'0','0',0),
+	(27,5,'fdasdfasdf1231231                                 ',NULL,0,NULL,'123123123','gangkui1688@icloud.com',NULL,NULL,0.000,NULL,0,1,'sdfasdfasdf',0,NULL,NULL,'pc',1537861550,'1',0,'0','0',0);
 
 /*!40000 ALTER TABLE `se_members` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table se_order
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `se_order`;
+
+CREATE TABLE `se_order` (
+  `order_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '订单号',
+  `total_amount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '商品默认货币总值',
+  `final_amount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单货币总值, 包含支付价格,税等',
+  `pay_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '付款状态',
+  `ship_status` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '发货状态',
+  `is_delivery` enum('Y','N') NOT NULL DEFAULT 'Y' COMMENT '是否需要发货',
+  `payment` varchar(100) DEFAULT NULL COMMENT '支付方式',
+  `shipping_id` mediumint(8) unsigned DEFAULT NULL COMMENT '配送方式',
+  `shipping` varchar(100) DEFAULT NULL COMMENT '配送方式',
+  `member_id` mediumint(8) unsigned DEFAULT NULL COMMENT '会员用户名',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '订单状态',
+  `confirm` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '确认状态',
+  `ship_area` varchar(255) DEFAULT NULL COMMENT '收货地区',
+  `ship_name` varchar(50) DEFAULT NULL COMMENT '收货人',
+  `weight` decimal(20,3) DEFAULT NULL COMMENT '订单总重量',
+  `tostr` longtext COMMENT '订单文字描述',
+  `itemnum` mediumint(8) unsigned DEFAULT NULL COMMENT '订单子订单数量',
+  `ip` varchar(15) DEFAULT NULL COMMENT 'IP地址',
+  `ship_addr` text COMMENT '收货地址',
+  `ship_zip` varchar(20) DEFAULT NULL COMMENT '收货人邮编',
+  `ship_tel` varchar(50) DEFAULT NULL COMMENT '收货电话',
+  `ship_email` varchar(200) DEFAULT NULL COMMENT '收货人email',
+  `ship_time` varchar(50) DEFAULT NULL COMMENT '配送时间',
+  `ship_mobile` varchar(50) DEFAULT NULL COMMENT '收货人手机',
+  `cost_item` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单商品总价格',
+  `is_tax` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否要开发票',
+  `tax_type` enum('false','personal','company') NOT NULL DEFAULT 'false' COMMENT '发票类型',
+  `tax_content` varchar(255) DEFAULT NULL COMMENT '发票内容',
+  `cost_tax` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单税率',
+  `tax_company` varchar(255) DEFAULT NULL COMMENT '发票抬头',
+  `cost_payment` decimal(20,3) DEFAULT NULL COMMENT '支付费用',
+  `currency` varchar(8) DEFAULT NULL COMMENT '订单支付货币',
+  `cur_rate` decimal(10,4) DEFAULT '1.0000' COMMENT '订单支付货币汇率',
+  `score_u` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单使用积分',
+  `score_g` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单获得积分',
+  `discount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单减免',
+  `pmt_goods` decimal(20,3) DEFAULT NULL COMMENT '商品促销优惠',
+  `pmt_order` decimal(20,3) DEFAULT NULL COMMENT '订单促销优惠',
+  `payed` decimal(20,3) DEFAULT '0.000' COMMENT '订单支付金额',
+  `memo` longtext COMMENT '订单附言',
+  `disabled` tinyint(1) DEFAULT '1',
+  `mark_type` varchar(2) NOT NULL DEFAULT 'b1' COMMENT '订单备注图标',
+  `mark_text` longtext COMMENT '订单备注',
+  `cost_freight` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '配送费用',
+  `extend` varchar(255) DEFAULT 'false' COMMENT '订单扩展',
+  `addon` longtext COMMENT '订单附属信息(序列化)',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '',
+  `uptime` int(11) DEFAULT '0' COMMENT '最后更新时间',
+  `upuser` char(32) DEFAULT '0' COMMENT '最后跟新人',
+  `deltime` int(11) DEFAULT '0',
+  `deluesr` char(32) DEFAULT '0',
+  PRIMARY KEY (`order_id`),
+  KEY `ind_ship_status` (`ship_status`),
+  KEY `ind_pay_status` (`pay_status`),
+  KEY `ind_status` (`status`),
+  KEY `ind_disabled` (`disabled`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
+
 
 
 # Dump of table se_order_cancel_reason
@@ -901,6 +1022,43 @@ CREATE TABLE `se_order_cancel_reason` (
 
 
 
+# Dump of table se_order_cart
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `se_order_cart`;
+
+CREATE TABLE `se_order_cart` (
+  `cart_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `total_price` varchar(20) NOT NULL DEFAULT '' COMMENT ' 总价',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '' COMMENT '会员ident',
+  `uptime` int(11) DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
+  PRIMARY KEY (`cart_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车';
+
+
+
+# Dump of table se_order_cart_item
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `se_order_cart_item`;
+
+CREATE TABLE `se_order_cart_item` (
+  `cart_id` int(11) unsigned NOT NULL,
+  `goods_id` int(11) NOT NULL COMMENT '商品ID',
+  `goods_params` longtext NOT NULL COMMENT 'json商品是数据',
+  `goods_name` varchar(200) NOT NULL DEFAULT '' COMMENT '商品名称',
+  `price` varchar(11) NOT NULL DEFAULT '' COMMENT '单价',
+  `nun` int(11) NOT NULL COMMENT '数量',
+  `addtime` int(11) NOT NULL COMMENT '新增时间',
+  `uptime` int(11) DEFAULT '0' COMMENT '更新时间',
+  `deltime` int(11) DEFAULT '0' COMMENT '删除时间',
+  PRIMARY KEY (`cart_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车对应的详细商品数据';
+
+
+
 # Dump of table se_order_items
 # ------------------------------------------------------------
 
@@ -909,12 +1067,11 @@ DROP TABLE IF EXISTS `se_order_items`;
 CREATE TABLE `se_order_items` (
   `item_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单明细ID',
   `order_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '订单ID',
-  `obj_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '订单明细对应的商品对象ID, 对应到sdb_b2c_order_objects表',
-  `product_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '货品ID',
+  `goods_params` longtext NOT NULL COMMENT '订单对应的商品json数据',
   `goods_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
   `type_id` mediumint(8) unsigned DEFAULT NULL COMMENT '商品类型ID',
   `bn` varchar(40) DEFAULT NULL COMMENT '明细商品的品牌名',
-  `name` varchar(200) DEFAULT NULL COMMENT '明细商品的名称',
+  `goods_name` varchar(200) DEFAULT NULL COMMENT '明细商品的名称',
   `cost` decimal(20,3) DEFAULT NULL COMMENT '明细商品的成本',
   `price` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '明细商品的销售价(购入价)',
   `g_price` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '明细商品的会员价原价',
@@ -924,7 +1081,12 @@ CREATE TABLE `se_order_items` (
   `nums` float NOT NULL DEFAULT '1' COMMENT '明细商品购买数量',
   `sendnum` float NOT NULL DEFAULT '0' COMMENT '明细商品发货数量',
   `addon` longtext COMMENT '明细商品的规格属性',
-  `item_type` enum('product','pkg','gift','adjunct') NOT NULL DEFAULT 'product' COMMENT '明细商品类型',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '',
+  `uptime` int(11) DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
+  `deltime` int(11) DEFAULT '0',
+  `deluser` char(32) DEFAULT '0',
   PRIMARY KEY (`item_id`),
   KEY `ind_item_bn` (`bn`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单明细表';
@@ -995,76 +1157,6 @@ CREATE TABLE `se_order_pmt` (
 
 
 
-# Dump of table se_orders
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `se_orders`;
-
-CREATE TABLE `se_orders` (
-  `order_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '订单号',
-  `total_amount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '商品默认货币总值',
-  `final_amount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单货币总值, 包含支付价格,税等',
-  `pay_status` enum('0','1','2','3','4','5') NOT NULL DEFAULT '0' COMMENT '付款状态',
-  `ship_status` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '发货状态',
-  `is_delivery` enum('Y','N') NOT NULL DEFAULT 'Y' COMMENT '是否需要发货',
-  `createtime` int(10) unsigned DEFAULT NULL COMMENT '下单时间',
-  `last_modified` int(10) unsigned DEFAULT NULL COMMENT '最后更新时间',
-  `payment` varchar(100) DEFAULT NULL COMMENT '支付方式',
-  `shipping_id` mediumint(8) unsigned DEFAULT NULL COMMENT '配送方式',
-  `shipping` varchar(100) DEFAULT NULL COMMENT '配送方式',
-  `member_id` mediumint(8) unsigned DEFAULT NULL COMMENT '会员用户名',
-  `status` enum('active','dead','finish') NOT NULL DEFAULT 'active' COMMENT '订单状态',
-  `confirm` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '确认状态',
-  `ship_area` varchar(255) DEFAULT NULL COMMENT '收货地区',
-  `ship_name` varchar(50) DEFAULT NULL COMMENT '收货人',
-  `weight` decimal(20,3) DEFAULT NULL COMMENT '订单总重量',
-  `tostr` longtext COMMENT '订单文字描述',
-  `itemnum` mediumint(8) unsigned DEFAULT NULL COMMENT '订单子订单数量',
-  `ip` varchar(15) DEFAULT NULL COMMENT 'IP地址',
-  `ship_addr` text COMMENT '收货地址',
-  `ship_zip` varchar(20) DEFAULT NULL COMMENT '收货人邮编',
-  `ship_tel` varchar(50) DEFAULT NULL COMMENT '收货电话',
-  `ship_email` varchar(200) DEFAULT NULL COMMENT '收货人email',
-  `ship_time` varchar(50) DEFAULT NULL COMMENT '配送时间',
-  `ship_mobile` varchar(50) DEFAULT NULL COMMENT '收货人手机',
-  `cost_item` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单商品总价格',
-  `is_tax` enum('true','false') NOT NULL DEFAULT 'false' COMMENT '是否要开发票',
-  `tax_type` enum('false','personal','company') NOT NULL DEFAULT 'false' COMMENT '发票类型',
-  `tax_content` varchar(255) DEFAULT NULL COMMENT '发票内容',
-  `cost_tax` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单税率',
-  `tax_company` varchar(255) DEFAULT NULL COMMENT '发票抬头',
-  `is_protect` enum('true','false') NOT NULL DEFAULT 'false' COMMENT '是否还有保价费',
-  `cost_protect` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '保价费',
-  `cost_payment` decimal(20,3) DEFAULT NULL COMMENT '支付费用',
-  `currency` varchar(8) DEFAULT NULL COMMENT '订单支付货币',
-  `cur_rate` decimal(10,4) DEFAULT '1.0000' COMMENT '订单支付货币汇率',
-  `score_u` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单使用积分',
-  `score_g` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单获得积分',
-  `discount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单减免',
-  `pmt_goods` decimal(20,3) DEFAULT NULL COMMENT '商品促销优惠',
-  `pmt_order` decimal(20,3) DEFAULT NULL COMMENT '订单促销优惠',
-  `payed` decimal(20,3) DEFAULT '0.000' COMMENT '订单支付金额',
-  `memo` longtext COMMENT '订单附言',
-  `disabled` enum('true','false') DEFAULT 'false',
-  `mark_type` varchar(2) NOT NULL DEFAULT 'b1' COMMENT '订单备注图标',
-  `mark_text` longtext COMMENT '订单备注',
-  `cost_freight` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '配送费用',
-  `extend` varchar(255) DEFAULT 'false' COMMENT '订单扩展',
-  `order_refer` varchar(20) NOT NULL DEFAULT 'local' COMMENT '订单来源',
-  `addon` longtext COMMENT '订单附属信息(序列化)',
-  `source` enum('pc','wap','weixin') DEFAULT 'pc' COMMENT '平台来源',
-  PRIMARY KEY (`order_id`),
-  KEY `ind_ship_status` (`ship_status`),
-  KEY `ind_pay_status` (`pay_status`),
-  KEY `ind_status` (`status`),
-  KEY `ind_disabled` (`disabled`),
-  KEY `ind_last_modified` (`last_modified`),
-  KEY `ind_createtime` (`createtime`),
-  KEY `idx_order_refer` (`order_refer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
-
-
-
 # Dump of table se_payments
 # ------------------------------------------------------------
 
@@ -1072,14 +1164,14 @@ DROP TABLE IF EXISTS `se_payments`;
 
 CREATE TABLE `se_payments` (
   `payment_id` varchar(20) NOT NULL DEFAULT '' COMMENT '支付单号',
+  `order_id` bigint(20) unsigned NOT NULL COMMENT '订单ID',
   `money` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '支付金额',
   `cur_money` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '支付货币金额',
   `member_id` varchar(100) DEFAULT NULL COMMENT '会员用户名',
   `status` enum('succ','failed','cancel','error','invalid','progress','timeout','ready') NOT NULL DEFAULT 'ready' COMMENT '支付状态',
-  `pay_name` varchar(100) DEFAULT NULL,
+  `pay_name` varchar(100) DEFAULT NULL COMMENT '支付描述名称',
   `pay_type` enum('online','offline','deposit') NOT NULL DEFAULT 'online' COMMENT '支付类型',
-  `t_payed` int(10) unsigned DEFAULT NULL COMMENT '支付完成时间',
-  `op_id` mediumint(8) unsigned DEFAULT NULL COMMENT '操作员',
+  `t_payed` int(10) unsigned DEFAULT '0' COMMENT '支付完成时间',
   `payment_bn` varchar(32) DEFAULT '' COMMENT '支付单唯一编号',
   `account` varchar(50) DEFAULT NULL COMMENT '收款账号',
   `bank` varchar(50) DEFAULT NULL COMMENT '收款银行',
@@ -1096,6 +1188,10 @@ CREATE TABLE `se_payments` (
   `disabled` enum('true','false') DEFAULT 'false' COMMENT '支付单状态',
   `trade_no` varchar(30) DEFAULT NULL COMMENT '支付单交易编号',
   `thirdparty_account` varchar(50) DEFAULT '' COMMENT '第三方支付账户',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '',
+  `uptime` int(11) DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
   PRIMARY KEY (`payment_id`),
   KEY `ind_disabled` (`disabled`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1141,32 +1237,6 @@ DROP TABLE IF EXISTS `se_wechat_menu`;
 CREATE TABLE `se_wechat_menu` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Dump of table sephp_image_image
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sephp_image_image`;
-
-CREATE TABLE `sephp_image_image` (
-  `image_id` char(32) NOT NULL COMMENT '图片ID',
-  `storage` varchar(50) NOT NULL DEFAULT 'filesystem' COMMENT '存储引擎',
-  `image_name` varchar(50) DEFAULT NULL COMMENT '图片名称',
-  `ident` varchar(200) NOT NULL,
-  `url` varchar(200) NOT NULL COMMENT '网址',
-  `l_ident` varchar(200) DEFAULT NULL COMMENT '大图唯一标识',
-  `l_url` varchar(200) DEFAULT NULL COMMENT '大图URL地址',
-  `m_ident` varchar(200) DEFAULT NULL COMMENT '中图唯一标识',
-  `m_url` varchar(200) DEFAULT NULL COMMENT '中图URL地址',
-  `s_ident` varchar(200) DEFAULT NULL COMMENT '小图唯一标识',
-  `s_url` varchar(200) DEFAULT NULL COMMENT '小图URL地址',
-  `width` mediumint(8) unsigned DEFAULT NULL COMMENT '宽度',
-  `height` mediumint(8) unsigned DEFAULT NULL COMMENT '高度',
-  `watermark` enum('true','false') DEFAULT 'false' COMMENT '有水印',
-  `last_modified` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
