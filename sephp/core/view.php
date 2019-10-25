@@ -48,7 +48,8 @@ class view {
 		return self::$_instance;
 	}
 
-	protected static function config() {
+	protected static function config()
+    {
 		self::$config = sephp::$_config['web'];
 		self::instance()->assign('_self_url', '?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME);
 		self::instance()->assign('_ct_name', CONTROLLER_NAME);
@@ -61,15 +62,18 @@ class view {
         self::instance()->assign('url_upload', sephp::$_config['upload']['filelink'].'/image/');
 	}
 
-	public static function fetch($tpl = '') {
+	public static function fetch($tpl = '')
+    {
 		return self::instance()->fetch(self::make_tpl($tpl));
 	}
 
-	public static function assign($tpl_var, $value) {
+	public static function assign($tpl_var, $value)
+    {
 		self::instance()->assign($tpl_var, $value);
 	}
 
-	public static function display($tpl = '') {
+	public static function display($tpl = '')
+    {
 
 		if (!empty(sephp::$_config['web']['static_page']) && in_array(APP_NAME, sephp::$_config['web']['static_page'])) {
 			$file_path = PATH_RUNTIME.'cache/html/'.APP_NAME.'/';
@@ -78,7 +82,8 @@ class view {
 			}
 
 			$name = null;
-			foreach (req::$forms as $k => $v) {
+			foreach (req::$forms as $k => $v)
+            {
 				$name .= $k.'-'.$v.'_';
 			}
 			$html_file_name = $file_path.rtrim($name, '_').'.html';

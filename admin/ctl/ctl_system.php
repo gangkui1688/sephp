@@ -229,7 +229,7 @@ class ctl_system
         $key = 'base_config';
         if(empty(req::$posts))
         {
-            view::assign('data',config::get($key));
+            view::assign('data',config::get($key, 'mysql'));
             view::assign('clear_view_cache_url',$this->_url.'clear_view_cache');
             view::assign('clear_static_page_url',$this->_url.'clear_static_page');
             view::display();

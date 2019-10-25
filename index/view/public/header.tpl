@@ -42,109 +42,37 @@
 
         <!-- Start of header area -->
         <header class="header-area header-wrapper">
-            <!--div class="header-top-bar black-bg clearfix">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-3 col-xs-6">
-                            <div class="login-register-area">
-                                <ul>
-                                    <li><a href="#">Login</a></li>
-                                    <li><a href="#">Register</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-sm-6 hidden-xs">
-                            <div class="social-search-area text-center">
-                                <div class="social-icon socile-icon-style-2">
-                                    <ul>
-                                        <li><a href="#" title="facebook"><i class="fa fa-facebook"></i></a> </li>
-                                        <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a> </li>
-                                        <li> <a href="#" title="dribble"><i class="fa fa-dribbble"></i></a></li>
-                                        <li> <a href="#" title="behance"><i class="fa fa-behance"></i></a> </li>
-                                        <li> <a href="#" title="rss"><i class="fa fa-rss"></i></a> </li>
-                                    </ul>
-                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3 col-xs-6">
-                            <div class="cart-currency-area login-register-area text-right">
-                                <ul>
-                                    <li>
-                                        <div class="header-currency">
-                                            <select>
-                                                <option value="1">USD</option>
-                                                <option value="2">Pound</option>
-                                                <option value="3">Euro</option>
-                                                <option value="4">Dinar</option>
-                                            </select>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="header-cart">
-                                            <div class="cart-icon"> <a href="#">Cart<i class="zmdi zmdi-shopping-cart"></i></a> <span>2</span> </div>
-                                            <div class="cart-content-wraper">
-                                                <div class="cart-single-wraper">
-                                                    <div class="cart-img">
-                                                        <a href="#"><img src="static/images/product/01.jpg" alt=""></a>
-                                                    </div>
-                                                    <div class="cart-content">
-                                                        <div class="cart-name"> <a href="#">Aenean Eu Tristique</a> </div>
-                                                        <div class="cart-price"> $70.00 </div>
-                                                        <div class="cart-qty"> Qty: <span>1</span> </div>
-                                                    </div>
-                                                    <div class="remove"> <a href="#"><i class="zmdi zmdi-close"></i></a> </div>
-                                                </div>
-                                                <div class="cart-single-wraper">
-                                                    <div class="cart-img">
-                                                        <a href="#"><img src="static/images/product/02.jpg" alt=""></a>
-                                                    </div>
-                                                    <div class="cart-content">
-                                                        <div class="cart-name"> <a href="#">Aenean Eu Tristique</a> </div>
-                                                        <div class="cart-price"> $70.00 </div>
-                                                        <div class="cart-qty"> Qty: <span>1</span> </div>
-                                                    </div>
-                                                    <div class="remove"> <a href="#"><i class="zmdi zmdi-close"></i></a> </div>
-                                                </div>
-                                                <div class="cart-subtotal"> Subtotal: <span>$200.00</span> </div>
-                                                <div class="cart-check-btn">
-                                                    <div class="view-cart"> <a class="btn-def" href="cart.html">View Cart</a> </div>
-                                                    <div class="check-btn"> <a class="btn-def" href="checkout.html">Checkout</a> </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div-->
+
             <div id="sticky-header"  class="header-middle-area">
                 <div class="container">
                     <div class="full-width-mega-dropdown">
                         <div class="row">
                             <div class="col-md-2 col-sm-2">
-                                <div class="logo ptb-20"><a href="index.html"> <img src="static/images/logo/logo.png" alt="main logo"></a></div>
+                                <div class="logo ptb-20">
+                                    <a href="?ct=index">
+                                        <img src="static/images/logo/logo.png" alt="main logo">
+                                    </a>
+                                </div>
                             </div>
                             <div class="col-md-7 col-sm-10 hidden-xs">
                                 <nav id="primary-menu">
                                     <ul class="main-menu">
                                         <li class="current">
-                                            <a class="active" href="index.html">首页</a>
+                                            <a class="active" href="?ct=index">首页</a>
                                         </li>
                                         <li class="mega-parent pos-rltv">
-                                            <a href="shop.html">商品列表</a>
+                                            <a href="?ct=goods&ac=list">商品列表</a>
                                         </li>
                                         <li class="mega-parent pos-rltv">
-                                            <a href="shop.html">登陆</a>
+                                            <a href="?ct=index&ac=goods_list">登陆</a>
                                         </li>
                                         <li class="mega-parent">
-                                            <a href="shop.html">注册</a>
+                                            <a href="?ct=index&ac=goods_list">注册</a>
                                         </li>
-                                        <li class="mega-parent"><a href="index.html">会员中心</a>
+                                        <li class="mega-parent"><a href="?ct=index&ac=goods_list">会员中心</a>
                                             <ul class="dropdown">
-                                                <li><a class="active" href="index.html">我的订单</a></li>
-                                                <li><a href="index-2.html">个人资料</a></li>
+                                                <li><a class="active" href="?ct=index&ac=goods_list">我的订单</a></li>
+                                                <li><a href="?ct=index&ac=goods_list">个人资料</a></li>
                                             </ul>
                                         </li>
                                     </ul>

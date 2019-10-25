@@ -139,7 +139,12 @@ class pub_mod_model
 
         self::_complate_sql($query, $data_filter['where'], $data_filter['joins'], $data_filter['order_by']);
 
-        $data = $query->offset($pages['offset'])->limit($data_filter['limit'])->execute();
+        if($data_filter['total'])
+        {
+            $query->offset($pages['offset'])->limit($data_filter['limit']);
+        }
+
+        $data = $query->execute();
 
         /**
          *  自动格式化查询数据
@@ -168,7 +173,7 @@ class pub_mod_model
      */
     public static function getdump($conds = [])
     {
-        foreach (['where', 'fields', 'join'] as $f)
+        foreach (['where', 'fields', 'join', 'order_by'] as $f)
         {
             $$f = empty($conds[$f]) ? [] : $conds[$f];
         }
@@ -177,7 +182,7 @@ class pub_mod_model
 
         $query  = db::select($field)->from(static::$_table);
 
-        static::_complate_sql($query, $where, $join);
+        static::_complate_sql($query, $where, $join, $order_by);
 
         $data = $query->as_row()->execute();
 
@@ -303,7 +308,9 @@ class pub_mod_model
         {
             $where = empty($where)?$where['and']:$where;
             $query = $query->where($where);
-        } elseif (!empty($where['or'])) {
+        }
+        elseif (!empty($where['or']))
+        {
             $query->or_where($where['or']);
 
         }
@@ -312,19 +319,25 @@ class pub_mod_model
         {
             $query = $query->join($join['table'], $join['type'])
                            ->on($join['where'][0], $join['where'][1], $join['where'][2]);
-        } elseif (!empty($join) && is_array($join[0])) {
+        }
+        elseif (!empty($join) && is_array($join[0]))
+        {
             foreach ($join as $j) {
                 $query = $query->join($j['table'], $j['type'])
                                ->on($j['where'][0], $j['where'][1], $j['where'][2]);
             }
         }
 
-        if (empty($order))
+        if (empty($order) && !empty(static::$_pk))
         {
             $query->order_by(static::$_table.'.'.static::$_pk, 'desc');
-        } elseif (is_string($order[0])) {
+        }
+        elseif (is_string($order[0]))
+        {
             $query->order_by($order[0], $order[1]);
-        } elseif (is_array($order[0])) {
+        }
+        elseif (is_array($order[0]))
+        {
             foreach ($order as $o) {
                 $query->order_by($o[0], $o[1]);
             }

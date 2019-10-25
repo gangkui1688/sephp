@@ -66,510 +66,81 @@
                       <div class="shop-total-product-area clearfix mt-35">
                         <!-- Tab panes -->
                         <div class="tab-content">
+
                             <!--tab grid are start-->
-                            <div role="tabpanel" class="tab-pane fade in" id="grid">
-                                <div class="total-shop-product-grid">
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="product-label red">
-                                                    <div class="new">New</div>
+                                <div role="tabpanel" class="tab-pane fade in" id="grid">
+                                    <div class="total-shop-product-grid">
+                                        <{foreach from=$list item=data}>
+
+                                        <div class="col-md-3 hidden-sm col-xs-12 item">
+                                            <!-- single product start-->
+                                            <div class="single-product">
+                                                <div class="product-img">
+                                                    <div class="product-label red">
+                                                        <div class="new">热卖中</div>
+                                                    </div>
+                                                    <div class="single-prodcut-img  product-overlay pos-rltv">
+                                                        <a href="single-product.html">
+
+                                                            <img alt="" src="<{$data.image_default_id.0}>" class="primary-image">
+                                                            <img alt="" src="<{$data.image_default_id.1}>" class="secondary-image">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-icon socile-icon-tooltip text-center">
+                                                        <ul>
+                                                            <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
+                                                            <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
+                                                            <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
+                                                            <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/01.jpg" class="primary-image"> <img alt="" src="static/images/product/02.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
+                                                <div class="product-text">
+                                                    <div class="prodcut-name"> <a href="single-product.html"><{$data.name}></a> </div>
+                                                    <div class="prodcut-ratting-price">
+                                                        <div class="prodcut-ratting">
+                                                            <a href="#"><i class="fa fa-star"></i></a>
+                                                            <a href="#"><i class="fa fa-star"></i></a>
+                                                            <a href="#"><i class="fa fa-star"></i></a>
+                                                            <a href="#"><i class="fa fa-star"></i></a>
+                                                            <a href="#"><i class="fa fa-star-o"></i></a>
+                                                        </div>
+                                                        <div class="prodcut-price">
+                                                            <div class="new-price"> <{$data.mktprice}> </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- single product end-->
                                         </div>
-                                        <!-- single product end-->
+                                        <{/foreach}>
+
                                     </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/03.jpg" class="primary-image"> <img alt="" src="static/images/product/04.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="product-label red">
-                                                    <div class="new">Sale</div>
-                                                </div>
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/02.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                     </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/04.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/03.jpg" class="primary-image"> <img alt="" src="static/images/product/04.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="product-label red">
-                                                    <div class="new">Sale</div>
-                                                </div>
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/02.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                     </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/04.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="product-label red">
-                                                    <div class="new">New</div>
-                                                </div>
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/01.jpg" class="primary-image"> <img alt="" src="static/images/product/02.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/03.jpg" class="primary-image"> <img alt="" src="static/images/product/04.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/04.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/03.jpg" class="primary-image"> <img alt="" src="static/images/product/04.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="product-label red">
-                                                    <div class="new">Sale</div>
-                                                </div>
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/02.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                     </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/04.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="product-label red">
-                                                    <div class="new">New</div>
-                                                </div>
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/01.jpg" class="primary-image"> <img alt="" src="static/images/product/02.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/03.jpg" class="primary-image"> <img alt="" src="static/images/product/04.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-3 hidden-sm col-xs-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <div class="product-label red">
-                                                    <div class="new">Sale</div>
-                                                </div>
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/02.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
-                                                </div>
-                                                <div class="product-icon socile-icon-tooltip text-center">
-                                                    <ul>
-                                                        <li><a href="#" data-tooltip="Add To Cart" class="add-cart" data-placement="left"><i class="fa fa-cart-plus"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Wishlist" class="w-list"><i class="fa fa-heart-o"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Compare" class="cpare"><i class="fa fa-refresh"></i></a></li>
-                                                        <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-text">
-                                                <div class="prodcut-name"> <a href="single-product.html">Quisque fringilla</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                     </div>
                                 </div>
-                            </div>
                             <!--shop grid are end-->
 
                             <!--shop product list start-->
                             <div role="tabpanel" class="tab-pane  fade in active" id="list">
                                 <div class="total-shop-product-list">
+                                    <{foreach from=$list item=data }>
                                     <div class="col-md-12 item">
                                         <!-- single product start-->
                                         <div class="single-product single-product-list full-widht-list">
                                             <div class="product-img">
                                                 <div class="product-label red">
-                                                    <div class="new">Sale</div>
+                                                    <div class="new">热卖中</div>
                                                 </div>
                                                 <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/02.jpg" class="primary-image"> <img alt="" src="static/images/product/03.jpg" class="secondary-image"> </a>
+                                                    <a href="single-product.html">
+                                                        <img alt="" src="<{$data.image_default_id.0}>" class="primary-image">
+                                                        <img alt="" src="<{$data.image_default_id.1}>" class="secondary-image">
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="product-text prodcut-text-list fix">
-                                                <div class="prodcut-name list-name montserrat"> <a href="single-product.html">Magnetic Force Bralette</a> </div>
+                                                <div class="prodcut-name list-name montserrat">
+                                                    <a href="?ct=goods&ac=detail&goods_id=<{$data.goods_id}>"><{$data.name}></a>
+                                                </div>
                                                 <div class="prodcut-ratting-price">
                                                     <div class="prodcut-ratting list-ratting">
                                                         <a href="#"><i class="fa fa-star-o"></i></a>
@@ -579,14 +150,12 @@
                                                         <a href="#"><i class="fa fa-star-o"></i></a>
                                                     </div>
                                                     <div class="prodcut-price list-price">
-                                                        <div class="new-price"> $220 </div>
-                                                        <div class="old-price"> <del>$250</del> </div>
+                                                        <div class="new-price"> <{$data.cost}> </div>
+                                                        <div class="old-price"> <del><{$data.mktprice}></del> </div>
                                                     </div>
                                                 </div>
                                                 <div class="list-product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dolor tellus, bibendum eu lacus ids suscipit
-                                                    blandit tortor. Aenean eget posuere augue, vel molestie turpis. Ut tempor mauris ut justo luctus aliquam. Nullam
-                                                    id quam vitae odio scelerisque ultrices.</p>
+                                                    <p><{$data.brief}></p>
                                                 </div>
                                                 <div class="social-icon-wraper mt-25">
                                                     <div class="social-icon socile-icon-style-1">
@@ -602,172 +171,7 @@
                                         </div>
                                         <!-- single product end-->
                                      </div>
-                                    <div class="col-md-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product single-product-list full-widht-list">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/03.jpg" class="primary-image"> <img alt="" src="static/images/product/04.jpg" class="secondary-image"> </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-text prodcut-text-list fix">
-                                                <div class="prodcut-name list-name montserrat"> <a href="single-product.html">Magnetic Force Bralette</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting list-ratting">
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price list-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                                <div class="list-product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dolor tellus, bibendum eu lacus ids suscipit
-                                                    blandit tortor. Aenean eget posuere augue, vel molestie turpis. Ut tempor mauris ut justo luctus aliquam. Nullam
-                                                    id quam vitae odio scelerisque ultrices.</p>
-                                                </div>
-                                                <div class="social-icon-wraper mt-25">
-                                                    <div class="social-icon socile-icon-style-1">
-                                                        <ul>
-                                                            <li><a href="#"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-                                                            <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal" tabindex="0"><i class="zmdi zmdi-eye"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-repeat"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product single-product-list full-widht-list">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/05.jpg" class="primary-image"> <img alt="" src="static/images/product/06.jpg" class="secondary-image"> </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-text prodcut-text-list fix">
-                                                <div class="prodcut-name list-name montserrat"> <a href="single-product.html">Magnetic Force Bralette</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting list-ratting">
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price list-price">
-                                                        <div class="new-price"> $200 </div>
-                                                        <div class="old-price"> <del>$300</del> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="list-product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dolor tellus, bibendum eu lacus ids suscipit
-                                                    blandit tortor. Aenean eget posuere augue, vel molestie turpis. Ut tempor mauris ut justo luctus aliquam. Nullam
-                                                    id quam vitae odio scelerisque ultrices.</p>
-                                                </div>
-                                                <div class="social-icon-wraper mt-25">
-                                                    <div class="social-icon socile-icon-style-1">
-                                                        <ul>
-                                                            <li><a href="#"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-                                                            <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal" tabindex="0"><i class="zmdi zmdi-eye"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-repeat"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product single-product-list full-widht-list">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/04.jpg" class="primary-image"> <img alt="" src="static/images/product/05.jpg" class="secondary-image"> </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-text prodcut-text-list fix">
-                                                <div class="prodcut-name list-name montserrat"> <a href="single-product.html">Magnetic Force Bralette</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting list-ratting">
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price list-price">
-                                                        <div class="new-price"> $220 </div>
-                                                    </div>
-                                                </div>
-                                                <div class="list-product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dolor tellus, bibendum eu lacus ids suscipit
-                                                    blandit tortor. Aenean eget posuere augue, vel molestie turpis. Ut tempor mauris ut justo luctus aliquam. Nullam
-                                                    id quam vitae odio scelerisque ultrices.</p>
-                                                </div>
-                                                <div class="social-icon-wraper mt-25">
-                                                    <div class="social-icon socile-icon-style-1">
-                                                        <ul>
-                                                            <li><a href="#"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-                                                            <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal" tabindex="0"><i class="zmdi zmdi-eye"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-repeat"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
-                                    <div class="col-md-12 item">
-                                        <!-- single product start-->
-                                        <div class="single-product single-product-list full-widht-list">
-                                            <div class="product-img">
-                                                <div class="single-prodcut-img  product-overlay pos-rltv">
-                                                    <a href="single-product.html"> <img alt="" src="static/images/product/06.jpg" class="primary-image"> <img alt="" src="static/images/product/07.jpg" class="secondary-image"> </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-text prodcut-text-list fix">
-                                                <div class="prodcut-name list-name montserrat"> <a href="single-product.html">Magnetic Force Bralette</a> </div>
-                                                <div class="prodcut-ratting-price">
-                                                    <div class="prodcut-ratting list-ratting">
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                        <a href="#"><i class="fa fa-star-o"></i></a>
-                                                    </div>
-                                                    <div class="prodcut-price list-price">
-                                                        <div class="new-price"> $200 </div>
-                                                        <div class="old-price"> <del>$300</del> </div>
-                                                    </div>
-                                                </div>
-                                                <div class="list-product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dolor tellus, bibendum eu lacus ids suscipit
-                                                    blandit tortor. Aenean eget posuere augue, vel molestie turpis. Ut tempor mauris ut justo luctus aliquam. Nullam
-                                                    id quam vitae odio scelerisque ultrices.</p>
-                                                </div>
-                                                <div class="social-icon-wraper mt-25">
-                                                    <div class="social-icon socile-icon-style-1">
-                                                        <ul>
-                                                            <li><a href="#"><i class="zmdi zmdi-shopping-cart"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-favorite-outline"></i></a></li>
-                                                            <li><a href="#" data-tooltip="Quick View" class="q-view" data-toggle="modal" data-target=".modal" tabindex="0"><i class="zmdi zmdi-eye"></i></a></li>
-                                                            <li><a href="#"><i class="zmdi zmdi-repeat"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- single product end-->
-                                    </div>
+                                     <{/foreach}>
                                 </div>
                             </div>
                             <!--shop product list end-->
@@ -775,6 +179,7 @@
                             <!--pagination start-->
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="pagination-btn text-center">
+                                    <{$pages}>
                                     <ul class="page-numbers">
                                        <li><a href="#" class="next page-numbers"><i class="zmdi zmdi-long-arrow-left"></i></a></li>
                                         <li><span class="page-numbers current">1</span></li>

@@ -41,7 +41,7 @@
             <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
         </menu>
 
-        <menu name="系统设置" icon="fa fa-gear">
+        <menu name="站点设置" icon="fa fa-gear">
             <menu name='基础设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
             <menu name='变量设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
         </menu>

@@ -107,7 +107,7 @@ class sephp
 		req::init();
 
 		//权限控制
-        \sephp\core\lib\power::instance()->check_in();
+        \sephp\core\lib\power::instance();
 
 		//执行方法
 		$this->run();

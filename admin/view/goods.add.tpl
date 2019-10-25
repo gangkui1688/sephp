@@ -117,7 +117,14 @@
                                 <div class="uploader-list">
                                     <{if !empty($data.image_default_id)}>
                                     <{foreach from=$data.image_default_id item=img}>
-                                        <div id="WU_FILE_0" class="item img-item pull-left" style="margin-bottom:10px;margin-right:10px;"><img style="width:100px;height:100px;" src="<{$url_upload}><{$img}>"><i class="fa fa-close close-btn"></i><div class="progress progress-striped active" style="display: none;"><div class="progress-bar" role="progressbar" style="width: 100%;"></div></div><input type="hidden" value="<{$img}>" name="image_default_id[]" class="hid-filename "></div>
+                                        <div id="WU_FILE_0" class="item img-item pull-left" style="margin-bottom:10px;margin-right:10px;">
+                                            <img style="width:100px;height:100px;" src="<{$img}>">
+                                            <i class="fa fa-close close-btn"></i>
+                                            <div class="progress progress-striped active" style="display: none;">
+                                                <div class="progress-bar" role="progressbar" style="width: 100%;"></div>
+                                            </div>
+                                            <input type="hidden" value="<{$img}>" name="image_default_id[]" class="hid-filename ">
+                                        </div>
                                     <{/foreach}>
                                     <{/if}>
 

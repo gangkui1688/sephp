@@ -151,8 +151,8 @@ class ctl_public
             {
                 if(empty(sephp::$_config['web']['google_auth']))
                 {
-                    log::info('用户【ID:' . power::instance()->_info['admin_id'] . '】登陆成功');
-                    power::instance()->login_log();
+                    log::info('用户【ID:' . power::instance()->_uid . '】登陆成功');
+                    power::instance()->add_login_log();
                     show_msg::success('登陆成功','?ct=index&ac=index');
                 }
                 elseif(empty(power::instance()->_info['auth_secert']))

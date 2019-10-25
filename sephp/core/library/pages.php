@@ -28,11 +28,12 @@ class pages
         'first'  => '1...',
         'last'   => '...%TOTAL_PAGE%',
         'theme'  => '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%',
+
     );
 
     public static $instance = null;
 
-    public static function instance($totalRows, $listRows=20, $parameter = array())
+    public static function instance($totalRows = 10, $listRows = 10, $parameter = '')
     {
         if(empty(self::$instance))
         {
@@ -68,8 +69,10 @@ class pages
      * @param string $name  设置名称
      * @param string $value 设置值
      */
-    public function setConfig($name,$value) {
-        if(isset($this->config[$name])) {
+    public function setConfig($name,$value)
+    {
+        if(isset($this->config[$name]))
+        {
             $this->config[$name] = $value;
         }
     }
@@ -79,7 +82,8 @@ class pages
      * @param  integer $page 页码
      * @return string
      */
-    private function url($page){
+    private function url($page)
+    {
         return str_replace(('_PAGE_NUM'), $page, $this->url);
     }
 

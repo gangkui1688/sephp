@@ -16,6 +16,7 @@ $_authority = [
     'not_login'  => ['index'],
     'login_url'  => '?ct=index&ac=login',
     'user_type'  => 'member',
+    'power_check'=> false,
 ];
 
 
