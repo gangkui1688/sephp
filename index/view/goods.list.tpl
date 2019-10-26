@@ -3,15 +3,7 @@
 
         <!--breadcumb area start -->
         <div class="breadcumb-area overlay pos-rltv">
-            <div class="bread-main">
-                <div class="bred-hading text-center">
-                    <h5>Product List View</h5> </div>
-                <ol class="breadcrumb">
-                    <li class="home"><a title="Go to Home Page" href="index.html">Home</a></li>
-                    <li class="active">Shop Full List</li>
-                </ol>
             </div>
-        </div>
         <!--breadcumb area end -->
 
         <!--shop main area are start-->

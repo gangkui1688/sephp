@@ -33,36 +33,36 @@
                                                <thead>
                                                 <tr class="cart_item check-heading">
                                                     <td class="ctg-type"> 商品</td>
-                                                    <td class="cgt-des">  总计</td>
+                                                    <td class="cgt-des">  价格</td>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <{foreach from=$data item=goods}>
+                                                    <{foreach from=$data.goods item=goods}>
                                                     <tr class="cart_item check-item prd-name">
                                                         <td class="ctg-type"> <{$goods.name}> × <span><{$goods.member_buy_num}></span></td>
-                                                        <td class="cgt-des"> <{$goods.cost}></td>
+                                                        <td class="cgt-des">  &yen;<{$goods.cost}></td>
                                                     </tr>
                                                     <{/foreach}>
                                                     <tr class="cart_item">
-                                                        <td class="ctg-type"> Subtotal</td>
-                                                        <td class="cgt-des">$2,052.00</td>
+                                                        <td class="ctg-type"> 合计</td>
+                                                        <td class="cgt-des">&yen;<{$data.total}></td>
                                                     </tr>
-                                                    <tr class="cart_item">
-                                                        <td class="ctg-type">Shipping</td>
+                                                    <!--tr class="cart_item">
+                                                        <td class="ctg-type">选择邮费</td>
                                                             <td class="cgt-des ship-opt">
                                                                 <div class="shipp">
                                                                     <input type="radio" id="pay-toggle" name="ship">
-                                                                    <label for="pay-toggle">Flat Rate: <span>$03</span></label>
+                                                                    <label for="pay-toggle">Flat Rate: <span>&yen;<{$goods.cost}></span></label>
                                                                 </div>
                                                                 <div class="shipp">
                                                                     <input type="radio" id="pay-toggle2" name="ship">
-                                                                    <label for="pay-toggle2">Free Shipping</label>
+                                                                    <label for="pay-toggle2">&yen;<{$goods.cost}></label>
                                                                 </div>
                                                          </td>
-                                                    </tr>
+                                                    </tr-->
                                                     <tr class="cart_item">
-                                                        <td class="ctg-type crt-total"> Total</td>
-                                                        <td class="cgt-des prc-total"> $ 2,055.00 </td>
+                                                        <td class="ctg-type crt-total"> 总计</td>
+                                                        <td class="cgt-des prc-total"> &yen;<{$data.amount}></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -71,27 +71,18 @@
                                         </div>
                                             <div class="payment-section mt-20 clearfix">
                                                 <div class="pay-toggle">
-                                                    <form action="#">
+                                                    <form action="?ct=order&ac=ready_pay" method="post" id="myform" >
                                                        <div class="pay-type-total">
                                                         <div class="pay-type">
-                                                            <input type="radio" id="pay-toggle01" name="pay">
-                                                            <label for="pay-toggle01">Direct Bank Transfer</label>
+                                                            <input type="radio" id="pay-toggle01" name="paytype" value="wechatpay" />
+                                                            <label for="pay-toggle01">微信支付</label>
                                                         </div>
                                                         <div class="pay-type">
-                                                            <input type="radio" id="pay-toggle02" name="pay">
-                                                            <label for="pay-toggle02">Cheque Payment</label>
-                                                        </div>
-                                                        <div class="pay-type">
-                                                            <input type="radio" id="pay-toggle03" name="pay">
-                                                            <label for="pay-toggle03">Cash on Delivery</label>
-                                                        </div>
-                                                        <div class="pay-type">
-                                                            <input type="radio" id="pay-toggle04" name="pay">
-                                                            <label for="pay-toggle04">Paypal</label>
-                                                        </div>
+                                                            <input type="radio" id="pay-toggle02" name="paytype" value="alipay" />
+                                                            <label for="pay-toggle02">支付宝</label>
                                                         </div>
                                                         <div class="input-box mt-20">
-                                                            <a class="btn-def btn2" href="#">Place order</a>
+                                                            <a class="btn-def btn2" href="javascript:myform();">支 付</a>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -110,7 +101,11 @@
         </div>
         <!--cart-checkout-area end-->
 
-
-
-
 <{include file="./public/footer.tpl"}>
+<script type="text/javascript">
+
+    function myform()
+    {
+        document.getElementById('myform').submit();
+    }
+</script>

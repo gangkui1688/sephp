@@ -40,6 +40,12 @@ class pub_mod_model
     public static $_cache_time = 3600;
 
     /**
+     * 是否关闭从库
+     * @var boolean
+     */
+    public static $enable_slave = false;
+
+    /**
      * @var null 错误信息
      */
     public static $_error_msg = null;
@@ -356,7 +362,7 @@ class pub_mod_model
         db::enable_slave($enable_slave);
         empty($enable_slave) && self::$enable_slave = true;
 
-        return db::start(self::_get_instance_master_name());
+        return db::start();
     }
 
     /**
@@ -371,7 +377,7 @@ class pub_mod_model
             db::enable_slave(true);
         }
 
-        return db::end(self::_get_instance_master_name());
+        return db::end();
     }
 
     /**
@@ -387,7 +393,7 @@ class pub_mod_model
             [null, null, true]
         );
 
-        return db::commit(self::_get_instance_master_name());
+        return db::commit();
     }
 
     /**
@@ -398,7 +404,7 @@ class pub_mod_model
     public static function db_rollback()
     {
         pub_func::dsrs(null, null, 'clear');
-        return db::rollback(self::_get_instance_master_name());
+        return db::rollback();
     }
 
 }

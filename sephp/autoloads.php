@@ -103,9 +103,14 @@ class autoloads
     {
         $class_path = str_replace('\\', DIRECTORY_SEPARATOR, $class);
 
-        if(false !== strrpos($class_path, 'sephp/core/lib/'))
+        if(false !== strrpos($class_path, '/lib/'))
         {
-            $class_path = str_replace('sephp/core/lib/', 'sephp/core/library/', $class_path);
+            $class_path = str_replace('/lib/', '/library/', $class_path);
+        }
+
+        if(false !== strrpos($class_path, '/serv/'))
+        {
+            $class_path = str_replace('/serv/', '/service/', $class_path);
         }
 
         if (self::$autoload_files)
