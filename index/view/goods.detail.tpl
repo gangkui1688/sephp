@@ -55,7 +55,6 @@
                         </div>
                     </div>
                 </div>
-                    <form action="" method="post" >
                         <div class="col-md-5 col-sm-12 col-xs-12">
                             <div class="single-product-description">
                                <div class="sp-top-des">
@@ -109,12 +108,13 @@
                                 <div class="quantity-area">
                                     <label>数量 :</label>
                                     <div class="cart-quantity">
-                                        <form action="#" method="POST" id="myform">
+                                        <form action="?ct=order&ac=complete_order" method="POST" id="myform">
+                                            <input type="hidden" value="<{$data.goods_id}>" name="goods_id[]" />
                                             <div class="product-qty">
                                                 <div class="cart-quantity">
                                                     <div class="cart-plus-minus">
                                                         <div class="dec qtybutton">-</div>
-                                                            <input type="text" value="02" name="qtybutton" class="cart-plus-minus-box">
+                                                            <input type="text" value="1" name="goods_num[]" class="cart-plus-minus-box">
                                                         <div class="inc qtybutton">+</div>
                                                     </div>
                                                 </div>
@@ -137,7 +137,6 @@
                                     </ul>
                                 </div>
                         </div>
-                    </form>
                   </div>
               </div>
           </div>

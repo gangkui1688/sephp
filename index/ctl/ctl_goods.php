@@ -43,7 +43,7 @@ class ctl_goods
             'order_by' => ['p_order', 'DESC'],
         ]);
 
-        print_r($list);exit;
+        //print_r($list);exit;
         view::assign('list', $list['data']);
         view::assign('pages', $list['pages']);
         view::display();

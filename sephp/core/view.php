@@ -60,6 +60,12 @@ class view {
         //前端版本设置，方便清除 js css 的缓存
 		self::instance()->assign('build', empty(self::$config['build']) ? time() : self::$config['build']);
         self::instance()->assign('url_upload', sephp::$_config['upload']['filelink'].'/image/');
+
+        $site_info = config::get('base_config','mysql');
+        view::assign('site_info', $site_info);
+        view::assign('page_title', $site_info['page_title']);
+        view::assign('page_description', $site_info['page_description']);
+        view::assign('page_keywords', $site_info['page_keywords']);
 	}
 
 	public static function fetch($tpl = '')

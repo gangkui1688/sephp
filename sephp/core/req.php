@@ -75,7 +75,6 @@ class req
             $types = $type . 's';
             self::$$types = self::_to_param($type);
         }
-
         //cls_security::init();
     }
 
@@ -471,6 +470,7 @@ class req
                 $data[$k] = self::$forms[$k] = empty($v) ? $v : htmlentities($v, ENT_QUOTES);
             }
         }
+        self::$forms = array_merge(self::$forms, $data);
         return $data;
     }
 }
