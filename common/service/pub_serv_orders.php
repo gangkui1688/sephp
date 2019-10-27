@@ -67,4 +67,31 @@ class pub_serv_orders
         return $result;
     }
 
+
+
+    public static function check_order($num)
+    {
+        $result = 0;
+        pub_mod_order::db_start();
+
+        do{
+            if(32 !== strlen($num))
+            {
+                $result = -11000;
+                break;
+            }
+
+
+
+
+
+
+        }while(false);
+
+        0 > $result ? pub_mod_order::db_rollback() : pub_mod_order::db_commit();
+        pub_mod_order::db_end();
+
+        return $result;
+    }
+
 }

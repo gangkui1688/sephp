@@ -13,8 +13,34 @@
                         <div class="form-group radio">
                             <label class="col-sm-2 control-label">
                                 <{$p.title}><input class="<{$p.id}>"
-                                <{if !empty($p.href) && !empty($data.powerlist) && in_array($p.href,$data.powerlist)}>checked="checked"<{/if}>
-                                <{if !empty($p.id) && !empty($data.powerlist) && in_array($p.id,$data.powerlist)}>checked="checked"<{/if}>
+                                <{if
+                                    !empty($p.href) &&
+                                    !empty($data.powerlist) &&
+                                    is_array($data.powerlist) &&
+                                    in_array($p.href,$data.powerlist)
+                                }>
+                                    checked="checked"
+                                <{elseif
+                                    !empty($data.powerlist) &&
+                                    '*' == $data.powerlist
+                                }>
+                                    checked="checked"
+                                <{/if}>
+
+                                <{if
+                                    !empty($p.id) &&
+                                    !empty($data.powerlist) &&
+                                    is_array($data.powerlist) &&
+                                    is_array($data.powerlist) && in_array($p.id,$data.powerlist)
+                                }>
+                                    checked="checked"
+                                <{elseif
+                                    !empty($data.powerlist) &&
+                                    '*' == $data.powerlist
+                                }>
+                                    checked="checked"
+                                <{/if}>
+
                                                    value="<{if empty($p.href)}><{$p.id}><{else}><{$p.href}><{/if}>"
                                                    id="<{$p.id}>" name="power[]" style="margin-left:6px;margin-top: 2px;" type="checkbox" />:
                             </label>
@@ -24,8 +50,34 @@
                                     <label class="checkbox-inline i-checks">
                                         <input style="margin-top: 2px;"
                                                value="<{if empty($p_second.href)}><{$p_second.id}><{else}><{$p_second.href}><{/if}>"
-                                        <{if !empty($p_second.href) && !empty($data.powerlist) && in_array($p_second.href,$data.powerlist)}>checked="checked"<{/if}>
-                                        <{if !empty($p_second.id) && !empty($data.powerlist) && in_array($p_second.id,$data.powerlist)}>checked="checked"<{/if}>
+                                        <{if
+                                            !empty($p_second.href) &&
+                                            !empty($data.powerlist) &&
+                                            is_array($data.powerlist) &&
+                                            in_array($p_second.href,$data.powerlist)
+                                        }>
+                                            checked="checked"
+                                        <{elseif
+                                            !empty($data.powerlist) &&
+                                            '*' == $data.powerlist
+                                        }>
+                                            checked="checked"
+                                        <{/if}>
+
+                                        <{if
+                                            !empty($p_second.id) &&
+                                            !empty($data.powerlist) &&
+                                            is_array($data.powerlist) &&
+                                            in_array($p_second.id,$data.powerlist)
+                                        }>
+                                            checked="checked"
+                                        <{elseif
+                                            !empty($data.powerlist) &&
+                                            '*' == $data.powerlist
+                                        }>
+                                            checked="checked"
+                                        <{/if}>
+
                                         id="<{$p_second.id}>" class="<{$p.id}> <{$p_second.id}>" type="checkbox"
                                         name="power[]"  /><{$p_second.title}> :
                                     </label>
@@ -33,7 +85,19 @@
                                         <{foreach from=$p_second.menu item=p_thread}>
                                         <label class="checkbox-inline i-checks">
                                             <input style="margin-top: 2px;"
-                                            <{if isset($p_thread.href) && !empty($data.powerlist) && in_array($p_thread.href,$data.powerlist)}>checked="checked"<{/if}>
+                                            <{if
+                                                isset($p_thread.href) &&
+                                                !empty($data.powerlist) &&
+                                                is_array($data.powerlist) &&
+                                                in_array($p_thread.href,$data.powerlist)
+                                            }>
+                                                checked="checked"
+                                            <{elseif
+                                                !empty($data.powerlist) &&
+                                                '*' == $data.powerlist
+                                            }>
+                                                checked="checked"
+                                            <{/if}>
                                             class="<{$p.id}> <{$p_second.id}>" id="<{$p_thread.id}>" type="checkbox" name="power[]"
                                             value="<{$p_thread.href}>" /><{$p_thread.title}>
                                         </label>
@@ -90,8 +154,8 @@
         $('#all-checked').prop('checked',open);
     }
     $(function () {
-        
-        
+
+
         $('#all-checked').click(function () {
             if($(this).prop('checked') == true){
                 $(':checkbox').prop('checked',true);

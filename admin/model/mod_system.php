@@ -1,22 +1,24 @@
 <?php
-namespace admin\mod;
+namespace admin\model;
 
-use sephp\core\model;
 use sephp\func;
 use sephp\sephp;
 use sephp\core\req;
 use sephp\core\db;
+use common\model\pub_mod_model;
 
-
-class mod_system extends model {
+class mod_system extends pub_mod_model
+{
 
 	/**
 	 * 获取菜单数据
 	 * @param string $type
 	 * @return array
 	 */
-	public static function get_menus($type = 'left_menu') {
-		$file = PATH_SEPHP.'../config/menu.xml';
+	public static function get_menus($type = 'left_menu')
+	{
+		$file = PATH_APP .'config/menu.xml';
+
 		//禁止引用外部xml实体
 		libxml_disable_entity_loader(true);
 		$xml   = file_get_contents($file);
@@ -52,6 +54,7 @@ class mod_system extends model {
 			}
 
 		}
+
 		return $data;
 
 	}

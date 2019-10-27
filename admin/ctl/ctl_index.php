@@ -12,8 +12,8 @@ use sephp\core\show_msg;
 use sephp\core\session;
 use sephp\core\config;
 
-use admin\mod\mod_system;
-use admin\mod\mod_content;
+use admin\model\mod_system;
+use admin\model\mod_content;
 
 /**
  * Class ctl_index

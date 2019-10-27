@@ -22,6 +22,7 @@ class pub_mod_order extends pub_mod_model
         $_pk     = 'order_id',
         $_fields = [
             'order_id'      => ['type' => 'int',  'required' => true, 'comment' => '品牌ID'], //订单号
+            'qrcode'      => ['type' => 'text',  'required' => false, 'comment' => '二维码code'], //订单号
             'total_amount'      => ['type' => 'text', 'required' => true, 'comment' => '商品默认货币总值'], //商品默认货币总值
             'final_amount'           => ['type' => 'text', 'default' => 0, 'comment' => '订单货币总值, 包含支付价格,税等'],
             'cost_item'       => ['type' => 'text', 'default' => null, 'comment' => '订单商品总价格'], //订单商品总价格

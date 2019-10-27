@@ -1,20 +1,23 @@
 <?php
 namespace admin\ctl;
 use sephp\sephp;
+use sephp\func;
 use sephp\core\req;
 use sephp\core\log;
-use sephp\func;
+use sephp\core\db;
 use sephp\core\view;
 use sephp\core\lib\power;
 use sephp\core\lib\pages;
-use sephp\core\db;
-use sephp\core\upload;
 use sephp\core\show_msg;
 use sephp\core\session;
 use sephp\core\config;
+use admin\model\mod_system;
+use admin\model\mod_admin_group;
+use admin\model\mod_admin_user;
 
 
-class ctl_admin {
+class ctl_admin
+{
 	private $_admin_table = '#PB#_admin_user',
 	$_admin_id            = 'admin_id',
 	$_group_table         = '#PB#_admin_group',
@@ -237,19 +240,13 @@ class ctl_admin {
 	}
 
 	//用户组权限编辑
-	public function groupedit_power() {
-		if (empty(req::$posts)) {
-			$data = db::select()
-				->from($this->_group_table)
-				->where($this->_group_id, req::$gets[$this->_group_id])
-			                                           ->as_row()
-			                                           ->execute();
-			if ($data['powerlist']) {
-				$data['powerlist'] = json_decode($data['powerlist'], true);
-			}
+	public function groupedit_power()
+	{
+		if (empty(req::$posts))
+		{
+			$data = mod_admin_group::getdatabyid(req::$gets[$this->_group_id]);
 			$powers = mod_system::get_menus('all');
-			//p($data);
-			exit;
+
 			view::assign('powers', $powers);
 			view::assign('data', $data);
 			view::display('admin.power');
@@ -257,7 +254,8 @@ class ctl_admin {
 		}
 
 		$data['powerlist'] = req::$posts['power'];
-		if (!empty($data['powerlist'])) {
+		if (!empty($data['powerlist']))
+		{
 			$data['powerlist'] = array_map('html_entity_decode', $data['powerlist']);
 			$data['powerlist'] = json_encode($data['powerlist'], JSON_UNESCAPED_UNICODE);
 		}
@@ -265,9 +263,11 @@ class ctl_admin {
 		if (db::update($this->_group_table)
 			->set($data)
 				->where($this->_group_id, req::$posts[$this->_group_id])
-			->execute() === false) {
+			->execute() === false)
+		{
 			show_msg::error();
 		}
+
 		show_msg::success('', '?ct=admin&ac=grouplist');
 	}
 
@@ -322,7 +322,8 @@ class ctl_admin {
 	}
 
 	//在线会话
-	public function online() {
+	public function online()
+	{
 		$where    = [];
 		$keywords = req::item('keywords', '');
 		view::assign('keywords', $keywords);
@@ -337,12 +338,13 @@ class ctl_admin {
 
 		$query = db::select('COUNT(*) as count')
 			->from($this->_log_table);
-		if (!empty($where)) {
+		if (!empty($where))
+		{
 			$query->where($where);
 		}
 		$count = $query->as_field()->execute();
 
-		$pages = pages::instance($count, req::item('page_num', 1));
+		$pages = pages::instance($count, req::item('page_num', 20));
 
 		$data = db::select()->from($this->_log_table);
 		if (!empty($where)) {

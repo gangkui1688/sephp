@@ -280,6 +280,8 @@ class power
                 ->execute();
     }
 
+
+
     /**
      * 获取会员信息
      * @Author   GangKui

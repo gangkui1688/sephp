@@ -8,9 +8,6 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <div class="col-sm-1 m-b-xs">
-                            <a class="btn btn-primary btn-sm" href="<{$add_url}>">添加</a>
-                        </div>
                         <form action="<{$_self_url}>" method="get" target="_self" class="form-horizontal" >
                             <input type="hidden" name="ct" value="<{$_ct_name}>" />
                             <input type="hidden" name="ac" value="<{$_ac_name}>" />

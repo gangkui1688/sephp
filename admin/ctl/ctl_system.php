@@ -237,10 +237,47 @@ class ctl_system
         }
         if(config::set($key,req::$posts))
         {
-            show_msg::success();
+            show_msg::success('设置成功');
         }
-        show_msg::error();
+        show_msg::error('保存失败');
     }
+
+    /**
+     * 站点设置
+     * @method   basic_content
+     * @Author   GangGuoer
+     * @DateTime 2019-10-27T17:32:22+0700
+     * @version  [version]
+     * @return   [type]
+     */
+    public function basic_content()
+    {
+        if (!empty(req::$posts))
+        {
+            foreach (req::$posts as $key => $value)
+            {
+                config::set($key, $value);
+            }
+
+            show_msg::success('保存成功', func::get_cururl());
+        }
+        //公司概况
+        view::assign('company_profile', config::get('company_profile', 'mysql'));
+        //企业文化
+        view::assign('company_cultural', config::get('company_cultural', 'mysql'));
+        //企业资质
+        view::assign('company_aptitude', config::get('company_aptitude', 'mysql'));
+        //加入我们
+        view::assign('join_us', config::get('join_us', 'mysql'));
+        //服务范围
+        view::assign('service_range', config::get('service_range', 'mysql'));
+        //我们的愿景
+        view::assign('we_hope', config::get('we_hope', 'mysql'));
+
+        view::display();
+    }
+
+
     /**
      * 菜单配置
      */
@@ -248,7 +285,7 @@ class ctl_system
     {
         //p(session::get('admin_info'),pathinfo(func::get_cururl()));
         $menus = req::item('menus','');
-        $file = PATH_SEPHP . '../config/menu.xml';
+        $file = PATH_APP . 'config/menu.xml';
         if(empty($menus))
         {
             view::assign('menus',file_get_contents($file));
