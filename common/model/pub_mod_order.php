@@ -23,7 +23,7 @@ class pub_mod_order extends pub_mod_model
         $_fields = [
             'order_id'      => ['type' => 'int',  'required' => true, 'comment' => '品牌ID'], //订单号
             'qrcode'      => ['type' => 'text',  'required' => false, 'comment' => '二维码code'], //订单号
-            'total_amount'      => ['type' => 'text', 'required' => true, 'comment' => '商品默认货币总值'], //商品默认货币总值
+            'total_amount'      => ['type' => 'text', 'required' => false, 'comment' => '商品默认货币总值'], //商品默认货币总值
             'final_amount'           => ['type' => 'text', 'default' => 0, 'comment' => '订单货币总值, 包含支付价格,税等'],
             'cost_item'       => ['type' => 'text', 'default' => null, 'comment' => '订单商品总价格'], //订单商品总价格
             'cost_payment'       => ['type' => 'text', 'default' => null, 'comment' => '支付费用'], //支付费用
@@ -93,6 +93,21 @@ class pub_mod_order extends pub_mod_model
     const STATUS_ACTION = 1;
     const STATUS_DEAD   = 2;
     const STATUS_FINISH = 3;
+
+
+    /**
+     * 利用雪花算法生成一个分布式的唯一ID
+     * @Author   GangGuoer
+     * @DateTime 2019-10-31T00:22:37+0700
+     * @version  [version]
+     * @param    integer
+     * @return   [type]
+     */
+    public static function create_qrcode($len = 32)
+    {
+        $id = \sephp\core\lib\snowflake::instance(1)->id();
+        return func::random('alnum', 5) . $id . func::random('alnum', 5);
+    }
 
 
 }

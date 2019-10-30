@@ -4,17 +4,17 @@
         <div class="account-area ptb-80">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-md-offset-3">
                         <form action="#" class="login-side">
                             <div class="login-reg">
-                                <h3>Login</h3>
+                                <h3>登陆</h3>
                                 <div class="input-box mb-20">
-                                    <label class="control-label">E-Mail</label>
-                                    <input type="email" placeholder="E-Mail" value="" name="email" class="info">
+                                    <label class="control-label">登陆名称</label>
+                                    <input type="text" placeholder="登陆名称" value="" name="username" class="info">
                                 </div>
                                 <div class="input-box">
-                                    <label class="control-label">Password</label>
-                                    <input type="password" placeholder="Password" value="" name="password" class="info">
+                                    <label class="control-label">登陆密码</label>
+                                    <input type="password" placeholder="请输入密码" value="" name="password" class="info">
                                 </div>
                             </div>
                             <div class="frm-action">

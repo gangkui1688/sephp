@@ -1,7 +1,20 @@
 <?php
-print_r(pathinfo('123123123/23jsldjflasjdkjfalsdfa.png'));
+namespace sephp;
+require_once __DIR__ . '/sephp/sephp.php';
+require_once __DIR__ . '/sephp/autoloads.php';
 
-exit;
+
+use sephp\sephp;
+use sephp\autoloads;
+use sephp\func;
+use sephp\core\log;
+use sephp\core\db;
+use sephp\core\cache;
+use sephp\core\config;
+
+var_dump(\sephp\func\func::make_uniqid());
+exit();
+
 class  abc
 {
     /**

@@ -30,20 +30,56 @@ class pub_serv_orders
         pub_mod_order::db_start();
 
         do{
+            if(empty($data['goods']) || !is_array($data['goods']))
+            {
+                $result = -10001;
+                break;
+            }
+
+            $goods_ids = array_column($data['goods'], 'goods_id', 'goods_id');
+
+            $data['qrcode']   = pub_mod_order::create_qrcode();
+            $data['order_id'] = func::make_uniqid();
 
             //订单主表数据
             $order_post = func::data_filter(pub_mod_order::$_fields, $data);
 
-            print_r($order_post);exit;
             if(!is_array($order_post))
             {
-                $result = -10000;
+                $result = -10002;
                 break;
             }
 
+            $goods_info = pub_mod_goods::getlist([
+                'where' => [
+                    [pub_mod_goods::$_pk, 'in' , array_values($goods_ids)]
+                ]
+            ]);
+            $goods_info = array_column($goods_info, null, 'goods_id');
 
-            foreach ($data_filter['goods'] as $goods)
+
+
+            $order_item = [];
+            foreach ($data['goods'] as $goods)
             {
+                print_r($goods);exit;
+                $order_item['order_id']  = [
+                    'order_id'      => $order_post['order_id'],
+                    'goods_id'      => $goods['goods_id'],
+                    'price'         => $goods['price'],
+                    'nums'          => $goods['member_buy_num'],
+                    'price'         => $goods['price'],
+                    'amount'        => $goods['price'] * $goods['member_buy_num'],
+                    'price'         => $goods['price'],
+                    'goods_params'  => $goods_info[$goods['goods_id']],
+                    'goods_name'    => $goods_info[$goods['goods_id']]['name'],
+                    'goods_sn'      => $goods_info[$goods['goods_id']]['goods_sn'],
+                    'cost'          => $goods_info[$goods['goods_id']]['cost'],
+                    'adduser'       => 0,
+                    'addtime'       => TIME_SEPHP,
+                    'upuser'        => 0,
+                    'uptime'        => TIME_SEPHP
+                ];
 
             }
 

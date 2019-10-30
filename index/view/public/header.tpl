@@ -64,15 +64,15 @@
                                             <a href="?ct=goods&ac=list">商品列表</a>
                                         </li>
                                         <li class="mega-parent pos-rltv">
-                                            <a href="?ct=index&ac=goods_list">登陆</a>
+                                            <a href="?ct=index&ac=login">登陆</a>
                                         </li>
                                         <li class="mega-parent">
-                                            <a href="?ct=index&ac=goods_list">注册</a>
+                                            <a href="?ct=index&ac=regist">注册</a>
                                         </li>
-                                        <li class="mega-parent"><a href="?ct=index&ac=goods_list">会员中心</a>
+                                        <li class="mega-parent"><a href="?ct=member&ac=index">会员中心</a>
                                             <ul class="dropdown">
-                                                <li><a class="active" href="?ct=index&ac=goods_list">我的订单</a></li>
-                                                <li><a href="?ct=index&ac=goods_list">个人资料</a></li>
+                                                <li><a class="active" href="?ct=member&ac=order">我的订单</a></li>
+                                                <li><a href="?ct=member&ac=info">个人资料</a></li>
                                             </ul>
                                         </li>
                                     </ul>

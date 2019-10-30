@@ -47,34 +47,34 @@ class ctl_order
 	  		]);
 
 	  		$data = array_column($data, null, 'goods_id');
-            $amount = 0;
+        $amount = 0;
 	  		foreach ($goods_ids as $key => $goods_id)
 	  		{
-                //['name', 'cost', 'mktprice', 'store', 'min_buy', 'nostore_sell', 'goods_id']
-                $amount += $goods_nums[$key] * $data[$goods_id]['cost'];
-                $goods[$goods_id] = [
-                    'member_buy_num' => $goods_nums[$key],
-                    'cost'           => $data[$goods_id]['goods_id'],
-                    'mktprice'       => $data[$goods_id]['mktprice'],
-                    'goods_id'       => $data[$goods_id]['goods_id'],
-                    'name'           => $data[$goods_id]['name'],
-                ];
+            //['name', 'cost', 'mktprice', 'store', 'min_buy', 'nostore_sell', 'goods_id']
+            $amount += $goods_nums[$key] * $data[$goods_id]['cost'];
+            $goods[$goods_id] = [
+                'member_buy_num' => $goods_nums[$key],
+                'cost'           => $data[$goods_id]['goods_id'],
+                'mktprice'       => $data[$goods_id]['mktprice'],
+                'goods_id'       => $data[$goods_id]['goods_id'],
+                'name'           => $data[$goods_id]['name'],
+            ];
 	  		}
 
-            $data = [
-                'goods'  => $goods,
-                'total'  => $amount,
-                'amount' => $amount,
-            ];
+        $data = [
+            'goods'  => $goods,
+            'total'  => $amount,
+            'amount' => $amount,
+        ];
 
-            //创建订单
-            if(0 > pub_serv_orders::add_order($data))
-            {
+        //创建订单
+        if(0 > pub_serv_orders::add_order($data))
+        {
 
-            }
+        }
 
-			view::assign('data', $data);
-	    	view::display();
+			  view::assign('data', $data);
+	      view::display();
 	  }
 
       /**

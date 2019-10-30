@@ -309,13 +309,15 @@ class pub_mod_model
         return $query->as_field()->execute();
     }
 
-    private static function _complate_sql(&$query, $where = [], $join = [], $order = []) {
+    private static function _complate_sql(&$query, $where = [], $join = [], $order = [])
+    {
         if (!empty($where) || !empty($where['and']))
         {
-            $where = empty($where)?$where['and']:$where;
+            $where = empty($where) ? $where['and'] : $where;
             $query = $query->where($where);
         }
-        elseif (!empty($where['or']))
+
+        if (!empty($where['or']))
         {
             $query->or_where($where['or']);
 
@@ -388,10 +390,6 @@ class pub_mod_model
      */
     public static function db_commit()
     {
-        util::shutdown_function(
-            ['common\func\pub_func', 'dsrs'],
-            [null, null, true]
-        );
 
         return db::commit();
     }
@@ -403,7 +401,6 @@ class pub_mod_model
      */
     public static function db_rollback()
     {
-        pub_func::dsrs(null, null, 'clear');
         return db::rollback();
     }
 
