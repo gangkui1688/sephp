@@ -82,12 +82,11 @@ class power
                 break;
         }
 
-        $this->_info = session::get(self::$_mark);
-
+        sephp::$_user = $this->_info = session::get(self::$_mark);
         if(!empty($this->_info))
         {
-            $this->_uid = $this->_info[self::$_uid_field];
-            $this->_nickname = $this->_info['nickname'];
+            sephp::$_uid = $this->_uid = $this->_info[self::$_uid_field];
+            $this->_nickname = $this->_info['nickname'] ?? $this->_info['username'];
         }
 
         $this->is_login();
@@ -101,11 +100,13 @@ class power
      */
     public function is_login()
     {
+
         //验证是否需要登陆
         if(empty($this->config['need_login']) || in_array(CONTROLLER_NAME,$this->config['not_login']))
         {
             return true;
         }
+
 
         //排除重复登录
         if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME)
@@ -176,7 +177,8 @@ class power
     {
         $result = false;
         do{
-            $info = db::select('password,group_id,' . self::$_uid_field)
+
+            $info = db::select('password,' . self::$_uid_field)
                 ->from(self::$_table_admin)
                 ->where('username', '=', $name)
                 ->as_row()
@@ -201,13 +203,15 @@ class power
 
             $method_name = 'get_' . self::$_user_type . '_info';
             $this->_info = $this->$method_name($info[self::$_uid_field]);
+            $this->_info['username'] = $name;
+
 
             //获取用户权限
-            if(!empty(self::$_table_group) && !empty($info['group_id']))
+            if(!empty(self::$_table_group) && !empty($this->_info['group_id']))
             {
                 $power = db::select()
                     ->from(self::$_table_group)
-                    ->where('group_id',$info['group_id'])
+                    ->where('group_id',$this->_info['group_id'])
                     ->as_row()
                     ->execute();
 
@@ -237,7 +241,7 @@ class power
             'login_ip' => func::get_client_ip(),
             'username' => $this->_info['username'],
             'login_time' => time(),
-            'login_uid' => $this->_info['admin_id'],
+            'login_uid' => $this->_info[self::$_uid_field],
             'user_type' => 'admin',
             'agent' => $_SERVER['HTTP_USER_AGENT'],
         ];
@@ -273,7 +277,7 @@ class power
      */
     public function get_admin_info($admin_id)
     {
-        return db::select(['admin_id', 'nickname', 'realname', 'email', 'mobile', 'remark', 'sex', 'username'])
+        return db::select(['admin_id', 'nickname', 'realname', 'email', 'mobile', 'remark', 'sex', 'username', 'group_id'])
                 ->from(self::$_table_admin)
                 ->where(self::$_uid_field, '=', $admin_id)
                 ->as_row()
@@ -289,9 +293,9 @@ class power
      * @param    [type]     $member_id [description]
      * @return   [type]                [description]
      */
-    public function get_membrt_info($member_id)
+    public function get_member_info($member_id)
     {
-        return db::select(['member_id', 'nickname', 'realname', 'email', 'mobile', 'remark', 'username'])
+        return db::select(['member_id', 'nickname', 'realname', 'email', 'mobile', 'remark', 'group_id'])
                 ->from("#PB#_members")
                 ->where(self::$_uid_field, '=', $member_id)
                 ->as_row()

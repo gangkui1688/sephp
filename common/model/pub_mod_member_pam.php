@@ -48,7 +48,7 @@ class pub_mod_member_pam extends pub_mod_model
         $data['source']     = 'pc';
         $data['addtime']    = TIME_SEPHP;
         $data['adduser']    = -1;
-        $data['reg_ip']     = func::get_cururl();
+        $data['reg_ip']     = func::get_client_ip();
         $data['password']   = \sephp\core\lib\power::make_password($data['password']);
 
         $insert_pam = func::data_filter(self::$_fields, $data);
@@ -60,6 +60,16 @@ class pub_mod_member_pam extends pub_mod_model
             if(!is_array($insert_pam) || !is_array($insert_members))
             {
                 $result = -1;
+                break;
+            }
+
+            $info = self::getdump([
+                'where' => ['username', '=', $insert_pam['username']]
+            ]);
+
+            if(!empty($info))
+            {
+                $result = -2;
                 break;
             }
 
@@ -101,9 +111,9 @@ class pub_mod_member_pam extends pub_mod_model
     public static function check_pass($login_account, $login_password)
     {
         $info = self::getdump([
-            'where' => ['login_account', '=', $login_account]
+            'where' => ['username', '=', $login_account]
         ]);
-        if(empty($info) || !password_verify($login_password, $info['login_password']))
+        if(empty($info) || !password_verify($login_password, $info['password']))
         {
             return false;
         }

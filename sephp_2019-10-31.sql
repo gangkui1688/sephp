@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.7.11)
+# Host: 127.0.01 (MySQL 5.7.20-log)
 # Database: sephp
-# Generation Time: 2019-10-31 01:36:52 +0000
+# Generation Time: 2019-10-31 13:28:12 +0000
 # ************************************************************
 
 
@@ -191,7 +191,7 @@ LOCK TABLES `se_admin_user` WRITE;
 
 INSERT INTO `se_admin_user` (`admin_id`, `group_id`, `username`, `password`, `sex`, `email`, `status`, `realname`, `nickname`, `mobile`, `remark`, `auth_secert`, `reg_ip`, `session_id`, `addtim`, `uptime`, `deltime`)
 VALUES
-	(1,1,'admin','$2y$10$tra3DMOjyKhDpQD1qe82Oe6b3n7StDIkprH8UXtscUdYo46DnAsim',1,'admin@admin.com',1,'钢盔',NULL,NULL,'so fuck beautiful','EEOQBNTJ7CDGCWPDVSVVQGZ37FK7RBU7',NULL,'12in3ibqjv357o3tp0vivqo7a1',NULL,0,0),
+	(1,1,'admin','$2y$10$tra3DMOjyKhDpQD1qe82Oe6b3n7StDIkprH8UXtscUdYo46DnAsim',1,'admin@admin.com',1,'钢盔',NULL,NULL,'so fuck beautiful','EEOQBNTJ7CDGCWPDVSVVQGZ37FK7RBU7',NULL,'vsm7fnvsvdtjkpf9ts1s3s352j',NULL,0,0),
 	(6,2,'gangkui003','$2y$10$rsRw/PKLQPfhpR.XwrD6m.ocMygl6gd4BEtuNAPJbokykX5e.AMG.',1,'asdfasd@123.com',1,'里相遇',NULL,NULL,'','DZWBRUUNUUJDAXXR44MVYMCUPOEMQIPS',NULL,'0',NULL,0,0),
 	(11,5,'gangkui001','$2y$10$pLKmTwiz./w.8hPja3qQjuBdIwvskB3gPEY/ljVCdau6P/hElYELq',NULL,'001@adm.com',1,'钢盔01',NULL,NULL,'gangkui001','HOELO43EFXMWYYWKWCSZ3QEMWRPQLR33',NULL,'myprefix-brcmrvlo54bapnm4hm8mqjact6',NULL,0,0);
 
@@ -498,6 +498,7 @@ CREATE TABLE `se_goods` (
   `goods_sn` varchar(30) NOT NULL DEFAULT '' COMMENT '商品编号',
   `name` varchar(200) NOT NULL DEFAULT '' COMMENT '商品名称',
   `price` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '销售价',
+  `currency` varchar(10) DEFAULT 'CNY' COMMENT '币种',
   `type_id` int(8) unsigned DEFAULT '0' COMMENT '类型',
   `cate_id` int(8) unsigned DEFAULT '0' COMMENT '分类',
   `brand_id` int(8) unsigned DEFAULT '0' COMMENT '品牌',
@@ -540,11 +541,11 @@ CREATE TABLE `se_goods` (
 LOCK TABLES `se_goods` WRITE;
 /*!40000 ALTER TABLE `se_goods` DISABLE KEYS */;
 
-INSERT INTO `se_goods` (`goods_id`, `goods_sn`, `name`, `price`, `type_id`, `cate_id`, `brand_id`, `marketable`, `store`, `notify_num`, `downtime`, `last_modify`, `p_order`, `d_order`, `score`, `cost`, `mktprice`, `weight`, `unit`, `brief`, `image_default_id`, `small_pic`, `big_pic`, `intro`, `store_place`, `min_buy`, `nostore_sell`, `goods_setting`, `comments_count`, `view_count`, `buy_count`, `addtime`, `adduser`, `uptime`, `upuser`)
+INSERT INTO `se_goods` (`goods_id`, `goods_sn`, `name`, `price`, `currency`, `type_id`, `cate_id`, `brand_id`, `marketable`, `store`, `notify_num`, `downtime`, `last_modify`, `p_order`, `d_order`, `score`, `cost`, `mktprice`, `weight`, `unit`, `brief`, `image_default_id`, `small_pic`, `big_pic`, `intro`, `store_place`, `min_buy`, `nostore_sell`, `goods_setting`, `comments_count`, `view_count`, `buy_count`, `addtime`, `adduser`, `uptime`, `upuser`)
 VALUES
-	(1,'191023094953','玉泉寺成人票',0.000,0,0,0,'1',6666777,0,NULL,NULL,1,30,2,111.000,222.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"58/7c10d0cab1e0922fd44ff1a131d4963f.jpg\",\"40/618e6d0cb2b6b1cf0225835f87928386.jpg\",\"27/e098e98cbca47ea7af9c125f20dbbb79.jpg\",\"45/4a083e9fed9721327f545b12d117b8f1.jpg\",\"05/f951b5275c198310bc06b71b62db2fe2.jpg\",\"63/8cc1bbde4dcbb6fd1aedcd899f6c4ac7.jpg\"]','','','&amp;lt;h1&amp;gt;&amp;lt;strong&amp;gt;金山岭长城秋色浓郁 层林尽染灿若图秀&amp;lt;/strong&amp;gt;&amp;lt;/h1&amp;gt;\r\n&amp;lt;p&amp;gt;2019-10-25 14:47&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736204.jpg&amp;quot; data-image=&amp;quot;oikfc2jg19ni&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;近日，位于京郊的金山岭长城秋景正浓，层林尽染，五色纷披，灿若图绣。文/张桂芹 图/郭中兴&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736765.jpg&amp;quot; data-image=&amp;quot;vfe3nfe8v2x6&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;&amp;lt;br&amp;gt;&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736182.jpg&amp;quot; data-image=&amp;quot;qixep3c4azg1&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736326.jpg&amp;quot; data-image=&amp;quot;1biesfmcb7dh&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;','0',0,'1','',1,1,1,1571824193,'1',0,'0'),
-	(2,'191023130251','玉泉寺儿童票',0.000,0,0,0,'1',999999,0,NULL,NULL,22,30,22,111.000,99.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"55/e8f37adc5a222fd8c3a954738ca5c468.jpg\",\"45/4a083e9fed9721327f545b12d117b8f1.jpg\",\"58/7c10d0cab1e0922fd44ff1a131d4963f.jpg\",\"40/618e6d0cb2b6b1cf0225835f87928386.jpg\"]','','','&amp;lt;p&amp;gt;做php开发中，如果遇到自己不能修改服务器的相关配置也不能知道服务器某些功能是否开启的情况下，直接使用某些特殊的函数会导致程序报错，比如curl_init这种系统函数。当服务器未开启curl相关服务的时候，直接使用curl系列函数会报Call to undefined function curl_init()......这样的错误。&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;那么对于出现这种情况该如何办呢？很多事情不只是有一种办法的，如果某些方法不行，我们还可以使用另外的方法。这里我们就需要涉及到判断某个方法是否存在的问题了，如果存在该方法则使用该方法，如果不存在该方法则使用另外的方法。&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;这里对于如何判断一个函数，类以及类中的方法是否存在做了一个整理：&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（1）php判断系统函数或自己写的函数是否存在&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool function_exists ( string $function_name ) 判断函数是否已经定义，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(function_exists(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;curl_init&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;    &amp;lt;code&amp;gt;curl_init();&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;else&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;{&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;4&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;lt;code&amp;gt;echo&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;&amp;#039;not function curl_init&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;5&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（2）php判断类是否存在&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool class_exists ( string $class_name [, bool $autoload = true ] ) 检查一个类是否已经定义，一定以返回true，否则返回false，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;class_exists&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;MySQL&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;lt;code&amp;gt;$myclass&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;new&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;MySQL();&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（3）php判断类里面的某个方法是否已经定义&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool method_exists ( mixed $object , string $method_name ) 检查类的方法是否存在，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;$directory&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;new&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;Directory;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(!method_exists(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;$directory&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;,&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;read&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;lt;code&amp;gt;echo&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;&amp;#039;未定义read方法！&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;4&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;','0',0,'1','',22,22,1,1571835771,'1',0,'0'),
-	(3,'191023130628U2VZW','玉泉寺特殊票',0.000,0,0,0,'1',555555,0,NULL,NULL,2,30,4,111.000,30.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\",\"32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\",\"32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\"]','','','&amp;lt;h1&amp;gt;&amp;lt;strong&amp;gt;江西旱情持续 赣江南昌段大片河床裸露&amp;lt;/strong&amp;gt;&amp;lt;/h1&amp;gt;\r\n&amp;lt;p&amp;gt;2019-10-23 14:45&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547367.jpg&amp;quot; data-image=&amp;quot;kjmg3bokm24n&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;　　央视网消息：2019年10月22日，无人机航拍长江主要支流之一、江西省最大河流赣江南昌段水域，河床大面积裸露，岸边不少河床甚至干涸龟裂。当日20时，赣江南昌站实时水位为11.61米。8月以来，江西气温创历史同期新高，降水异常偏少，平均降雨量较常年同期偏少近9成，山塘水库大面积干涸。图片来源：视觉中国&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547212.jpg&amp;quot; data-image=&amp;quot;8dalhbny09aq&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547326.jpg&amp;quot; data-image=&amp;quot;1puh0fa2yz4t&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024548746.jpg&amp;quot; data-image=&amp;quot;oriy9bjx99dv&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;','0',0,'1','',44,334,1,1571835988,'1',0,'0');
+	(1,'191023094953','玉泉寺成人票',88.000,'CNY',0,0,0,'1',6666777,0,NULL,NULL,1,30,2,111.000,222.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/58/7c10d0cab1e0922fd44ff1a131d4963f.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/40/618e6d0cb2b6b1cf0225835f87928386.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/27/e098e98cbca47ea7af9c125f20dbbb79.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/45/4a083e9fed9721327f545b12d117b8f1.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/05/f951b5275c198310bc06b71b62db2fe2.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/63/8cc1bbde4dcbb6fd1aedcd899f6c4ac7.jpg\"]','','','&amp;lt;h1&amp;gt;&amp;lt;strong&amp;gt;金山岭长城秋色浓郁 层林尽染灿若图秀&amp;lt;/strong&amp;gt;&amp;lt;/h1&amp;gt;\r\n&amp;lt;p&amp;gt;2019-10-25 14:47&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736204.jpg&amp;quot; data-image=&amp;quot;oikfc2jg19ni&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;近日，位于京郊的金山岭长城秋景正浓，层林尽染，五色纷披，灿若图绣。文/张桂芹 图/郭中兴&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736765.jpg&amp;quot; data-image=&amp;quot;vfe3nfe8v2x6&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736182.jpg&amp;quot; data-image=&amp;quot;qixep3c4azg1&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1025/20191025024736326.jpg&amp;quot; data-image=&amp;quot;1biesfmcb7dh&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;','0',0,'1','',1,1,1,1571824193,'1',0,'0'),
+	(2,'191023130251','玉泉寺儿童票',96.000,'CNY',0,0,0,'1',999999,0,NULL,NULL,22,30,22,111.000,99.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/55/e8f37adc5a222fd8c3a954738ca5c468.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/45/4a083e9fed9721327f545b12d117b8f1.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/58/7c10d0cab1e0922fd44ff1a131d4963f.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/40/618e6d0cb2b6b1cf0225835f87928386.jpg\"]','','','&amp;lt;p&amp;gt;做php开发中，如果遇到自己不能修改服务器的相关配置也不能知道服务器某些功能是否开启的情况下，直接使用某些特殊的函数会导致程序报错，比如curl_init这种系统函数。当服务器未开启curl相关服务的时候，直接使用curl系列函数会报Call to undefined function curl_init()......这样的错误。&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;那么对于出现这种情况该如何办呢？很多事情不只是有一种办法的，如果某些方法不行，我们还可以使用另外的方法。这里我们就需要涉及到判断某个方法是否存在的问题了，如果存在该方法则使用该方法，如果不存在该方法则使用另外的方法。&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;这里对于如何判断一个函数，类以及类中的方法是否存在做了一个整理：&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（1）php判断系统函数或自己写的函数是否存在&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool function_exists ( string $function_name ) 判断函数是否已经定义，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(function_exists(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;curl_init&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;    &amp;lt;code&amp;gt;curl_init();&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;else&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;{&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;4&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;    &amp;lt;code&amp;gt;echo&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;&amp;#039;not function curl_init&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;5&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（2）php判断类是否存在&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool class_exists ( string $class_name [, bool $autoload = true ] ) 检查一个类是否已经定义，一定以返回true，否则返回false，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;class_exists&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;MySQL&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;    &amp;lt;code&amp;gt;$myclass&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;new&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;MySQL();&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;（3）php判断类里面的某个方法是否已经定义&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;p&amp;gt;bool method_exists ( mixed $object , string $method_name ) 检查类的方法是否存在，例如：&amp;lt;/p&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;1&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;$directory&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;new&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;Directory;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;2&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;(!method_exists(&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;$directory&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;,&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;&amp;#039;read&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;)){&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;3&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;lt;code&amp;gt;echo&amp;lt;/code&amp;gt;&amp;amp;nbsp;&amp;lt;code&amp;gt;&amp;#039;未定义read方法！&amp;#039;&amp;lt;/code&amp;gt;&amp;lt;code&amp;gt;;&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;\r\n&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;4&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;&amp;lt;code&amp;gt;}&amp;lt;/code&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;','0',0,'1','',22,22,1,1571835771,'1',0,'0'),
+	(3,'191023130628U2VZW','玉泉寺特殊票',66.000,'CNY',0,0,0,'1',555555,0,NULL,NULL,2,30,4,111.000,30.000,0.000,'张','千年古刹，玉泉山下，铁塔地宫','[\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\",\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/32/2ccbdc5c06dd8e7e147a7a5fbbc2a0e8.jpg\"]','','','&amp;lt;h1&amp;gt;&amp;lt;strong&amp;gt;江西旱情持续 赣江南昌段大片河床裸露&amp;lt;/strong&amp;gt;&amp;lt;/h1&amp;gt;\r\n&amp;lt;p&amp;gt;2019-10-23 14:45&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547367.jpg&amp;quot; data-image=&amp;quot;kjmg3bokm24n&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;　　央视网消息：2019年10月22日，无人机航拍长江主要支流之一、江西省最大河流赣江南昌段水域，河床大面积裸露，岸边不少河床甚至干涸龟裂。当日20时，赣江南昌站实时水位为11.61米。8月以来，江西气温创历史同期新高，降水异常偏少，平均降雨量较常年同期偏少近9成，山塘水库大面积干涸。图片来源：视觉中国&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547212.jpg&amp;quot; data-image=&amp;quot;8dalhbny09aq&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024547326.jpg&amp;quot; data-image=&amp;quot;1puh0fa2yz4t&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;\r\n&amp;lt;figure&amp;gt;&amp;lt;img src=&amp;quot;https://himg2.huanqiucdn.cn/attachment2010/2019/1023/20191023024548746.jpg&amp;quot; data-image=&amp;quot;oriy9bjx99dv&amp;quot;&amp;gt;&amp;lt;/figure&amp;gt;\r\n&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;','0',0,'1','',44,334,1,1571835988,'1',0,'0');
 
 /*!40000 ALTER TABLE `se_goods` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -861,7 +862,21 @@ VALUES
 	(118,'3av3us71ctdjf818r1vmh1e50v',1,'127.0.0.1','admin',1572116084,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36','admin',NULL),
 	(119,'atsgnqq63seoo8inkl773lqjgj',1,'127.0.0.1','admin',1572156860,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36','admin',NULL),
 	(120,'2agl7ursu7g9rvp38uejsblbu9',1,'127.0.0.1','admin',1572171804,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36','admin',NULL),
-	(121,'7rp0j0aold5d9vbb98lrs85s26',1,'127.0.0.1','admin',1572451684,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36','admin',NULL);
+	(121,'7rp0j0aold5d9vbb98lrs85s26',1,'127.0.0.1','admin',1572451684,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36','admin',NULL),
+	(122,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572492667,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(123,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572492728,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(124,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572492768,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(125,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572493028,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(126,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572493149,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(127,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572493159,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(128,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572494577,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(129,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572494594,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(130,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','gangkui',1572494708,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(131,'vsm7fnvsvdtjkpf9ts1s3s352j',2,'127.0.0.1','gangkui',1572497504,'0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin','用户名或者密码错误'),
+	(132,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','admin',1572497514,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(133,'vsm7fnvsvdtjkpf9ts1s3s352j',1,'127.0.0.1','admin',1572497680,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(134,'3an90dtnfk48kj9knuu0cfi7vk',1,'127.0.0.1','gangkui',1572505460,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(135,'bh3qqs3ul3o218vdcjkqu6nt57',1,'127.0.0.1','gangkui',1572519844,'ed79914ea512d38bc1bbb9d7199a3af0','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL);
 
 /*!40000 ALTER TABLE `se_login_log` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -990,6 +1005,7 @@ CREATE TABLE `se_member_pam` (
   `password` varchar(225) NOT NULL DEFAULT '' COMMENT '登录密码',
   `password_account` char(10) DEFAULT '' COMMENT '加密字符串',
   `wechat_openid` varchar(225) DEFAULT NULL COMMENT '微信openid',
+  `session_id` varchar(50) DEFAULT NULL,
   `uptime` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会员密码表';
@@ -997,9 +1013,10 @@ CREATE TABLE `se_member_pam` (
 LOCK TABLES `se_member_pam` WRITE;
 /*!40000 ALTER TABLE `se_member_pam` DISABLE KEYS */;
 
-INSERT INTO `se_member_pam` (`member_id`, `username`, `password`, `password_account`, `wechat_openid`, `uptime`)
+INSERT INTO `se_member_pam` (`member_id`, `username`, `password`, `password_account`, `wechat_openid`, `session_id`, `uptime`)
 VALUES
-	('ed79914ea512d38bc1bbb9d7199a3af0','gangkui','$2y$10$Qe9mUfxUYh5vPOM4OUcFYeReKz0twNyPxbNF5cxSYax/vBt.NAnY2','','',0);
+	('36dabe09c80cf27b732114d7c9c807bb','gangkui001','$2y$10$nLCRHEgqJNpRVU9aiX59l./BSilQj.freTW5QHzSljsYIZ8HRvC3e','','',NULL,0),
+	('ed79914ea512d38bc1bbb9d7199a3af0','gangkui','$2y$10$Qe9mUfxUYh5vPOM4OUcFYeReKz0twNyPxbNF5cxSYax/vBt.NAnY2','','','vsm7fnvsvdtjkpf9ts1s3s352j',0);
 
 /*!40000 ALTER TABLE `se_member_pam` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1013,6 +1030,7 @@ DROP TABLE IF EXISTS `se_members`;
 CREATE TABLE `se_members` (
   `member_id` char(32) NOT NULL DEFAULT '' COMMENT '会员用户名',
   `member_lv_id` mediumint(8) unsigned DEFAULT '0' COMMENT '会员等级',
+  `group_id` int(11) DEFAULT '0',
   `realname` varchar(50) DEFAULT NULL COMMENT '真实姓名',
   `nickname` varchar(100) DEFAULT NULL COMMENT '会员昵称',
   `point` int(10) DEFAULT '0' COMMENT '积分',
@@ -1029,6 +1047,7 @@ CREATE TABLE `se_members` (
   `resetpwd` varchar(255) DEFAULT NULL COMMENT '找回密码唯一标示',
   `resetpwdtime` int(10) unsigned DEFAULT NULL COMMENT '找回密码时间',
   `source` enum('pc','wap','weixin','api') DEFAULT 'pc' COMMENT '平台来源',
+  `session_id` varchar(50) DEFAULT NULL,
   `addtime` int(10) unsigned NOT NULL DEFAULT '0',
   `adduser` char(32) DEFAULT '0',
   `uptime` int(10) unsigned DEFAULT '0',
@@ -1043,9 +1062,10 @@ CREATE TABLE `se_members` (
 LOCK TABLES `se_members` WRITE;
 /*!40000 ALTER TABLE `se_members` DISABLE KEYS */;
 
-INSERT INTO `se_members` (`member_id`, `member_lv_id`, `realname`, `nickname`, `point`, `addr`, `mobile`, `email`, `refer_id`, `refer_url`, `reg_ip`, `state`, `status`, `remark`, `experience`, `resetpwd`, `resetpwdtime`, `source`, `addtime`, `adduser`, `uptime`, `upuser`, `deluser`, `deltime`)
+INSERT INTO `se_members` (`member_id`, `member_lv_id`, `group_id`, `realname`, `nickname`, `point`, `addr`, `mobile`, `email`, `refer_id`, `refer_url`, `reg_ip`, `state`, `status`, `remark`, `experience`, `resetpwd`, `resetpwdtime`, `source`, `session_id`, `addtime`, `adduser`, `uptime`, `upuser`, `deluser`, `deltime`)
 VALUES
-	('ed79914ea512d38bc1bbb9d7199a3af0',0,'王刚','干锅儿',0,'0','567890','','','','/index/?ct=index&amp;ac=regist',0,1,'',0,'',0,'pc',1572463485,'-1',0,'0','0',0);
+	('36dabe09c80cf27b732114d7c9c807bb',0,0,'','',0,'0','','','','','/index/?ct=index&amp;ac=regist',0,1,'',0,'',0,'pc',NULL,1572491077,'-1',0,'0','0',0),
+	('ed79914ea512d38bc1bbb9d7199a3af0',0,0,'王刚','干锅儿',0,'0','567890','','','','/index/?ct=index&amp;ac=regist',0,1,'',0,'',0,'pc',NULL,1572463485,'-1',0,'0','0',0);
 
 /*!40000 ALTER TABLE `se_members` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1058,6 +1078,8 @@ DROP TABLE IF EXISTS `se_order`;
 
 CREATE TABLE `se_order` (
   `order_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '订单号',
+  `order_sn` varchar(32) NOT NULL DEFAULT '',
+  `qrcode` varchar(225) NOT NULL DEFAULT '',
   `total_amount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '商品默认货币总值',
   `final_amount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单货币总值, 包含支付价格,税等',
   `pay_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '付款状态',
@@ -1066,14 +1088,14 @@ CREATE TABLE `se_order` (
   `payment` varchar(100) DEFAULT NULL COMMENT '支付方式',
   `shipping_id` mediumint(8) unsigned DEFAULT NULL COMMENT '配送方式',
   `shipping` varchar(100) DEFAULT NULL COMMENT '配送方式',
-  `member_id` mediumint(8) unsigned DEFAULT NULL COMMENT '会员用户名',
+  `member_id` char(32) DEFAULT '0' COMMENT '会员用户名',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '订单状态',
-  `confirm` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '确认状态',
+  `confirm` tinyint(1) DEFAULT '1' COMMENT '确认状态',
   `ship_area` varchar(255) DEFAULT NULL COMMENT '收货地区',
   `ship_name` varchar(50) DEFAULT NULL COMMENT '收货人',
-  `weight` decimal(20,3) DEFAULT NULL COMMENT '订单总重量',
+  `weight` decimal(20,3) DEFAULT '0.000' COMMENT '订单总重量',
   `tostr` longtext COMMENT '订单文字描述',
-  `itemnum` mediumint(8) unsigned DEFAULT NULL COMMENT '订单子订单数量',
+  `itemnum` int(8) unsigned NOT NULL DEFAULT '1' COMMENT '订单子订单数量',
   `ip` varchar(15) DEFAULT NULL COMMENT 'IP地址',
   `ship_addr` text COMMENT '收货地址',
   `ship_zip` varchar(20) DEFAULT NULL COMMENT '收货人邮编',
@@ -1081,18 +1103,18 @@ CREATE TABLE `se_order` (
   `ship_email` varchar(200) DEFAULT NULL COMMENT '收货人email',
   `ship_time` varchar(50) DEFAULT NULL COMMENT '配送时间',
   `ship_mobile` varchar(50) DEFAULT NULL COMMENT '收货人手机',
-  `cost_item` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单商品总价格',
-  `is_tax` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否要开发票',
-  `tax_type` enum('false','personal','company') NOT NULL DEFAULT 'false' COMMENT '发票类型',
+  `cost_item` decimal(20,3) DEFAULT '0.000' COMMENT '订单商品总价格',
+  `is_tax` tinyint(1) DEFAULT '1' COMMENT '是否要开发票',
+  `tax_type` tinyint(1) DEFAULT '0' COMMENT '发票类型',
   `tax_content` varchar(255) DEFAULT NULL COMMENT '发票内容',
-  `cost_tax` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单税率',
+  `cost_tax` decimal(20,3) DEFAULT '0.000' COMMENT '订单税率',
   `tax_company` varchar(255) DEFAULT NULL COMMENT '发票抬头',
   `cost_payment` decimal(20,3) DEFAULT NULL COMMENT '支付费用',
-  `currency` varchar(8) DEFAULT NULL COMMENT '订单支付货币',
-  `cur_rate` decimal(10,4) DEFAULT '1.0000' COMMENT '订单支付货币汇率',
-  `score_u` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单使用积分',
-  `score_g` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单获得积分',
-  `discount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单减免',
+  `currency` varchar(20) DEFAULT 'CNY' COMMENT '订单支付货币',
+  `cur_rate` decimal(10,4) DEFAULT '0.0000' COMMENT '订单支付货币汇率',
+  `score_u` decimal(20,3) DEFAULT '0.000' COMMENT '订单使用积分',
+  `score_g` decimal(20,3) DEFAULT '0.000' COMMENT '订单获得积分',
+  `discount` decimal(20,3) DEFAULT '0.000' COMMENT '订单减免',
   `pmt_goods` decimal(20,3) DEFAULT NULL COMMENT '商品促销优惠',
   `pmt_order` decimal(20,3) DEFAULT NULL COMMENT '订单促销优惠',
   `payed` decimal(20,3) DEFAULT '0.000' COMMENT '订单支付金额',
@@ -1108,7 +1130,7 @@ CREATE TABLE `se_order` (
   `uptime` int(11) DEFAULT '0' COMMENT '最后更新时间',
   `upuser` char(32) DEFAULT '0' COMMENT '最后跟新人',
   `deltime` int(11) DEFAULT '0',
-  `deluesr` char(32) DEFAULT '0',
+  `deluser` char(32) DEFAULT '0',
   PRIMARY KEY (`order_id`),
   KEY `ind_ship_status` (`ship_status`),
   KEY `ind_pay_status` (`pay_status`),
@@ -1116,6 +1138,15 @@ CREATE TABLE `se_order` (
   KEY `ind_disabled` (`disabled`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
 
+LOCK TABLES `se_order` WRITE;
+/*!40000 ALTER TABLE `se_order` DISABLE KEYS */;
+
+INSERT INTO `se_order` (`order_id`, `order_sn`, `qrcode`, `total_amount`, `final_amount`, `pay_status`, `ship_status`, `is_delivery`, `payment`, `shipping_id`, `shipping`, `member_id`, `status`, `confirm`, `ship_area`, `ship_name`, `weight`, `tostr`, `itemnum`, `ip`, `ship_addr`, `ship_zip`, `ship_tel`, `ship_email`, `ship_time`, `ship_mobile`, `cost_item`, `is_tax`, `tax_type`, `tax_content`, `cost_tax`, `tax_company`, `cost_payment`, `currency`, `cur_rate`, `score_u`, `score_g`, `discount`, `pmt_goods`, `pmt_order`, `payed`, `memo`, `disabled`, `mark_type`, `mark_text`, `cost_freight`, `extend`, `addon`, `addtime`, `adduser`, `uptime`, `upuser`, `deltime`, `deluser`)
+VALUES
+	(1572519982916717890,'ZKXC1910311106229167005','Q6zkB242363590684708864416015zJyu',96.000,0.000,0,'0','','',0,'','ed79914ea512d38bc1bbb9d7199a3af0',1,1,'','',0.000,'',1,'127.0.0.1','','','','','','',0.000,1,1,'',0.000,'',96.000,'CNY',0.0000,0.000,0.000,0.000,0.000,0.000,96.000,'',1,'','',0.000,'','a:1:{i:2;a:6:{s:14:&quot;member_buy_num&quot;;s:1:&quot;1&quot;;s:5:&quot;price&quot;;s:6:&quot;96.000&quot;;s:4:&quot;cost&quot;;s:7:&quot;111.000&quot;;s:8:&quot;mktprice&quot;;s:6:&quot;99.000&quot;;s:8:&quot;goods_id&quot;;i:2;s:4:&quot;name&quot;;s:18:&quot;玉泉寺儿童票&quot;;}}',1572519982,'ed79914ea512d38bc1bbb9d7199a3af0',0,'0',0,'0');
+
+/*!40000 ALTER TABLE `se_order` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table se_order_cancel_reason
@@ -1203,6 +1234,7 @@ CREATE TABLE `se_order_items` (
   `goods_name` varchar(200) DEFAULT NULL COMMENT '明细商品的名称',
   `cost` decimal(20,3) DEFAULT NULL COMMENT '明细商品的成本',
   `price` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '明细商品的销售价(购入价)',
+  `currency` varchar(20) NOT NULL DEFAULT '' COMMENT '币种',
   `g_price` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '明细商品的会员价原价',
   `amount` decimal(20,3) DEFAULT NULL COMMENT '明细商品总额',
   `score` mediumint(8) unsigned DEFAULT NULL COMMENT '明细商品积分',
@@ -1220,6 +1252,15 @@ CREATE TABLE `se_order_items` (
   KEY `ind_item_bn` (`bn`) USING HASH
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单明细表';
 
+LOCK TABLES `se_order_items` WRITE;
+/*!40000 ALTER TABLE `se_order_items` DISABLE KEYS */;
+
+INSERT INTO `se_order_items` (`item_id`, `order_id`, `goods_params`, `goods_id`, `type_id`, `bn`, `goods_name`, `cost`, `price`, `currency`, `g_price`, `amount`, `score`, `weight`, `nums`, `sendnum`, `addon`, `addtime`, `adduser`, `uptime`, `upuser`, `deltime`, `deluser`)
+VALUES
+	(4,1572519982916717890,'a:37:{s:8:\"goods_id\";i:2;s:8:\"goods_sn\";s:12:\"191023130251\";s:4:\"name\";s:18:\"玉泉寺儿童票\";s:5:\"price\";s:6:\"96.000\";s:8:\"currency\";s:3:\"CNY\";s:7:\"type_id\";i:0;s:7:\"cate_id\";i:0;s:8:\"brand_id\";i:0;s:10:\"marketable\";s:1:\"1\";s:5:\"store\";i:999999;s:10:\"notify_num\";i:0;s:8:\"downtime\";N;s:11:\"last_modify\";N;s:7:\"p_order\";i:22;s:7:\"d_order\";i:30;s:5:\"score\";i:22;s:4:\"cost\";s:7:\"111.000\";s:8:\"mktprice\";s:6:\"99.000\";s:6:\"weight\";s:5:\"0.000\";s:4:\"unit\";s:3:\"张\";s:5:\"brief\";s:42:\"千年古刹，玉泉山下，铁塔地宫\";s:16:\"image_default_id\";a:4:{i:0;s:135:\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/55/e8f37adc5a222fd8c3a954738ca5c468.jpg\";i:1;s:135:\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/45/4a083e9fed9721327f545b12d117b8f1.jpg\";i:2;s:135:\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/58/7c10d0cab1e0922fd44ff1a131d4963f.jpg\";i:3;s:135:\"http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/http://sephp.a.com/upload/image/40/618e6d0cb2b6b1cf0225835f87928386.jpg\";}s:9:\"small_pic\";s:0:\"\";s:7:\"big_pic\";s:0:\"\";s:5:\"intro\";s:3105:\"<p>做php开发中，如果遇到自己不能修改服务器的相关配置也不能知道服务器某些功能是否开启的情况下，直接使用某些特殊的函数会导致程序报错，比如curl_init这种系统函数。当服务器未开启curl相关服务的时候，直接使用curl系列函数会报Call to undefined function curl_init()......这样的错误。</p>\r\n<p>那么对于出现这种情况该如何办呢？很多事情不只是有一种办法的，如果某些方法不行，我们还可以使用另外的方法。这里我们就需要涉及到判断某个方法是否存在的问题了，如果存在该方法则使用该方法，如果不存在该方法则使用另外的方法。</p>\r\n<p>这里对于如何判断一个函数，类以及类中的方法是否存在做了一个整理：</p>\r\n<p><strong>（1）php判断系统函数或自己写的函数是否存在</strong></p>\r\n<p>bool function_exists ( string $function_name ) 判断函数是否已经定义，例如：</p>\r\n<table><tbody><tr><td><code>1</code></td><td><code>if</code><code>(function_exists(</code><code>&#039;curl_init&#039;</code><code>)){</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>2</code></td><td>    <code>curl_init();</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>3</code></td><td><code>}</code><code>else</code><code>{</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>4</code></td><td>    <code>echo</code>&nbsp;<code>&#039;not function curl_init&#039;</code><code>;</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>5</code></td><td><code>}</code></td></tr></tbody></table>\r\n<p><strong>（2）php判断类是否存在</strong></p>\r\n<p>bool class_exists ( string $class_name [, bool $autoload = true ] ) 检查一个类是否已经定义，一定以返回true，否则返回false，例如：</p>\r\n<table><tbody><tr><td><code>1</code></td><td><code>if</code><code>(</code><code>class_exists</code><code>(</code><code>&#039;MySQL&#039;</code><code>)){</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>2</code></td><td>    <code>$myclass</code><code>=</code><code>new</code>&nbsp;<code>MySQL();</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>3</code></td><td><code>}</code></td></tr></tbody></table>\r\n<p><strong>（3）php判断类里面的某个方法是否已经定义</strong></p>\r\n<p>bool method_exists ( mixed $object , string $method_name ) 检查类的方法是否存在，例如：</p>\r\n<table><tbody><tr><td><code>1</code></td><td><code>$directory</code><code>=</code><code>new</code>&nbsp;<code>Directory;</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>2</code></td><td><code>if</code><code>(!method_exists(</code><code>$directory</code><code>,</code><code>&#039;read&#039;</code><code>)){</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>3</code></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<code>echo</code>&nbsp;<code>&#039;未定义read方法！&#039;</code><code>;</code></td></tr></tbody></table>\r\n<table><tbody><tr><td><code>4</code></td><td><code>}</code></td></tr></tbody></table>\";s:11:\"store_place\";s:1:\"0\";s:7:\"min_buy\";i:0;s:12:\"nostore_sell\";s:1:\"1\";s:13:\"goods_setting\";s:0:\"\";s:14:\"comments_count\";i:22;s:10:\"view_count\";i:22;s:9:\"buy_count\";i:1;s:7:\"addtime\";i:1571835771;s:7:\"adduser\";s:1:\"1\";s:6:\"uptime\";i:0;s:6:\"upuser\";s:1:\"0\";s:15:\"show_marketable\";s:6:\"上架\";}',2,NULL,NULL,'玉泉寺儿童票',111.000,96.000,'CNY',0.000,96.000,NULL,NULL,1,0,NULL,1572519982,'ed79914ea512d38bc1bbb9d7199a3af0',1572519982,'ed79914ea512d38bc1bbb9d7199a3af0',0,'0');
+
+/*!40000 ALTER TABLE `se_order_items` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table se_order_log

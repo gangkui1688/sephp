@@ -208,14 +208,17 @@ class session
     public static function delete($name = null, $prefix = null)
     {
         empty(self::$init) && self::init();
-        if (empty($name)) {
+
+        if (empty($name))
+        {
             session_unset();//释放内存
             session_destroy();//删除当前会话
             return true;
         }
         $prefix = !is_null($prefix) ? $prefix : self::$prefix;
 
-        if (is_array($name)) {
+        if (is_array($name))
+        {
             foreach ($name as $key) {
                 if ($prefix) {
                     unset($_SESSION[$prefix][$key]);

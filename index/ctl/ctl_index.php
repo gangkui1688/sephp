@@ -8,7 +8,7 @@ use sephp\core\config;
 use sephp\core\view;
 use sephp\core\show_msg;
 use common\model\pub_mod_member_pam;
-
+use sephp\core\lib\power;
 
 
 class ctl_index
@@ -43,18 +43,49 @@ class ctl_index
 
     public function login()
     {
-      if(empty(req::$posts))
-      {
-          view::display();
-          exit();
-      }
+        if(!empty(sephp::$_uid))
+        {
+            show_msg::success('您已登陆','?ct=index&ac=index');
+        }
 
+        if(empty(req::$posts))
+        {
+            view::display();
+            exit();
+        }
 
+        $login_info = func::data_filter([
+              'username' => ['type' => 'text', 'empty' => true ],
+              'password' => ['type' => 'text', 'empty' => true ],
+              'verify'   => ['type' => 'text', 'default' => '' ],
+          ], req::$posts);
+
+        if(!is_array($login_info))
+        {
+            show_msg::error('用户名或密码不能为空');
+        }
+
+        if(sephp::$_config['web']['verify_open'] && !verifiy::instance()->check($login_info['verify']))
+        {
+            show_msg::error('验证码错误');
+        }
+
+        if(power::instance()->login_check($login_info['username'], $login_info['password']))
+        {
+                power::instance()->add_login_log();
+                show_msg::success('登陆成功','?ct=index&ac=index');
+        }
+        show_msg::error('登陆失败,用户名或密码错误');
 
     }
 
   public function regist()
   {
+        if(!empty(sephp::$_uid))
+        {
+            show_msg::success('您已登陆','?ct=index&ac=index');
+        }
+
       if(!empty(req::$posts))
       {
           $insert_data = func::data_filter([
@@ -81,6 +112,13 @@ class ctl_index
 
       }
     view::display();
+  }
+
+  public function logout()
+  {
+        \sephp\core\session::delete(power::$_mark);
+        session_destroy();
+        show_msg::success('登出成功','?ct=index&ac=login');
   }
 
 

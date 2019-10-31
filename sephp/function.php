@@ -644,6 +644,14 @@ class func
                     }
                 }
 
+                if (!empty($config['empty']))
+                {
+                    if (empty($data[$field]))
+                    {
+                        return $field;
+                    }
+                }
+
                 if (!empty($config['filter']))
                 {//递归
                     $ret[$field] = isset($data[$field]) ?
@@ -1146,7 +1154,10 @@ class func
             case 'alpha':
                 $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 break;
+            case 'capital':
+                $pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
+                break;
             case 'alnum':
                 $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 break;

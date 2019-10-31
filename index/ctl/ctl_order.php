@@ -46,19 +46,26 @@ class ctl_order
 	  			],
 	  		]);
 
+            if(empty($data))
+            {
+                show_msg::success('您购买的商品已经下架');
+            }
+
 	  		$data = array_column($data, null, 'goods_id');
-        $amount = 0;
+
+            $amount = 0;
 	  		foreach ($goods_ids as $key => $goods_id)
 	  		{
-            //['name', 'cost', 'mktprice', 'store', 'min_buy', 'nostore_sell', 'goods_id']
-            $amount += $goods_nums[$key] * $data[$goods_id]['cost'];
-            $goods[$goods_id] = [
-                'member_buy_num' => $goods_nums[$key],
-                'cost'           => $data[$goods_id]['goods_id'],
-                'mktprice'       => $data[$goods_id]['mktprice'],
-                'goods_id'       => $data[$goods_id]['goods_id'],
-                'name'           => $data[$goods_id]['name'],
-            ];
+                //['name', 'cost', 'mktprice', 'store', 'min_buy', 'nostore_sell', 'goods_id']
+                $amount += $goods_nums[$key] * $data[$goods_id]['cost'];
+                $goods[$goods_id] = [
+                    'member_buy_num' => $goods_nums[$key],
+                    'price'          => $data[$goods_id]['price'],
+                    'cost'           => $data[$goods_id]['cost'],
+                    'mktprice'       => $data[$goods_id]['mktprice'],
+                    'goods_id'       => $data[$goods_id]['goods_id'],
+                    'name'           => $data[$goods_id]['name'],
+                ];
 	  		}
 
         $data = [

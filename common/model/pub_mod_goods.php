@@ -31,6 +31,8 @@ class pub_mod_goods extends pub_mod_model
                 'store'         => ['type' => 'int', 'default' => 0, 'comment' => '库存'],
                 'p_order'         => ['type' => 'int', 'default' => 0, 'comment' => '排序'],
                 'cost'             => ['type' => 'text', 'default' => 0, 'comment' => '成本价'],
+                'price'          => ['type' => 'text', 'default' => 0, 'comment' => '销售价格'],
+                'currency'         => ['type' => 'text', 'default' => 'CNY', 'comment' => '币种'],
                 'mktprice'         => ['type' => 'text', 'default' => 0, 'comment' => '市场价'],
                 'score'            => ['type' => 'text', 'default' => 0, 'comment' => '积分'],
                 'weight'           => ['type' => 'text', 'default' => 0, 'comment' => '重量'],
@@ -80,7 +82,7 @@ class pub_mod_goods extends pub_mod_model
     public static function getdatabyid($goods_id)
     {
         $data = self::getdump([
-            'where'    => [self::$_pk => $goods_id]
+            'where'    => [self::$_pk, '=', $goods_id]
         ]);
 
         return self::data_format($data);

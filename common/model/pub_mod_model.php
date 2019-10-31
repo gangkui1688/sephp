@@ -314,7 +314,14 @@ class pub_mod_model
         if (!empty($where) || !empty($where['and']))
         {
             $where = empty($where) ? $where['and'] : $where;
-            $query = $query->where($where);
+            if(is_array(reset($where)))
+            {
+                $query = $query->where($where);
+            }
+            else
+            {
+                $query = $query->where($where[0], $where[1], $where[2]);
+            }
         }
 
         if (!empty($where['or']))

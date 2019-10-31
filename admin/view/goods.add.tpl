@@ -60,12 +60,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">成本价：</label>
-                            <div class="col-sm-3">
+                            <label class="col-sm-3 control-label">销售价格</label>
+                            <div class="col-sm-1">
+                                <input  name="price" class="form-control" value="<{request_em array=$data key='price'}>" required class="valid">
+                            </div><label class="col-sm-1 control-label">成本价：</label>
+                            <div class="col-sm-2">
                                 <input  name="cost" class="form-control" value="<{request_em array=$data key='cost'}>" required class="valid">
                             </div>
-                            <label class="col-sm-2 control-label">市场价：</label>
-                            <div class="col-sm-3">
+                            <label class="col-sm-1 control-label">市场价：</label>
+                            <div class="col-sm-2">
                                 <input name="mktprice" class="form-control" value="<{request_em array=$data key='mktprice'}>" required class="valid">
                             </div>
                         </div>

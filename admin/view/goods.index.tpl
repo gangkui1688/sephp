@@ -33,6 +33,7 @@
                                 <th>库存</th>
                                 <th>浏览数</th>
                                 <th>购买数</th>
+                                <th>销售价格</th>
                                 <th>成本价</th>
                                 <th>市场价</th>
                                 <th>添加时间</th>
@@ -47,6 +48,7 @@
                                 <td> <{$data.store}> </td>
                                 <td> <{$data.view_count}> </td>
                                 <td> <{$data.buy_count}> </td>
+                                <td> <{$data.price}> </td>
                                 <td> <{$data.cost}> </td>
                                 <td> <{$data.mktprice}> </td>
                                 <td> <{$data.addtime|date_format:'%Y-%m-%d'}> </td>
@@ -59,7 +61,7 @@
                             <{/foreach}>
 
                             <tr >
-                                <td class="text-right" colspan="10"><{$pages}></td>
+                                <td class="text-right" colspan="11"><{$pages}></td>
                             </tr>
                         </table>
                     </div>

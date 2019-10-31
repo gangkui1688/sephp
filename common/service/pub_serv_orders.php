@@ -39,59 +39,71 @@ class pub_serv_orders
             $goods_ids = array_column($data['goods'], 'goods_id', 'goods_id');
 
             $data['qrcode']   = pub_mod_order::create_qrcode();
-            $data['order_id'] = func::make_uniqid();
+            $data['order_id'] = func::make_uniqid(true);
+            $data['order_sn'] = func::random('capital', 4) . func::make_uniqid();
+
+            $goods_info = pub_mod_goods::getlist([
+                'where' => [
+                    [pub_mod_goods::$_pk, 'in' , array_values($goods_ids)],
+                    ['marketable', '=' , 1],
+                ]
+            ]);
+
+            $goods_info = array_column($goods_info, null, 'goods_id');
+
+            $order_item = [];
+            $total_amount = 0;
+            foreach ($data['goods'] as $goods)
+            {
+                $order_item['order_id']  = [
+                    'order_id'      => $data['order_id'],
+                    'goods_id'      => $goods['goods_id'],
+                    'price'         => $goods['price'],
+                    'nums'          => $goods['member_buy_num'],
+                    'currency'      => $goods_info[$goods['goods_id']]['currency'],
+                    'amount'        => $goods['price'] * $goods['member_buy_num'],
+                    'price'         => $goods['price'],
+                    'goods_params'  => serialize($goods_info[$goods['goods_id']]),
+                    'goods_name'    => $goods_info[$goods['goods_id']]['name'],
+                    'cost'          => $goods_info[$goods['goods_id']]['cost'],
+                    'adduser'       => sephp::$_uid,
+                    'addtime'       => TIME_SEPHP,
+                    'upuser'        => sephp::$_uid,
+                    'uptime'        => TIME_SEPHP
+                ];
+
+                $total_amount +=  $goods['price'] * $goods['member_buy_num'];
+                $currency = $goods_info[$goods['goods_id']]['currency'];
+            }
+            $data['total_amount'] = $total_amount;//商品默认货币总值
+            $data['payed'] = $total_amount;//订单支付金额
+            $data['cost_payment'] = $total_amount;
+            $data['currency'] = $currency;
+            $data['addon'] = serialize($data['goods']);
+            $data['member_id'] = sephp::$_uid;
+            $data['disabled'] = 1;
+            $data['ip'] = func::get_client_ip();
+            $data['status'] = pub_mod_order::STATUS_ACTION;
+            $data['adduser'] = sephp::$_uid;
+            $data['itemnum'] = count($goods_ids);
+            $data['addtime'] = TIME_SEPHP;
 
             //订单主表数据
             $order_post = func::data_filter(pub_mod_order::$_fields, $data);
-
             if(!is_array($order_post))
             {
                 $result = -10002;
                 break;
             }
-
-            $goods_info = pub_mod_goods::getlist([
-                'where' => [
-                    [pub_mod_goods::$_pk, 'in' , array_values($goods_ids)]
-                ]
-            ]);
-            $goods_info = array_column($goods_info, null, 'goods_id');
-
-
-
-            $order_item = [];
-            foreach ($data['goods'] as $goods)
+            if(false === pub_mod_order::insert($order_post))
             {
-                print_r($goods);exit;
-                $order_item['order_id']  = [
-                    'order_id'      => $order_post['order_id'],
-                    'goods_id'      => $goods['goods_id'],
-                    'price'         => $goods['price'],
-                    'nums'          => $goods['member_buy_num'],
-                    'price'         => $goods['price'],
-                    'amount'        => $goods['price'] * $goods['member_buy_num'],
-                    'price'         => $goods['price'],
-                    'goods_params'  => $goods_info[$goods['goods_id']],
-                    'goods_name'    => $goods_info[$goods['goods_id']]['name'],
-                    'goods_sn'      => $goods_info[$goods['goods_id']]['goods_sn'],
-                    'cost'          => $goods_info[$goods['goods_id']]['cost'],
-                    'adduser'       => 0,
-                    'addtime'       => TIME_SEPHP,
-                    'upuser'        => 0,
-                    'uptime'        => TIME_SEPHP
-                ];
-
+                $result = -10003;
+                break;
             }
 
-
-
-
-
-            //订单明细表数据
-            $order_item_post = func::data_filter(pub_mod_order::$_fields, $data['goods']);
-            if(!is_array($order_item_post))
+            if(false === pub_mod_order_items::insert($order_item))
             {
-                $result = -10001;
+                $result = -10004;
                 break;
             }
 
@@ -100,6 +112,7 @@ class pub_serv_orders
 
         0 > $result ? pub_mod_order::db_rollback() : pub_mod_order::db_commit();
         pub_mod_order::db_end();
+
         return $result;
     }
 

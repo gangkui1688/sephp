@@ -73,6 +73,7 @@
                                             <ul class="dropdown">
                                                 <li><a class="active" href="?ct=member&ac=order">我的订单</a></li>
                                                 <li><a href="?ct=member&ac=info">个人资料</a></li>
+                                                <li><a href="?ct=index&ac=logout">退出登陆</a></li>
                                             </ul>
                                         </li>
                                     </ul>
