@@ -123,20 +123,23 @@ class sephp
 
 		$ctl_file = PATH_APP.'ctl/ctl_'.self::$_ct.'.php';
 
-		if (file_exists($ctl_file)) {
+		if (file_exists($ctl_file))
+        {
 			require_once $ctl_file;
-		} else {
+		} else
+        {
 			throw new \Exception("controler file[".$ctl_file."]is not exists!", 100);
 		}
 
 		$class_name = '\\'.APP_NAME.'\ctl\ctl_'.self::$_ct;
+
         if (class_exists($class_name, false))
         {
 			self::$_instance = new $class_name();
 		}
 		else
         {
-			throw new \Exception("class ".self::$_ct."() is not exists!", 100);
+			throw new \Exception("class {$class_name}() has not exists!", 100);
 		}
 
 		if (method_exists(self::$_instance, self::$_ac) === true)

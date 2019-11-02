@@ -4,7 +4,7 @@ header('Content-Type: text/html; charset=utf-8');
 require_once __DIR__ . '/../sephp/sephp.php';
 
 define('PATH_APP',__DIR__.'/');
-define('APP_NAME','admin');
+define('APP_NAME','api_check');
 define('APP_DEBUG',true);
 
 
@@ -13,7 +13,7 @@ define('APP_DEBUG',true);
  */
 $_authority = [
     'need_login' => false,
-    'not_login'  => ['public'],
+    'not_login'  => [],
     'login_url'  => '?ct=public&ac=login',
     'user_type'  => 'admin',
     'power_check'=> true,
@@ -21,6 +21,3 @@ $_authority = [
 
 
 new \sephp\sephp($_authority);
-
-
-
