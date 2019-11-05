@@ -22,6 +22,7 @@ $config['route'] = [
 
 $config['api'] = [
     'app_key'         => 'U9MV4CYvtkkvMHoNwfCyYoCmv7UpOg3OlsDnpRN1rnRCXB18PFiRNkw31B4L0pDpiSHmJqlOoWwvhAFH8TEp53dPyVuA4jD5', //开启路由模式的项目
+    'encrypt_key'     => '1935ca53e8032a8564dd16bc63ed102b',
 ];
 
 

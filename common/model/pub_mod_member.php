@@ -57,4 +57,22 @@ class pub_mod_member extends pub_mod_model
             '2' => '禁用',
         ];
 
+
+    /**
+     * 获取用胡基本信息
+     * @Author   GangKui
+     * @DateTime 2019-11-05
+     * @param    [type]     $member_id [description]
+     * @return   [type]                [description]
+     */
+    public static function get_member_info($member_id)
+    {
+        return self::getdump([
+            'field' => ['member_id', 'nickname', 'realname', 'mobile'],
+            'where' => [
+                [self::$_pk, '=', $member_id],
+                ['status', '=', 1]
+            ],
+        ]);
+    }
 }

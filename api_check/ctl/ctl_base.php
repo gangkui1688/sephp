@@ -5,50 +5,47 @@ use sephp\func;
 use sephp\core\req;
 use sephp\core\log;
 use sephp\core\db;
-
+use common\model\pub_mod_member_pam;
 
 class ctl_base
 {
 
 
     public
-        $uid  = 0,
-        $pid  = 0,
-        $page = 1,
+        $member_id  = 0,
         $os   = null,
         $version = 1,
+        $req_time = 1,
+        $sign    = null,
         $token   = null;
 
     public function __construct()
     {
-        //如果是接口请求的
-        if ( PHP_SAPI != 'cli' )
-        {
-            $post_data = req::item('post_data', []);
-            if (!empty($post_data))
-            {
-                \socket\model\mod_base::init_data($post_data);
-            }
-            //用户没搞好，暂时不理token
-            $this->uid = kali::$auth->user['uid'];
-            $this->token = req::item('token', '');
-            $this->os = req::item('os', '');
 
-            //@todo: 没登陆的处理
+        //用户没搞好，暂时不理token
+        $this->member_id = req::item('member_id', 0);
+        $this->token   = req::item('token', '');
+        $this->os      = req::item('os', '');
+        $this->req_time= req::item('req_time', '');
+        $this->sign    = req::item('sign', '');
+        $this->version = req::item('version', '');
+
+
+        if (empty($this->sign))
+        {
+            $this->error('缺少必要参数sign');
         }
 
-        if ( empty($this->token) || empty($this->uid) )
+        if($this->req_time > TIME_SEPHP || $this->req_time < (TIME_SEPHP - 600))
         {
-            $this->error('参数错误',ERR_INCORRECT_PARAMATER);
+            $this->error('请求已超时');
         }
 
-        $GLOBALS['APP_VERSION'] = req::item('version', '');
-        $GLOBALS['APP_OS'] = strtolower($this->os);
+        if(!$this->check_sign())
+        {
+            $this->error('sign错误');
+        }
 
-        $this->page = req::item('page', '1');
-        $this->pagesize = req::item('page_size', $this->pagesize);
-        $this->offset = ($this->page - 1) * $this->pagesize;
-        \common\model\pub_mod_order::log('请求了：' . req::cururl() .' : 请求参数：' . var_export(req::$forms, 1) );
 
     }
 
@@ -71,19 +68,47 @@ class ctl_base
         if (version_compare(phpversion(), '7.1', '>=')) {
             ini_set( 'serialize_precision', -1 );
         }
-        $data = [
+
+        $return = [
             'code'   => (int) $code,
             'msg'    => (string) $msg,
             'data'   => empty($data) ? [] : $data,
         ];
-        if(defined(SYS_DEBUG) && SYS_DEBUG)
-        {
-            $data['sqlnum'] = count(db::$queries);
-        }
+
         exit(json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
+    /**
+     * 检验sign的合法性
+     * @Author   GangKui
+     * @DateTime 2019-11-05
+     * @return   [type]     [description]
+     */
+    protected function check_sign($post = [])
+    {
+        $post = empty($post) ? req::$forms : $post;
+        $sign = func::sign($post, sephp::$_config['api']['app_key']);
+        if($this->sign === $sign)
+        {
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * 检验token
+     * @Author   GangKui
+     * @DateTime 2019-11-05
+     * @return   [type]     [description]
+     */
+    protected function check_token()
+    {
+        if($this->member_id = pub_mod_member_pam::app_check($this->token))
+        {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * 登陆
@@ -99,11 +124,35 @@ class ctl_base
                 'password' => ['type' => 'text', 'require' => true],
             ], req::$posts);
 
+
             if(!is_array($data_filter))
             {
                 $this->error('参数错误');
             }
 
+            if(false === pub_mod_member_pam::check_pass($data_filter['username'], $data_filter['password'], $member_id))
+            {
+                $this->error('用户名或密码错误');
+            }
+
+            $this->token = md5($member_id . func::random());
+
+            if(false === pub_mod_member_pam::update(
+                ['token' => $this->token, 'uptime' => TIME_SEPHP],
+                ['member_id' => $member_id]
+            ))
+            {
+                $this->error('登陆失败，请重新登录');
+            }
+
+            pub_mod_login::add([
+
+            ]);
+
+            $this->member_id = $member_id;
+            $member_info = pub_mod_member::get_member_info($member_id);
+            $member_info['token'] = $this->token;
+            $this->success('登陆成功', '', $member_info);
         }
         catch (\Exception $e)
         {

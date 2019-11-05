@@ -108,7 +108,7 @@ class pub_mod_member_pam extends pub_mod_model
      * @DateTime 2019-10-24
      * @return   [type]     [description]
      */
-    public static function check_pass($login_account, $login_password)
+    public static function check_pass($login_account, $login_password, &$member_id = 0)
     {
         $info = self::getdump([
             'where' => ['username', '=', $login_account]
@@ -117,7 +117,7 @@ class pub_mod_member_pam extends pub_mod_model
         {
             return false;
         }
-
+        $member_id = $info['member_id'];
         return true;
     }
 
@@ -128,10 +128,33 @@ class pub_mod_member_pam extends pub_mod_model
      * @param    [type]     $openid [description]
      * @return   [type]             [description]
      */
-    public static function wechat_check($openid)
+    public static function wechat_check($openid, &$member_id = 0)
     {
         $info = self::getdump(['where' => ['wechat_openid', '=', $openid]]);
-        return $info ? true : false;
+        if(empty($info['member_id']))
+        {
+            return false;
+        }
+        $member_id = $info[self::$_pk];
+        return $member_id;
+    }
+
+    /**
+     * 验证apptoken
+     * @Author   GangKui
+     * @DateTime 2019-11-05
+     * @param    [type]     $token [description]
+     * @return   [type]            [description]
+     */
+    public static function app_check($token, &$member_id = 0)
+    {
+        $info = self::getdump(['where' => ['app_token', '=', $token]]);
+        if(empty($info['member_id']))
+        {
+            return false;
+        }
+        $member_id = $info[self::$_pk];
+        return $member_id;
     }
 
 }

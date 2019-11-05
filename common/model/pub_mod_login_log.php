@@ -21,20 +21,31 @@ class pub_mod_login_log extends pub_mod_model
         $_table  = '#PB#_login_log',
         $_pk     = 'member_id',
         $_fields = [
-            'id'         => ['type' => 'int',  'required' => true, 'comment' => '会员用户id'],
-            'session_id' => ['type' => 'text', 'required' => true, 'comment' => '用户登陆session_id'],
-            'status'     => ['type' => 'text', 'default' => 0, 'comment' => '真实姓名'],
-            'login_ip'   => ['type' => 'text', 'default' => null, 'comment' => '会员昵称'],
-            'username'   => ['type' => 'text', 'default' => 0, 'comment' => '积分'],
-            'login_time' => ['type' => 'text', 'default' => 0, 'comment' => '地址'],
-            'login_uid'  => ['type' => 'text', 'default' => 0, 'comment' => '手机号码'],
+            'id'         => ['type' => 'int',  'required' => false, 'comment' => '日志ID'],
+            'session_id' => ['type' => 'text', 'required' => false, 'comment' => '用户登陆session_id'],
+            'status'     => ['type' => 'text', 'default' => 0, 'comment' => '状态'],
+            'login_ip'   => ['type' => 'text', 'default' => null, 'comment' => '登陆IP'],
+            'username'   => ['type' => 'text', 'default' => 0, 'comment' => '登陆名称'],
+            'login_time' => ['type' => 'text', 'default' => 0, 'comment' => '登陆时间'],
+            'login_type'  => ['type' => 'text', 'default' => 0, 'comment' => '登陆方式'],
             'agent'      => ['type' => 'text', 'default' => null, 'comment' => '邮箱'],
             'user_type'  => ['type' => 'text', 'default' => null, 'comment' => '来源ID'],
             'remark'     => ['type' => 'text', 'default' => null, 'comment' => '来源url'],
         ],
+        $user_type = [
+            'member' => '用户表',
+            'admin'  => '管理员表',
+        ],
         $status = [
             '1' => '登陆成功',
             '2' => '登陆失败',
+        ],
+        $login_type = [
+            '1' => 'wap',
+            '2' => 'pc',
+            '3' => 'app',
+            '4' => 'wechat',
+            '5' => 'alipay',
         ];
 
 
@@ -55,6 +66,22 @@ class pub_mod_login_log extends pub_mod_model
                 'limit'    => 1,
                 'order_by' => ['login_time','DESC'],
             ]);
+        }
 
+        /**
+         * 新增登陆日志
+         * @Author   GangKui
+         * @DateTime 2019-11-05
+         * @param    [type]     $data [description]
+         */
+        public static function add($data)
+        {
+            $data['login_ip'] = func::get_client_ip();
+            $insert_data = func::data_filter(self::$_fields, $data);
+            if(!is_array($insert_data))
+            {
+                return false;
+            }
+            return self::insert($insert_data);
         }
 }
