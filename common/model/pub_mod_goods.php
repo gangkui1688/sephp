@@ -95,26 +95,33 @@ class pub_mod_goods extends pub_mod_model
      * @param    [type]     $data [description]
      * @return   [type]           [description]
      */
-    public static function data_format($data = [])
+    public static function data_format($data)
     {
-        if(empty($data)) return $data;
+        if(!is_array($data)) return $data;
 
-        if(isset($data['marketable']))
+        $tmp = is_array(reset($data)) ? $data : [$data];
+
+
+        foreach ($tmp as &$v)
         {
-            $data['show_marketable'] = self::$marketable[$data['marketable']];
+            if(isset($v['marketable']))
+            {
+                $v['show_marketable'] = self::$marketable[$v['marketable']];
+            }
+
+            if(isset($v['intro']))
+            {
+                $v['intro'] = html_entity_decode(html_entity_decode(($v['intro'])));
+            }
+
+            if(isset($v['image_default_id']))
+            {
+                $v['image_default_id'] = json_decode($v['image_default_id']);
+                array_walk($v['image_default_id'], function(&$v){ $v = sephp::$_config['upload']['filelink'].'/image/'.$v; });
+            }
+
         }
 
-        if(isset($data['intro']))
-        {
-            $data['intro'] = html_entity_decode(html_entity_decode(($data['intro'])));
-        }
-
-        if(isset($data['image_default_id']))
-        {
-            $data['image_default_id'] = json_decode($data['image_default_id']);
-            array_walk($data['image_default_id'], function(&$v){ $v = sephp::$_config['upload']['filelink'].'/image/'.$v; });
-        }
-        //print_r($data);exit;
-        return $data;
+        return is_array(reset($data)) ? $tmp : reset($tmp);
     }
 }

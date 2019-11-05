@@ -1,5 +1,5 @@
 <?php
-namespace index\ctl;
+namespace wap\ctl;
 use sephp\sephp;
 use sephp\func;
 use sephp\core\req;
