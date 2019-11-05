@@ -18,6 +18,7 @@ use sephp\core\config;
 class pub_mod_member extends pub_mod_model
 {
     public static
+        $_cache_use = true,
         $_table  = '#PB#_members',
         $_pk     = 'member_id',
         $_fields = [
@@ -55,14 +56,5 @@ class pub_mod_member extends pub_mod_model
             '1' => '启用',
             '2' => '禁用',
         ];
-
-
-    /**
-     *  订单状态
-     */
-    const STATUS_ACTION = 1;
-    const STATUS_DEAD   = 2;
-    const STATUS_FINISH = 3;
-
 
 }

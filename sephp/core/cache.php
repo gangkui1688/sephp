@@ -31,6 +31,7 @@ class cache
         'open'        => false,
         'type'        => 'file',
         'expire_time' => 3600,
+        'data_type'   => 'serialize',
     ];
 
 
@@ -70,7 +71,7 @@ class cache
     public static function set($key, $value, $expire_time = -1)
     {
         return self::$instance->set(
-            $key,
+            md5($key),
             $value,
             0 > $expire_time ? self::$expire_time : $expire_time
         );
@@ -83,7 +84,7 @@ class cache
      */
     public static function get($key)
     {
-        return self::$instance->get($key);
+        return self::$instance->get(md5($key));
     }
 
     /**

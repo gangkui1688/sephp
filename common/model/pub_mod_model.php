@@ -6,6 +6,7 @@ use sephp\core\db;
 use sephp\func;
 use sephp\core\req;
 use sephp\core\log;
+use sephp\core\cache;
 use sephp\core\config;
 use sephp\core\lib\pages;
 
@@ -133,11 +134,11 @@ class pub_mod_model
 
         if (static::$_cache_use)
         {
-            $cache_key = md5(serialize($data_filter));
+            $cache_key = serialize($data_filter) . __CLASS__;
             $data      = cache::get($cache_key);
             if (!empty($data))
             {
-                return json_decode($data);
+                return json_decode($data, true);
             }
         }
 
@@ -157,7 +158,7 @@ class pub_mod_model
          */
         if(!empty($data) && method_exists(new static() , 'data_format'))
         {
-            array_walk($data, function(&$v){$v = static::data_format($v);});
+            $data = static::data_format($data);
         }
 
         $data = $data_filter['total'] ? ['data' => $data, 'pages' => $pages['show']] : $data;
@@ -186,6 +187,16 @@ class pub_mod_model
 
         $field = empty($field) ? static::$_field : $field;
 
+        if(static::$_cache_use)
+        {
+            $cache_key = serialize($conds) . serialize($field) . __CLASS__ ;
+            $data = cache::get($cache_key);
+            if (!empty($data))
+            {
+                return unserialize($data);
+            }
+        }
+
         $query  = db::select($field)->from(static::$_table);
 
         static::_complate_sql($query, $where, $join, $order_by);
@@ -194,7 +205,12 @@ class pub_mod_model
 
         if(!empty($data) && method_exists(new static() , 'data_format'))
         {
-            array_walk($data, function(&$v){$v = static::data_format($v);});
+            $data = static::data_format($data);
+        }
+
+        if(!empty($data) && static::$_cache_use)
+        {
+            cache::set($cache_key, serialize($data), static::$_cache_time);
         }
 
         return $data;
@@ -209,11 +225,28 @@ class pub_mod_model
      */
     public static function getfiled($where, $field, $join = [])
     {
+        if(static::$_cache_use)
+        {
+            $cache_key = serialize($where) . serialize($field) . serialize($join) . __CLASS__ ;
+            $data = cache::get($cache_key);
+            if (!empty($data))
+            {
+                return unserialize($data);
+            }
+        }
+
         $query = db::select($field)->from(static::$_table);
 
         static::_complate_sql($query, $where, $join);
 
-        return $query->as_field()->execute();
+        $data = $query->as_field()->execute();
+
+        if(static::$_cache_use)
+        {
+            cache::set($cache_key, serialize($data), static::$_cache_time);
+        }
+
+        return $data;
     }
 
 

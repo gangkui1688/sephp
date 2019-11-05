@@ -76,6 +76,10 @@ class pub_serv_orders
                 $currency = $goods_info[$goods['goods_id']]['currency'];
             }
             $data['total_amount'] = $total_amount;//商品默认货币总值
+            $data['cost_item'] = $total_amount;
+            $data['pmt_order'] = 0;//订单优惠
+            $data['pmt_goods'] = 0;//商品优惠
+            $data['discount'] = 0;//订单折扣
             $data['payed'] = $total_amount;//订单支付金额
             $data['cost_payment'] = $total_amount;
             $data['currency'] = $currency;

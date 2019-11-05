@@ -16,6 +16,7 @@ use sephp\core\config;
 use admin\model\mod_content;
 use common\model\pub_mod_goods;
 use common\model\pub_mod_goods_brand;
+use common\model\pub_mod_order;
 
 
 /**
@@ -31,13 +32,14 @@ class ctl_order
      */
     public function index()
     {
-        $list = pub_mod_goods::getlist([
+        $list = pub_mod_order::getlist([
             'limit' => req::item('page_num', 20),
             'total' => true,
         ]);
 
-        view::assign('add_url', '?ct=goods&ac=add');
-        view::assign('edit_url', '?ct=goods&ac=edit&goods_id=');
+
+        view::assign('add_url', '?ct=order&ac=add');
+        view::assign('edit_url', '?ct=order&ac=edit&order_id=');
         view::assign('keywords', req::item('keywords', ''));
         view::assign('list', $list['data']);
         view::assign('pages', $list['pages']);
@@ -45,13 +47,14 @@ class ctl_order
 
     }
 
+
     /**
-     * 添加商品
+     * 添加订单
      * @Author   GangKui
      * @DateTime 2019-10-22
-     * @param    integer    $goods_id [description]
+     * @param    integer    $order_id [description]
      */
-    public function add($goods_id = 0)
+    public function add($order_id = 0)
     {
         $data = [];
         if(!empty(req::$posts))
@@ -59,9 +62,11 @@ class ctl_order
             $this->save();
             exit();
         }
-        if(0 < $goods_id)
+        if(0 < $order_id)
         {
-            $data = pub_mod_goods::getdatabyid($goods_id);
+            $data = pub_mod_order::getdump([
+                'where' => ['order_id', '=', $order_id]
+            ]);
         }
 
         view::assign('data', $data);
@@ -69,29 +74,31 @@ class ctl_order
         view::display();
     }
 
+
+
     /**
-     * 编辑商品
+     * 编辑订单
      * @Author   GangKui
      * @DateTime 2019-10-22
      * @return   [type]     [description]
      */
     public function edit()
     {
-        $this->add(req::item('goods_id', 0));
+        $this->add(req::item('order_id', 0));
     }
 
     /**
-     * 商品保存
+     * 订单保存
      * @Author   GangKui
      * @DateTime 2019-10-22
      * @return   [type]     [description]
      */
     public function save()
     {
-        $filter_config = pub_mod_goods::$_fields;
-        if(empty(req::$posts['goods_sn']))
+        $filter_config = pub_mod_order::$_fields;
+        if(empty(req::$posts['order_sn']))
         {
-            req::$posts['goods_sn'] = pub_mod_goods::create_sn();
+            req::$posts['order_sn'] = pub_mod_order::create_sn();
         }
 
         $posts = func::data_filter($filter_config, req::$posts);
@@ -109,17 +116,17 @@ class ctl_order
             'uptime' => TIME_SEPHP,
             'upuser' => sephp::$_uid,
         ];
-        foreach(pub_mod_goods::$_fields as $f => $conf)
+        foreach(pub_mod_order::$_fields as $f => $conf)
         {
             //跟新不能修改状态和新增时间
-            if(in_array($f, ['addtime','adduser', 'goods_id', 'goods_sn']))
+            if(in_array($f, ['addtime','adduser', 'order_id', 'order_sn']))
             {
                 continue;
             }
             $dups[$f] = " VALUES(`{$f}`) ";
         }
 
-        if(false === pub_mod_goods::insert($posts, ['dups' => $dups]))
+        if(false === pub_mod_order::insert($posts, ['dups' => $dups]))
         {
             show_msg::error('保存失败');
         }
