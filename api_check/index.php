@@ -14,7 +14,7 @@ define('APP_DEBUG',true);
 $_authority = [
     'need_login' => false,
     'not_login'  => [],
-    'login_url'  => '?ct=public&ac=login',
+    'login_url'  => '?ct=index&ac=login',
     'user_type'  => 'admin',
     'power_check'=> true,
 ];

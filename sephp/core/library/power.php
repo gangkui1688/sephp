@@ -107,7 +107,6 @@ class power
             return true;
         }
 
-
         //排除重复登录
         if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME)
         {

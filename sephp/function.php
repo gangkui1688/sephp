@@ -221,19 +221,6 @@ class func
         return $nowurl;
     }
 
-    /**
-     * Return's the user agent
-     *
-     * @param   $default
-     * @return  string
-     */
-    public static function user_agent($default = '')
-    {
-        return $_SERVER['HTTP_USER_AGENT'];
-    }
-
-
-
     public static function is_html5()
     {
         $rs = true;

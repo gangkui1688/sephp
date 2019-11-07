@@ -25,16 +25,24 @@ class show_msg
      */
     public static function ajax($msg, $code = 200, $data = [])
     {
-        //http_response_code($code);
+        header('Content-Type: application/json; charset=utf-8');
+        // php7.1 json_encode float精度会溢出
+        if (version_compare(phpversion(), '7.1', '>='))
+        {
+            ini_set( 'serialize_precision', -1 );
+        }
+
         $data = [
-            'code'  =>  $code,
-            'msg'   =>  $msg,
-            'data'  =>  $data
+            'code'   => (int) $code,
+            'msg'    => (string) $msg,
+            'data'   => empty($data) ? [] : $data,
         ];
-        exit(json_encode($data,JSON_UNESCAPED_UNICODE));
+
+        exit(json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
-    public static function flush_msg($msg, $err=false){
+    public static function flush_msg($msg, $err=false)
+    {
         $err = $err ? "<span class='err'>ERROR:</span>" : '' ;
         echo "<p class='dbDebug'>".$err . $msg."</p>";
         flush();
@@ -50,7 +58,7 @@ class show_msg
 
     public static function error($message = '',$url = '',$time = '' ,$title = '')
     {
-        $message = empty($message)?'操作失败':$message;
+        $message = empty($message) ? '操作失败' : $message;
         self::get_return_html($title,$message,$url,'error',$time);
     }
 

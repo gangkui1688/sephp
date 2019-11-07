@@ -24,12 +24,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">选择核销管理员：</label>
+                            <label class="col-sm-3 control-label">选择核销的组：</label>
                             <div class="col-sm-2">
                                 <select class="form-control" name="uid" >
                                     <option value="0"> ---请选择--- </option>
-                                    <{foreach from=$userlist item=user}>
-                                        <option <{if $user.admin_id == $data.uid}>selected<{/if}> value="<{$user.admin_id}>"><{$user.username}></option>
+                                    <{foreach from=$grouplist item=group}>
+                                        <option <{if $group.group_id == $data.group_id}>selected<{/if}> value="<{$group.group_id}>"><{$group.name}></option>
                                     <{/foreach}>
                                 </select>
                             </div>
@@ -50,7 +50,7 @@
 <script type="text/javascript">
     function create_token()
     {
-        len = 32;
+        len = 64;
     　　 var $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     　　 var maxPos = $chars.length;
     　　 var pwd = '';

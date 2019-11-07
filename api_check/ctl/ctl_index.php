@@ -7,7 +7,7 @@ use sephp\core\log;
 use sephp\core\db;
 
 
-class ctl_index exten
+class ctl_index extends ctl_base
 {
 
     public function index()

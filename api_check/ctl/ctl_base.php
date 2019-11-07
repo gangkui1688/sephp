@@ -5,6 +5,7 @@ use sephp\func;
 use sephp\core\req;
 use sephp\core\log;
 use sephp\core\db;
+use sephp\core\show_msg;
 use common\model\pub_mod_member_pam;
 
 class ctl_base
@@ -30,52 +31,31 @@ class ctl_base
         $this->sign    = req::item('sign', '');
         $this->version = req::item('version', '');
 
-
-        if (empty($this->sign))
-        {
-            $this->error('缺少必要参数sign');
-        }
-
         if($this->req_time > TIME_SEPHP || $this->req_time < (TIME_SEPHP - 600))
         {
-            $this->error('请求已超时');
+            //$this->error('请求已超时');
         }
 
-        if(!$this->check_sign())
+        if(empty($this->sign) || !$this->check_sign())
         {
-            $this->error('sign错误');
+            //$this->error('sign错误');
         }
 
-
+        if(!$this->check_token())
+        {
+            $this->error('请登陆', -10000);
+        }
     }
 
     protected function success($msg='success', $code=0, $data=[])
     {
-        $this->json($code, $msg, $data);
+        show_msg::ajax($msg, $code, $data);
     }
 
     // 返回失败json数据
     public function error($msg='error', $code=-1, $data=[])
     {
-        $this->json($code, $msg, $data);
-    }
-
-    // 返回json数据
-    protected function json($code, $msg, $data)
-    {
-        header('Content-Type: application/json; charset=utf-8');
-        // php7.1 json_encode float精度会溢出
-        if (version_compare(phpversion(), '7.1', '>=')) {
-            ini_set( 'serialize_precision', -1 );
-        }
-
-        $return = [
-            'code'   => (int) $code,
-            'msg'    => (string) $msg,
-            'data'   => empty($data) ? [] : $data,
-        ];
-
-        exit(json_encode($data, JSON_UNESCAPED_UNICODE));
+        show_msg::ajax($msg, $code, $data);
     }
 
     /**
@@ -103,11 +83,28 @@ class ctl_base
      */
     protected function check_token()
     {
-        if($this->member_id = pub_mod_member_pam::app_check($this->token))
-        {
-            return true;
-        }
-        return false;
+        $result = false;
+        do{
+
+            if(empty($this->token))
+            {
+                break;
+            }
+
+            if(64 != strlen($this->token))
+            {
+                break;
+            }
+
+            if($this->member_id = pub_mod_member_pam::app_check($this->token))
+            {
+                $result = true;
+                break;
+            }
+
+        }while(false);
+
+        return $result;
     }
 
     /**
@@ -135,18 +132,30 @@ class ctl_base
                 $this->error('用户名或密码错误');
             }
 
-            $this->token = md5($member_id . func::random());
+            //必须是64位的
+            $this->token = func::random('alnum', 16) . md5($member_id) . func::random('alnum', 16);
 
             if(false === pub_mod_member_pam::update(
                 ['token' => $this->token, 'uptime' => TIME_SEPHP],
                 ['member_id' => $member_id]
             ))
             {
+                pub_mod_login::add([
+                    'status'     => 2,
+                    'username'   => $data_filter['username'],
+                    'login_type' => 3,
+                    'user_type'  => 'member',
+                ]);
+
                 $this->error('登陆失败，请重新登录');
             }
 
             pub_mod_login::add([
-
+                'status'     => 1,
+                'username'   => $data_filter['username'],
+                'login_type' => 3,
+                'user_type'  => 'member',
+                'remark'     => $this->token,
             ]);
 
             $this->member_id = $member_id;

@@ -10,7 +10,7 @@
     </menu>
 
     <menu name='核销管理'  icon='fa fa-gears' id='checkOrdersManagement' >
-        <menu name='核销APP' ct='check' ac='app' icon='fa fa-dashboard'  />
+        <menu name='APP设置' ct='check' ac='app' icon='fa fa-dashboard'  />
         <menu name='核销记录' ct='check' ac='log' icon='fa fa-dashboard'  />
     </menu>
 

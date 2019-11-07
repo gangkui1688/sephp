@@ -32,7 +32,7 @@ class ctl_check
     public function app()
     {
 
-    	$key = 'check_app_base_setting';
+    	$key = 'app_order_check_base_setting';
         if(empty(req::$posts))
         {
             view::assign('data',config::get($key, 'mysql'));

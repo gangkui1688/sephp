@@ -50,7 +50,6 @@ class pub_mod_login_log extends pub_mod_model
 
 
 
-
         /**
          * 获取最近一条登陆信息
          * @Author   GangKui
@@ -77,6 +76,9 @@ class pub_mod_login_log extends pub_mod_model
         public static function add($data)
         {
             $data['login_ip'] = func::get_client_ip();
+            $data['login_time'] = TIME_SEPHP;
+            $data['agent'] = $_SERVER['HTTP_USER_AGENT'];
+
             $insert_data = func::data_filter(self::$_fields, $data);
             if(!is_array($insert_data))
             {
