@@ -18,7 +18,7 @@ use sephp\core\config;
  */
 class ctl_member
 {
-    private $_member_table = '#PB#_members';
+    private $_member_table = '#PB#_member';
     private $_member_pk = 'member_id';
 
     private $_pam_table = '#PB#_member_pam';

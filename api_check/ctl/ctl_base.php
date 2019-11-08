@@ -53,7 +53,7 @@ class ctl_base
     }
 
     // 返回失败json数据
-    public function error($msg='error', $code=-1, $data=[])
+    protected function error($msg='error', $code=-1, $data=[])
     {
         show_msg::ajax($msg, $code, $data);
     }
@@ -116,6 +116,7 @@ class ctl_base
     public function login()
     {
         try{
+
             $data_filter = func::data_filter([
                 'username' => ['type' => 'text', 'require' => true],
                 'password' => ['type' => 'text', 'require' => true],
@@ -127,7 +128,9 @@ class ctl_base
                 $this->error('参数错误');
             }
 
-            if(false === pub_mod_member_pam::check_pass($data_filter['username'], $data_filter['password'], $member_id))
+            $app_setting = config::get('app_order_check_base_setting', 'mysql');
+
+            if(false === power::check_pass($data_filter['username'], $data_filter['password'], $member_id))
             {
                 $this->error('用户名或密码错误');
             }

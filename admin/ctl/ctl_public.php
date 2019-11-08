@@ -147,7 +147,10 @@ class ctl_public
                 ['password','=',$admin_pass],
                 ['status','=',1],
             ];
-            if(power::instance()->login_check($admin_user, $admin_pass))
+            if(power::instance()->login_check([
+                'username' => $admin_user,
+                'password' => $admin_pass
+            ]))
             {
                 if(empty(sephp::$_config['web']['google_auth']))
                 {

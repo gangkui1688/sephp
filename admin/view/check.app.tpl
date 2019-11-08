@@ -10,10 +10,10 @@
                     <form class="form-horizontal m-t validate" method="post" action="<{$_self_url}>" id="signupForm">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">APP TOKEN：</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <input type="text" readonly name="app_token" class="form-control" value="<{request_em array=$data key=app_token}>" required class="valid">
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-1">
                                 <a href="javascript:create_token();" class="btn btn-success btn-sm">随机生成</a>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">选择核销的组：</label>
                             <div class="col-sm-2">
-                                <select class="form-control" name="uid" >
+                                <select class="form-control" name="group_id" >
                                     <option value="0"> ---请选择--- </option>
                                     <{foreach from=$grouplist item=group}>
                                         <option <{if $group.group_id == $data.group_id}>selected<{/if}> value="<{$group.group_id}>"><{$group.name}></option>
@@ -45,8 +45,6 @@
         </div>
     </div>
 </div>
-
-<{include file="public/footer.tpl"}>
 <script type="text/javascript">
     function create_token()
     {
@@ -61,3 +59,5 @@
 
     }
 </script>
+
+<{include file="public/footer.tpl"}>

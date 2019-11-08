@@ -13,16 +13,18 @@ use sephp\core\session;
 use sephp\core\config;
 use admin\model\mod_system;
 use admin\model\mod_admin_group;
-use admin\model\mod_admin_user;
+use admin\model\mod_admin;
 
 
 class ctl_admin
 {
-	private $_admin_table = '#PB#_admin_user',
-	$_admin_id            = 'admin_id',
-	$_group_table         = '#PB#_admin_group',
-	$_group_id            = 'group_id',
-	$_log_table           = '#PB#_admin_login';
+	private
+        $_admin_table = '#PB#_admin',
+    	$_admin_id    = 'admin_id',
+    	$_group_table = '#PB#_admin_group',
+    	$_group_id    = 'group_id',
+    	$_log_table   = '#PB#_admin_login',
+        $_table_pam   = '#PB#_admin_pam';
 
 	public function __construct() {
 		view::assign('back_url', req::cookie('back_url', 'javascript:history.go(-1);'));
@@ -62,7 +64,7 @@ class ctl_admin
 		$keywords = req::item('keywords', '');
 		view::assign('keywords', $keywords);
 		if (!empty($keywords)) {
-			$where[] = ['username', 'like', "%{$keywords}%"];
+			$where[] = [$this->_table_pam . '.username', 'like', "%{$keywords}%"];
 		}
 		$status = req::item('status', 0);
 		view::assign('status', $status);
@@ -81,13 +83,16 @@ class ctl_admin
 
 		$pages = pages::instance($count['count'], req::item('page_num', 10));
 
-		$query = db::select($this->_admin_table.'.*,'.$this->_group_table.'.*')
+		$query = db::select($this->_admin_table.'.*,'.$this->_group_table.'.*,'.$this->_table_pam.'.username')
 			->from($this->_admin_table);
-		if ($where) {
+		if ($where)
+        {
 			$query->where($where);
 		}
 		$data = $query->join($this->_group_table, 'left')
             ->on($this->_group_table.'.group_id', '=', $this->_admin_table.'.group_id')
+            ->join($this->_table_pam, 'left')
+            ->on($this->_table_pam.'.'.$this->_admin_id, '=', $this->_admin_table.'.'.$this->_admin_id)
             ->offset($pages['offset'])
 			->limit($pages['limit'])
 			->order_by($this->_admin_id, 'desc')
@@ -107,16 +112,20 @@ class ctl_admin
 
 	public function adduser()
     {
-		if (empty(req::$posts)) {
+		if (empty(req::$posts))
+        {
 			if (!empty(req::item('admin_id', '')))
             {
-				$data = db::select('*')
+				$data = db::select()
 					->from($this->_admin_table)
-					->where($this->_admin_id, req::$forms[$this->_admin_id])
+                    ->join($this->_table_pam, 'left')
+                    ->on($this->_table_pam.'.'.$this->_admin_id, '=', $this->_admin_table.'.'.$this->_admin_id)
+                    ->where($this->_admin_table .'.'. $this->_admin_id, req::$forms[$this->_admin_id])
 				    ->as_row()
 				    ->execute();
 				view::assign('data', $data);
 			}
+
 			$groups = db::select()->from($this->_group_table)->where('status', '1')->execute();
 			view::assign('groups', $groups);
 			view::assign('add_save_url', '?ct='.CONTROLLER_NAME.'&ac=saveuser');
@@ -124,21 +133,31 @@ class ctl_admin
 			exit;
 		}
 
-		$data['username'] = req::$posts['username'];
-		$data['realname'] = req::$posts['realname'];
+        $data['realname'] = req::$posts['realname'];
+        $data['nickname'] = req::$posts['nickname'];
 		$data['email']    = req::$posts['email'];
 		$data['group_id'] = req::$posts['group_id'];
 		$data['remark']   = req::$posts['remark'];
 
 		if (req::$posts[$this->_admin_id])
         {
-			if (!empty(req::$posts['password'])) {
-				$data['password'] = power::make_password(req::$posts['password']);
+			if (!empty(req::$posts['password']))
+            {
+				$pam['password'] = power::make_password(req::$posts['password']);
+                if(false === db::update($this->_table_pam)
+                            ->set($pam)
+                            ->where($this->_admin_id, req::$posts[$this->_admin_id])
+                            ->execute())
+                {
+                    show_msg::error('编辑失败');
+                }
 			}
+
 			if (db::update($this->_admin_table)
 				->set($data)
 					->where($this->_admin_id, req::$posts[$this->_admin_id])
-				->execute() === false) {
+				->execute() === false)
+            {
 				show_msg::error('编辑失败');
 			} else {
 				show_msg::success('编辑成功');

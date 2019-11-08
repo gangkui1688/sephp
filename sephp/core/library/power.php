@@ -18,7 +18,8 @@ use sephp\core\log;
 class power
 {
     public static
-        $_table_admin = null,
+        $_table = null,
+        $_table_pam = null,
         $_table_group = null,
         $_user_type   = null,
         $_uid_field   = null,
@@ -65,22 +66,11 @@ class power
         }
         self::$_user_type = $this->config['user_type'];
         self::$_uid_field = $this->config['user_type'] . '_id';
-        switch (self::$_user_type)
-        {
-            case 'member':
-                self::$_mark        = '_member_';
-                self::$_table_admin = '#PB#_member_pam';
-                self::$_table_group = '';
-                break;
-            case 'admin':
-                self::$_mark        = '_admin_info_';
-                self::$_table_admin = '#PB#_admin_user';
-                self::$_table_group = '#PB#_admin_group';
-                break;
-            default:
-                throw new \Exception('Authority info has wrong value for "user_type" field!');
-                break;
-        }
+
+        self::$_mark        = '_'.self::$_user_type.'_';
+        self::$_table       = '#PB#_'.self::$_user_type;
+        self::$_table_pam   = '#PB#_'.self::$_user_type.'_pam';
+        self::$_table_group = '#PB#_'.self::$_user_type.'_group';
 
         sephp::$_user = $this->_info = session::get(self::$_mark);
         if(!empty($this->_info))
@@ -164,69 +154,7 @@ class power
         return true;
     }
 
-    /**
-     * 校验登陆
-     * @Author   GangKui
-     * @DateTime 2019-10-24
-     * @param    [type]     $name [description]
-     * @param    [type]     $pass [description]
-     * @return   [type]           [description]
-     */
-    public function login_check($name, $pass)
-    {
-        $result = false;
-        do{
 
-            $info = db::select('password,' . self::$_uid_field)
-                ->from(self::$_table_admin)
-                ->where('username', '=', $name)
-                ->as_row()
-                ->execute();
-            if(empty($info) || !password_verify($pass, $info['password']))
-            {
-                $data = [
-                    'session_id' => session_id(),
-                    'status'     => 2,
-                    'login_ip'   => func::get_client_ip(),
-                    'username'   => $name,
-                    'login_time' => TIME_SEPHP,
-                    'login_uid'   => 0,
-                    'user_type'  => self::$_user_type,
-                    'agent'      => $_SERVER['HTTP_USER_AGENT'],
-                    'remark'     => '用户名或者密码错误',
-                ];
-                db::insert('#PB#_login_log')->set($data)->execute();
-                log::info('登陆失败,用户名或者密码错误');
-                break;
-            }
-
-            $method_name = 'get_' . self::$_user_type . '_info';
-            $this->_info = $this->$method_name($info[self::$_uid_field]);
-            $this->_info['username'] = $name;
-
-
-            //获取用户权限
-            if(!empty(self::$_table_group) && !empty($this->_info['group_id']))
-            {
-                $power = db::select()
-                    ->from(self::$_table_group)
-                    ->where('group_id',$this->_info['group_id'])
-                    ->as_row()
-                    ->execute();
-
-                $this->_info['group_name'] = $power['name'];
-                $this->_info['powerlist']  = empty($power['powerlist']) ? [] :
-                        ($power['powerlist'] === '*' ? '*' : json_decode($power['powerlist'], true));
-
-            }
-
-            $result = true;
-
-        }while(false);
-
-        return $result;
-
-    }
 
     /**
      * 记录登陆日志
@@ -252,7 +180,7 @@ class power
         }
 
         if(
-            false === db::update(self::$_table_admin)
+            false === db::update(self::$_table)
                 ->set(['session_id' => session_id()])
                 ->where(self::$_uid_field, $this->_uid)
                 ->execute()
@@ -268,40 +196,6 @@ class power
     }
 
     /**
-     * 获取管理员的用户信息
-     * @Author   GangKui
-     * @DateTime 2019-10-25
-     * @param    [type]     $admin_id [description]
-     * @return   [type]               [description]
-     */
-    public function get_admin_info($admin_id)
-    {
-        return db::select(['admin_id', 'nickname', 'realname', 'email', 'mobile', 'remark', 'sex', 'username', 'group_id'])
-                ->from(self::$_table_admin)
-                ->where(self::$_uid_field, '=', $admin_id)
-                ->as_row()
-                ->execute();
-    }
-
-
-
-    /**
-     * 获取会员信息
-     * @Author   GangKui
-     * @DateTime 2019-10-25
-     * @param    [type]     $member_id [description]
-     * @return   [type]                [description]
-     */
-    public function get_member_info($member_id)
-    {
-        return db::select(['member_id', 'nickname', 'realname', 'email', 'mobile', 'remark', 'group_id'])
-                ->from("#PB#_members")
-                ->where(self::$_uid_field, '=', $member_id)
-                ->as_row()
-                ->execute();
-    }
-
-    /**
      * 会员 生成 密码
      * @param $password
      * @param null $password_account
@@ -314,17 +208,83 @@ class power
     }
 
     /**
+     * 用户检验
+     * @Author   GangKui
+     * @DateTime 2019-11-08
+     * @param    array      $conds [description]
+     * @param    array      &$info [description]
+     * @return   [type]            [description]
+     */
+    public function login_check($conds = [], &$info = [])
+    {
+        $result = false;
+        $data_filter = func::data_filter([
+            'username' => ['type' => 'text', 'require' => true, 'default' => ''],
+            'password' => ['type' => 'text', 'require' => true, 'default' => ''],
+            'group_id' => ['type' => 'text', 'require' => false, 'default' => ''],
+        ], $conds);
+
+        do{
+
+            if(!is_array($data_filter))
+            {
+                break;
+            }
+
+            $password = db::select('password,' . self::$_uid_field)
+                ->from(self::$_table_pam)
+                ->where('username', '=', $data_filter['username'])
+                ->as_row()
+                ->execute();
+
+            if(empty($password) || !password_verify($data_filter['password'], $password['password']))
+            {
+                $data = [
+                    'session_id' => session_id(),
+                    'status'     => 2,
+                    'login_ip'   => func::get_client_ip(),
+                    'username'   => $data_filter['username'],
+                    'login_time' => TIME_SEPHP,
+                    'login_uid'   => 0,
+                    'user_type'  => self::$_user_type,
+                    'agent'      => $_SERVER['HTTP_USER_AGENT'],
+                    'remark'     => '用户名或者密码错误',
+                ];
+                db::insert('#PB#_login_log')->set($data)->execute();
+                log::info('登陆失败,用户名或者密码错误');
+                break;
+            }
+
+            $this->_info = self::get_user_info($password[self::$_uid_field]);
+            $info->_info['username'] = $data_filter['username'];
+
+             //获取用户权限
+            if(!empty($this->_info['group_id']) && !empty($this->_info['powerlist']))
+            {
+                $this->_info['powerlist'] = $this->_info['powerlist'] === '*' ? '*' : json_decode($this->_info['powerlist'], true);
+            }
+
+            $result = true;
+
+        }while (false);
+
+        return $result;
+    }
+
+    /**
      * 检测用户名是否存在
      * @param string $login_account
      * @return mixed
      */
-    public static function check_member($login_account = '')
+    public function get_user_info($uid)
     {
-        $info = db::select()
-            ->from('#PB#_member_pam')
-            ->where('login_account',$login_account)
-            ->as_row()
-            ->execute();
+        $info = db::select([self::$_uid_field, 'nickname', 'realname', 'email', 'mobile', 'group_id', 'group_name', 'powerlist'])
+                ->from(self::$_table)
+                ->join(self::$_table_group, 'right')
+                ->on(self::$_table_group . '.group_id', '=', self::$_table . '.group_id')
+                ->where(self::$_uid_field, '=', $uid)
+                ->as_row()
+                ->execute();
         return $info;
     }
 

@@ -19,7 +19,7 @@ class pub_mod_member extends pub_mod_model
 {
     public static
         $_cache_use = true,
-        $_table  = '#PB#_members',
+        $_table  = '#PB#_member',
         $_pk     = 'member_id',
         $_fields = [
             'member_id'     => ['type' => 'text',  'required' => true, 'comment' => '会员用户id'],

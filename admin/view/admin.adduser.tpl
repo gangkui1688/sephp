@@ -20,12 +20,16 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">登 录 名：</label>
                             <div class="col-sm-8">
-                                <input  name="username" class="form-control" value="<{if isset($data)}><{$data.username}><{/if}>" required class="valid">
+                                <input  name="username" disabled class="form-control" value="<{if isset($data)}><{$data.username}><{/if}>" required class="valid">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">真实姓名：</label>
-                            <div class="col-sm-8">
+                            <label class="col-sm-3 control-label">昵 称：</label>
+                            <div class="col-sm-3">
+                                <input id="username" name="nickname" class="form-control" value="<{if isset($data)}><{$data.nickname}><{/if}>" required class="error">
+                            </div>
+                            <label class="col-sm-1 control-label">真实姓名：</label>
+                            <div class="col-sm-3">
                                 <input id="username" name="realname" class="form-control" value="<{if isset($data)}><{$data.realname}><{/if}>" required class="error">
                             </div>
                         </div>
@@ -35,7 +39,7 @@
                                 <select name="group_id" class="form-control">
                                     <option value="0">--请选择用户组--</option>
                                     <{foreach from=$groups item=group}>
-                                        <option value="<{$group.group_id}>" <{if isset($data) && $group.group_id == $data.group_id}>selected<{/if}> ><{$group.name}></option>
+                                        <option value="<{$group.group_id}>" <{if isset($data) && $group.group_id == $data.group_id}>selected<{/if}> ><{$group.group_name}></option>
                                     <{/foreach}>
                                 </select>
                             </div>

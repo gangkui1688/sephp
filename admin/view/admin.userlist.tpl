@@ -36,6 +36,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>登录名称</th>
+                                <th>昵称</th>
                                 <th>邮箱</th>
                                 <th>用户组</th>
                                 <th>真实姓名</th>
@@ -48,8 +49,9 @@
                             <tr>
                                 <td> <{$data.admin_id}> </td>
                                 <td> <{$data.username}> </td>
+                                <td> <{$data.nickname}> </td>
                                 <td> <{$data.email}> </td>
-                                <td> <{$data.name}> </td>
+                                <td> <{$data.group_name}> </td>
                                 <td><span class="pie"> <{$data.realname}></span></td>
                                 <td> <{if $data.status == 1}>已启用<{else}>已禁用<{/if}> </td>
                                 <td> <{$data.realname}> </td>
@@ -73,7 +75,7 @@
                             <{/foreach}>
 
                             <tr>
-                                <td class="text-right" colspan="8">
+                                <td class="text-right" colspan="11">
                                     <{$pages}>
                                 </td>
                             </tr>
@@ -93,5 +95,5 @@
             //return  false;
         });
     })
-    
+
 </script>

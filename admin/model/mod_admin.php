@@ -16,10 +16,10 @@ use common\model\pub_mod_model;
  * @Date: 2019-02-20 14:09:02
  */
 
-class mod_admin_user extends pub_mod_model
+class mod_admin extends pub_mod_model
 {
     public static
-        $_table        = '#PB#_admin_user',
+        $_table        = '#PB#_admin',
         $_pk           = 'admin_id',
         $_fields       = [
                 'admin_id'      => ['type' => 'int','required' => true, 'comment' => '管理员ID'],
