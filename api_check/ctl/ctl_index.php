@@ -7,10 +7,12 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\db;
 use sephp\core\lib\power;
+use common\serv\pub_serv_order;
 
 
 class ctl_index extends ctl_base
 {
+
 
     public function index()
     {
@@ -18,12 +20,42 @@ class ctl_index extends ctl_base
         echo phpinfo();
     }
 
-    public function check()
+    /**
+     * 扫码核销
+     * @Author   GangKui
+     * @DateTime 2019-11-11
+     * @return   [type]     [description]
+     */
+    public function scan_check()
     {
-        echo 1111111;
+        $scan_str = req::item('scan_str', '');
+
+        if(0 > $result = pub_serv_order::check_order($scan_str))
+        {
+            $this->error(pub_serv_order::$_error_msg, $result);
+        }
+
+        $this->success('验票成功');
+    }
+
+    /**
+     * 核销列表
+     * @Author   GangKui
+     * @DateTime 2019-11-11
+     * @return   [type]     [description]
+     */
+    public function check_list()
+    {
+
     }
 
 
+    /**
+     * 登陆
+     * @Author   GangKui
+     * @DateTime 2019-11-11
+     * @return   [type]     [description]
+     */
     public function login()
     {
         try{

@@ -29,7 +29,6 @@ class ctl_base
         $this->uid     = req::item('uid', 0);
         $this->token   = req::item('token', '');
         $this->os      = req::item('os', '');
-        $this->req_time= req::item('req_time', '');
         $this->sign    = req::item('sign', '');
         $this->version = req::item('version', '');
 

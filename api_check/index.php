@@ -13,15 +13,16 @@ define('APP_DEBUG',true);
  * 登陆和验证配置
  */
 $_authority = [
-    'need_login' => true,
-    'not_login'  => [
+    'need_login'     => true,
+    'not_login'      => [
         'index' =>
             ['login', 'logout']
         ],
-    'login_url'  => '?ct=index&ac=login',
-    'user_type'  => 'admin',
-    'login_type' => 'token',
-    'power_check'=> true,
+    'login_url'      => '?ct=index&ac=login',
+    'user_type'      => 'admin',
+    'login_type'     => 'token',
+    'power_check'    => true,
+    'token_time_out' => 86400,
 ];
 
 new \sephp\sephp($_authority);

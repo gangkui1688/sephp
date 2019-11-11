@@ -374,7 +374,7 @@ class power
             $data = db::select($this->_uid_field.',uptime')
                 ->from($this->_table_pam)
                 ->where('app_token', '=', $app_token)
-                ->where('uptime', '>', TIME_SEPHP - $this->config['token_time_out'])
+                ->where('uptime', '>', TIME_SEPHP - func::get_value($this->config, 'token_time_out', 86400))
                 ->as_row()
                 ->execute();
 

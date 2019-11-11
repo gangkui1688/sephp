@@ -147,4 +147,33 @@ class pub_serv_orders
         return $result;
     }
 
+    /**
+     * 订单核销
+     * @Author   GangKui
+     * @DateTime 2019-11-11
+     * @param    [type]     $qucode_str [description]
+     * @return   [type]                 [description]
+     */
+    public static function check($qucode_str)
+    {
+        $result = 0;
+        pub_mod_order::db_start();
+
+        do{
+            //查询订单的合法
+
+            //检验时间是否过期
+
+
+            //写入核销记录
+
+
+        }while(false);
+
+        0 > $result ?  pub_mod_order::db_rollback() : pub_mod_order::db_commit();
+        pub_mod_order::db_end();
+
+        return $result;
+    }
+
 }
