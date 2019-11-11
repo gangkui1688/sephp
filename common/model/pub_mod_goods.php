@@ -81,11 +81,9 @@ class pub_mod_goods extends pub_mod_model
      */
     public static function getdatabyid($goods_id)
     {
-        $data = self::getdump([
+        return self::getdump([
             'where'    => [self::$_pk, '=', $goods_id]
         ]);
-
-        return self::data_format($data);
     }
 
     /**
@@ -98,9 +96,7 @@ class pub_mod_goods extends pub_mod_model
     public static function data_format($data)
     {
         if(!is_array($data)) return $data;
-
         $tmp = is_array(reset($data)) ? $data : [$data];
-
 
         foreach ($tmp as &$v)
         {
@@ -114,9 +110,9 @@ class pub_mod_goods extends pub_mod_model
                 $v['intro'] = html_entity_decode(html_entity_decode(($v['intro'])));
             }
 
-            if(isset($v['image_default_id']))
+            if(isset($v['image_default_id']) && !empty($v['image_default_id']))
             {
-                $v['image_default_id'] = json_decode($v['image_default_id']);
+                $v['image_default_id'] = json_decode($v['image_default_id'], true);
                 array_walk($v['image_default_id'], function(&$v){ $v = sephp::$_config['upload']['filelink'].'/image/'.$v; });
             }
 

@@ -67,6 +67,7 @@ class ctl_goods
             $data = pub_mod_goods::getdatabyid($goods_id);
         }
 
+
         view::assign('data', $data);
         view::assign('back_url', '?ct=goods&ac=index');
         view::display();

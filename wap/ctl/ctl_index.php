@@ -9,6 +9,7 @@ use sephp\core\view;
 use sephp\core\show_msg;
 use common\model\pub_mod_member_pam;
 use sephp\core\lib\power;
+use common\model\pub_mod_goods;
 
 
 class ctl_index
@@ -31,15 +32,44 @@ class ctl_index
 		//friend link
 		$links = config::get('friend_link');
 
-
-
 	}
 
 	//首页
 	public function index()
     {
+
+        $list = pub_mod_goods::getlist([
+            'total' => true,
+            'limit' => 1,
+            'where' => [
+                ['marketable', '=', '1'],
+            ],
+            'order_by' => ['p_order', 'DESC'],
+        ]);
+
+        //print_r($list);exit;
+        view::assign('list', $list['data']);
+        view::assign('pages', $list['pages']);
 		view::display();
 	}
+
+    public function goods_detail()
+    {
+        $goods_id = req::item('goods_id', 0);
+        if(0 < $goods_id)
+        {
+            $data = pub_mod_goods::getdatabyid($goods_id);
+        }
+
+        if(empty($data))
+        {
+            show_msg::error('商品不存在');
+        }
+
+        view::assign('data', $data);
+        view::display('goods.detail');
+
+    }
 
     public function login()
     {
