@@ -6,12 +6,11 @@ require_once __DIR__ . '/../sephp/sephp.php';
 define('PATH_APP',__DIR__.'/');
 define('APP_NAME','api_check');
 define('APP_DEBUG',true);
-//访问方式
-define('REQUEST_TYPE', 'ajax');
+
 
 
 /**
- * 配置载入
+ * 登陆和验证配置
  */
 $_authority = [
     'need_login' => true,
@@ -21,6 +20,7 @@ $_authority = [
         ],
     'login_url'  => '?ct=index&ac=login',
     'user_type'  => 'admin',
+    'login_type' => 'token',
     'power_check'=> true,
 ];
 

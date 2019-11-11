@@ -330,8 +330,7 @@ class func
      */
     public static function is_ajax()
     {
-        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST') ||
-                (defined('REQUEST_TYPE') && 'ajax' === REQUEST_TYPE);
+        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST');
     }
 
     /**

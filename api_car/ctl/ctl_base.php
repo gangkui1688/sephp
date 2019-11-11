@@ -33,7 +33,7 @@ class ctl_base
         $this->sign    = req::item('sign', '');
         $this->version = req::item('version', '');
 
-        $app_setting   = config::get('app_order_check_base_setting', 'mysql');
+        $app_setting = config::get('app_order_check_base_setting', 'mysql');
         $this->app_key = $app_setting['app_token'];
 
         if($this->req_time > TIME_SEPHP || $this->req_time < (TIME_SEPHP - 600))
@@ -68,7 +68,6 @@ class ctl_base
      */
     public function make_sign($data = [])
     {
-        $data = ['data' => json_encode($data, JSON_UNESCAPED_UNICODE)];
         return func::sign($data, $this->app_key);
     }
 
@@ -80,9 +79,8 @@ class ctl_base
      */
     protected function check_sign($post = [])
     {
-        $data = empty($post) ? req::$forms : $post;
-        $data = ['data' => json_encode($data, JSON_UNESCAPED_UNICODE)];
-        $sign = func::sign($data, $this->app_key);
+        $post = empty($post) ? req::$forms : $post;
+        $sign = func::sign($post, sephp::$_config['api']['app_key']);
         if($this->sign === $sign)
         {
             return true;

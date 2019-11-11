@@ -1,5 +1,19 @@
 <?php
 
+//用户登陆验证
+$config['_authority'] = [
+    'need_login'     => false, //是否要开启登陆验证
+    'not_login'      => [       //不需要登陆验证的url地址
+        'index'      =>
+            ['login', 'logout']
+        ],
+    'login_url'      => '?ct=index&ac=login', //登陆页面
+    'user_type'      => 'admin',    //用户表类型admin / member
+    'login_type'     => 'session',      //验证方式  session / token / uid
+    'power_check'    => false,           //是否权限验证
+    'token_time_out' => '86400',
+];
+
 $config['web'] = [
     'url' => 'http://sephp.a.com',
     //是否开启验证码
@@ -134,5 +148,6 @@ $config['xhprof'] = [
     'enabled'       => false, //关闭
     'output_dir'    => PATH_RUNTIME . 'xhprof/',
 ];
+
 
 return $config;

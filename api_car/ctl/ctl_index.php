@@ -20,6 +20,7 @@ class ctl_index extends ctl_base
 
     public function check()
     {
+
         echo 1111111;
     }
 
@@ -49,7 +50,7 @@ class ctl_index extends ctl_base
             //必须是64位的
             $this->token = power::make_token($this->member_id);
 
-            if(false === power::instance()->add_login_log(['app_token' => $this->token]))
+            if(false === power::instance()->add_login_log(['token' => $this->token]))
             {
                 $this->error('登陆失败，请重新登录');
             }

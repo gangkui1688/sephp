@@ -6,6 +6,7 @@ use sephp\sephp;
 use sephp\core\session;
 use sephp\core\show_msg;
 use sephp\core\db;
+use sephp\core\req;
 use sephp\core\log;
 
 /**
@@ -62,9 +63,19 @@ class power
         $this->_table_pam   = '#PB#_'.$this->_user_type.'_pam';
         $this->_table_group = '#PB#_'.$this->_user_type.'_group';
 
-        sephp::$_user = $this->_info = session::get($this->_mark);
+        switch ($this->config['login_type'])
+        {
+            case 'token':
+                $this->info_by_token(func::get_value(req::$forms, 'token', ''), $this->_info);
+                break;
+            case 'session':
+                $this->_info = session::get($this->_mark);
+                break;
+        }
+
         if(!empty($this->_info))
         {
+            sephp::$_user =$this->_info;
             sephp::$_uid = $this->_uid = $this->_info[$this->_uid_field];
             $this->_showname = $this->show_user_name($this->_info);
         }
@@ -176,12 +187,13 @@ class power
      */
     public function add_login_log($data = [])
     {
+
         $result = false;
         do{
 
             $update_data = func::data_filter([
-                'session_id' => ['type' => 'text', 'default' => ''],
-                'app_token'  => ['type' => 'text', 'default' => ''],
+                'session_id' => ['type' => 'text', 'default' => '', 'required' => empty($data['app_token'])],
+                'app_token'  => ['type' => 'text', 'default' => '', 'required' => empty($data['session_id'])],
                 'uptime'     => ['type' => 'int',  'default' => TIME_SEPHP]
             ], $data);
 
@@ -267,16 +279,7 @@ class power
         $result = false;
 
         do{
-            if(true)
-            {
-                $login_result = $this->login_for_name($conds);
-            }
-            else
-            {
-                $login_result = $this->login_for_token($conds);
-            }
-
-            if(false === $login_result)
+            if(false === $this->login_for_name($conds))
             {
                 break;
             }
@@ -358,30 +361,20 @@ class power
      * @DateTime 2019-11-05
      * @return   [type]     [description]
      */
-    public function login_for_token($data, &$uid = 0)
+    public function info_by_token($app_token, &$info = [])
     {
         $result = false;
 
-        $data_filter = func::data_filter([
-            'app_token'  => ['type' => 'text', 'require' => true, 'default' => ''],
-            'group_id' => ['type' => 'text', 'require' => false, 'default' => ''],
-        ], $data);
-
         do{
-
-            if(!is_array($data_filter))
+            if(64 != strlen($app_token))
             {
                 break;
             }
 
-            if(64 != strlen($data_filter['app_token']))
-            {
-                break;
-            }
-
-            $data = db::select($this->_uid_field)
+            $data = db::select($this->_uid_field.',uptime')
                 ->from($this->_table_pam)
                 ->where('app_token', '=', $app_token)
+                ->where('uptime', '>', TIME_SEPHP - $this->config['token_time_out'])
                 ->as_row()
                 ->execute();
 
@@ -390,7 +383,12 @@ class power
                 break;
             }
 
-            $result = $this->_uid = $uid = $data[$this->_uid_field];
+            if(md5($data[$this->_uid_field]) !== substr($app_token, 16, 32))
+            {
+                break;
+            }
+
+            $info = $this->_info = $this->get_user_info($data[$this->_uid_field]);
 
         }while(false);
 

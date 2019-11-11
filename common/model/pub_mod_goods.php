@@ -54,6 +54,10 @@ class pub_mod_goods extends pub_mod_model
                 'upuser'           => ['type' => 'text', 'default' => 0, 'comment' => '更新人'],
                 'uptime'           => ['type' => 'int', 'default' => 0, 'comment' => '更新时间'],
             ],
+        $currency = [
+            'CNY' => '¥',
+            'USD' => '$',
+        ],
         $marketable = [
             '1' => '上架',
             '2' => '下架',
@@ -114,6 +118,11 @@ class pub_mod_goods extends pub_mod_model
             {
                 $v['image_default_id'] = json_decode($v['image_default_id'], true);
                 array_walk($v['image_default_id'], function(&$v){ $v = sephp::$_config['upload']['filelink'].'/image/'.$v; });
+            }
+
+            if(!empty($v['currency']))
+            {
+                $v['show_currency'] = self::$currency[$v['currency']];
             }
 
         }
