@@ -17,27 +17,17 @@ use sephp\core\log;
  */
 class power
 {
-    public static
-        $_table = null,
-        $_table_pam = null,
-        $_table_group = null,
-        $_user_type   = null,
-        $_uid_field   = null,
-        $_mark        = null;
-
-
-    /**
-     * @var array 登陆用户信息
-     */
-    public $_info = [];
-    //用户ID
-    public $_uid = 0;
-    //用户昵称
-    public $_nickname = null;
-    //登陆配置
-    public $config = [];
-
-    public $login_where = [];
+    public
+        $_table       = null,//用户信息表
+        $_table_pam   = null,//用户密码表
+        $_table_group = null,//用户组表
+        $_user_type   = null,//用户类型
+        $_uid_field   = null,//用户ID字段名称
+        $_mark        = null,//用户session标识符
+        $_info        = [],  //登陆用户信息
+        $_uid         = 0, //登陆用户ID
+        $_showname    = null,//显示名称
+        $config       = [];
 
     public static $instance = null;
 
@@ -64,19 +54,19 @@ class power
         {
             throw new \Exception('Authority info has does not set "user_type" field!');
         }
-        self::$_user_type = $this->config['user_type'];
-        self::$_uid_field = $this->config['user_type'] . '_id';
+        $this->_user_type = $this->config['user_type'];
+        $this->_uid_field = $this->config['user_type'] . '_id';
 
-        self::$_mark        = '_'.self::$_user_type.'_';
-        self::$_table       = '#PB#_'.self::$_user_type;
-        self::$_table_pam   = '#PB#_'.self::$_user_type.'_pam';
-        self::$_table_group = '#PB#_'.self::$_user_type.'_group';
+        $this->_mark        = '_' . APP_NAME . '_'.$this->_user_type.'_';
+        $this->_table       = '#PB#_'.$this->_user_type;
+        $this->_table_pam   = '#PB#_'.$this->_user_type.'_pam';
+        $this->_table_group = '#PB#_'.$this->_user_type.'_group';
 
-        sephp::$_user = $this->_info = session::get(self::$_mark);
+        sephp::$_user = $this->_info = session::get($this->_mark);
         if(!empty($this->_info))
         {
-            sephp::$_uid = $this->_uid = $this->_info[self::$_uid_field];
-            $this->_nickname = $this->_info['nickname'] ?? $this->_info['username'];
+            sephp::$_uid = $this->_uid = $this->_info[$this->_uid_field];
+            $this->_showname = $this->show_user_name($this->_info);
         }
 
         $this->is_login();
@@ -92,10 +82,24 @@ class power
     {
 
         //验证是否需要登陆
-        if(empty($this->config['need_login']) || in_array(CONTROLLER_NAME,$this->config['not_login']))
+        if(
+            empty($this->config['need_login']) ||
+            (
+                !empty($this->config['not_login']) &&
+                empty($this->config['not_login'][CONTROLLER_NAME]) &&
+                in_array(CONTROLLER_NAME,$this->config['not_login'])
+            )
+            ||
+            (
+                !empty($this->config['not_login']) &&
+                !empty($this->config['not_login'][CONTROLLER_NAME]) &&
+                in_array(ACTION_NAME,$this->config['not_login'][CONTROLLER_NAME])
+            )
+        )
         {
             return true;
         }
+
 
         //排除重复登录
         if(!empty($this->_uid) && $this->config['login_url'] === '?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME)
@@ -110,7 +114,10 @@ class power
         }
 
         //权限检验
-        $this->check_in();
+        if(!$this->check_power())
+        {
+            show_msg::error('抱歉！您无权限查看该页面');
+        }
     }
 
     /**
@@ -119,23 +126,26 @@ class power
      * @DateTime 2019-10-24
      * @return   [type]     [description]
      */
-    public function check_in()
+    public function check_power()
     {
+        $result = false;
+
         do{
             //无需权限验证
             if(false === $this->config['power_check'])
             {
+                $result = true;
                 break;
             }
 
             if(empty($this->_info['powerlist']))
             {
-                show_msg::error('抱歉！您无权限查看该页面');
-                exit();
+                break;
             }
 
             if('*' === $this->_info['powerlist'])
             {
+                $result = true;
                 break;
             }
 
@@ -145,54 +155,79 @@ class power
                 !in_array('?ct='.CONTROLLER_NAME.'&ac='.ACTION_NAME, $this->_info['powerlist'])
             )
             {
-                show_msg::error('抱歉！您无权限查看该页面');
-                exit();
+                break;
             }
 
         }while(false);
 
-        return true;
+        return $result;
     }
 
 
 
     /**
-     * 记录登陆日志
+     * 记录登陆成功的登陆日志
+     * @Author   GangKui
+     * @DateTime 2019-11-09
+     * @param    array      $data [
+     *      session_id => '',
+     *      app_token. => '',
+     * ]
      */
-    public function add_login_log()
+    public function add_login_log($data = [])
     {
-        //记录登陆日志
-        $data = [
-            'session_id' => session_id(),
-            'status'     => 1,
-            'login_ip' => func::get_client_ip(),
-            'username' => $this->_info['username'],
-            'login_time' => time(),
-            'login_uid' => $this->_info[self::$_uid_field],
-            'user_type' => 'admin',
-            'agent' => $_SERVER['HTTP_USER_AGENT'],
-        ];
+        $result = false;
+        do{
 
-        if(empty(db::insert('#PB#_login_log')->set($data)->execute()))
-        {
-            log::error('用户登陆，登陆日志写入失败');
-            return false;
-        }
+            $update_data = func::data_filter([
+                'session_id' => ['type' => 'text', 'default' => ''],
+                'app_token'  => ['type' => 'text', 'default' => ''],
+                'uptime'     => ['type' => 'int',  'default' => TIME_SEPHP]
+            ], $data);
 
-        if(
-            false === db::update(self::$_table)
-                ->set(['session_id' => session_id()])
-                ->where(self::$_uid_field, $this->_uid)
-                ->execute()
-        )
-        {
-            log::error('用户登陆，当前会话session_id写入失败');
-            return false;
-        }
+            if(!is_array($update_data))
+            {
+                break;
+            }
 
-        session::set(self::$_mark, $this->_info);
-        $this->_uid = $this->_info[self::$_uid_field];
-        return true;
+            //记录登陆日志
+            $data = [
+                'session_id' => func::get_value($data, 'session_id', ''),
+                'app_token' => func::get_value($data, 'app_token', ''),
+                'status'     => 1,//登陆成功
+                'login_ip'   => func::get_client_ip(),
+                'username'   => $this->_info['username'],
+                'login_time' => TIME_SEPHP,
+                'login_uid'  => $this->_info[$this->_uid_field],
+                'user_type'  => $this->_user_type,
+                'agent'      => func::get_value($_SERVER, 'HTTP_USER_AGENT', ''),
+            ];
+
+            if(false === db::insert('#PB#_login_log')->set($data)->execute())
+            {
+                log::error('用户登陆，登陆日志写入失败。：'. var_export($data, 1));
+                break;
+            }
+
+
+            if(
+                false === db::update($this->_table_pam)
+                    ->set($update_data)
+                    ->where($this->_uid_field, $this->_uid)
+                    ->execute()
+            )
+            {
+                log::error('用户登陆，更新会话标识符失败。：' . var_export($update_data, 1));
+                break;
+            }
+
+            session::set($this->_mark, $this->_info);
+
+            $result = true;
+
+        }while(false);
+
+        return $result;
     }
 
     /**
@@ -208,6 +243,18 @@ class power
     }
 
     /**
+     * 制造token
+     * @Author   GangKui
+     * @DateTime 2019-11-09
+     * @param    integer    $uid [description]
+     * @return   [type]          [description]
+     */
+    public static function make_token($uid = 0)
+    {
+        return func::random('alnum', 16) . md5($uid) . func::random('alnum', 16);
+    }
+
+    /**
      * 用户检验
      * @Author   GangKui
      * @DateTime 2019-11-08
@@ -218,45 +265,23 @@ class power
     public function login_check($conds = [], &$info = [])
     {
         $result = false;
-        $data_filter = func::data_filter([
-            'username' => ['type' => 'text', 'require' => true, 'default' => ''],
-            'password' => ['type' => 'text', 'require' => true, 'default' => ''],
-            'group_id' => ['type' => 'text', 'require' => false, 'default' => ''],
-        ], $conds);
 
         do{
+            if(true)
+            {
+                $login_result = $this->login_for_name($conds);
+            }
+            else
+            {
+                $login_result = $this->login_for_token($conds);
+            }
 
-            if(!is_array($data_filter))
+            if(false === $login_result)
             {
                 break;
             }
 
-            $password = db::select('password,' . self::$_uid_field)
-                ->from(self::$_table_pam)
-                ->where('username', '=', $data_filter['username'])
-                ->as_row()
-                ->execute();
-
-            if(empty($password) || !password_verify($data_filter['password'], $password['password']))
-            {
-                $data = [
-                    'session_id' => session_id(),
-                    'status'     => 2,
-                    'login_ip'   => func::get_client_ip(),
-                    'username'   => $data_filter['username'],
-                    'login_time' => TIME_SEPHP,
-                    'login_uid'   => 0,
-                    'user_type'  => self::$_user_type,
-                    'agent'      => $_SERVER['HTTP_USER_AGENT'],
-                    'remark'     => '用户名或者密码错误',
-                ];
-                db::insert('#PB#_login_log')->set($data)->execute();
-                log::info('登陆失败,用户名或者密码错误');
-                break;
-            }
-
-            $this->_info = self::get_user_info($password[self::$_uid_field]);
-            $info->_info['username'] = $data_filter['username'];
+            $this->_info = self::get_user_info($this->_uid);
 
              //获取用户权限
             if(!empty($this->_info['group_id']) && !empty($this->_info['powerlist']))
@@ -272,20 +297,161 @@ class power
     }
 
     /**
+     * 用户名的方式登陆
+     * @Author   GangKui
+     * @DateTime 2019-11-09
+     * @param    [type]     $data [description]
+     * @param    [type]     &$uid [description]
+     * @return   [type]           [description]
+     */
+    public function login_for_name($data, &$uid = 0)
+    {
+        $result = false;
+
+        $data_filter = func::data_filter([
+            'username'  => ['type' => 'text', 'require' => true, 'default' => ''],
+            'password'  => ['type' => 'text', 'require' => true, 'default' => ''],
+            'group_id' => ['type' => 'text', 'require' => false, 'default' => ''],
+        ], $data);
+
+        do{
+
+            if(!is_array($data_filter))
+            {
+                break;
+            }
+
+            $password = db::select('password,' . $this->_uid_field)
+                ->from($this->_table_pam)
+                ->where('username', '=', $data_filter['username'])
+                ->as_row()
+                ->execute();
+
+            if(empty($password) || !password_verify($data_filter['password'], $password['password']))
+            {
+                $data = [
+                    'session_id' => session_id(),
+                    'status'     => 2,
+                    'login_ip'   => func::get_client_ip(),
+                    'username'   => $data_filter['username'],
+                    'login_time' => TIME_SEPHP,
+                    'login_uid'   => 0,
+                    'user_type'  => $this->_user_type,
+                    'agent'      => $_SERVER['HTTP_USER_AGENT'],
+                    'remark'     => '用户名或者密码错误',
+                ];
+                db::insert('#PB#_login_log')->set($data)->execute();
+                log::info('登陆失败,用户名或者密码错误');
+                break;
+            }
+
+            $result = $this->_uid = $uid = $password[$this->_uid_field];
+
+        }while(false);
+
+        return $result;
+    }
+
+    /**
+     * app_token登陆
+     * @Author   GangKui
+     * @DateTime 2019-11-05
+     * @return   [type]     [description]
+     */
+    public function login_for_token($data, &$uid = 0)
+    {
+        $result = false;
+
+        $data_filter = func::data_filter([
+            'app_token'  => ['type' => 'text', 'require' => true, 'default' => ''],
+            'group_id' => ['type' => 'text', 'require' => false, 'default' => ''],
+        ], $data);
+
+        do{
+
+            if(!is_array($data_filter))
+            {
+                break;
+            }
+
+            if(64 != strlen($data_filter['app_token']))
+            {
+                break;
+            }
+
+            $data = db::select($this->_uid_field)
+                ->from($this->_table_pam)
+                ->where('app_token', '=', $app_token)
+                ->as_row()
+                ->execute();
+
+            if(empty($data[$this->_uid_field]))
+            {
+                break;
+            }
+
+            $result = $this->_uid = $uid = $data[$this->_uid_field];
+
+        }while(false);
+
+        return $result;
+    }
+
+    /**
+     * 微信登陆验证
+     * @Author   GangKui
+     * @DateTime 2019-11-09
+     * @param    [type]     $data [description]
+     * @param    integer    &$uid [description]
+     * @return   [type]           [description]
+     */
+    public function login_for_wechat($data, &$uid = 0)
+    {
+
+    }
+    /**
      * 检测用户名是否存在
      * @param string $login_account
      * @return mixed
      */
-    public function get_user_info($uid)
+    public function get_user_info($uid, &$info = [])
     {
-        $info = db::select([self::$_uid_field, 'nickname', 'realname', 'email', 'mobile', 'group_id', 'group_name', 'powerlist'])
-                ->from(self::$_table)
-                ->join(self::$_table_group, 'right')
-                ->on(self::$_table_group . '.group_id', '=', self::$_table . '.group_id')
-                ->where(self::$_uid_field, '=', $uid)
+        $field = [
+            $this->_table.'.'.$this->_uid_field, 'nickname', 'realname', 'email', 'mobile',$this->_table.'.group_id',
+            'group_name', 'powerlist', $this->_table_pam . '.username'
+        ];
+        $info = db::select($field)
+                ->from($this->_table)
+                ->join($this->_table_group, 'right')
+                ->on($this->_table_group . '.group_id', '=', $this->_table . '.group_id')
+                ->join($this->_table_pam, 'left')
+                ->on($this->_table_pam.'.'.$this->_uid_field , '=', $this->_table.'.'.$this->_uid_field)
+                ->where($this->_table.'.'.$this->_uid_field, '=', $uid)
                 ->as_row()
                 ->execute();
         return $info;
+    }
+
+    /**
+     * 显示用户名称
+     * @Author   GangKui
+     * @DateTime 2019-11-09
+     * @param    [type]     $info [description]
+     * @return   [type]           [description]
+     */
+    public function show_user_name($info)
+    {
+        $name = '-无名氏-';
+        foreach (['nickname', 'username', 'realname'] as $f)
+        {
+            if(!empty($info[$f]))
+            {
+                $name = $info['nickname'];
+                break;
+            }
+        }
+
+        return $name;
     }
 
 }

@@ -330,7 +330,8 @@ class func
      */
     public static function is_ajax()
     {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH'])=='XMLHTTPREQUEST';
+        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST') ||
+                (defined('REQUEST_TYPE') && 'ajax' === REQUEST_TYPE);
     }
 
     /**
@@ -1639,8 +1640,12 @@ class func
         }
 
         ksort($data);
-        //array_walk($data, function(&$v){ $v = urlencode($v);});
-        $sign_text = http_build_query($data);
+
+        $query_str = http_build_query($data);
+        $query_arr = explode('&', $query_str);
+        //由于http_build_query会对参数进行一次urlencode，所以这里需要加多一层urldecode
+        $query_arr = array_map(function ($item) {return urldecode($item);}, $query_arr);
+        $sign_text = implode('&', $query_arr);
         $sign_text .= '&key=' . $app_key;
 
         return strtoupper(md5($sign_text));

@@ -32,10 +32,8 @@ class ctl_index {
 		view::assign('top_menu', $top_menu);
 		view::assign('left_menu', json_encode($left_menu, JSON_UNESCAPED_UNICODE));
 
-		$user_info = session::get(power::$_mark);
-
-		view::assign('realname', $user_info['realname']);
-		view::assign('goup_name', empty($user_info['group_name'])?'---':$user_info['group_name']);
+		view::assign('realname', sephp::$_user['realname']);
+		view::assign('goup_name', empty(sephp::$_user['group_name'])?'---':sephp::$_user['group_name']);
 
 		view::assign('default_page_url', '?ct=index&ac=home');
         view::assign('url_edit_avator', '?ct=admin&ac=edit_avator');

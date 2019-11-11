@@ -1,9 +1,8 @@
 <?php
 namespace sephp\core;
 use sephp\sephp;
-/**
- * 页面跳转和重定向
- */
+use sephp\func;
+
 class show_msg
 {
 
@@ -14,7 +13,7 @@ class show_msg
     public static function redirect($url = '')
     {
         $url = empty($url) ? URL_APP : $url;
-        header('Location: '.$url);
+        header('Location: ' . $url);
     }
 
     /**
@@ -23,7 +22,7 @@ class show_msg
      * @param int $code 返回错误状态号 200，400
      * @param string $data
      */
-    public static function ajax($msg, $code = 200, $data = [])
+    public static function ajax($msg, $code = 200, $data = [], $sign = '')
     {
         header('Content-Type: application/json; charset=utf-8');
         // php7.1 json_encode float精度会溢出
@@ -36,6 +35,7 @@ class show_msg
             'code'   => (int) $code,
             'msg'    => (string) $msg,
             'data'   => empty($data) ? [] : $data,
+            'sign'   => $sign,
         ];
 
         exit(json_encode($data, JSON_UNESCAPED_UNICODE));
@@ -49,23 +49,29 @@ class show_msg
     }
 
 
-    public static function success($message = '', $url = '', $time = '', $title = '')
+    public static function success($message = '', $url = '', $time = 0, $title = '')
     {
-        $message = empty($message)?'操作成功':$message;
-        self::get_return_html($title,$message,$url,'success',$time);
+        $message = empty($message)? '操作成功' : $message;
+        self::get_return_html($title, $message, $url, 'success', $time);
     }
 
 
-    public static function error($message = '',$url = '',$time = '' ,$title = '')
+    public static function error($message = '', $url = '', $time = 0, $title = '')
     {
         $message = empty($message) ? '操作失败' : $message;
-        self::get_return_html($title,$message,$url,'error',$time);
+        self::get_return_html($title, $message, $url, 'error', $time);
     }
 
-    public static function get_return_html($title,$message,$gourl = '',$type,$time = '')
+    public static function get_return_html($title, $message, $gourl = '', $type, $time = 0)
     {
-        $title = empty($title)?'系统提示':$title;
-        $time = empty($time)?3000:$time * 1000;
+        $title = empty($title) ? '系统提示' : $title;
+        $time = empty($time) ? 3000 : $time * 1000;
+
+        if(func::is_ajax())
+        {
+            self::ajax($message, ('error' == $type ?  -1 : 0));
+        }
+
         switch ($gourl)
         {
             case '-1':
