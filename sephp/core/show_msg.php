@@ -67,7 +67,7 @@ class show_msg
         $title = empty($title) ? '系统提示' : $title;
         $time = empty($time) ? 3000 : $time * 1000;
 
-        if(sephp::$_config['_authority']['login_type'] == 'token')
+        if(func::get_value(sephp::$_config['_authority'], 'login_type', '') == 'token')
         {
             self::ajax($message, ('error' == $type ?  -1 : 0));
         }

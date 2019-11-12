@@ -12,7 +12,7 @@ define('APP_DEBUG',true);
  * 配置载入
  */
 $_authority = [
-    'need_login' => false,
+    'need_login' => true,
     'not_login'  => ['public'],
     'login_url'  => '?ct=public&ac=login',
     'user_type'  => 'admin',
