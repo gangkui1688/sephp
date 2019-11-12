@@ -13,6 +13,7 @@ define('APP_DEBUG',true);
  */
 $_authority = [
     'need_login' => true,
+    'login_type' => 'session',
     'not_login'  => ['index', 'goods'],
     'login_url'  => '?ct=index&ac=login',
     'user_type'  => 'member',
