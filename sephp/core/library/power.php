@@ -8,6 +8,7 @@ use sephp\core\show_msg;
 use sephp\core\db;
 use sephp\core\req;
 use sephp\core\log;
+use sephp\core\cache;
 
 /**
  *

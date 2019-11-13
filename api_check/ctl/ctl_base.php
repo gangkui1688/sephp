@@ -47,6 +47,14 @@ class ctl_base
 
     }
 
+
+    protected function get_token()
+    {
+        $token  = req::item('_token', '');
+        $token  = empty($token) && ! empty($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : $token;
+        return $token;
+    }
+
     protected function success($msg='success', $code=0, $data=[])
     {
         show_msg::ajax($msg, $code, $data, $this->make_sign());

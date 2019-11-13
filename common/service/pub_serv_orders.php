@@ -6,6 +6,7 @@ use sephp\func;
 use common\model\pub_mod_order;
 use common\model\pub_mod_order_items;
 use common\model\pub_mod_goods;
+use common\model\pub_mod_order_check;
 
 /**
  * 订单服务
@@ -14,7 +15,7 @@ use common\model\pub_mod_goods;
 class pub_serv_orders
 {
     public static
-        $error_msg = null;
+        $_error_msg = null;
 
     /**
      * 下订单
@@ -120,33 +121,6 @@ class pub_serv_orders
         return $result;
     }
 
-
-
-    public static function check_order($num)
-    {
-        $result = 0;
-        pub_mod_order::db_start();
-
-        do{
-            if(32 !== strlen($num))
-            {
-                $result = -11000;
-                break;
-            }
-
-
-
-
-
-
-        }while(false);
-
-        0 > $result ? pub_mod_order::db_rollback() : pub_mod_order::db_commit();
-        pub_mod_order::db_end();
-
-        return $result;
-    }
-
     /**
      * 订单核销
      * @Author   GangKui
@@ -154,12 +128,12 @@ class pub_serv_orders
      * @param    [type]     $qucode_str [description]
      * @return   [type]                 [description]
      */
-    public static function check($data, &$order_info = [])
+    public static function check_order($data, &$order_info = [])
     {
         $result = 0;
 
         $data_filter = func::data_filter([
-            'type'       => ['type' => 'int', 'require' => true]
+            'type'       => ['type' => 'int', 'require' => true],
             'qrcode_str' => ['type' => 'text', 'require' => true]
         ], $data);
 
@@ -167,14 +141,14 @@ class pub_serv_orders
         do{
             if(!is_array($data_filter))
             {
-                $result = -1
+                $result = -1;
                 break;
             }
 
             //查询订单的合法
             $order_info = pub_mod_order::getdump([
                 'where' => [
-                    'qrcode' => $data_filter['qrcode_str'],
+                    'qrcode', '=', $data_filter['qrcode_str'],
                 ],
             ]);
 
@@ -189,7 +163,7 @@ class pub_serv_orders
             //更新订单已完成
             if(false === pub_mod_order::update([
                 ['status' => pub_mod_order::STATUS_FINISH, 'uptime' => TIME_SEPHP, 'upuser' => sephp::$_uid],
-                [pub_mod_order::$_pk => $order_info[pub_mod_order::$_pk]]
+                [pub_mod_order::$_pk, '=', $order_info[pub_mod_order::$_pk]]
             ]))
             {
                 $result = -4;
@@ -200,6 +174,9 @@ class pub_serv_orders
 
 
         }while(false);
+
+        0 > $result ?  pub_mod_order::db_rollback() : pub_mod_order::db_commit();
+        pub_mod_order::db_end();
 
         //写入核销记录
         if(0 > pub_mod_order_check::add([
@@ -214,8 +191,7 @@ class pub_serv_orders
             $result = -11;
         }
 
-        0 > $result ?  pub_mod_order::db_rollback() : pub_mod_order::db_commit();
-        pub_mod_order::db_end();
+
 
         return $result;
     }

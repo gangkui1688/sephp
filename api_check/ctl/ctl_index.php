@@ -7,7 +7,8 @@ use sephp\core\req;
 use sephp\core\log;
 use sephp\core\db;
 use sephp\core\lib\power;
-use common\serv\pub_serv_order;
+use common\serv\pub_serv_orders;
+use common\model\pub_mod_order;
 
 
 class ctl_index extends ctl_base
@@ -16,7 +17,21 @@ class ctl_index extends ctl_base
 
     public function index()
     {
+        echo pub_mod_order::create_qr_img('88a4238a0b9238203cc509a6f75849b3');
 
+        exit();
+        $qrcode = '88a4238a0b9238203cc509a6f75849b3';
+
+        $jiami = pub_mod_order::entcry_qrcode($qrcode);
+
+    var_dump(
+        $qrcode,
+        $jiami
+    );
+
+
+
+var_dump(pub_mod_order::decry_qrcode($jiami));
         echo phpinfo();
     }
 
@@ -26,13 +41,21 @@ class ctl_index extends ctl_base
      * @DateTime 2019-11-11
      * @return   [type]     [description]
      */
-    public function scan_check()
+    public function order_check()
     {
         $scan_str = req::item('scan_str', '');
 
-        if(0 > $result = pub_serv_order::check_order($scan_str))
+        if(empty($scan_str))
         {
-            $this->error(pub_serv_order::$_error_msg, $result);
+            $this->error('参数错误');
+        }
+
+        if(0 > $result = pub_serv_orders::check_order([
+            'qrcode_str' => $scan_str,
+            'type'  => 'app',
+        ]))
+        {
+            $this->error(pub_serv_orders::$_error_msg, $result);
         }
 
         $this->success('验票成功');

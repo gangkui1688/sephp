@@ -7,6 +7,7 @@ use sephp\core\log;
 use sephp\core\db;
 use sephp\core\cache;
 use sephp\core\config;
+use sephp\core\lib\qrcode;
 
 /**
  * 订单model
@@ -117,7 +118,27 @@ class pub_mod_order extends pub_mod_model
     public static function create_qrcode($len = 32)
     {
         $id = \sephp\core\lib\snowflake::instance(1)->id();
-        return func::random('alnum', 5) . $id . func::random('alnum', 5);
+        return md5(func::random('alnum', 5) . $id . func::random('alnum', 5));
+    }
+
+    /**
+     * 生成二维码图片
+     * @Author   GangKui
+     * @DateTime 2019-11-13
+     * @param    [type]     $qrcode [description]
+     * @return   [type]             [description]
+     */
+    public static function create_qr_img($qrcode, $outfile = false)
+    {
+        $code = self::entcry_qrcode($qrcode);
+        return qrcode::make([
+            'frame' => $code,//表示生成的信息,
+            'outfile' => $outfile,//表示是否输出二维码图片文件(文件路径，包含图片名和后缀)，默认false,
+            'level' => 1,//表示容错率，也就是有被覆盖的区域还能识别参数,0,1,2,3,
+            'size' => 6,//表示二维码的大小,
+            'margin' => 2,//表示二维码的边距大小,
+            'saveandprint' => false,//表示是否保存二维码,默认FALSE
+        ]);
     }
 
 
@@ -178,6 +199,39 @@ class pub_mod_order extends pub_mod_model
         return is_array(reset($data)) ? $tmp : reset($tmp);
     }
 
+    /**
+     * 加密二维码
+     * @Author   GangKui
+     * @DateTime 2019-11-13
+     * @return   [type]     [description]
+     */
+    public static function entcry_qrcode($qrcode)
+    {
+        $str = '';
+        foreach (str_split($qrcode) as $k => $s)
+        {
+            $tmp_str = func::random('alnum', 3);
+            $str .= substr_replace($tmp_str, $s, ($k%3), 1);
+        }
+        return func::random('alnum', 8) . $str . func::random('alnum', 8);
 
+    }
+
+    /**
+     * 解密二维码
+     * @Author   GangKui
+     * @DateTime 2019-11-13
+     * @return   [type]     [description]
+     */
+    public static function decry_qrcode($qrcode)
+    {
+        $str = '';
+        $qrcode = str_split(substr($qrcode, 8, 96), 3);
+        foreach ($qrcode as $k => $s)
+        {
+            $str .= substr($s, ($k%3), 1);
+        }
+        return $str;
+    }
 
 }

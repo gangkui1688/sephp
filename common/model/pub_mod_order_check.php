@@ -21,7 +21,7 @@ class pub_mod_order_check extends pub_mod_model
         $_pk     = 'log_id',
         $_fields = [
             'log_id'        => ['type' => 'int',  'required' => false, 'comment' => '日志ID'],
-            'order_id'      => ['type' => 'int',  'required' => true, 'comment' => '订单ID'],
+            'order_id'      => ['type' => 'int',  'default' => 0, 'comment' => '订单ID'],
             'type'          => ['type' => 'int', 'required' => true, 'comment' => '类型'],
             'check_str'     => ['type' => 'text', 'required' => true, 'comment' => '核销编码'],
             'status'        => ['type' => 'int', 'required' => true, 'comment' => '核销结果'],
@@ -55,7 +55,7 @@ class pub_mod_order_check extends pub_mod_model
         $conds['addtime'] = TIME_SEPHP;
 
         $data_filter = func::data_filter(self::$_fields, $conds);
-
+        unset($data_filter[self::$_pk]);
         do{
             if(!is_array($data_filter))
             {
