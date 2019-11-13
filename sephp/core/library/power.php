@@ -63,7 +63,7 @@ class power
         $this->_table_pam   = '#PB#_'.$this->_user_type.'_pam';
         $this->_table_group = '#PB#_'.$this->_user_type.'_group';
 
-        switch ($this->config['login_type'])
+        switch (func::get_value($this->config, 'login_type', ''))
         {
             case 'token':
                 $this->info_by_token(func::get_value(req::$forms, 'token', ''), $this->_info);

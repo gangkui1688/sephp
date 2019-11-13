@@ -154,21 +154,65 @@ class pub_serv_orders
      * @param    [type]     $qucode_str [description]
      * @return   [type]                 [description]
      */
-    public static function check($qucode_str)
+    public static function check($data, &$order_info = [])
     {
         $result = 0;
-        pub_mod_order::db_start();
 
+        $data_filter = func::data_filter([
+            'type'       => ['type' => 'int', 'require' => true]
+            'qrcode_str' => ['type' => 'text', 'require' => true]
+        ], $data);
+
+        pub_mod_order::db_start();
         do{
+            if(!is_array($data_filter))
+            {
+                $result = -1
+                break;
+            }
+
             //查询订单的合法
+            $order_info = pub_mod_order::getdump([
+                'where' => [
+                    'qrcode' => $data_filter['qrcode_str'],
+                ],
+            ]);
+
+            if(empty($order_info[pub_mod_order::$_pk]))
+            {
+                $result = -2;
+                break;
+            }
 
             //检验时间是否过期
 
+            //更新订单已完成
+            if(false === pub_mod_order::update([
+                ['status' => pub_mod_order::STATUS_FINISH, 'uptime' => TIME_SEPHP, 'upuser' => sephp::$_uid],
+                [pub_mod_order::$_pk => $order_info[pub_mod_order::$_pk]]
+            ]))
+            {
+                $result = -4;
+                break;
+            }
 
-            //写入核销记录
+
 
 
         }while(false);
+
+        //写入核销记录
+        if(0 > pub_mod_order_check::add([
+            'order_id'      => $order_info[pub_mod_order::$_pk],
+            'type'          => $data_filter['type'],
+            'check_str'     => $data_filter['qrcode_str'],
+            'status'        => 0 > $result ? 2 : 1,
+            'request_data'  => json_encode($data, JSON_UNESCAPED_UNICODE),
+            'addip'         => func::get_client_ip(),
+        ]))
+        {
+            $result = -11;
+        }
 
         0 > $result ?  pub_mod_order::db_rollback() : pub_mod_order::db_commit();
         pub_mod_order::db_end();
