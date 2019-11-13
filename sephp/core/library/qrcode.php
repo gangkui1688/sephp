@@ -5,7 +5,7 @@ use sephp\sephp;
 /**
  * 二维码, 条码 生成类
  */
-class make_code
+class qrcode
 {
 
     /**
@@ -88,7 +88,7 @@ class make_code
      * ]
      * @return   [type]            [description]
      */
-    public static function qrcode($conds = [])
+    public static function make($conds = [])
     {
         foreach (['frame'] as $f)
         {
