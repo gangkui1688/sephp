@@ -7,7 +7,7 @@
 #
 # Host: 127.0.01 (MySQL 5.7.20-log)
 # Database: sephp
-# Generation Time: 2019-11-11 14:06:36 +0000
+# Generation Time: 2019-11-14 12:36:00 +0000
 # ************************************************************
 
 
@@ -220,7 +220,7 @@ LOCK TABLES `se_admin_pam` WRITE;
 
 INSERT INTO `se_admin_pam` (`admin_id`, `username`, `password`, `password_account`, `wechat_openid`, `app_token`, `session_id`, `uptime`)
 VALUES
-	('1','admin','$2y$10$q0Y6LyDnJuVhc48idZ9T.eIdLNNVbSryXnSqfXL6ivtvmXV.7grJq','',NULL,'P8d8RBTgSwgjqUa4c4ca4238a0b923820dcc509a6f75849bQN5hYsmHNyMZnIj0','',1573480540),
+	('1','admin','$2y$10$q0Y6LyDnJuVhc48idZ9T.eIdLNNVbSryXnSqfXL6ivtvmXV.7grJq','',NULL,'Kz9AQqpEk8rMfryrc4ca4238a0b923820dcc509a6f75849b0duivIvaYa7emFro','',1573631672),
 	('11','gangkui001','$2y$10$pLKmTwiz./w.8hPja3qQjuBdIwvskB3gPEY/ljVCdau6P/hElYELq','',NULL,NULL,NULL,0),
 	('6','gangkui003','$2y$10$rsRw/PKLQPfhpR.XwrD6m.ocMygl6gd4BEtuNAPJbokykX5e.AMG.','',NULL,NULL,NULL,0);
 
@@ -379,6 +379,29 @@ CREATE TABLE `se_coupons` (
   UNIQUE KEY `cpns_code` (`cpns_code`,`cpns_prefix`),
   KEY `cpns_status` (`cpns_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='优惠卷数据表';
+
+
+
+# Dump of table se_customer_info
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `se_customer_info`;
+
+CREATE TABLE `se_customer_info` (
+  `customer_id` bigint(20) unsigned NOT NULL,
+  `member_id` char(32) NOT NULL DEFAULT '' COMMENT '所属会员',
+  `realname` varchar(100) DEFAULT NULL COMMENT '真是名称',
+  `mobile` bigint(20) DEFAULT NULL COMMENT '电话号码',
+  `sex` tinyint(11) DEFAULT '0' COMMENT '性别',
+  `remark` text COMMENT '备注',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '',
+  `uptime` int(11) DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
+  `deltime` int(11) DEFAULT '0',
+  `deluser` char(32) DEFAULT '0',
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -959,7 +982,10 @@ VALUES
 	(184,'','yfUXaCEFOm4rxeSRc4ca4238a0b923820dcc509a6f75849bpDEY25uOoqEsMgG3',1,'127.0.0.1','admin',1573480538,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
 	(185,'','KUTmRkQbQb5hz8sUc4ca4238a0b923820dcc509a6f75849bILcOJunECGdXfcfR',1,'127.0.0.1','admin',1573480538,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
 	(186,'','RaywpI9mgwjXAJorc4ca4238a0b923820dcc509a6f75849ba7Zpg5dnk2wAOAOJ',1,'127.0.0.1','admin',1573480538,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
-	(187,'','P8d8RBTgSwgjqUa4c4ca4238a0b923820dcc509a6f75849bQN5hYsmHNyMZnIj0',1,'127.0.0.1','admin',1573480540,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL);
+	(187,'','P8d8RBTgSwgjqUa4c4ca4238a0b923820dcc509a6f75849bQN5hYsmHNyMZnIj0',1,'127.0.0.1','admin',1573480540,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(188,'','gzPQggtbOJ19eI5pc4ca4238a0b923820dcc509a6f75849bnhQalEUlQI7VKJm2',1,'127.0.0.1','admin',1573532571,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(189,'kobr5cp2v7cm3amdqgkgln7kcn','',1,'127.0.0.1','admin',1573617234,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL),
+	(190,'','Kz9AQqpEk8rMfryrc4ca4238a0b923820dcc509a6f75849b0duivIvaYa7emFro',1,'127.0.0.1','admin',1573631672,'1','Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Safari/537.36','admin',NULL);
 
 /*!40000 ALTER TABLE `se_login_log` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1175,7 +1201,7 @@ DROP TABLE IF EXISTS `se_order`;
 CREATE TABLE `se_order` (
   `order_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '订单号',
   `order_sn` varchar(32) NOT NULL DEFAULT '',
-  `qrcode` varchar(225) NOT NULL DEFAULT '',
+  `qrcode` char(32) NOT NULL DEFAULT '' COMMENT '二维码code',
   `total_amount` decimal(20,3) NOT NULL DEFAULT '0.000' COMMENT '订单货币总值',
   `cost_item` decimal(20,3) DEFAULT '0.000' COMMENT '订单商品总价格',
   `pay_status` tinyint(1) DEFAULT '1' COMMENT '付款状态',
@@ -1227,10 +1253,7 @@ CREATE TABLE `se_order` (
   `deltime` int(11) DEFAULT '0',
   `deluser` char(32) DEFAULT '0',
   PRIMARY KEY (`order_id`),
-  KEY `ind_ship_status` (`ship_status`),
-  KEY `ind_pay_status` (`pay_status`),
-  KEY `ind_status` (`status`),
-  KEY `ind_disabled` (`disabled`)
+  UNIQUE KEY `qrcode` (`qrcode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 LOCK TABLES `se_order` WRITE;
@@ -1238,7 +1261,7 @@ LOCK TABLES `se_order` WRITE;
 
 INSERT INTO `se_order` (`order_id`, `order_sn`, `qrcode`, `total_amount`, `cost_item`, `pay_status`, `ship_status`, `is_delivery`, `payment`, `shipping_id`, `shipping`, `member_id`, `status`, `confirm`, `ship_area`, `ship_name`, `weight`, `tostr`, `itemnum`, `ip`, `ship_addr`, `ship_zip`, `ship_tel`, `ship_email`, `ship_time`, `ship_mobile`, `is_tax`, `tax_type`, `tax_content`, `cost_tax`, `tax_company`, `cost_payment`, `currency`, `cur_rate`, `score_u`, `score_g`, `discount`, `pmt_goods`, `pmt_order`, `payed`, `memo`, `disabled`, `mark_type`, `mark_text`, `cost_freight`, `extend`, `addon`, `addtime`, `adduser`, `uptime`, `upuser`, `deltime`, `deluser`)
 VALUES
-	(1572519982916717890,'ZKXC1910311106229167005','Q6zkB242363590684708864416015zJyu',96.000,0.000,1,'0','','',0,'','ed79914ea512d38bc1bbb9d7199a3af0',1,1,'','',0.000,'',1,'127.0.0.1','','','','','','',1,1,'',0.000,'',96.000,'CNY',0.0000,0.000,0.000,0.000,0.000,0.000,96.000,'',1,'','',0.000,'','a:1:{i:2;a:6:{s:14:&quot;member_buy_num&quot;;s:1:&quot;1&quot;;s:5:&quot;price&quot;;s:6:&quot;96.000&quot;;s:4:&quot;cost&quot;;s:7:&quot;111.000&quot;;s:8:&quot;mktprice&quot;;s:6:&quot;99.000&quot;;s:8:&quot;goods_id&quot;;i:2;s:4:&quot;name&quot;;s:18:&quot;玉泉寺儿童票&quot;;}}',1572519982,'ed79914ea512d38bc1bbb9d7199a3af0',0,'0',0,'0');
+	(1572519982916717890,'ZKXC1910311106229167005','ed79914ea512d38bc1bbb9d7199a3af0',96.000,0.000,1,'0','','',0,'','ed79914ea512d38bc1bbb9d7199a3af0',1,1,'','',0.000,'',1,'127.0.0.1','','','','','','',1,1,'',0.000,'',96.000,'CNY',0.0000,0.000,0.000,0.000,0.000,0.000,96.000,'',1,'','',0.000,'','a:1:{i:2;a:6:{s:14:&quot;member_buy_num&quot;;s:1:&quot;1&quot;;s:5:&quot;price&quot;;s:6:&quot;96.000&quot;;s:4:&quot;cost&quot;;s:7:&quot;111.000&quot;;s:8:&quot;mktprice&quot;;s:6:&quot;99.000&quot;;s:8:&quot;goods_id&quot;;i:2;s:4:&quot;name&quot;;s:18:&quot;玉泉寺儿童票&quot;;}}',1572519982,'ed79914ea512d38bc1bbb9d7199a3af0',0,'0',0,'0');
 
 /*!40000 ALTER TABLE `se_order` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1296,22 +1319,33 @@ CREATE TABLE `se_order_cart_item` (
 
 
 
-# Dump of table se_order_check_out_log
+# Dump of table se_order_check_log
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `se_order_check_out_log`;
+DROP TABLE IF EXISTS `se_order_check_log`;
 
-CREATE TABLE `se_order_check_out_log` (
+CREATE TABLE `se_order_check_log` (
   `log_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) DEFAULT '0' COMMENT '订单ID',
   `type` tinyint(1) NOT NULL,
-  `check_out_sn` char(32) NOT NULL DEFAULT '' COMMENT '核销编码，qrcode',
-  `status` tinyint(1) unsigned zerofill NOT NULL,
+  `check_str` varchar(128) NOT NULL DEFAULT '' COMMENT '核销编码',
+  `status` tinyint(1) unsigned zerofill NOT NULL COMMENT '1成功2失败',
+  `request_data` text COMMENT '请求参数',
   `addip` varchar(20) NOT NULL DEFAULT '',
   `addtime` int(11) NOT NULL,
   `adduser` int(11) DEFAULT '0',
   PRIMARY KEY (`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `se_order_check_log` WRITE;
+/*!40000 ALTER TABLE `se_order_check_log` DISABLE KEYS */;
+
+INSERT INTO `se_order_check_log` (`log_id`, `order_id`, `type`, `check_str`, `status`, `request_data`, `addip`, `addtime`, `adduser`)
+VALUES
+	(3,0,0,'dsjflajsdlkasdfa',2,'{&quot;qrcode_str&quot;:&quot;dsjflajsdlkasdfa&quot;,&quot;type&quot;:&quot;app&quot;}','127.0.0.1',1573639244,1);
+
+/*!40000 ALTER TABLE `se_order_check_log` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table se_order_items
@@ -1364,16 +1398,16 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `se_order_log`;
 
 CREATE TABLE `se_order_log` (
-  `log_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单日志ID',
+  `log_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单日志ID',
   `rel_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '对象ID',
-  `op_id` mediumint(8) unsigned DEFAULT NULL COMMENT '操作员ID',
-  `op_name` varchar(100) DEFAULT NULL COMMENT '操作人名称',
-  `alttime` int(10) unsigned DEFAULT NULL COMMENT '操作时间',
-  `bill_type` enum('order','recharge','joinfee','prepaid_recharge') NOT NULL DEFAULT 'order' COMMENT '操作人员姓名',
+  `op_type` enum('order','recharge','joinfee','prepaid_recharge') NOT NULL DEFAULT 'order' COMMENT '操作方式',
   `behavior` enum('creates','updates','payments','refunds','delivery','reship','finish','cancel') NOT NULL DEFAULT 'payments' COMMENT '日志记录操作的行为',
   `result` enum('SUCCESS','FAILURE') NOT NULL COMMENT '日志结果',
   `log_text` longtext COMMENT '操作内容',
   `addon` longtext COMMENT '序列化数据',
+  `addname` varchar(100) DEFAULT 'null' COMMENT '操作人名称',
+  `addtime` int(10) unsigned DEFAULT '0' COMMENT '操作时间',
+  `adduser` char(32) DEFAULT '0' COMMENT '操作员ID',
   PRIMARY KEY (`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单操作日志';
 
@@ -1434,7 +1468,6 @@ CREATE TABLE `se_orders` (
   `pay_status` enum('0','1','2','3','4','5') NOT NULL DEFAULT '0' COMMENT '付款状态',
   `ship_status` enum('0','1','2','3','4') NOT NULL DEFAULT '0' COMMENT '发货状态',
   `is_delivery` enum('Y','N') NOT NULL DEFAULT 'Y' COMMENT '是否需要发货',
-  `createtime` int(10) unsigned DEFAULT NULL COMMENT '下单时间',
   `last_modified` int(10) unsigned DEFAULT NULL COMMENT '最后更新时间',
   `payment` varchar(100) DEFAULT NULL COMMENT '支付方式',
   `shipping_id` mediumint(8) unsigned DEFAULT NULL COMMENT '配送方式',
@@ -1480,6 +1513,12 @@ CREATE TABLE `se_orders` (
   `order_refer` varchar(20) NOT NULL DEFAULT 'local' COMMENT '订单来源',
   `addon` longtext COMMENT '订单附属信息(序列化)',
   `source` enum('pc','wap','weixin') DEFAULT 'pc' COMMENT '平台来源',
+  `createtime` int(10) unsigned DEFAULT NULL COMMENT '下单时间',
+  `adduser` int(11) DEFAULT NULL,
+  `uptime` int(11) DEFAULT NULL,
+  `upuser` int(11) DEFAULT NULL,
+  `deltime` int(11) DEFAULT NULL,
+  `deluser` int(11) DEFAULT NULL,
   PRIMARY KEY (`order_id`),
   KEY `ind_ship_status` (`ship_status`),
   KEY `ind_pay_status` (`pay_status`),
@@ -1489,6 +1528,57 @@ CREATE TABLE `se_orders` (
   KEY `ind_createtime` (`createtime`),
   KEY `idx_order_refer` (`order_refer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+
+
+# Dump of table se_parking_log
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `se_parking_log`;
+
+CREATE TABLE `se_parking_log` (
+  `parking_log_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '停车记录ID',
+  `member_id` char(32) DEFAULT '' COMMENT '所属停车场会员ID',
+  `car_num` varchar(100) NOT NULL DEFAULT '' COMMENT '车牌号',
+  `come_in_time` int(11) NOT NULL COMMENT '进入时间',
+  `come_out_time` int(11) DEFAULT '0' COMMENT '出去时间',
+  `status` tinyint(4) DEFAULT '1' COMMENT '1激活，2已完成',
+  `amount` decimal(8,3) DEFAULT '0.000' COMMENT '消费金额',
+  `amount_formula` varchar(200) DEFAULT NULL COMMENT '消费总金额公式',
+  `parking_id` int(11) NOT NULL COMMENT '停车场ID',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '',
+  `uptime` int(11) DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
+  `deltime` int(11) DEFAULT '0',
+  `deluser` char(32) DEFAULT '0',
+  PRIMARY KEY (`parking_log_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='停车记录';
+
+
+
+# Dump of table se_parking_setting
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `se_parking_setting`;
+
+CREATE TABLE `se_parking_setting` (
+  `parking_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '停车场ID',
+  `member_id` char(32) NOT NULL DEFAULT '' COMMENT '停车场所属人',
+  `parking_name` varchar(200) DEFAULT NULL COMMENT '停车场名称',
+  `pay_type` tinyint(1) NOT NULL COMMENT '收费方式',
+  `max_amount` decimal(8,3) DEFAULT '0.000' COMMENT '最高费用',
+  `min_amount` decimal(8,3) DEFAULT '0.000' COMMENT '最低费用',
+  `hour_money` decimal(8,3) DEFAULT '0.000' COMMENT '每小时多少钱',
+  `status` tinyint(1) DEFAULT '1' COMMENT '1启用2禁用',
+  `addtime` int(11) NOT NULL,
+  `adduser` char(32) NOT NULL DEFAULT '',
+  `uptime` int(11) DEFAULT '0',
+  `upuser` char(32) DEFAULT '0',
+  `deltime` int(11) DEFAULT '0',
+  `deluser` char(32) DEFAULT '0',
+  PRIMARY KEY (`parking_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='停车场设置';
 
 
 
