@@ -161,7 +161,7 @@ class pub_mod_model
             $data = static::data_format($data);
         }
 
-        $data = $data_filter['total'] ? ['data' => $data, 'pages' => $pages['show']] : $data;
+        $data = $data_filter['total'] ? ['total' => $total_num ,'data' => $data, 'pages' => $pages['show']] : $data;
 
         if (static::$_cache_use)
         {

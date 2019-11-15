@@ -9,6 +9,7 @@ use sephp\core\db;
 use sephp\core\lib\power;
 use common\serv\pub_serv_orders;
 use common\model\pub_mod_order;
+use common\model\pub_mod_order_check;
 
 
 class ctl_index extends ctl_base
@@ -69,6 +70,17 @@ var_dump(pub_mod_order::decry_qrcode($jiami));
      */
     public function check_list()
     {
+        $data_filter = func::data_filter([
+            'page'      => ['type' => 'int', 'default' => 1],
+            'page_size' => ['type' => 'int', 'default' => 20],
+        ], req::$forms);
+
+        $data_filter['uid']   = sephp::$_uid;
+        $data_filter['total'] = true;
+
+        $list = pub_mod_order_check::getlist_by_where($data_filter);
+
+        $this->success('请求成功', '', $list);
 
     }
 
