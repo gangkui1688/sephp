@@ -1,0 +1,88 @@
+<menus>
+
+    <menu name='商品管理'  icon='fa fa-gears' id='goodsManagement' >
+        <menu name='商品列表' ct='goods' ac='index' icon='fa fa-dashboard'  />
+        <menu name='品牌管理' ct='goods' ac='brand_index' icon='fa fa-dashboard'  />
+    </menu>
+
+    <menu name='订单管理'  icon='fa fa-gears' id='ordersManagement' >
+        <menu name='订单列表' ct='order' ac='index' icon='fa fa-dashboard'  />
+    </menu>
+
+    <menu name='核销管理'  icon='fa fa-gears' id='checkOrdersManagement' >
+        <menu name='APP设置' ct='check' ac='app' icon='fa fa-dashboard'  />
+        <menu name='核销记录' ct='check' ac='log' icon='fa fa-dashboard'  />
+    </menu>
+
+    <menu name='服务商管理'  icon='fa fa-gears' id='shopsManagement' >
+        <menu name='会员列表' ct='goods' ac='index' icon='fa fa-dashboard'  />
+    </menu>
+
+
+    <menu name='控制中心'  icon='fa fa-gears' id='systemManagement' >
+        <menu name='菜单设置' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='用户管理' icon='fa fa-user'  default='true' >
+            <menu name='用户组管理' ct='admin' ac='grouplist' icon='fa fa-users' display='' />
+            <menu name='用户列表' ct='admin' ac='userlist' icon='fa fa-user' display='' />
+            <menu name='在线用户' ct='admin' ac='online' icon='fa fa-users' display='' />
+            <menu name='登陆日志' ct='admin' ac='loginlog' icon='fa fa-users' display='' />
+        </menu>
+        <menu name="缓存管理" icon="fa fa-file" >
+            <menu name='清除缓存' ct='cache' ac='clear' icon='fa fa-dashboard'  />
+            <menu name='redis管理' ct='cache' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='文件缓存' ct='cache' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+        <menu name="文件管理" icon="fa fa-file" >
+            <menu name='本地资源' ct='system' ac='file_manager' icon='fa fa-dashboard'  />
+            <menu name='上传文件' ct='system' ac='upload_file' icon='fa fa-dashboard'  />
+            <menu name='标签管理' ct='system' ac='file_label' icon='fa fa-dashboard'  />
+        </menu>
+
+        <menu name="站点设置" icon="fa fa-gear">
+            <menu name='基础设置' ct='system' ac='baise_config' icon='fa fa-dashboard'  />
+            <menu name='简介内容' ct='system' ac='basic_content' icon='fa fa-file-text-o' display='' />
+        </menu>
+        <menu name='地区列表' ct='system' ac='menus' icon='fa fa-dashboard'  />
+        <menu name='友情链接' ct='system' ac='friend_link' icon='fa fa-dashboard'  />
+
+        <menu name='数据库管理'  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+            <menu name='SQL查询' ct='system' ac='data_select' icon='fa fa-cogs' display='' />
+        </menu>
+
+         <menu name='内容管理' icon='fa fa-book' id='contentManagement'  >
+            <menu name='内容分类' ct='content' ac='cate_index' icon='fa fa-list-ol' display='' />
+            <menu name='文章列表' ct='content' ac='content_index' icon='fa fa-file-text-o' display='' />
+        </menu>
+    </menu>
+
+
+    <menu name='微信管理' icon='fa fa-book' id='whcatManagement'  >
+        <menu name='基础设置' ct='wechat' ac='base' icon='fa fa-list-ol' display='' />
+        <menu name='菜单管理' ct='wechat' ac='menu_index' icon='fa fa-file-text-o' display='' />
+        <menu name='素材管理' ct='wechat' ac='media_index' icon='fa fa-file-text-o' display='' />
+        <menu name='消息管理' ct='wechat' ac='messsage_index' icon='fa fa-file-text-o' display='' />
+        <menu name='小程序' ct='wechat' ac='content_index' icon='fa fa-file-text-o' display='' />
+    </menu>
+
+    <menu name='会员管理' icon='fa fa-book' id='membersManagement'  >
+        <menu name='会员列表' ct='member' ac='member_list' icon='fa fa-list-ol' display='' />
+        <menu name='会员等级' ct='member' ac='grade_list' icon='fa fa-file-text-o' display='' />
+        <menu name='会员留言' ct='member' ac='message_list' icon='fa fa-file-text-o' display='' />
+        <menu name='充值记录' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
+        <menu name='充值和提现申请' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
+        <menu name='资金管理' ct='member' ac='advance_list' icon='fa fa-file-text-o' display='' />
+        <menu name='登陆日志' ct='member' ac='log_list' icon='fa fa-file-text-o' display='' />
+        <menu name="卡劵管理"  icon='fa fa-database' display='' >
+            <menu name='创建充值卡' ct='coupons' ac='coupons_add' icon='fa fa-cogs' display='' />
+            <menu name='卡劵列表' ct='coupons' ac='coupons_list' icon='fa fa-cogs' display='' />
+            <menu name='会员充值' ct='coupons' ac='coupons_use' icon='fa fa-cogs' display='' />
+        </menu>
+        <menu name="代理管理"  icon='fa fa-database' display='' >
+            <menu name='数据备份' ct='system' ac='data_backups' icon='fa fa-cogs' display='' />
+            <menu name='数据表优化' ct='system' ac='data_optimization' icon='fa fa-cogs' display='' />
+        </menu>
+    </menu>
+
+</menus>
